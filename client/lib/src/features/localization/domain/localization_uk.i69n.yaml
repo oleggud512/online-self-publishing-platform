@@ -1,0 +1,21 @@
+screenTitle:
+  home: Головна
+  messages: Повідомлення
+  books: Книги
+  authors: Автори
+  profile: Профіль
+  settings: Налаштування
+  notifications: Сповіщення
+settings:
+  changeLanguageLabel: Змінтити мову
+  onLangChangedLabel(String newLang): "Мову змінено на $newLang!"
+  ukrainian([bool of = false]): "${of ? 'Українську' : 'Українська'}"
+  english([bool of = false]): "${of ? 'Англійську' : 'Англійська'}"
+errors:
+  shortPassword: Пароль повинен мати не менше 6 символів
+searchPlaceholder: 'введіть запит...'
+profile: 
+  subscribers: 'підписники'
+  subscriptions: 'підписки'
+  books: 'книги'
+  noDescriptionPlaceholder: "Без опису..."

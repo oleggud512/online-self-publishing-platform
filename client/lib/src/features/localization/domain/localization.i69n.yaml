@@ -1,0 +1,21 @@
+screenTitle:
+  home: Home
+  messages: Messages
+  books: Books
+  authors: Authors
+  profile: Profile
+  settings: Settings
+  notifications: Notifications
+settings:
+  changeLanguageLabel: Change Language
+  onLangChangedLabel(String newLang): "Language changed to $newLang!"
+  ukrainian([bool of = false]): Ukrainian
+  english([bool of = false]): English
+errors:
+  shortPassword: Password must have more than 6 characters
+searchPlaceholder: 'type here...'
+profile: 
+  subscribers: 'subscribers'
+  subscriptions: 'subscriptions'
+  books: 'books'
+  noDescriptionPlaceholder: "No description for this user..."
