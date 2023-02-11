@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as admin from "firebase-admin"
 import { OAuth2Client } from "google-auth-library";
-import constants from "../../common/constants"
+import constants from "../../common/firebase_constants"
 import isFirebaseError from "../../common/is_firebase_error";
 
 import { IProfile, Profile } from "../profiles/Profile";

@@ -48,3 +48,4 @@ app.*.map.json
 /lib/firebase-options.dart
 /ios/firebase_app_id_file.json
 /macos/firebase_app_id_file.json
+.env
