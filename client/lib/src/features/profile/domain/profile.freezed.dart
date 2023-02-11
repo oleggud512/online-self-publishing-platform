@@ -36,7 +36,10 @@ mixin _$Profile {
   @JsonKey(toJson: ignore, includeIfNull: false)
   int? get booksCount => throw _privateConstructorUsedError;
   @JsonKey(toJson: ignore, includeIfNull: false)
-  List<Book>? get books => throw _privateConstructorUsedError;
+  List<Book>? get books =>
+      throw _privateConstructorUsedError; // подписан ли я на этого пользователя. Null, если я без аккаунта
+  @JsonKey(toJson: ignore, includeIfNull: false)
+  bool? get isSubscribed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +63,8 @@ abstract class $ProfileCopyWith<$Res> {
       @JsonKey(toJson: ignore, includeIfNull: false) int? subscribers,
       @JsonKey(toJson: ignore, includeIfNull: false) int? subscriptions,
       @JsonKey(toJson: ignore, includeIfNull: false) int? booksCount,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<Book>? books});
+      @JsonKey(toJson: ignore, includeIfNull: false) List<Book>? books,
+      @JsonKey(toJson: ignore, includeIfNull: false) bool? isSubscribed});
 }
 
 /// @nodoc
@@ -88,6 +92,7 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
     Object? subscriptions = freezed,
     Object? booksCount = freezed,
     Object? books = freezed,
+    Object? isSubscribed = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -138,6 +143,10 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.books
           : books // ignore: cast_nullable_to_non_nullable
               as List<Book>?,
+      isSubscribed: freezed == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -161,7 +170,8 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       @JsonKey(toJson: ignore, includeIfNull: false) int? subscribers,
       @JsonKey(toJson: ignore, includeIfNull: false) int? subscriptions,
       @JsonKey(toJson: ignore, includeIfNull: false) int? booksCount,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<Book>? books});
+      @JsonKey(toJson: ignore, includeIfNull: false) List<Book>? books,
+      @JsonKey(toJson: ignore, includeIfNull: false) bool? isSubscribed});
 }
 
 /// @nodoc
@@ -186,6 +196,7 @@ class __$$_ProfileCopyWithImpl<$Res>
     Object? subscriptions = freezed,
     Object? booksCount = freezed,
     Object? books = freezed,
+    Object? isSubscribed = freezed,
   }) {
     return _then(_$_Profile(
       id: null == id
@@ -236,6 +247,10 @@ class __$$_ProfileCopyWithImpl<$Res>
           ? _value._books
           : books // ignore: cast_nullable_to_non_nullable
               as List<Book>?,
+      isSubscribed: freezed == isSubscribed
+          ? _value.isSubscribed
+          : isSubscribed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -255,7 +270,8 @@ class _$_Profile implements _Profile {
       @JsonKey(toJson: ignore, includeIfNull: false) this.subscribers,
       @JsonKey(toJson: ignore, includeIfNull: false) this.subscriptions,
       @JsonKey(toJson: ignore, includeIfNull: false) this.booksCount,
-      @JsonKey(toJson: ignore, includeIfNull: false) final List<Book>? books})
+      @JsonKey(toJson: ignore, includeIfNull: false) final List<Book>? books,
+      @JsonKey(toJson: ignore, includeIfNull: false) this.isSubscribed})
       : _books = books;
 
   factory _$_Profile.fromJson(Map<String, dynamic> json) =>
@@ -300,9 +316,14 @@ class _$_Profile implements _Profile {
     return EqualUnmodifiableListView(value);
   }
 
+// подписан ли я на этого пользователя. Null, если я без аккаунта
+  @override
+  @JsonKey(toJson: ignore, includeIfNull: false)
+  final bool? isSubscribed;
+
   @override
   String toString() {
-    return 'Profile(id: $id, name: $name, avatarUrl: $avatarUrl, displayName: $displayName, description: $description, age: $age, gender: $gender, email: $email, subscribers: $subscribers, subscriptions: $subscriptions, booksCount: $booksCount, books: $books)';
+    return 'Profile(id: $id, name: $name, avatarUrl: $avatarUrl, displayName: $displayName, description: $description, age: $age, gender: $gender, email: $email, subscribers: $subscribers, subscriptions: $subscriptions, booksCount: $booksCount, books: $books, isSubscribed: $isSubscribed)';
   }
 
   @override
@@ -327,7 +348,9 @@ class _$_Profile implements _Profile {
                 other.subscriptions == subscriptions) &&
             (identical(other.booksCount, booksCount) ||
                 other.booksCount == booksCount) &&
-            const DeepCollectionEquality().equals(other._books, _books));
+            const DeepCollectionEquality().equals(other._books, _books) &&
+            (identical(other.isSubscribed, isSubscribed) ||
+                other.isSubscribed == isSubscribed));
   }
 
   @JsonKey(ignore: true)
@@ -345,7 +368,8 @@ class _$_Profile implements _Profile {
       subscribers,
       subscriptions,
       booksCount,
-      const DeepCollectionEquality().hash(_books));
+      const DeepCollectionEquality().hash(_books),
+      isSubscribed);
 
   @JsonKey(ignore: true)
   @override
@@ -379,7 +403,9 @@ abstract class _Profile implements Profile {
       @JsonKey(toJson: ignore, includeIfNull: false)
           final int? booksCount,
       @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<Book>? books}) = _$_Profile;
+          final List<Book>? books,
+      @JsonKey(toJson: ignore, includeIfNull: false)
+          final bool? isSubscribed}) = _$_Profile;
 
   factory _Profile.fromJson(Map<String, dynamic> json) = _$_Profile.fromJson;
 
@@ -412,6 +438,9 @@ abstract class _Profile implements Profile {
   @override
   @JsonKey(toJson: ignore, includeIfNull: false)
   List<Book>? get books;
+  @override // подписан ли я на этого пользователя. Null, если я без аккаунта
+  @JsonKey(toJson: ignore, includeIfNull: false)
+  bool? get isSubscribed;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileCopyWith<_$_Profile> get copyWith =>

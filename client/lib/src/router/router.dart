@@ -194,10 +194,10 @@ final routerProvider = Provider((ref) {
           )
         ]
       ),
-      /*
       GoRoute(
-        path: '/auth',
-        name: R.routes.auth,
+        parentNavigatorKey: rootNavigatorKey,
+        path: MyRoute.auth.path,
+        name: MyRoute.auth.name,
         builder: (context, state) {
           return ProviderScope(
             overrides: [
@@ -209,6 +209,7 @@ final routerProvider = Provider((ref) {
           );
         }
       ),
+      /*
       GoRoute(
         path: '/home',
         name: R.routes.home,

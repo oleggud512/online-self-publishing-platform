@@ -19,3 +19,7 @@ profile:
   subscriptions: 'subscriptions'
   books: 'books'
   noDescriptionPlaceholder: "No description for this user..."
+edit: "Edit"
+subscribe: "Subscribe"
+unsubscribe: "Unsubscribe"
+seeAll: "See All"

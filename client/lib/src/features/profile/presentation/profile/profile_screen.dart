@@ -33,8 +33,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   void showBooks() {}
   void showSubscribers() {}
   void showSubscriptions() {}
-  void subscribe() {}
-  void unsubscribe() {}
+  
+  void subscribe() async {
+    await ref.watch(profileScreenControllerProvider.notifier).subscribe();
+  }
+
+  void unsubscribe() async {
+    await ref.watch(profileScreenControllerProvider.notifier).unsubscribe();
+  }
+
   void edit() {
     context.pushNamed("editProfile", 
       params: { 'id': ref.watch(profileScreenControllerProvider).value!.profile.id },
@@ -57,8 +64,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       data: (state) {
         final tt = Theme.of(context).textTheme;
         final profile = state.profile;
-        Future(() => ref.read(profileScreenTitleProvider.notifier).state = profile.name);
+        Future(() => ref.read(profileScreenTitleProvider.notifier).state = 
+            profile.name);
         return Scaffold(
+          appBar: (state.isMy) 
+            ? null // if isMy, then appBar is settled from ScaffoldWithNavigation, in order display 'show drawer' button.
+            : ProfileScreenAppBar(),
           body: ListView(
             padding: const EdgeInsets.all(p16),
             children: [
@@ -159,7 +170,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               const Divider(),
               h8gap,
               SeeAllHeader(
-                labelText: "Books",
+                labelText: ll.screenTitle.books,
                 onSeeAll: showBooks
               ),
               h16gap,

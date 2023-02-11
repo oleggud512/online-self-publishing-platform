@@ -42,6 +42,10 @@ class Localization_uk extends Localization {
   ErrorsLocalization_uk get errors => ErrorsLocalization_uk(this);
   String get searchPlaceholder => "введіть запит...";
   ProfileLocalization_uk get profile => ProfileLocalization_uk(this);
+  String get edit => "Редагувати";
+  String get subscribe => "Підписатися";
+  String get unsubscribe => "Відписатися";
+  String get seeAll => "Переглянути Всі";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -59,6 +63,14 @@ class Localization_uk extends Localization {
         return searchPlaceholder;
       case 'profile':
         return profile;
+      case 'edit':
+        return edit;
+      case 'subscribe':
+        return subscribe;
+      case 'unsubscribe':
+        return unsubscribe;
+      case 'seeAll':
+        return seeAll;
       default:
         return super[key];
     }

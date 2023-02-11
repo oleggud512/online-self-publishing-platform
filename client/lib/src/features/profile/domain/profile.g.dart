@@ -21,6 +21,7 @@ _$_Profile _$$_ProfileFromJson(Map<String, dynamic> json) => _$_Profile(
       books: (json['books'] as List<dynamic>?)
           ?.map((e) => Book.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isSubscribed: json['isSubscribed'] as bool?,
     );
 
 Map<String, dynamic> _$$_ProfileToJson(_$_Profile instance) {
@@ -45,6 +46,7 @@ Map<String, dynamic> _$$_ProfileToJson(_$_Profile instance) {
   writeNotNull('subscriptions', ignore(instance.subscriptions));
   writeNotNull('booksCount', ignore(instance.booksCount));
   writeNotNull('books', ignore(instance.books));
+  writeNotNull('isSubscribed', ignore(instance.isSubscribed));
   return val;
 }
 

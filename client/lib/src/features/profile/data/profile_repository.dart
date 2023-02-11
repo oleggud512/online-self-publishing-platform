@@ -15,22 +15,34 @@ class ProfileRepository {
 
   ProfileRepository(this._dio, this._myId);
 
-  getProfiles() async {
-
-  }
-  Future<Profile> getProfile(String id) async {
-    // GET /profiles/id?full=true
+  Future<List<Profile>> getProfiles([
+    String query = "", 
+    int from = 0,
+    int limit = 20, 
+  ]) async {
     try {
-      print(id);
-      final resp = await _dio.get('profiles/$id');
+      final resp = await _dio.get('profiles', queryParameters: {
+        'query': query,
+        'from': from,
+        'limit': limit,
+      });
+      return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-      print("DAAAAATTTTTAAAA: ${resp.data}");
+  Future<Profile> getProfile(String id) async {
+    try {
+      printInfo(id);
+      final resp = await _dio.get('profiles/$id');
+      printSuccess("DAAAAATTTTTAAAA: ${resp.data}");
       final profile = Profile.fromJson(resp.data['data']);
-      print("profile: $profile that was my profile");
-      print(profile.runtimeType);
+      printSuccess("profile: $profile that was my profile");
+      printSuccess(profile.runtimeType);
       return profile;
     } on DioError catch (e) {
-      print("${e.runtimeType} was rethrown from ProfileRepository");
+      printError("${e.runtimeType} was rethrown from ProfileRepository");
       rethrow;
     }
   }
@@ -54,6 +66,27 @@ class ProfileRepository {
       data: profile.toJson()
     );
     return Profile(name: 'ПУСТОЙ ПРОФИЛЬ - ЗАМЕНИ ЕГО');
+  }
+
+  Future<bool> subscribe(String subscribeToId) async {
+    final resp = await _dio.post('profiles/subscribe/$subscribeToId');
+    return resp.data['data'] as bool;
+  }
+
+  Future<bool> unsubscribe(String unsubscribeFromId) async {
+    final resp = await _dio.post('profiles/unsubscribe/$unsubscribeFromId');
+    return resp.data['data'] as bool;
+  }
+
+  /// подписан ли я на кого-то с subscriberId. 
+  Future<bool> isSubscribed(String subscriberId) async {
+    final resp = await _dio.post('profiles/isSubscribed/$subscriberId');
+    return resp.data['data'] as bool;
+  }
+  /// подписан ли он на меня
+  Future<bool> isMySubscriber(String subscriberId) async {
+    // TODO: implement
+    throw UnimplementedError();
   }
 }
 

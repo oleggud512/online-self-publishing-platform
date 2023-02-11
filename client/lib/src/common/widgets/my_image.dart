@@ -43,18 +43,20 @@ class MyImage extends StatelessWidget {
   }
 
   Widget _wrapWithInkWell(Widget child) {
-    return Stack(
-      children: [
-        _wrapWithSize(child),
-        _wrapWithSize(Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Colors.white,
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(p8),
-          ),
-        )),
-      ]
+    return Card(
+      child: Stack(
+        children: [
+          _wrapWithSize(child),
+          _wrapWithSize(Material(
+            color: Colors.transparent,
+            child: InkWell(
+              splashColor: Colors.white,
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(p8),
+            ),
+          )),
+        ]
+      ),
     );
   }
 

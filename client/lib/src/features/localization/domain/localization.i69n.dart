@@ -40,6 +40,10 @@ class Localization implements i69n.I69nMessageBundle {
   ErrorsLocalization get errors => ErrorsLocalization(this);
   String get searchPlaceholder => "type here...";
   ProfileLocalization get profile => ProfileLocalization(this);
+  String get edit => "Edit";
+  String get subscribe => "Subscribe";
+  String get unsubscribe => "Unsubscribe";
+  String get seeAll => "See All";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -57,6 +61,14 @@ class Localization implements i69n.I69nMessageBundle {
         return searchPlaceholder;
       case 'profile':
         return profile;
+      case 'edit':
+        return edit;
+      case 'subscribe':
+        return subscribe;
+      case 'unsubscribe':
+        return unsubscribe;
+      case 'seeAll':
+        return seeAll;
       default:
         return key;
     }

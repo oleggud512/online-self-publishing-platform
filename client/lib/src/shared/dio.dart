@@ -28,20 +28,20 @@ final dioProvider = Provider((ref) {
         handler.next(options);
       });
     },
-    // onError: (e, handler) {
-    //   printError(e);
-    //   if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
-    //     throw ConnectionException();
-    //   }
-    //   switch (e.response?.statusCode) {
-    //     case 404:
-    //       throw NotFoundException();
-    //     case 500: 
-    //       throw AppException();
-    //     default:
-    //   }
-    //   handler.next(e);
-    // },
+    onError: (e, handler) {
+      printError(e);
+      if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
+        throw ConnectionException();
+      }
+      switch (e.response?.statusCode) {
+        case 404:
+          throw NotFoundException();
+        case 500: 
+          throw AppException();
+        default:
+      }
+      handler.next(e);
+    },
     // onResponse: (response, handler) {
     //   handler.next(response);
     // }

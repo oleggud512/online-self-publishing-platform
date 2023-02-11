@@ -11,3 +11,14 @@ class ProfileScreenState with _$ProfileScreenState {
     @Default(false) bool isMy
   }) = _ProfileScreenState;
 }
+
+extension ProfileScreenStateExt on ProfileScreenState {
+
+  ProfileScreenState setSubscribed(bool subscribed) {
+    return copyWith(
+      isSubscribed: subscribed,
+      profile: profile.setSubscribed(subscribed)
+    );
+  }
+  
+}

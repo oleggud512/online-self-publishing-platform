@@ -4,7 +4,6 @@ import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/features/auth/data/google_auth_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

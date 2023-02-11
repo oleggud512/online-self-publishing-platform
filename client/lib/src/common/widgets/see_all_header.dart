@@ -1,6 +1,8 @@
 import 'package:client/src/common/hardcoded.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/localization/application/ll.dart';
+
 class SeeAllHeader extends StatelessWidget {
   const SeeAllHeader({super.key, 
     this.label,
@@ -24,13 +26,14 @@ class SeeAllHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ll = curLl(context)!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _getLabel(context),
         OutlinedButton(
           onPressed: onSeeAll, 
-          child: Text("See All".hardcoded)
+          child: Text(ll.seeAll)
         )
       ]
     );

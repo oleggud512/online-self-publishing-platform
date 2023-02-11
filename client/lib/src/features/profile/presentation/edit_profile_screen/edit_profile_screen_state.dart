@@ -7,13 +7,11 @@ part 'edit_profile_screen_state.freezed.dart';
 class EditProfileScreenState with _$EditProfileScreenState {
   factory EditProfileScreenState({
     required Profile originalProfile,
-    required Profile editedProfile, // TODO: убрать это. Оно не нужно в этом виджете. 
   }) = _EditProfileScreenState;
 
   factory EditProfileScreenState.start(Profile profile) {
     return EditProfileScreenState(
       originalProfile: profile,
-      editedProfile: profile.copyWith(), 
     );
   }
 }

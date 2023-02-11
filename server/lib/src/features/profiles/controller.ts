@@ -22,23 +22,18 @@ export async function addProfile(req: Request, res: Response) {
 }
 
 export async function getProfiles(req: Request, res: Response) {
-  const { query, limit, from, age, gender } = req.query
+  const { query, limit, from } = req.query
 
-  // Perform any necessary parsing or validation here
   const parsedLimit = limit ? parseInt(limit as string, 10) : 20
-  const parsedAge = age ? parseInt(age as string, 10) : undefined
-  const parsedGender = gender as Gender
+  const parsedFrom = from ? parseInt(from as string) : 0
 
-  // Perform any other logic here
-
-  // Return the result
-  return res.status(200).json({
-    query,
-    parsedLimit,
-    from,
-    parsedAge,
-    parsedGender
-  })
+  const profiles = await profileService.getProfiles(
+    query as string, 
+    parsedLimit, 
+    parsedFrom,
+    res.locals.uid
+  )
+  return res.status(200).json({ data: profiles })
 }
 
 export async function getProfile(req: Request, res: Response, next: NextFunction) {
@@ -64,4 +59,23 @@ export async function updateProfile(req: Request, res: Response) {
   const profile = await profileService.updateProfile(req.body);
 
   return res.status(200).json({ data: profile })
+}
+
+export async function subscribe(req: Request, res: Response) {
+  const to = req.params.id as string
+  console.info(`subscribe to ${to}`)
+  const isSubscribed = await profileService.subscribe(res.locals.uid!, to)
+  return res.status(200).json({ data: isSubscribed })
+}
+
+export async function unsubscribe(req: Request, res: Response) {
+  const to = req.params.id as string
+  const isUnsubscribed = await profileService.unsubscribe(res.locals.uid!, to)
+  return res.status(200).json({ data: isUnsubscribed })
+}
+
+export async function isSubscribed(req: Request, res: Response) {
+  const to = req.params.id as string
+  const isSubscribed = await profileService.isSubscribed(res.locals.uid!, to)
+  return res.status(200).json({ data: isSubscribed })
 }

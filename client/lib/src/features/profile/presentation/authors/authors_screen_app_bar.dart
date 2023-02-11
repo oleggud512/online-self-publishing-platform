@@ -1,4 +1,5 @@
 import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/features/profile/presentation/authors/authors_query_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +23,7 @@ class AuthorsAppBar extends StatelessWidget with PreferredSizeWidget {
               hintText: curLl(context)!.searchPlaceholder
             ),
             onChanged: (v) {
-              printInfo('authors query changed: $v');
+              ref.read(authorsQueryStateProvider.notifier).state = v;
             }
           )
         );

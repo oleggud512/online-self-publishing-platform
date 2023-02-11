@@ -1,3 +1,5 @@
+
+import { Subscriptions } from "../linking/Subscriptions";
 import { Gender, IProfile, Profile } from "./Profile";
 
 
@@ -15,8 +17,81 @@ export async function createProfile(
   return createdProfile.toObject()
 }
 
-export async function getProfiles() : Promise<Array<IProfile>> {
-  return []
+export async function getProfiles(query: string, limit: number, from: number, exclude?: string) 
+: Promise<Array<IProfile>> {
+  var q = Profile.aggregate([
+    {
+      $match: {
+        $expr: {
+          $or: [
+            {
+              $regexMatch: {
+                input: '$name',
+                regex: RegExp(query, 'i')
+              },
+            },
+            {
+              $regexMatch: {
+                input: '$displayName',
+                regex: RegExp(query, 'i')
+              },
+            },
+            {
+              $regexMatch: {
+                input: '$description',
+                regex: RegExp(query, 'i')
+              },
+            },
+          ]
+        }
+      }
+    },
+    {
+      $sort: {
+        createdAt: 1
+      }
+    },
+    {
+      $skip: from
+    },
+    {
+      $limit: limit,
+    },
+    {
+      $lookup: {
+        from: 'subscriptions', 
+        let: {
+          profileId: '$_id',
+        }, 
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: [ '$subscribedTo', '$$profileId' ] }, 
+                  { $eq: [ '$profile', exclude ] }
+                ]
+              }
+            }
+          }
+        ], 
+        as: 'subscription_docs'
+      }
+    }, 
+    {
+      $addFields: {
+        isSubscribed: {
+          $cond: {
+            if: { $gt: [ { $size: '$subscription_docs' }, 0 ] }, 
+            then: true, 
+            else: false
+          }
+        }
+      }
+    }
+  ])
+  if (exclude) q = q.match({ _id: { $ne: exclude } })
+  return await q
 }
 
 export async function getProfile(id: String) : Promise<IProfile> {
@@ -76,4 +151,63 @@ export async function updateProfile(profile: IProfile) : Promise<IProfile> {
   const up = await Profile.findByIdAndUpdate(profile._id, profile)
   console.log(up)
   return getProfile(profile._id)
+}
+
+
+export async function subscribe(profile: string, subscribedTo: string) : Promise<boolean> {
+  console.log({ profile, subscribedTo })
+  const profiles = await Profile.find({
+    _id: { $in: [ profile, subscribedTo ] }
+  })
+  if (profiles.length < 2) return false
+
+  await new Subscriptions({profile: profile, subscribedTo: subscribedTo}).save()
+
+  await Profile.bulkWrite([
+    {
+      updateOne: {
+        filter: { _id: profile },
+        update: { $inc: { subscriptions: 1 } }
+      },
+    },
+    {
+      updateOne: {
+        filter: { _id: subscribedTo },
+        update: { $inc: { subscribers: 1 } }
+      },
+    },
+  ])
+  return true
+}
+
+export async function unsubscribe(profile: string, subscribedTo: string) : Promise<boolean> {
+  const profiles = await Profile.find({
+    _id: { $in: [ profile, subscribedTo ] }
+  })
+  if (profiles.length < 2) return false
+  
+  await Subscriptions.findOneAndRemove({ profile, subscribedTo })
+
+  await Profile.bulkWrite([
+    {
+      updateOne: {
+        filter: { _id: profile },
+        update: { $inc: { subscriptions: -1 } }
+      },
+    },
+    {
+      updateOne: {
+        filter: { _id: subscribedTo },
+        update: { $inc: { subscribers: -1 } }
+      },
+    },
+  ])
+  return true;
+}
+
+export async function isSubscribed(profile: string, subscribedTo: string) 
+    : Promise<boolean> {
+  const subscription = await Subscriptions.findOne({ profile, subscribedTo })
+  if (subscription) return true;
+  return false;
 }

@@ -1,6 +1,7 @@
 import 'package:client/src/common/ignore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../common/log.dart';
 import '../../books/domain/book.dart';
 
 part 'profile.freezed.dart';
@@ -27,12 +28,24 @@ class Profile with _$Profile {
     @JsonKey(toJson: ignore, includeIfNull: false) int? subscribers,
     @JsonKey(toJson: ignore, includeIfNull: false) int? subscriptions,
     @JsonKey(toJson: ignore, includeIfNull: false) int? booksCount,
-    @JsonKey(toJson: ignore, includeIfNull: false) List<Book>? books
+    @JsonKey(toJson: ignore, includeIfNull: false) List<Book>? books,
+    // подписан ли я на этого пользователя. Null, если я без аккаунта
+    @JsonKey(toJson: ignore, includeIfNull: false) bool? isSubscribed,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
 }
 
-// extension ProfileExtension on Profile {
-//   bool get isRemote => RegExp(r"http[s]?:\/\/").hasMatch(avatarUrl ?? "");
-// }
+extension ProfileExt on Profile {
+  Profile setSubscribed(bool subscribed) {
+    return copyWith(
+      subscribers: subscribed ? (subscribers ?? 0) + 1 : subscribers! - 1,
+      isSubscribed: subscribed
+    );
+  }
+}
+
+profileListFromJson(List<dynamic> list) {
+  return list.map((p) => Profile.fromJson(p as Map<String, dynamic>))
+    .toList();
+}

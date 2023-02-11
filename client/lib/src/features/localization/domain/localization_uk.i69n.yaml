@@ -19,3 +19,7 @@ profile:
   subscriptions: 'підписки'
   books: 'книги'
   noDescriptionPlaceholder: "Без опису..."
+edit: "Редагувати"
+subscribe: "Підписатися"
+unsubscribe: "Відписатися"
+seeAll: "Переглянути Всі"

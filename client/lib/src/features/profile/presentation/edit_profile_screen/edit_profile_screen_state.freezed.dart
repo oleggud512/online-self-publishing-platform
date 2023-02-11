@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$EditProfileScreenState {
   Profile get originalProfile => throw _privateConstructorUsedError;
-  Profile get editedProfile => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $EditProfileScreenStateCopyWith<EditProfileScreenState> get copyWith =>
@@ -30,10 +29,9 @@ abstract class $EditProfileScreenStateCopyWith<$Res> {
           $Res Function(EditProfileScreenState) then) =
       _$EditProfileScreenStateCopyWithImpl<$Res, EditProfileScreenState>;
   @useResult
-  $Res call({Profile originalProfile, Profile editedProfile});
+  $Res call({Profile originalProfile});
 
   $ProfileCopyWith<$Res> get originalProfile;
-  $ProfileCopyWith<$Res> get editedProfile;
 }
 
 /// @nodoc
@@ -51,16 +49,11 @@ class _$EditProfileScreenStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? originalProfile = null,
-    Object? editedProfile = null,
   }) {
     return _then(_value.copyWith(
       originalProfile: null == originalProfile
           ? _value.originalProfile
           : originalProfile // ignore: cast_nullable_to_non_nullable
-              as Profile,
-      editedProfile: null == editedProfile
-          ? _value.editedProfile
-          : editedProfile // ignore: cast_nullable_to_non_nullable
               as Profile,
     ) as $Val);
   }
@@ -70,14 +63,6 @@ class _$EditProfileScreenStateCopyWithImpl<$Res,
   $ProfileCopyWith<$Res> get originalProfile {
     return $ProfileCopyWith<$Res>(_value.originalProfile, (value) {
       return _then(_value.copyWith(originalProfile: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ProfileCopyWith<$Res> get editedProfile {
-    return $ProfileCopyWith<$Res>(_value.editedProfile, (value) {
-      return _then(_value.copyWith(editedProfile: value) as $Val);
     });
   }
 }
@@ -90,12 +75,10 @@ abstract class _$$_EditProfileScreenStateCopyWith<$Res>
       __$$_EditProfileScreenStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Profile originalProfile, Profile editedProfile});
+  $Res call({Profile originalProfile});
 
   @override
   $ProfileCopyWith<$Res> get originalProfile;
-  @override
-  $ProfileCopyWith<$Res> get editedProfile;
 }
 
 /// @nodoc
@@ -111,16 +94,11 @@ class __$$_EditProfileScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? originalProfile = null,
-    Object? editedProfile = null,
   }) {
     return _then(_$_EditProfileScreenState(
       originalProfile: null == originalProfile
           ? _value.originalProfile
           : originalProfile // ignore: cast_nullable_to_non_nullable
-              as Profile,
-      editedProfile: null == editedProfile
-          ? _value.editedProfile
-          : editedProfile // ignore: cast_nullable_to_non_nullable
               as Profile,
     ));
   }
@@ -129,17 +107,14 @@ class __$$_EditProfileScreenStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_EditProfileScreenState implements _EditProfileScreenState {
-  _$_EditProfileScreenState(
-      {required this.originalProfile, required this.editedProfile});
+  _$_EditProfileScreenState({required this.originalProfile});
 
   @override
   final Profile originalProfile;
-  @override
-  final Profile editedProfile;
 
   @override
   String toString() {
-    return 'EditProfileScreenState(originalProfile: $originalProfile, editedProfile: $editedProfile)';
+    return 'EditProfileScreenState(originalProfile: $originalProfile)';
   }
 
   @override
@@ -148,13 +123,11 @@ class _$_EditProfileScreenState implements _EditProfileScreenState {
         (other.runtimeType == runtimeType &&
             other is _$_EditProfileScreenState &&
             (identical(other.originalProfile, originalProfile) ||
-                other.originalProfile == originalProfile) &&
-            (identical(other.editedProfile, editedProfile) ||
-                other.editedProfile == editedProfile));
+                other.originalProfile == originalProfile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, originalProfile, editedProfile);
+  int get hashCode => Object.hash(runtimeType, originalProfile);
 
   @JsonKey(ignore: true)
   @override
@@ -165,14 +138,11 @@ class _$_EditProfileScreenState implements _EditProfileScreenState {
 }
 
 abstract class _EditProfileScreenState implements EditProfileScreenState {
-  factory _EditProfileScreenState(
-      {required final Profile originalProfile,
-      required final Profile editedProfile}) = _$_EditProfileScreenState;
+  factory _EditProfileScreenState({required final Profile originalProfile}) =
+      _$_EditProfileScreenState;
 
   @override
   Profile get originalProfile;
-  @override
-  Profile get editedProfile;
   @override
   @JsonKey(ignore: true)
   _$$_EditProfileScreenStateCopyWith<_$_EditProfileScreenState> get copyWith =>

@@ -1,10 +1,12 @@
 
+import 'package:client/src/common/log.dart';
+
 class AppException implements Exception { }
 
 class NotFoundException extends AppException { }
 
 class ConnectionException extends AppException { 
   ConnectionException() {
-    print("ConnectionException was thrown");
+    printInfo("I am the ConnectionException!");
   }
 }

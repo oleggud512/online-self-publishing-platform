@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:client/firebase_options.dart';
 import 'package:client/src/app.dart';
 import 'package:client/src/features/localization/data/localization_controller.dart';

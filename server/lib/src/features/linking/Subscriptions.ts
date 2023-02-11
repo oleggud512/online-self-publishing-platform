@@ -6,8 +6,8 @@ export interface ISubscriptions {
 }
 
 const SubscriptionsSchema = new Schema({
-	profile: { type: Types.ObjectId, ref: "Profile", required: true },
-	subscribedTo: { type: Types.ObjectId, ref: "Profile", required: true }
+	profile: { type: String, ref: "Profile", required: true },
+	subscribedTo: { type: String, ref: "Profile", required: true }
 }, {
 	timestamps: true
 });
