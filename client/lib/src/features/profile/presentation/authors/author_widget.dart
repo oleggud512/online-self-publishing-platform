@@ -25,18 +25,13 @@ class AuthorWidget extends ConsumerWidget {
 
   Future<void> subscribe(WidgetRef ref) async {
     bool subscribed = 
-      await ref.read(profileScreenControllerProvider.notifier).subscribe();
+      await ref.read(profileScreenControllerProvider(profile.id).notifier).subscribe();
   }
   Future<void> unsubscribe(WidgetRef ref) async {
     bool unsubscribed = 
-      await ref.read(profileScreenControllerProvider.notifier).unsubscribe();
+      await ref.read(profileScreenControllerProvider(profile.id).notifier).unsubscribe();
   }
-  void edit(BuildContext context, WidgetRef ref) {
-    context.pushNamed("editProfile", 
-      params: { 'id': ref.watch(profileScreenControllerProvider).value!.profile.id },
-      extra: ref.watch(profileScreenControllerProvider).value!.profile
-    );
-  }
+  
   void view(BuildContext context, WidgetRef ref) {
     context.pushNamed(MyRoute.profile.name,
       params: { 'id': profile.id }

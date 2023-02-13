@@ -14,7 +14,7 @@ import '../../data/profile_repository.dart';
 import '../../domain/profile.dart';
 import 'edit_profile_screen_state.dart';
 
-class ProfileUpdatedPubSubEvent extends PubSubEvent { }
+class ProfileEditedPubSubEvent extends PubSubEvent { }
 
 class EditProfileScreenController 
     extends AutoDisposeAsyncNotifier<EditProfileScreenState> {
@@ -30,6 +30,7 @@ class EditProfileScreenController
     Profile editedProfile = ref.watch(currentlyEditedProfileProvider);
 
     if (editedProfile.avatarUrl != null) {
+      // save avatarUrl to firestore
       var snapshot = await FirebaseStorage.instance
         .ref('avatars/${editedProfile.id}')
         .putFile(File(editedProfile.avatarUrl!));
@@ -37,6 +38,7 @@ class EditProfileScreenController
       editedProfile = editedProfile.copyWith(avatarUrl: avatarUrl);
       printInfo('saving with image: $avatarUrl');
     } else {
+      /// do nothing
       printInfo("saving with no image");
     }
 
@@ -45,7 +47,7 @@ class EditProfileScreenController
     
     await profileRepo.updateProfile(editedProfile);
     printInfo("saved");
-    ref.read(pubSub.notifier).state = ProfileUpdatedPubSubEvent();
+    ref.read(pubSub.notifier).state = ProfileEditedPubSubEvent();
     return true;
   }
 }
@@ -60,7 +62,6 @@ final editProfileScreenControllerProvider = AutoDisposeAsyncNotifierProvider<
   dependencies: [
     profileRepositoryProvider,
     currentlyEditedProfileProvider,
-    currentProfileIdProvider,
     editProfileWidgetControllerProvider,
   ]
 );

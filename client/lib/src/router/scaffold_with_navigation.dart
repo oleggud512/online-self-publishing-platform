@@ -58,7 +58,7 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
         label: ll.screenTitle.books,
       ),
       ScaffoldWithNavigationTabItem(
-        initialLocation: MyRoute.authors.path,
+        initialLocation: MyRoute.profiles.path,
         icon: const Icon(Icons.people_alt_outlined),
         selectedIcon: const Icon(Icons.people_alt),
         label: ll.screenTitle.authors,
@@ -134,12 +134,11 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
     if (primaryTabs.indexWhere((t) => t.initialLocation == curLocation) == -1) {
       return null;
     }
-    final name = primaryTabs[tabSelected].initialLocation;
-    if (name == MyRoute.home.path) return HomeScreenAppBar();
-    if (name == MyRoute.chats.path) return ChatsScreenAppBar();
-    if (name == MyRoute.books.path) return BooksAppBar();
-    if (name == MyRoute.authors.path) return AuthorsAppBar();
-    if (name == MyRoute.myProfile.path) return ProfileScreenAppBar();
+    final path = primaryTabs[tabSelected].initialLocation;
+    if (path == MyRoute.home.path) return HomeScreenAppBar();
+    if (path == MyRoute.chats.path) return ChatsScreenAppBar();
+    if (path == MyRoute.books.path) return BooksAppBar();
+    if (path == MyRoute.profiles.path) return AuthorsAppBar();
     return null;
   } 
 
@@ -162,7 +161,7 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
         },
       ) ,
       body: widget.child,
-      bottomNavigationBar: (primaryTabs.map((t) => t.initialLocation).contains(curLocation)) 
+      bottomNavigationBar: (!secondaryDrawerTabs.map((t) => t.initialLocation).contains(curLocation)) 
         ? NavigationBar(
           selectedIndex: tabSelected,
           onDestinationSelected: (index) {
@@ -171,6 +170,13 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
           destinations: primaryTabs
         ) 
         : null
+      // bottomNavigationBar: NavigationBar(
+      //   selectedIndex: tabSelected,
+      //   onDestinationSelected: (index) {
+      //     onDestinationSelected(context, index);
+      //   },
+      //   destinations: primaryTabs
+      // ) ,
     );
   }
 }

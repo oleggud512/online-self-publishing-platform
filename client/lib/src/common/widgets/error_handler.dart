@@ -64,7 +64,7 @@ class ErrorScreen extends ConsumerWidget {
   const ErrorScreen({
     super.key, 
     this.message = "Error.",
-    this.title = "Error.",
+    this.title,
     this.actionMessage,
     this.onAction
   }) : assert(
@@ -73,17 +73,17 @@ class ErrorScreen extends ConsumerWidget {
   );
 
   final String message;
-  final String title;
+  final String? title;
   final String? actionMessage;
   final void Function()? onAction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
+      appBar: (title != null) ? AppBar(
+        title: Text(title!),
         centerTitle: true,
-      ),
+      ) : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(p8),

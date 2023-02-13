@@ -10,12 +10,14 @@ class MyImage extends StatelessWidget {
     super.key,
     required this.imageUrl,
     this.placeholderIconSize = 96,
+    this.placeholderIcon,
     this.onTap,
     this.size
   });
 
   final String? imageUrl;
-  final double placeholderIconSize;
+  final double? placeholderIconSize;
+  final Widget? placeholderIcon;
   final void Function()? onTap;
   final Size? size;
 
@@ -30,7 +32,7 @@ class MyImage extends StatelessWidget {
               : FileImage(File(imageUrl!))) as ImageProvider<Object>
           )))
         : Center(
-          child: Icon(Icons.person_outline, 
+          child: placeholderIcon ?? Icon(Icons.person_outline, 
             color: Colors.grey, 
             size: placeholderIconSize
           )

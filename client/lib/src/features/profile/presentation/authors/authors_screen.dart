@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:client/src/common/hardcoded.dart';
+import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
@@ -7,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/log.dart';
+import '../../domain/profile.dart';
 import 'authors_screen_controller.dart';
 
 class AuthorsScreen extends ConsumerStatefulWidget {
@@ -38,15 +42,12 @@ class _AuthorsScreenState extends ConsumerState<AuthorsScreen> {
   Widget build(BuildContext context) {
     final ll = ref.watch(currentLocalizationProvider);
     final state = ref.watch(authorsScreenControllerProvider);
-
+    
     return state.when(
       data: (authors) {
-        return SmartRefresher(
-          controller: refreshController,
-          onRefresh: refresh,
-          onLoading: addPage,
-          enablePullDown: true,
-          enablePullUp: true,
+        return PageListWidget(
+          paginationController: ref.watch(authorsScreenControllerProvider.notifier),
+          refreshController: refreshController, 
           child: ListView.builder(
             itemCount: authors.length,
             itemBuilder: (context, index) {

@@ -1,17 +1,13 @@
 import 'package:client/src/common/log.dart';
+import 'package:client/src/common/pagination/page_list.dart';
+import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/features/profile/data/profile_repository.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/authors/authors_query_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-extension PageList<T> on List<T> {
-  List<T> addPage(List<T> page) {
-    return [...this, ...page];
-  }
-}
-
-class AuthorsScreenController extends AutoDisposeAsyncNotifier<List<Profile>> {
+class AuthorsScreenController extends AutoDisposeAsyncNotifier<List<Profile>> implements PaginationController {
   ProfileRepository get profileRepo => ref.watch(profileRepositoryProvider);
 
   @override
@@ -29,6 +25,7 @@ class AuthorsScreenController extends AutoDisposeAsyncNotifier<List<Profile>> {
     });
   }
 
+  @override
   Future<void> refresh() async {
     String currentQuery = ref.watch(authorsQueryStateProvider);
     printInfo(currentQuery);
@@ -38,6 +35,7 @@ class AuthorsScreenController extends AutoDisposeAsyncNotifier<List<Profile>> {
     printSuccess('authors refreshed!');
   }
 
+  @override
   Future<bool> addPage() async {
     int prevLen = state.value!.length;
     await Future.delayed(const Duration(seconds: 1));

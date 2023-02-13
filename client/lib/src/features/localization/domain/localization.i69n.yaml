@@ -15,8 +15,8 @@ errors:
   shortPassword: Password must have more than 6 characters
 searchPlaceholder: 'type here...'
 profile: 
-  subscribers: 'subscribers'
-  subscriptions: 'subscriptions'
+  subscribers: 'Subscribers'
+  subscriptions: 'Subscriptions'
   books: 'books'
   noDescriptionPlaceholder: "No description for this user..."
 edit: "Edit"

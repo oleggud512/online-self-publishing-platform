@@ -6,9 +6,9 @@ import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// part 'profile_screen_controller.g.dart';
+part 'profile_screen_controller.g.dart';
 
-// @Riverpod(keepAlive: false)
+@Riverpod(keepAlive: false)
 // class ProfileScreenController extends _$ProfileScreenController {
 //   ProfileRepository get profileRepo => ref.watch(profileRepositoryProvider);
 
@@ -25,13 +25,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // }
 
 class ProfileScreenController
-    extends AutoDisposeAsyncNotifier<ProfileScreenState> {
+    extends _$ProfileScreenController {
   ProfileRepository get profileRepo => ref.watch(profileRepositoryProvider);
 
   @override
-  FutureOr<ProfileScreenState> build() async {
-    printInfo("build ProfileScreenController");
-    final profileId = ref.watch(currentProfileIdProvider);
+  FutureOr<ProfileScreenState> build(String profileId) async {
+    // final profileId = ref.watch(currentProfileIdProvider);
+    printInfo("build ProfileScreenController with profileId = $profileId");
     final profile = await profileRepo.getProfile(profileId);
     if (profile.id != ref.watch(myIdProvider)) {
       Future(
@@ -72,10 +72,10 @@ class ProfileScreenController
   }
 }
 
-final profileScreenControllerProvider = AsyncNotifierProvider.autoDispose<
-    ProfileScreenController,
-    ProfileScreenState>(() => ProfileScreenController(), dependencies: [
-  currentProfileIdProvider,
-  myIdProvider,
-  profileRepositoryProvider
-]);
+// final profileScreenControllerProvider = AsyncNotifierProvider.autoDispose<
+//     ProfileScreenController,
+//     ProfileScreenState>(() => ProfileScreenController(), dependencies: [
+//   currentProfileIdProvider,
+//   myIdProvider,
+//   profileRepositoryProvider
+// ]);

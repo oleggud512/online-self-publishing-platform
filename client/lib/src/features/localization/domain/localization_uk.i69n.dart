@@ -164,8 +164,8 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
 class ProfileLocalization_uk extends ProfileLocalization {
   final Localization_uk _parent;
   const ProfileLocalization_uk(this._parent) : super(_parent);
-  String get subscribers => "підписники";
-  String get subscriptions => "підписки";
+  String get subscribers => "Підписники";
+  String get subscriptions => "Підписки";
   String get books => "книги";
   String get noDescriptionPlaceholder => "Без опису...";
   Object operator [](String key) {

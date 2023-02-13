@@ -162,8 +162,8 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
 class ProfileLocalization implements i69n.I69nMessageBundle {
   final Localization _parent;
   const ProfileLocalization(this._parent);
-  String get subscribers => "subscribers";
-  String get subscriptions => "subscriptions";
+  String get subscribers => "Subscribers";
+  String get subscriptions => "Subscriptions";
   String get books => "books";
   String get noDescriptionPlaceholder => "No description for this user...";
   Object operator [](String key) {

@@ -34,12 +34,8 @@ class ProfileRepository {
 
   Future<Profile> getProfile(String id) async {
     try {
-      printInfo(id);
       final resp = await _dio.get('profiles/$id');
-      printSuccess("DAAAAATTTTTAAAA: ${resp.data}");
       final profile = Profile.fromJson(resp.data['data']);
-      printSuccess("profile: $profile that was my profile");
-      printSuccess(profile.runtimeType);
       return profile;
     } on DioError catch (e) {
       printError("${e.runtimeType} was rethrown from ProfileRepository");
@@ -87,6 +83,36 @@ class ProfileRepository {
   Future<bool> isMySubscriber(String subscriberId) async {
     // TODO: implement
     throw UnimplementedError();
+  }
+
+  Future<List<Profile>> subscribers([
+    String? profileId, 
+    int from = 0, 
+    int pageSize = 20
+  ]) async {
+    printSuccess("profileId = ${profileId}");
+    String id = profileId == null || profileId.isEmpty ? _myId! : profileId;
+    printSuccess("myId = $_myId");
+    printSuccess("id = ${id}");
+    final resp = await _dio.get('profiles/$id/subscribers', queryParameters: {
+      'from': from,
+      'pageSize': pageSize
+    });
+    printSuccess(resp.data);
+    return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
+  }
+  
+  Future<List<Profile>> subscriptions([
+    String? profileId, 
+    int from = 0, 
+    int pageSize = 20
+  ]) async {
+    String id = profileId ?? _myId!;
+    final resp = await _dio.get('profiles/$id/subscriptions', queryParameters: {
+      'from': from,
+      'pageSize': pageSize
+    });
+    return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
   }
 }
 

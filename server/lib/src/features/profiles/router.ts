@@ -15,6 +15,10 @@ router.post('/unsubscribe/:id', isAuthenticated, profileController.unsubscribe)
 router.post('/isSubscribed/:id', isAuthenticated, profileController.isSubscribed)
 
 router.get("/:id", profileController.getProfile)
+
+router.get('/:id/subscribers', profileController.subscribers)
+router.get('/:id/subscriptions', profileController.subscriptions)
+
 router.post("/:id", 
   isAuthenticated,
   profileController.updateProfile)

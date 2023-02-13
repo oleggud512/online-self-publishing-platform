@@ -8,18 +8,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ProfileActionButton extends ConsumerWidget {
   const ProfileActionButton({
     super.key,
+    required this.profileId,
     required this.edit, // TODO: or better simply invoke Controller methods from here? Yeah. It's better.
     required this.unsubscribe,
     required this.subscribe
   });
 
+  final String profileId;
   final void Function() edit;
   final void Function() unsubscribe;
   final void Function() subscribe;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(profileScreenControllerProvider);
+    final state = ref.watch(profileScreenControllerProvider(profileId));
     final ll = ref.watch(currentLocalizationProvider);
     return (state.value!.isMy) 
       ? FilledButton.icon(

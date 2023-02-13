@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express"
+import { tryParseInt } from "../../common/tryParseInt"
 import { Gender } from "./Profile"
 import * as profileService from "./service"
 
@@ -54,7 +55,8 @@ export async function updateProfile(req: Request, res: Response) {
   console.log(`who: ${res.locals.email} ${res.locals.uid}`)
   console.log(`tries to update who: ${req.body.email} ${req.body._id}`)
 
-  if (res.locals.uid != req.body._id) return res.status(500).json({error: "you can't update other's profiles."}) 
+  if (res.locals.uid != req.body._id) 
+    return res.status(500).json({error: "you can't update other's profiles."}) 
 
   const profile = await profileService.updateProfile(req.body);
 
@@ -78,4 +80,32 @@ export async function isSubscribed(req: Request, res: Response) {
   const to = req.params.id as string
   const isSubscribed = await profileService.isSubscribed(res.locals.uid!, to)
   return res.status(200).json({ data: isSubscribed })
+}
+
+export async function subscribers(req: Request, res: Response) {
+  const id = req.params.id as string
+  const from = tryParseInt(req.query.from as string | undefined) ?? 0
+  const pageSize = tryParseInt(req.query.pageSize as string | undefined) ?? 20
+
+  const subscriptions = await profileService.subscribers(id, from, pageSize)
+
+  return res.status(200).json({ 
+    from: from,
+    pageSize: pageSize,
+    data: subscriptions 
+  }) 
+}
+
+export async function subscriptions(req: Request, res: Response) {
+  const id = req.params.id as string
+  const from = tryParseInt(req.query.from as string | undefined) ?? 0
+  const pageSize = tryParseInt(req.query.pageSize as string | undefined) ?? 20
+
+  const subscriptions = await profileService.subscriptions(id, from, pageSize)
+
+  return res.status(200).json({ 
+    from: from,
+    pageSize: pageSize,
+    data: subscriptions 
+  }) 
 }

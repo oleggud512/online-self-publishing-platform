@@ -1,18 +1,22 @@
 import 'package:client/src/common/go_router_refresh_stream.dart';
 import 'package:client/src/common/hardcoded.dart';
+import 'package:client/src/common/log.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/auth/presentation/auth_screen.dart';
 import 'package:client/src/features/books/presentation/books/books_screen.dart';
 import 'package:client/src/features/home/presentation/home_screen.dart';
+import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen.dart';
 import 'package:client/src/features/notifications/presentation/notifications_screen.dart';
 import 'package:client/src/features/profile/application/current_profile_id.dart';
 import 'package:client/src/features/profile/application/currently_edited_profile.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen.dart';
+import 'package:client/src/features/profile/presentation/profile/simple_profile_list_screen.dart';
 import 'package:client/src/router/scaffold_with_navigation.dart';
 import 'package:client/src/shared/constants.dart';
+import 'package:client/src/shared/profile_list_callback_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -29,7 +33,8 @@ extension MyRoutePath on MyRoute {
 
       case MyRoute.home: return '/home';
       case MyRoute.chats: return '/chats';
-      case MyRoute.authors: return '/authors';
+      // case MyRoute.authors: return '/authors';
+      case MyRoute.profiles: return '/profiles';
       case MyRoute.books: return '/books';
       case MyRoute.myProfile: return '/myProfile';
 
@@ -39,6 +44,9 @@ extension MyRoutePath on MyRoute {
       case MyRoute.editBook: return '/books/:id/edit';
       case MyRoute.profile: return '/profiles/:id';
       case MyRoute.editProfile: return '/profiles/:id/edit';
+
+      case MyRoute.subscribers: return '/profiles/:id/subscribers';
+      case MyRoute.subscriptions: return '/profiles/:id/subscriptions';
 
       case MyRoute.chapter: return '/chapters/:id';
       case MyRoute.editChapter: return '/chapters/:id/edit';
@@ -104,8 +112,10 @@ final routerProvider = Provider((ref) {
             }
           ),
           GoRoute(
-            path: MyRoute.authors.path,
-            name: MyRoute.authors.name,
+            // path: MyRoute.authors.path,
+            // name: MyRoute.authors.name,
+            path: MyRoute.profiles.path,
+            name: MyRoute.profiles.name,
             pageBuilder: (context, state) {
               return NoTransitionPage(
                 key: state.pageKey,
@@ -114,16 +124,91 @@ final routerProvider = Provider((ref) {
             },
           ),
           GoRoute(
+            // parentNavigatorKey: rootNavigatorKey,
+            // parentNavigatorKey: shellNavigatorKey,
+            path: MyRoute.profile.path,
+            name: MyRoute.profile.name,
+            builder: (context, state) {
+              String profileId = state.params['id'] as String;
+              print('go to this $profileId profileId');
+              return Consumer(builder: (context, ref, child) {
+                // Future(() {
+                //   ref.read(currentProfileIdProvider.notifier).state = profileId;
+                //   // printInfo('currentProfileIdProvider set to ${ref.watch(currentProfileIdProvider)}');
+                // });
+                return ProfileScreen(profileId: profileId);
+              });
+            },
+            routes: [
+              GoRoute(
+                // parentNavigatorKey: rootNavigatorKey,
+                // parentNavigatorKey: shellNavigatorKey,
+                path: 'edit',
+                name: MyRoute.editProfile.name,
+                builder: (context, state) {
+                  return ProviderScope(
+                    overrides: [
+                      currentlyEditedProfileProvider.overrideWith((ref) {
+                        return state.extra as Profile;
+                      })
+                    ],
+                    child: const EditProfileScreen(),
+                  );
+                }
+              ),
+              GoRoute(
+                // parentNavigatorKey: rootNavigatorKey,
+                // parentNavigatorKey: shellNavigatorKey,
+                path: 'subscribers',
+                name: MyRoute.subscribers.name,
+                builder: (context, state) {
+                  return Consumer(
+                    builder: (context, ref, child) {
+                      return SimpleProfileListScreen(
+                        title: ref.watch(currentLocalizationProvider).profile.subscribers,
+                        callback: 
+                          ProfilesListCallbackFactory.instance
+                            .createSubscribersPaginationCallback(
+                                ref, state.params['id'] as String)
+                      );
+                    }
+                  );
+                }
+              ),
+              GoRoute(
+                // parentNavigatorKey: rootNavigatorKey,
+                // parentNavigatorKey: shellNavigatorKey,
+                path: 'subscriptions',
+                name: MyRoute.subscriptions.name,
+                builder: (context, state) {
+                  return Consumer(
+                    builder: (context, ref, child) {
+                      return SimpleProfileListScreen(
+                        title: ref.watch(currentLocalizationProvider).profile.subscriptions,
+                        callback: 
+                          ProfilesListCallbackFactory.instance
+                            .createSubscriptionsPaginationCallback(
+                                ref, state.params['id'] as String)
+                      );
+                    }
+                  );
+                }
+              )
+            ]
+          ),
+          GoRoute(
             path: MyRoute.myProfile.path,
             name: MyRoute.myProfile.name,
             pageBuilder: (context, state) {
               return NoTransitionPage(
                 key: state.pageKey,
-                child: ProviderScope(
-                  overrides: [
-                    currentProfileIdProvider.overrideWith((ref) => ref.watch(myIdProvider) ?? "no id") // TODO: нужно отображать что "ты не зарегистрирован поэтому иди нахуй". 
-                  ],
-                  child: const ProfileScreen()
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    // Future(() => 
+                    //     ref.watch(currentProfileIdProvider.notifier).state = 
+                    //         ref.watch(myIdProvider) ?? "");
+                    return ProfileScreen(profileId: ref.watch(myIdProvider) ?? "");
+                  }
                 ),
               );
             },
@@ -152,6 +237,79 @@ final routerProvider = Provider((ref) {
           ),
         ]
       ),
+      // GoRoute(
+      //   // parentNavigatorKey: rootNavigatorKey,
+      //   parentNavigatorKey: shellNavigatorKey,
+      //   path: MyRoute.profile.path,
+      //   name: MyRoute.profile.name,
+      //   builder: (context, state) {
+      //     String profileId = state.params['id'] as String;
+      //     print('go to this $profileId profileId');
+      //     return Consumer(builder: (context, ref, child) {
+      //       // Future(() {
+      //       //   ref.read(currentProfileIdProvider.notifier).state = profileId;
+      //       //   // printInfo('currentProfileIdProvider set to ${ref.watch(currentProfileIdProvider)}');
+      //       // });
+      //       return ProfileScreen(profileId: profileId);
+      //     });
+      //   },
+      //   routes: [
+      //     GoRoute(
+      //       // parentNavigatorKey: rootNavigatorKey,
+      //       parentNavigatorKey: shellNavigatorKey,
+      //       path: 'edit',
+      //       name: MyRoute.editProfile.name,
+      //       builder: (context, state) {
+      //         return ProviderScope(
+      //           overrides: [
+      //             currentlyEditedProfileProvider.overrideWith((ref) {
+      //               return state.extra as Profile;
+      //             })
+      //           ],
+      //           child: const EditProfileScreen(),
+      //         );
+      //       }
+      //     ),
+      //     GoRoute(
+      //       // parentNavigatorKey: rootNavigatorKey,
+      //       parentNavigatorKey: shellNavigatorKey,
+      //       path: 'subscribers',
+      //       name: MyRoute.subscribers.name,
+      //       builder: (context, state) {
+      //         return Consumer(
+      //           builder: (context, ref, child) {
+      //             return SimpleProfileListScreen(
+      //               title: ref.watch(currentLocalizationProvider).profile.subscribers,
+      //               callback: 
+      //                 ProfilesListCallbackFactory.instance
+      //                   .createSubscribersPaginationCallback(
+      //                       ref, state.params['id'] as String)
+      //             );
+      //           }
+      //         );
+      //       }
+      //     ),
+      //     GoRoute(
+      //       // parentNavigatorKey: rootNavigatorKey,
+      //       parentNavigatorKey: shellNavigatorKey,
+      //       path: 'subscriptions',
+      //       name: MyRoute.subscriptions.name,
+      //       builder: (context, state) {
+      //         return Consumer(
+      //           builder: (context, ref, child) {
+      //             return SimpleProfileListScreen(
+      //               title: ref.watch(currentLocalizationProvider).profile.subscriptions,
+      //               callback: 
+      //                 ProfilesListCallbackFactory.instance
+      //                   .createSubscriptionsPaginationCallback(
+      //                       ref, state.params['id'] as String)
+      //             );
+      //           }
+      //         );
+      //       }
+      //     )
+      //   ]
+      // ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
         path: MyRoute.root.path,
@@ -162,37 +320,6 @@ final routerProvider = Provider((ref) {
               title: const Text("'/'"),
             ),
           ),
-      ),
-      GoRoute(
-        parentNavigatorKey: rootNavigatorKey,
-        path: MyRoute.profile.path,
-        name: MyRoute.profile.name,
-        builder: (context, state) {
-          String profileId = state.params['id'] as String;
-          return ProviderScope(
-            overrides: [
-              currentProfileIdProvider.overrideWith((ref) => profileId)
-            ],
-            child: const ProfileScreen()
-          );
-        },
-        routes: [
-          GoRoute(
-            parentNavigatorKey: rootNavigatorKey,
-            path: 'edit',
-            name: MyRoute.editProfile.name,
-            builder: (context, state) {
-              return ProviderScope(
-                overrides: [
-                  currentlyEditedProfileProvider.overrideWith((ref) {
-                    return state.extra as Profile;
-                  })
-                ],
-                child: const EditProfileScreen(),
-              );
-            }
-          )
-        ]
       ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
@@ -209,58 +336,6 @@ final routerProvider = Provider((ref) {
           );
         }
       ),
-      /*
-      GoRoute(
-        path: '/home',
-        name: R.routes.home,
-        builder: (context, state) {
-          return HomeScreen();
-        },
-      ),
-      GoRoute(
-        path: '/settings',
-        name: R.routes.settings,
-        builder: (context, state) {
-          return const SettingsScreen();
-        }
-      ),
-      GoRoute(
-        path: '/profiles',
-        name: R.routes.authors,
-        builder: (context, state) {
-          return Scaffold(appBar: AppBar(title: Text("profile list")));
-        }
-      ),
-      GoRoute(
-        path: '/profiles/:id',
-        name: R.routes.profile,
-        builder: (context, state) {
-          String profileId = state.queryParams['id'] as String;
-          return ProviderScope(
-            overrides: [
-              currentProfileIdProvider.overrideWith((ref) => profileId)
-            ],
-            child: const ProfileScreen()
-          );
-        },
-        routes: [
-          GoRoute(
-            path: 'edit',
-            name: R.routes.editProfile,
-            builder: (context, state) {
-              return ProviderScope(
-                overrides: [
-                  currentlyEditedProfileProvider.overrideWith((ref) {
-                    return state.extra as Profile;
-                  })
-                ],
-                child: const EditProfileScreen(),
-              );
-            }
-          )
-        ]
-      ),
-      */
     ]
   );
 });

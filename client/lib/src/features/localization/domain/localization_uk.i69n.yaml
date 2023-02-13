@@ -15,8 +15,8 @@ errors:
   shortPassword: Пароль повинен мати не менше 6 символів
 searchPlaceholder: 'введіть запит...'
 profile: 
-  subscribers: 'підписники'
-  subscriptions: 'підписки'
+  subscribers: 'Підписники'
+  subscriptions: 'Підписки'
   books: 'книги'
   noDescriptionPlaceholder: "Без опису..."
 edit: "Редагувати"

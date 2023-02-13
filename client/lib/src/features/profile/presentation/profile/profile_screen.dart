@@ -10,11 +10,13 @@ import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_screen/edit_profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_app_bar.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_controller.dart';
+import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
+import '../../../../common/log.dart';
 import '../../../../common/widgets/my_image.dart';
 import '../../../auth/application/my_id_provider.dart';
 import '../../../localization/application/ll.dart';
@@ -22,7 +24,12 @@ import 'profile_action_button.dart';
 
 
 class ProfileScreen extends ConsumerStatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({
+    super.key,
+    required this.profileId
+  });
+
+  final String profileId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ProfileScreenState();
@@ -30,22 +37,34 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
-  void showBooks() {}
-  void showSubscribers() {}
-  void showSubscriptions() {}
+  void showBooks() {
+
+  }
+
+  void showSubscribers() {
+    context.pushNamed(MyRoute.subscribers.name, 
+      params: { 'id': widget.profileId }
+    );
+  }
+
+  void showSubscriptions() {
+    context.pushNamed(MyRoute.subscriptions.name, 
+      params: { 'id': widget.profileId }
+    );
+  }
   
   void subscribe() async {
-    await ref.watch(profileScreenControllerProvider.notifier).subscribe();
+    await ref.watch(profileScreenControllerProvider(widget.profileId).notifier).subscribe();
   }
 
   void unsubscribe() async {
-    await ref.watch(profileScreenControllerProvider.notifier).unsubscribe();
+    await ref.watch(profileScreenControllerProvider(widget.profileId).notifier).unsubscribe();
   }
 
   void edit() {
     context.pushNamed("editProfile", 
-      params: { 'id': ref.watch(profileScreenControllerProvider).value!.profile.id },
-      extra: ref.watch(profileScreenControllerProvider).value!.profile
+      params: { 'id': ref.watch(profileScreenControllerProvider(widget.profileId)).value!.profile.id },
+      extra: ref.watch(profileScreenControllerProvider(widget.profileId)).value!.profile
     );
   }
 
@@ -53,23 +72,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ll = ref.watch(currentLocalizationProvider);
-    final state = ref.watch(profileScreenControllerProvider);
     ref.listen(pubSub, (previous, next) {
-      if (next is ProfileUpdatedPubSubEvent) {
-        ref.watch(profileScreenControllerProvider.notifier).refresh();
+      if (next is ProfileEditedPubSubEvent) {
+        ref.watch(profileScreenControllerProvider(widget.profileId).notifier).refresh();
       }
     });
+
+    final ll = ref.watch(currentLocalizationProvider);
+    final state = ref.watch(profileScreenControllerProvider(widget.profileId));
+
+    printInfo("got controller (with id=${state.value?.profile.id})");
+    
     return state.when(
       data: (state) {
         final tt = Theme.of(context).textTheme;
         final profile = state.profile;
-        Future(() => ref.read(profileScreenTitleProvider.notifier).state = 
-            profile.name);
+        // Future(() => ref.read(profileScreenTitleProvider.notifier).state = 
+        //     profile.name);
         return Scaffold(
-          appBar: (state.isMy) 
-            ? null // if isMy, then appBar is settled from ScaffoldWithNavigation, in order display 'show drawer' button.
-            : ProfileScreenAppBar(),
+          appBar: AppBar(
+            title: Text(profile.name),
+          ),
           body: ListView(
             padding: const EdgeInsets.all(p16),
             children: [
@@ -98,6 +121,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               Text(profile.displayName ?? profile.name, 
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
+                              Text(profile.id, style: Theme.of(context).textTheme.labelSmall),
                               h8gap,
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,6 +173,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           Flexible(
                             flex: 0,
                             child: ProfileActionButton(
+                              profileId: widget.profileId,
                               edit: edit,
                               subscribe: subscribe,
                               unsubscribe: unsubscribe,
@@ -188,7 +213,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           height: 176,
                           width: 160,
                           child: MyImage(
-                            placeholderIconSize: 96,
+                            placeholderIcon: const Icon(Icons.book_outlined, 
+                              size: 96,
+                              color: Colors.grey, 
+                            ),
                             imageUrl: book.coverUrl,
                           )
                         ),

@@ -19,7 +19,8 @@ enum MyRoute {
   home,
   chats,
   books,
-  authors,
+  // authors,
+  profiles,
   myProfile,
 
   settings,
@@ -28,6 +29,9 @@ enum MyRoute {
   editBook,
   profile,
   editProfile,
+
+  subscribers,
+  subscriptions,
 
   chapter,
   editChapter

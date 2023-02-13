@@ -12,4 +12,4 @@ const SubscriptionsSchema = new Schema({
 	timestamps: true
 });
 
-export const Subscriptions = model<ISubscriptions>("Subscriptions", SubscriptionsSchema);
+export const Subscriptions = model<ISubscriptions>("Subscriptions", SubscriptionsSchema)
