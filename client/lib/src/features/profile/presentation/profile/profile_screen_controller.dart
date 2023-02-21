@@ -9,38 +9,23 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'profile_screen_controller.g.dart';
 
 @Riverpod(keepAlive: false)
-// class ProfileScreenController extends _$ProfileScreenController {
-//   ProfileRepository get profileRepo => ref.watch(profileRepositoryProvider);
-
-//   @override
-//   FutureOr<ProfileScreenState> build() async {
-//     final profileId = ref.watch(currentProfileIdProvider);
-//     final profile = await profileRepo.getProfile(profileId);
-//     if (profile.id != ref.watch(myIdProvider)) {
-//       // state = state.copyWith(subscribed: await profileRepo.checkSubscribed(profile.id))
-//       // еще нужно проверять на могу ли я вообще подписываться... Ведь я, в теории, могу пропустить аутентификацию.
-//     }
-//     return ProfileScreenState(profile: profile, isMy: ref.watch(myIdProvider) == profile.id);
-//   }
-// }
-
 class ProfileScreenController
     extends _$ProfileScreenController {
   ProfileRepository get profileRepo => ref.watch(profileRepositoryProvider);
 
   @override
-  FutureOr<ProfileScreenState> build(String profileId) async {
+  FutureOr<ProfileScreenState> build(String? profileId) async {
     // final profileId = ref.watch(currentProfileIdProvider);
     printInfo("build ProfileScreenController with profileId = $profileId");
     final profile = await profileRepo.getProfile(profileId);
-    if (profile.id != ref.watch(myIdProvider)) {
+    final myId = ref.watch(myIdProvider);
+    if (myId != null && profile.id != myId) {
       Future(
         () async => 
           state = AsyncData(state.value!.copyWith(
             isSubscribed: await profileRepo.isSubscribed(profile.id)
           ))
       );
-      // TODO: еще нужно проверять на могу ли я вообще подписываться... Ведь я, в теории, могу пропустить аутентификацию.
     }
     return ProfileScreenState(
       profile: profile, 
@@ -51,7 +36,6 @@ class ProfileScreenController
   Future<bool> subscribe() async {
     bool subscribedSuccessfully = await profileRepo.subscribe(state.value!.profile.id);
     state = AsyncData(state.value!.setSubscribed(true));
-    // TODO: show snackbar
     return subscribedSuccessfully;
   }
 
@@ -71,11 +55,3 @@ class ProfileScreenController
     });
   }
 }
-
-// final profileScreenControllerProvider = AsyncNotifierProvider.autoDispose<
-//     ProfileScreenController,
-//     ProfileScreenState>(() => ProfileScreenController(), dependencies: [
-//   currentProfileIdProvider,
-//   myIdProvider,
-//   profileRepositoryProvider
-// ]);

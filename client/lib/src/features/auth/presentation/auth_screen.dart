@@ -4,9 +4,11 @@ import 'package:client/src/common/widgets/google_list_tile.dart';
 import 'package:client/src/features/auth/presentation/auth_screen_controller.dart';
 import 'package:client/src/features/auth/presentation/auth_screen_state.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
+import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../common/constants/constants.dart';
 import '../../profile/presentation/edit_profile_widget/edit_profile_widget.dart';
@@ -17,6 +19,24 @@ class AuthScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AuthScreenState();
 }
 class _AuthScreenState extends ConsumerState<AuthScreen> {
+  AuthScreenController get cont => ref.watch(authScreenControllerProvider.notifier);
+
+  void onSkip() {
+    print("skip authentication");
+    context.goNamed(MyRoute.home.name);
+  }
+
+  void onSignInSignUp() async {
+    print("Sign in button clicked");
+    final authenticated = await cont.submit();
+    if (authenticated && context.mounted) {
+      context.goNamed(MyRoute.home.name);
+    }
+  }
+
+  void onChangeMode() {
+    cont.changeMode();
+  }
 
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
@@ -31,7 +51,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Widget build(BuildContext context) {
     printInfo("AuthScreen build");
     final state = ref.watch(authScreenControllerProvider);
-    final cont = ref.watch(authScreenControllerProvider.notifier);
+    final c = cont;
     printInfo("PHOTO URL = ${state.googleSignInAccount?.photoUrl ?? "NO GOOGLE"}");
     formKey.currentState?.validate();
 
@@ -47,32 +67,32 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             if (state.googleSignInAccount == null) ...[
               TextField(
                 controller: email,
-                decoration: const InputDecoration(
-                  labelText: "email",
+                decoration: InputDecoration(
+                  labelText: "email".hardcoded,
                 ),
                 onChanged: (v) {
-                  cont.email = v;
+                  c.email = v;
                 }
               ),
               h8gap,
               TextFormField(
                 controller: password,
-                decoration: const InputDecoration(
-                  labelText: "password",
+                decoration: InputDecoration(
+                  labelText: "password".hardcoded,
                 ),
                 obscureText: true,
                 onChanged: (newV) {
-                  cont.password = newV;
+                  c.password = newV;
                 },
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: cont.passwordValidator
+                validator: c.passwordValidator
               ),
               h8gap,
               OutlinedButton.icon(
                 icon: const Icon(FontAwesomeIcons.google, color: Colors.red),
                 label: Text("Google".hardcoded),
                 onPressed: () {
-                  cont.selectGoogleUser();
+                  c.selectGoogleUser();
                 }
               ),
               h8gap
@@ -81,7 +101,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               googleSignInAccount: state.googleSignInAccount, 
               onRemove: () {
                 print("back to email + password");
-                cont.backToEmailAndPassword();
+                c.backToEmailAndPassword();
               }
             ),
             if (state.isSignUp) ...[
@@ -95,10 +115,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 // skip
                 Expanded(
                   child: OutlinedButton(
+                    onPressed: onSkip,
                     child: Text("Skip".hardcoded),
-                    onPressed: () {
-                      print("skip authentication");
-                    },
                   ),
                 ),
                 w16gap,
@@ -106,11 +124,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 // sign in with email and password
                 Expanded(
                   child: FilledButton(
+                    onPressed: onSignInSignUp,
                     child: Text(state.isSignUp ? "Sign Up".hardcoded : "Sign In".hardcoded),
-                    onPressed: () async {
-                      print("Sign in button clicked");
-                      cont.submit();
-                    }
                   ),
                 ),
               ]
@@ -118,10 +133,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       
             h16gap,
             TextButton(
+              onPressed: onChangeMode,
               child: Text("Switch to ${state.isSignIn ? "Sign Up".hardcoded : "Sign In".hardcoded}".hardcoded),
-              onPressed: () {
-                cont.changeMode();
-              }
             )
           ]
         ),

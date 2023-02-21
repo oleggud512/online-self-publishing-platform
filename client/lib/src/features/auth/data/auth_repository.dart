@@ -33,15 +33,17 @@ class AuthRepository {
   User? get currentUser => FirebaseAuth.instance.currentUser;
   Stream<User?> get userChanges => FirebaseAuth.instance.authStateChanges();
 
-  Future signInWithGoogle(GoogleSignInAccount acc) async {
+  Future<UserCredential> signInWithGoogle(GoogleSignInAccount acc) async {
     final auth = await acc.authentication;
     final creds = GoogleAuthProvider.credential(
         idToken: auth.idToken, accessToken: auth.accessToken);
-    await FirebaseAuth.instance.signInWithCredential(creds);
+    return await FirebaseAuth.instance.signInWithCredential(creds);
   }
 
-  Future signUpWithGoogle(
-      {required GoogleSignInAccount acc, required Profile newProfile}) async {
+  Future<UserCredential> signUpWithGoogle({
+    required GoogleSignInAccount acc, 
+    required Profile newProfile
+  }) async {
     final auth = await acc.authentication;
     final resp = await _dio.post('auth/google',
         data: newProfile.toJson()
@@ -52,17 +54,17 @@ class AuthRepository {
     final creds = GoogleAuthProvider.credential(
         idToken: resp.data['data']['idToken'],
         accessToken: resp.data['data']['accessToken']);
-    await FirebaseAuth.instance.signInWithCredential(creds);
+    return await FirebaseAuth.instance.signInWithCredential(creds);
   }
 
-  Future signInWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
     return await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
 
-  Future signUpWithEmailAndPassword({ // password
+  Future<UserCredential> signUpWithEmailAndPassword({ // password
     required String email,
     required String password,
     required Profile newProfile
@@ -74,7 +76,7 @@ class AuthRepository {
           "password".hardcoded: password
         })
     );
-    await FirebaseAuth.instance.signInWithCustomToken(resp.data['data']['customToken']);
+    return await FirebaseAuth.instance.signInWithCustomToken(resp.data['data']['customToken']);
   }
 
   Future<void> signOut() async {

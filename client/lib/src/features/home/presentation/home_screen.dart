@@ -1,6 +1,5 @@
 import 'package:client/src/app.dart';
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/debounce.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/profile/application/current_profile_id.dart';

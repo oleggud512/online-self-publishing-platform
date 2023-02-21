@@ -46,6 +46,7 @@ class MyImage extends StatelessWidget {
 
   Widget _wrapWithInkWell(Widget child) {
     return Card(
+      margin: EdgeInsets.zero,
       child: Stack(
         children: [
           _wrapWithSize(child),

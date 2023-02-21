@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express"
+import { parsePaginationQuery } from "../../common/parse-pagination-query"
 import { tryParseInt } from "../../common/tryParseInt"
+import { CannotSubscribeYourself } from "./errors"
 import { Gender } from "./Profile"
 import * as profileService from "./service"
 
@@ -23,24 +25,25 @@ export async function addProfile(req: Request, res: Response) {
 }
 
 export async function getProfiles(req: Request, res: Response) {
-  const { query, limit, from } = req.query
-
-  const parsedLimit = limit ? parseInt(limit as string, 10) : 20
-  const parsedFrom = from ? parseInt(from as string) : 0
+  const { query } = req.query
+  const { from, pageSize } = parsePaginationQuery(req.query)
 
   const profiles = await profileService.getProfiles(
     query as string, 
-    parsedLimit, 
-    parsedFrom,
+    from,
+    pageSize, 
     res.locals.uid
   )
   return res.status(200).json({ data: profiles })
 }
 
 export async function getProfile(req: Request, res: Response, next: NextFunction) {
+  console.log(`getProfile(${req.params})`)
   const { id } = req.params
-  profileService.getProfile(id as string)
+  const forProfile = res.locals.uid
+  profileService.getProfile(id, forProfile)
     .then(profile => {
+      console.log(profile.books?.map<object>(b => ({bookmarked: b.bookmarked, name: b.name})))
       res.status(200).json({data: profile})
     }).catch(next)
 }
@@ -63,11 +66,15 @@ export async function updateProfile(req: Request, res: Response) {
   return res.status(200).json({ data: profile })
 }
 
-export async function subscribe(req: Request, res: Response) {
+export function subscribe(req: Request, res: Response, next: NextFunction) {
   const to = req.params.id as string
   console.info(`subscribe to ${to}`)
-  const isSubscribed = await profileService.subscribe(res.locals.uid!, to)
-  return res.status(200).json({ data: isSubscribed })
+  
+  if (res.locals.uid! === to) return next(new CannotSubscribeYourself())
+
+  profileService.subscribe(res.locals.uid!, to).then(isSubscribed => {
+    res.status(200).json({ data: isSubscribed })
+  })
 }
 
 export async function unsubscribe(req: Request, res: Response) {
@@ -82,12 +89,12 @@ export async function isSubscribed(req: Request, res: Response) {
   return res.status(200).json({ data: isSubscribed })
 }
 
-export async function subscribers(req: Request, res: Response) {
+export async function getSubscribers(req: Request, res: Response) {
   const id = req.params.id as string
   const from = tryParseInt(req.query.from as string | undefined) ?? 0
   const pageSize = tryParseInt(req.query.pageSize as string | undefined) ?? 20
 
-  const subscriptions = await profileService.subscribers(id, from, pageSize)
+  const subscriptions = await profileService.getSubscribers(id, from, pageSize)
 
   return res.status(200).json({ 
     from: from,
@@ -96,16 +103,35 @@ export async function subscribers(req: Request, res: Response) {
   }) 
 }
 
-export async function subscriptions(req: Request, res: Response) {
+export async function getSubscriptions(req: Request, res: Response) {
   const id = req.params.id as string
   const from = tryParseInt(req.query.from as string | undefined) ?? 0
   const pageSize = tryParseInt(req.query.pageSize as string | undefined) ?? 20
 
-  const subscriptions = await profileService.subscriptions(id, from, pageSize)
+  const subscriptions = await profileService.getSubscriptions(id, from, pageSize)
 
   return res.status(200).json({ 
     from: from,
     pageSize: pageSize,
     data: subscriptions 
   }) 
+}
+
+export async function addBookmarks(req: Request, res: Response) {
+  const forProfile = req.params.id as string
+  const newBookmarks = req.body as string[]
+
+  if (!forProfile || !res.locals.uid || forProfile != res.locals.uid) {
+    return res.status(401).json({ data: false })
+  }
+
+  const added = await profileService.addBookmarks(forProfile, newBookmarks);
+
+  return res.json({ data: added })
+}
+
+export async function getBookmarks(req: Request, res: Response, next: NextFunction) {
+  const { from, pageSize } = parsePaginationQuery(req.query)
+  const bookmarks = await profileService.getBookmarks(res.locals.uid, from, pageSize);
+  return res.json({ data: bookmarks })
 }

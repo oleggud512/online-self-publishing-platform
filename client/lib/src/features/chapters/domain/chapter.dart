@@ -13,8 +13,12 @@ class Chapter with _$Chapter {
     @JsonKey(name: "_id") @Default("") String id,
     @Default("") String name,
     @Default("") String content,
+    @Default(ReadingsState.unpublished) ReadingsState state,
     @JsonKey(toJson: ignore, includeIfNull: false) Book? book,
     @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments,
+
+    required DateTime createdAt,
+    required DateTime updatedAt
   }) = _Chapter;
 
   factory Chapter.fromJson(Map<String, dynamic> json) => _$ChapterFromJson(json);

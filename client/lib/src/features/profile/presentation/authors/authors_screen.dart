@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
@@ -11,6 +12,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/log.dart';
 import '../../domain/profile.dart';
+import 'authors_screen_app_bar.dart';
 import 'authors_screen_controller.dart';
 
 class AuthorsScreen extends ConsumerStatefulWidget {
@@ -21,43 +23,49 @@ class AuthorsScreen extends ConsumerStatefulWidget {
 class _AuthorsScreenState extends ConsumerState<AuthorsScreen> {
   final refreshController = RefreshController();
 
-  void refresh() async {
-    await ref.read(authorsScreenControllerProvider.notifier).refresh();
-    refreshController.refreshCompleted();
-    refreshController.loadComplete();
-  }
-
-  void addPage() async {
-    printInfo('addPage()');
-    bool loaded = await ref.read(authorsScreenControllerProvider.notifier)
-      .addPage();
-    if (loaded) {
-      refreshController.loadComplete();
-    } else {
-      refreshController.loadNoData();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final ll = ref.watch(currentLocalizationProvider);
     final state = ref.watch(authorsScreenControllerProvider);
-    
-    return state.when(
-      data: (authors) {
-        return PageListWidget(
+
+    return Scaffold(
+      appBar: AuthorsAppBar(),
+      body: state.when(
+        data: (authors) => PageListWidget(
           paginationController: ref.watch(authorsScreenControllerProvider.notifier),
           refreshController: refreshController, 
-          child: ListView.builder(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(p8),
+            separatorBuilder: (context, i) => h8gap,
             itemCount: authors.length,
             itemBuilder: (context, index) {
               return AuthorWidget(profile: authors[index]);
             },
           ),
-        );
-      },
-      loading: defaultLoading,
-      error: defaultErrorHandler,
+        ),
+        loading: defaultLoading,
+        error: defaultErrorHandler
+      )
     );
+    // return state.when(
+    //   data: (authors) {
+    //     return Scaffold(
+    //       appBar: AuthorsAppBar(),
+    //       body: PageListWidget(
+    //         paginationController: ref.watch(authorsScreenControllerProvider.notifier),
+    //         refreshController: refreshController, 
+    //         child: ListView.separated(
+    //           padding: const EdgeInsets.all(p8),
+    //           separatorBuilder: (context, i) => h8gap,
+    //           itemCount: authors.length,
+    //           itemBuilder: (context, index) {
+    //             return AuthorWidget(profile: authors[index]);
+    //           },
+    //         ),
+    //       ),
+    //     );
+    //   },
+    //   loading: defaultLoading,
+    //   error: defaultErrorHandler,
+    // );
   }
 }

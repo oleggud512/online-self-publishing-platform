@@ -1,10 +1,24 @@
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/error.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
+import 'package:client/src/shared/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:client/src/common/log.dart';
+import 'package:go_router/go_router.dart';
+
+class AppException implements Exception { }
+
+class NotFoundException extends AppException { }
+
+class UnauthenticatedException extends AppException { }
+
+class ConnectionException extends AppException { 
+  ConnectionException() {
+    printInfo("I am the ConnectionException!");
+  }
+}
 
 extension GuardX<T> on AsyncValue<T> {
   Future<AsyncValue<T>> guardX(Future<T> Function() callback) async {
@@ -31,10 +45,11 @@ extension GuardX<T> on AsyncValue<T> {
   }
 }
 
+
 Widget defaultErrorHandler(Object e, StackTrace st) {
-  printError(e.toString());
-  printError(st.toString());
-  printError('there is an error: ${e.runtimeType}');
+  printError("defaultErrorHandler: ${e.toString()}");
+  printError("defaultErrorHandler: ${st.toString()}");
+  printError('defaultErrorHandler prints an error type: ${e.runtimeType}');
   if (e is NotFoundException) {
     printInfo("NotFoundException handled");
     return ErrorScreen(
@@ -45,8 +60,18 @@ Widget defaultErrorHandler(Object e, StackTrace st) {
   else if (e is ConnectionException) {
     printInfo("ConnectionException handled");
     return ErrorScreen(
-      message: "Connection Error".hardcoded,
-      title: "Check your Internet connection".hardcoded,
+      title: "Connection Error".hardcoded,
+      message: "Check your Internet connection".hardcoded,
+    );
+  }
+  else if (e is UnauthenticatedException) {
+    printInfo("UnatuhenticatedException handled in defaultErrorHandler");
+    return ErrorScreen(
+      message: 'Unauthenticated.'.hardcoded,
+      actionMessage: 'Authenticate'.hardcoded,
+      onAction: (context) {
+        context.goNamed(MyRoute.auth.name);
+      }
     );
   }
   return const ErrorScreen();
@@ -75,7 +100,7 @@ class ErrorScreen extends ConsumerWidget {
   final String message;
   final String? title;
   final String? actionMessage;
-  final void Function()? onAction;
+  final void Function(BuildContext context)? onAction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,7 +125,7 @@ class ErrorScreen extends ConsumerWidget {
               ),
               h8gap,
               if (onAction != null) FilledButton(
-                onPressed: onAction,
+                onPressed: () => onAction!(context),
                 child: Text(actionMessage!),
               )
             ]

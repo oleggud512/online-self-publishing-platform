@@ -16,8 +16,8 @@ export interface IComment {
 
 const CommentSchema = new Schema({
   content: { type: String, required: true },
-  subject: { type: Types.ObjectId, required: true, },
-  author: { 
+  author: { type: String, ref: "Profile", required: true },
+  subject: { 
     type: Types.ObjectId, 
     refPath: 'onModel', 
     required: true, 

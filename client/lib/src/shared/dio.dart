@@ -1,6 +1,7 @@
-import 'package:client/src/common/error.dart';
+import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/scaffold_messanger.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,16 +31,28 @@ final dioProvider = Provider((ref) {
     },
     onError: (e, handler) {
       printError(e);
-      if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
-        throw ConnectionException();
+      printError(e.stackTrace);
+      printInfo(e.response?.statusCode);
+
+      if (e.response?.statusCode == 401) {
+        Utils.showMessage(ref, "Not signed in.");
       }
-      switch (e.response?.statusCode) {
-        case 404:
-          throw NotFoundException();
-        case 500: 
-          throw AppException();
-        default:
-      }
+      // final code = e.response?.data['error']['code'];
+      // if (code) {
+      //   ref.watch(scaffoldMessangerStateProvider).showMessage(
+      //     ref.watch(currentLocalizationProvider)['errors.$code'].toString());
+      // }
+      // if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
+      //   ref.watch(scaffoldMessangerStateProvider).showMessage(
+      //     "No Internet from interceptor");
+      // }
+      // switch (e.response?.statusCode) {
+      //   case 404:
+      //     throw NotFoundException();
+      //   case 500: 
+      //     throw AppException();
+      //   default:
+      // }
       handler.next(e);
     },
     // onResponse: (response, handler) {

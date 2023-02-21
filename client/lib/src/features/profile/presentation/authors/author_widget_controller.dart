@@ -19,9 +19,11 @@ class AuthorWidgetController extends _$AuthorWidgetController {
   }
 
   Future<void> subscribe() async {
-    await profileRepo.subscribe(state.id);
-    state = state.setSubscribed(true);
-    ref.watch(scaffoldMessangerStateProvider).showMessage('Subscribed ${profile.name}'.hardcoded);
+    final subscribedSuccessfully = await profileRepo.subscribe(state.id);
+    if (subscribedSuccessfully) {
+      state = state.setSubscribed(true);
+      ref.watch(scaffoldMessangerStateProvider).showMessage('Subscribed ${profile.name}'.hardcoded);
+    }
     printInfo(state);
   }
 

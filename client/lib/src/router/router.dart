@@ -4,25 +4,38 @@ import 'package:client/src/common/log.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/auth/presentation/auth_screen.dart';
+import 'package:client/src/features/books/domain/filters.dart';
+import 'package:client/src/features/books/presentation/book_list/book_list_item_widget.dart';
+import 'package:client/src/features/books/presentation/book_list/book_list_widget.dart';
 import 'package:client/src/features/books/presentation/books/books_screen.dart';
 import 'package:client/src/features/home/presentation/home_screen.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen.dart';
 import 'package:client/src/features/notifications/presentation/notifications_screen.dart';
-import 'package:client/src/features/profile/application/current_profile_id.dart';
 import 'package:client/src/features/profile/application/currently_edited_profile.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
+import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen.dart';
-import 'package:client/src/features/profile/presentation/profile/simple_profile_list_screen.dart';
+import 'package:client/src/common/pagination/simple_pagination_list_screen.dart';
 import 'package:client/src/router/scaffold_with_navigation.dart';
 import 'package:client/src/shared/constants.dart';
-import 'package:client/src/shared/profile_list_callback_factory.dart';
+import 'package:client/src/shared/pagination_list_callback_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 
+import '../features/books/data/book_repository.dart';
+import '../features/books/domain/book.dart';
+import '../features/books/presentation/book/book_screen.dart';
+import '../features/books/presentation/book_filters/books_filters_screen.dart';
+import '../features/books/presentation/books/profile_books_screen.dart';
+import '../features/books/presentation/edit_book/edit_book_screen.dart';
 import '../features/profile/presentation/authors/authors_screen.dart';
+import '../features/profile/presentation/bookmarks/bookmarks_screen.dart';
 import '../features/profile/presentation/edit_profile_screen/edit_profile_screen.dart';
+import '../features/profile/presentation/profile/subscribers_screen.dart';
+import '../features/profile/presentation/profile/subscriptions_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 
 extension MyRoutePath on MyRoute {
@@ -36,15 +49,20 @@ extension MyRoutePath on MyRoute {
       // case MyRoute.authors: return '/authors';
       case MyRoute.profiles: return '/profiles';
       case MyRoute.books: return '/books';
+      case MyRoute.bookFilters: return '/books/filters';
       case MyRoute.myProfile: return '/myProfile';
 
       case MyRoute.settings: return '/settings';
       case MyRoute.notifications: return '/notifications';
+      case MyRoute.bookmarks: return '/bookmarks';
+
       case MyRoute.chat: return '/chats/:id';
+      case MyRoute.book: return '/books/:id';
       case MyRoute.editBook: return '/books/:id/edit';
+      case MyRoute.addBook: return '/profiles/:id/books/add';
       case MyRoute.profile: return '/profiles/:id';
       case MyRoute.editProfile: return '/profiles/:id/edit';
-
+      case MyRoute.profileBooks: return '/profiles/:id/books';
       case MyRoute.subscribers: return '/profiles/:id/subscribers';
       case MyRoute.subscriptions: return '/profiles/:id/subscriptions';
 
@@ -61,19 +79,20 @@ final routerProvider = Provider((ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    redirect: (context, state) {
-      final isLoggedIn = ref.watch(authRepositoryProvider).currentUser != null;
-      print("redirect isLoggedIn = $isLoggedIn state.location = ${state.location}");
-      if (isLoggedIn && (state.location == '/auth' || state.location == '/')) {
-        print('redirect to /home');
-        return '/home';
-      } else if (!isLoggedIn && state.location != '/auth') {
-        print('redirect to /auth');
-        return '/auth';
-      }
-      return null;
-    },
-    refreshListenable: GoRouterRefreshStream(ref.watch(authRepositoryProvider).userChanges),
+    // redirect: (context, state) {
+    //   final isLoggedIn = ref.watch(authRepositoryProvider).currentUser != null;
+    //   print("redirect isLoggedIn = $isLoggedIn state.location = ${state.location}");
+    //   if (isLoggedIn && (state.location == '/auth' || state.location == '/')) {
+    //     print('redirect to /home');
+    //     return '/home';
+    //   } else if (!isLoggedIn && state.location != '/auth') {
+    //     print('redirect to /auth');
+    //     return '/auth';
+    //   }
+    //   return null;
+    // },
+    // refreshListenable: GoRouterRefreshStream(ref.watch(authRepositoryProvider).userChanges),
+    initialLocation: MyRoute.home.path,
     routes: [
       ShellRoute(
         navigatorKey: shellNavigatorKey,
@@ -109,11 +128,40 @@ final routerProvider = Provider((ref) {
                 key: state.pageKey,
                 child: BooksScreen(),
               );
-            }
+            },
+            routes: [
+              GoRoute(
+                path: 'filters',
+                name: MyRoute.bookFilters.name,
+                pageBuilder: (context, state) {
+                  return const NoTransitionPage(
+                    child: BooksFiltersScreen()
+                  );
+                }
+              )
+            ]
           ),
           GoRoute(
-            // path: MyRoute.authors.path,
-            // name: MyRoute.authors.name,
+            path: MyRoute.book.path,
+            name: MyRoute.book.name,
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: BookScreen(bookId: state.params['id'] as String)
+              );
+            },
+            routes: [
+              GoRoute(
+                path: 'edit',
+                name: MyRoute.editBook.name,
+                pageBuilder: (context, state) {
+                  return NoTransitionPage(
+                    child: EditBookScreen(book: state.extra as Book)
+                  );
+                }
+              ),
+            ]
+          ),
+          GoRoute(
             path: MyRoute.profiles.path,
             name: MyRoute.profiles.name,
             pageBuilder: (context, state) {
@@ -124,25 +172,18 @@ final routerProvider = Provider((ref) {
             },
           ),
           GoRoute(
-            // parentNavigatorKey: rootNavigatorKey,
-            // parentNavigatorKey: shellNavigatorKey,
             path: MyRoute.profile.path,
             name: MyRoute.profile.name,
             builder: (context, state) {
+              Logger().i("GoRoute(/profile/:id) id='${state.params['id']}'");
               String profileId = state.params['id'] as String;
               print('go to this $profileId profileId');
               return Consumer(builder: (context, ref, child) {
-                // Future(() {
-                //   ref.read(currentProfileIdProvider.notifier).state = profileId;
-                //   // printInfo('currentProfileIdProvider set to ${ref.watch(currentProfileIdProvider)}');
-                // });
                 return ProfileScreen(profileId: profileId);
               });
             },
             routes: [
               GoRoute(
-                // parentNavigatorKey: rootNavigatorKey,
-                // parentNavigatorKey: shellNavigatorKey,
                 path: 'edit',
                 name: MyRoute.editProfile.name,
                 builder: (context, state) {
@@ -157,42 +198,40 @@ final routerProvider = Provider((ref) {
                 }
               ),
               GoRoute(
-                // parentNavigatorKey: rootNavigatorKey,
-                // parentNavigatorKey: shellNavigatorKey,
                 path: 'subscribers',
                 name: MyRoute.subscribers.name,
                 builder: (context, state) {
-                  return Consumer(
-                    builder: (context, ref, child) {
-                      return SimpleProfileListScreen(
-                        title: ref.watch(currentLocalizationProvider).profile.subscribers,
-                        callback: 
-                          ProfilesListCallbackFactory.instance
-                            .createSubscribersPaginationCallback(
-                                ref, state.params['id'] as String)
-                      );
-                    }
+                  return SubscribersScreen(
+                    profileId: state.params['id'] as String
                   );
                 }
               ),
               GoRoute(
-                // parentNavigatorKey: rootNavigatorKey,
-                // parentNavigatorKey: shellNavigatorKey,
                 path: 'subscriptions',
                 name: MyRoute.subscriptions.name,
                 builder: (context, state) {
-                  return Consumer(
-                    builder: (context, ref, child) {
-                      return SimpleProfileListScreen(
-                        title: ref.watch(currentLocalizationProvider).profile.subscriptions,
-                        callback: 
-                          ProfilesListCallbackFactory.instance
-                            .createSubscriptionsPaginationCallback(
-                                ref, state.params['id'] as String)
-                      );
-                    }
+                  return SubscriptionsScreen(
+                    profileId: state.params['id'] as String,
                   );
                 }
+              ),
+              GoRoute(
+                path: 'books',
+                name: MyRoute.profileBooks.name,
+                builder: (context, state) {
+                  return ProfileBooksScreen(ofProfile: state.params['id']!);
+                },
+                routes: [
+                  GoRoute(
+                    path: 'add',
+                    name: MyRoute.addBook.name,
+                    pageBuilder: (context, state) {
+                      return NoTransitionPage(
+                        child: EditBookScreen.add(state.params['id']!)
+                      );
+                    }
+                  )
+                ]
               )
             ]
           ),
@@ -204,28 +243,16 @@ final routerProvider = Provider((ref) {
                 key: state.pageKey,
                 child: Consumer(
                   builder: (context, ref, child) {
-                    // Future(() => 
-                    //     ref.watch(currentProfileIdProvider.notifier).state = 
-                    //         ref.watch(myIdProvider) ?? "");
-                    return ProfileScreen(profileId: ref.watch(myIdProvider) ?? "");
+                    // я передаю сюда ref.watch(myIdProvider) вместо того чтобы 
+                    // делать это в середине, потому что я использую ProfileScreen
+                    // так же для того чтобы просматривать чужие профили
+                    return ProfileScreen(profileId: ref.watch(myIdProvider));
                   }
                 ),
               );
             },
           ),
           GoRoute(
-            // parentNavigatorKey: rootNavigatorKey,
-            path: MyRoute.settings.path,
-            name: MyRoute.settings.name,
-            pageBuilder: (context, state) {
-              return NoTransitionPage(
-                key: state.pageKey,
-                child: const SettingsScreen()
-              );
-            },
-          ),
-          GoRoute(
-            // parentNavigatorKey: rootNavigatorKey,
             path: MyRoute.notifications.path,
             name: MyRoute.notifications.name,
             pageBuilder: (context, state) {
@@ -235,81 +262,28 @@ final routerProvider = Provider((ref) {
               );
             }
           ),
+          GoRoute(
+            path: MyRoute.bookmarks.path,
+            name: MyRoute.bookmarks.name,
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: BookmarksScreen()
+              );
+            }
+          ),
+          GoRoute(
+            path: MyRoute.settings.path,
+            name: MyRoute.settings.name,
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: const SettingsScreen()
+              );
+            },
+          ),
         ]
       ),
-      // GoRoute(
-      //   // parentNavigatorKey: rootNavigatorKey,
-      //   parentNavigatorKey: shellNavigatorKey,
-      //   path: MyRoute.profile.path,
-      //   name: MyRoute.profile.name,
-      //   builder: (context, state) {
-      //     String profileId = state.params['id'] as String;
-      //     print('go to this $profileId profileId');
-      //     return Consumer(builder: (context, ref, child) {
-      //       // Future(() {
-      //       //   ref.read(currentProfileIdProvider.notifier).state = profileId;
-      //       //   // printInfo('currentProfileIdProvider set to ${ref.watch(currentProfileIdProvider)}');
-      //       // });
-      //       return ProfileScreen(profileId: profileId);
-      //     });
-      //   },
-      //   routes: [
-      //     GoRoute(
-      //       // parentNavigatorKey: rootNavigatorKey,
-      //       parentNavigatorKey: shellNavigatorKey,
-      //       path: 'edit',
-      //       name: MyRoute.editProfile.name,
-      //       builder: (context, state) {
-      //         return ProviderScope(
-      //           overrides: [
-      //             currentlyEditedProfileProvider.overrideWith((ref) {
-      //               return state.extra as Profile;
-      //             })
-      //           ],
-      //           child: const EditProfileScreen(),
-      //         );
-      //       }
-      //     ),
-      //     GoRoute(
-      //       // parentNavigatorKey: rootNavigatorKey,
-      //       parentNavigatorKey: shellNavigatorKey,
-      //       path: 'subscribers',
-      //       name: MyRoute.subscribers.name,
-      //       builder: (context, state) {
-      //         return Consumer(
-      //           builder: (context, ref, child) {
-      //             return SimpleProfileListScreen(
-      //               title: ref.watch(currentLocalizationProvider).profile.subscribers,
-      //               callback: 
-      //                 ProfilesListCallbackFactory.instance
-      //                   .createSubscribersPaginationCallback(
-      //                       ref, state.params['id'] as String)
-      //             );
-      //           }
-      //         );
-      //       }
-      //     ),
-      //     GoRoute(
-      //       // parentNavigatorKey: rootNavigatorKey,
-      //       parentNavigatorKey: shellNavigatorKey,
-      //       path: 'subscriptions',
-      //       name: MyRoute.subscriptions.name,
-      //       builder: (context, state) {
-      //         return Consumer(
-      //           builder: (context, ref, child) {
-      //             return SimpleProfileListScreen(
-      //               title: ref.watch(currentLocalizationProvider).profile.subscriptions,
-      //               callback: 
-      //                 ProfilesListCallbackFactory.instance
-      //                   .createSubscriptionsPaginationCallback(
-      //                       ref, state.params['id'] as String)
-      //             );
-      //           }
-      //         );
-      //       }
-      //     )
-      //   ]
-      // ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
         path: MyRoute.root.path,

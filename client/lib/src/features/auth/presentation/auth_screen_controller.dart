@@ -1,9 +1,11 @@
 import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/auth/data/google_auth_repository.dart';
 import 'package:client/src/features/auth/presentation/auth_screen_state.dart';
+import 'package:client/src/features/books/application/local_bookmarks_provider.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_widget/edit_profile_widget_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -40,26 +42,30 @@ class AuthScreenController extends AutoDisposeNotifier<AuthScreenState> {
     return null;
   }
 
-  Future submit() async {
+  Future<bool> submit() async {
+    late UserCredential creds;
     if (state.isSignIn) {
-      await signIn();
+      creds = await signIn();
     } else if (state.isSignUp) {
-      await signUp();
+      creds = await signUp();
     }
+    if (creds.user == null) return false;
+    await ref.watch(localBookmarksControllerProvider.notifier).syncBookmarks();
+    return true;
   }
 
-  Future signUp() async {
+  Future<UserCredential> signUp() async {
     bool canSignUp = 
       ref.read(editProfileWidgetControllerProvider).isUniqueName;
     printInfo('canSignUp = $canSignUp');
     final authRepo = ref.watch(authRepositoryProvider);
     if (state.isGoogleAuth) {
-      authRepo.signUpWithGoogle(
+      return await authRepo.signUpWithGoogle(
         acc: state.googleSignInAccount!,
         newProfile: ref.read(currentlyEditedProfileProvider)
       );
     } else {
-      authRepo.signUpWithEmailAndPassword(
+      return await authRepo.signUpWithEmailAndPassword(
         email: state.email,
         password: state.password,
         newProfile: ref.read(currentlyEditedProfileProvider),
@@ -67,12 +73,12 @@ class AuthScreenController extends AutoDisposeNotifier<AuthScreenState> {
     }
   }
 
-  Future signIn() async {
+  Future<UserCredential> signIn() async {
     final authRepo = ref.watch(authRepositoryProvider);
     if (state.isGoogleAuth) {
-      authRepo.signInWithGoogle(state.googleSignInAccount!);
+      return await authRepo.signInWithGoogle(state.googleSignInAccount!);
     } else {
-      authRepo.signInWithEmailAndPassword(state.email, state.password);
+      return await authRepo.signInWithEmailAndPassword(state.email, state.password);
     }
   }
 

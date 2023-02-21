@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common/constants/constants.dart';
-import '../../../../common/debounce.dart';
+import '../../../../common/utils/debounce.dart';
+import '../../../../common/widgets/description_form_field.dart';
 import '../../../../common/widgets/my_image.dart';
 import '../../domain/profile.dart';
 
@@ -150,23 +151,11 @@ class _EditProfileWidgetState extends ConsumerState<EditProfileWidget> {
         ),
         if (!widget.isAuth) ...[
             h16gap,
-            SizedBox(
-              height: 200,
-              child: TextFormField(
-                initialValue: profile.description,
-                textAlignVertical: TextAlignVertical.top,
-                maxLength: 255,
-                expands: true,
-                maxLines: null,
-                minLines: null,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  alignLabelWithHint: true,
-                ),
-                onChanged: (v) {
-                  cont.description = v;
-                },
-              ),
+            DescriptionFormField(
+              initialValue: profile.description,
+              onChanged: (v) {
+                cont.description = v;
+              },
             ),
           ],
         // Text(profile.toJson().toString())

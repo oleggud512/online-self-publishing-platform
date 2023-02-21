@@ -7,12 +7,14 @@ class SeeAllHeader extends StatelessWidget {
   const SeeAllHeader({super.key, 
     this.label,
     this.labelText,
-    required this.onSeeAll
+    this.onSeeAll,
+    this.showSeeAll = true
   });
 
   final Widget? label;
   final String? labelText;
-  final void Function() onSeeAll;
+  final void Function()? onSeeAll;
+  final bool showSeeAll;
 
   Widget _getLabel(BuildContext context) {
     if (label != null) return label!;
@@ -28,10 +30,12 @@ class SeeAllHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final ll = curLl(context)!;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: showSeeAll 
+        ? MainAxisAlignment.spaceBetween
+        : MainAxisAlignment.start,
       children: [
         _getLabel(context),
-        OutlinedButton(
+        if (showSeeAll) OutlinedButton(
           onPressed: onSeeAll, 
           child: Text(ll.seeAll)
         )

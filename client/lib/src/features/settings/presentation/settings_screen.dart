@@ -1,12 +1,15 @@
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
+import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/localization/application/current_locale.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/data/localization_controller.dart';
 import 'package:client/src/features/localization/data/localization_state.dart';
+import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../auth/data/auth_repository.dart';
 
@@ -53,13 +56,22 @@ class SettingsScreen extends ConsumerWidget {
             }
           ),
           h8gap,
-          FilledButton.icon(
-            icon: const Icon(Icons.logout),
-            label: const Text("Sign Out"),
-            onPressed: () {
-              ref.watch(authRepositoryProvider).signOut();
-            }, 
-          ),
+          
+          if (ref.watch(myIdProvider) != null) 
+            FilledButton.icon(
+              icon: const Icon(Icons.logout),
+              label: Text("Sign Out".hardcoded),
+              onPressed: () async {
+                await ref.watch(authRepositoryProvider).signOut();
+                if (context.mounted) context.goNamed(MyRoute.auth.name);
+              }, 
+            )
+          else 
+            FilledButton.icon(
+              icon: const Icon(Icons.login),
+              label: Text("Sign In".hardcoded),
+              onPressed: () => context.goNamed(MyRoute.auth.name)
+            )
         ]
       )
     );

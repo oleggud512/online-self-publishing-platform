@@ -39,11 +39,21 @@ class Localization implements i69n.I69nMessageBundle {
   SettingsLocalization get settings => SettingsLocalization(this);
   ErrorsLocalization get errors => ErrorsLocalization(this);
   String get searchPlaceholder => "type here...";
+  String get description => "description";
+  String get name => "name";
+  String get displayName => "display name";
+  String get age => "age";
   ProfileLocalization get profile => ProfileLocalization(this);
   String get edit => "Edit";
   String get subscribe => "Subscribe";
   String get unsubscribe => "Unsubscribe";
   String get seeAll => "See All";
+  BookLocalization get book => BookLocalization(this);
+  String get status => "status";
+  String get wantToHide => "Want to hide the book?";
+  String get wantToPublish => "Want to publish the book?";
+  String get yes => "Yes";
+  String get no => "No";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -59,6 +69,14 @@ class Localization implements i69n.I69nMessageBundle {
         return errors;
       case 'searchPlaceholder':
         return searchPlaceholder;
+      case 'description':
+        return description;
+      case 'name':
+        return name;
+      case 'displayName':
+        return displayName;
+      case 'age':
+        return age;
       case 'profile':
         return profile;
       case 'edit':
@@ -69,6 +87,18 @@ class Localization implements i69n.I69nMessageBundle {
         return unsubscribe;
       case 'seeAll':
         return seeAll;
+      case 'book':
+        return book;
+      case 'status':
+        return status;
+      case 'wantToHide':
+        return wantToHide;
+      case 'wantToPublish':
+        return wantToPublish;
+      case 'yes':
+        return yes;
+      case 'no':
+        return no;
       default:
         return key;
     }
@@ -85,6 +115,9 @@ class ScreenTitleLocalization implements i69n.I69nMessageBundle {
   String get profile => "Profile";
   String get settings => "Settings";
   String get notifications => "Notifications";
+  String get profileBooks => "Profile Books";
+  String get filters => "Filters";
+  String get bookmarks => "Bookmarks";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -106,6 +139,12 @@ class ScreenTitleLocalization implements i69n.I69nMessageBundle {
         return settings;
       case 'notifications':
         return notifications;
+      case 'profileBooks':
+        return profileBooks;
+      case 'filters':
+        return filters;
+      case 'bookmarks':
+        return bookmarks;
       default:
         return key;
     }
@@ -144,6 +183,7 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
   final Localization _parent;
   const ErrorsLocalization(this._parent);
   String get shortPassword => "Password must have more than 6 characters";
+  String get cannotSubscribeYourself => "Can't subscribe yourself";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -153,6 +193,8 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
     switch (key) {
       case 'shortPassword':
         return shortPassword;
+      case 'cannotSubscribeYourself':
+        return cannotSubscribeYourself;
       default:
         return key;
     }
@@ -181,6 +223,46 @@ class ProfileLocalization implements i69n.I69nMessageBundle {
         return books;
       case 'noDescriptionPlaceholder':
         return noDescriptionPlaceholder;
+      default:
+        return key;
+    }
+  }
+}
+
+class BookLocalization implements i69n.I69nMessageBundle {
+  final Localization _parent;
+  const BookLocalization(this._parent);
+  String get published => "published";
+  String get unpublished => "unpublished";
+  String get publish => "publish";
+  String get unpublish => "unpublish";
+  String get completed => "completed";
+  String get inProgress => "in progress";
+  String get abandoned => "abandoned";
+  String get saveBook => "Save book";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'published':
+        return published;
+      case 'unpublished':
+        return unpublished;
+      case 'publish':
+        return publish;
+      case 'unpublish':
+        return unpublish;
+      case 'completed':
+        return completed;
+      case 'inProgress':
+        return inProgress;
+      case 'abandoned':
+        return abandoned;
+      case 'saveBook':
+        return saveBook;
       default:
         return key;
     }

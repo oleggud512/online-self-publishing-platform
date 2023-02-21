@@ -1,6 +1,10 @@
 import 'package:client/src/common/log.dart';
+import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/features/books/data/local_book_repository.dart';
+import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/shared/dio.dart';
+import 'package:client/src/shared/err.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,33 +16,34 @@ import '../../auth/application/my_id_provider.dart';
 class ProfileRepository {
   final Dio _dio;
   final String? _myId;
+  final LocalBookRepository localBook;
 
-  ProfileRepository(this._dio, this._myId);
+  ProfileRepository(this._dio, this._myId, this.localBook);
 
   Future<List<Profile>> getProfiles([
     String query = "", 
     int from = 0,
-    int limit = 20, 
-  ]) async {
-    try {
-      final resp = await _dio.get('profiles', queryParameters: {
-        'query': query,
-        'from': from,
-        'limit': limit,
-      });
-      return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
-    } catch (e) {
-      rethrow;
-    }
-  }
+    int pageSize = 20, 
+  ]) => err<List<Profile>>(() async {
+    final resp = await _dio.get('profiles', queryParameters: {
+      'query': query,
+      'from': from,
+      'pageSize': pageSize,
+    });
+    return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
+  });
 
-  Future<Profile> getProfile(String id) async {
+  Future<Profile> getProfile(String? id) async {
+    if (id == null) throw UnauthenticatedException();
     try {
       final resp = await _dio.get('profiles/$id');
       final profile = Profile.fromJson(resp.data['data']);
+      printInfo('profilebooks: ${profile.books?.map((b) => {'b': b.bookmarked, 'name': b.name})}');
       return profile;
     } on DioError catch (e) {
-      printError("${e.runtimeType} was rethrown from ProfileRepository");
+      // TODO: что блин тут делать?
+      printError("myerror");
+      printError("printError() => ${e.runtimeType} was rethrown from ProfileRepository");
       rethrow;
     }
   }
@@ -58,15 +63,20 @@ class ProfileRepository {
   }
 
   Future<Profile> updateProfile(Profile profile) async {
-    final resp = await _dio.post("profiles/${profile.id}", 
+    final resp = await _dio.put("profiles/${profile.id}", 
       data: profile.toJson()
     );
-    return Profile(name: 'ПУСТОЙ ПРОФИЛЬ - ЗАМЕНИ ЕГО');
+    final updatedProfile = Profile.fromJson(resp.data['data']);
+    return updatedProfile;
   }
 
   Future<bool> subscribe(String subscribeToId) async {
-    final resp = await _dio.post('profiles/subscribe/$subscribeToId');
-    return resp.data['data'] as bool;
+    try {
+      final resp = await _dio.post('profiles/subscribe/$subscribeToId');
+      return resp.data['data'] as bool;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<bool> unsubscribe(String unsubscribeFromId) async {
@@ -114,8 +124,31 @@ class ProfileRepository {
     });
     return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
   }
+
+  Future<void> saveBookmarks(List<String> bookmarks) async {
+    if (_myId == null) throw UnauthenticatedException();
+    await _dio.post('profiles/$_myId/bookmarks', data: bookmarks);
+  }
+
+  Future<List<Book>> getBookmarks([int from = 0, int pageSize = 20]) async {
+    if (_myId == null) {
+      final ids = await localBook.getBookmarks();
+      if (ids.isEmpty) return List.empty();
+      final resp = await _dio.get('books', queryParameters: {
+        'ids': await localBook.getBookmarks(),
+        'from': from,
+        'pageSize': pageSize
+      });
+      return bookListFromJson(resp.data['data']);
+    }
+    final resp = await _dio.get('profiles/$_myId/bookmarks', queryParameters: {
+      'from': from,
+      'pageSize': pageSize
+    });
+    return bookListFromJson(resp.data['data']);
+  }
 }
 
 final profileRepositoryProvider = Provider((ref) {
-  return ProfileRepository(ref.watch(dioProvider), ref.watch(myIdProvider));
+  return ProfileRepository(ref.watch(dioProvider), ref.watch(myIdProvider), ref.watch(localBookRepositoryProvider));
 });

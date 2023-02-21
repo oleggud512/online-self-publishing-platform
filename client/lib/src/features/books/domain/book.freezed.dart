@@ -23,6 +23,7 @@ mixin _$Book {
   @JsonKey(name: "_id")
   String get id =>
       throw _privateConstructorUsedError; //     persistent // just always will be here
+  @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson)
   Profile get author =>
       throw _privateConstructorUsedError; // add persistent // required for addiction a new book
   String? get coverUrl => throw _privateConstructorUsedError; //     persistent
@@ -30,14 +31,16 @@ mixin _$Book {
   String? get description =>
       throw _privateConstructorUsedError; //     persistent
   int get likes => throw _privateConstructorUsedError; //     persistent
-  @JsonKey(toJson: ignore, includeIfNull: false)
-  List<String>? get tags => throw _privateConstructorUsedError; // optional
-  @JsonKey(toJson: ignore, includeIfNull: false)
-  List<String>? get genres => throw _privateConstructorUsedError; // optional
+  BookStatus get status => throw _privateConstructorUsedError;
+  ReadingsState get state => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError; // optional
+  List<String> get genres => throw _privateConstructorUsedError; // optional
   @JsonKey(toJson: ignore, includeIfNull: false)
   List<Comment>? get comments => throw _privateConstructorUsedError; // optional
   @JsonKey(toJson: ignore, includeIfNull: false)
-  List<Chapter>? get chapters => throw _privateConstructorUsedError;
+  List<Chapter>? get chapters => throw _privateConstructorUsedError; // optional
+  bool get liked => throw _privateConstructorUsedError; // optional
+  bool? get bookmarked => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,15 +54,19 @@ abstract class $BookCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "_id") String id,
-      Profile author,
+      @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson) Profile author,
       String? coverUrl,
       String name,
       String? description,
       int likes,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<String>? tags,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<String>? genres,
+      BookStatus status,
+      ReadingsState state,
+      List<String> tags,
+      List<String> genres,
       @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<Chapter>? chapters});
+      @JsonKey(toJson: ignore, includeIfNull: false) List<Chapter>? chapters,
+      bool liked,
+      bool? bookmarked});
 
   $ProfileCopyWith<$Res> get author;
 }
@@ -83,10 +90,14 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
     Object? name = null,
     Object? description = freezed,
     Object? likes = null,
-    Object? tags = freezed,
-    Object? genres = freezed,
+    Object? status = null,
+    Object? state = null,
+    Object? tags = null,
+    Object? genres = null,
     Object? comments = freezed,
     Object? chapters = freezed,
+    Object? liked = null,
+    Object? bookmarked = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -113,14 +124,22 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
               as int,
-      tags: freezed == tags
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as BookStatus,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ReadingsState,
+      tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      genres: freezed == genres
+              as List<String>,
+      genres: null == genres
           ? _value.genres
           : genres // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<String>,
       comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -129,6 +148,14 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
           ? _value.chapters
           : chapters // ignore: cast_nullable_to_non_nullable
               as List<Chapter>?,
+      liked: null == liked
+          ? _value.liked
+          : liked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bookmarked: freezed == bookmarked
+          ? _value.bookmarked
+          : bookmarked // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -149,15 +176,19 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "_id") String id,
-      Profile author,
+      @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson) Profile author,
       String? coverUrl,
       String name,
       String? description,
       int likes,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<String>? tags,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<String>? genres,
+      BookStatus status,
+      ReadingsState state,
+      List<String> tags,
+      List<String> genres,
       @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<Chapter>? chapters});
+      @JsonKey(toJson: ignore, includeIfNull: false) List<Chapter>? chapters,
+      bool liked,
+      bool? bookmarked});
 
   @override
   $ProfileCopyWith<$Res> get author;
@@ -178,10 +209,14 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? name = null,
     Object? description = freezed,
     Object? likes = null,
-    Object? tags = freezed,
-    Object? genres = freezed,
+    Object? status = null,
+    Object? state = null,
+    Object? tags = null,
+    Object? genres = null,
     Object? comments = freezed,
     Object? chapters = freezed,
+    Object? liked = null,
+    Object? bookmarked = freezed,
   }) {
     return _then(_$_Book(
       id: null == id
@@ -208,14 +243,22 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
               as int,
-      tags: freezed == tags
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as BookStatus,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ReadingsState,
+      tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      genres: freezed == genres
+              as List<String>,
+      genres: null == genres
           ? _value._genres
           : genres // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<String>,
       comments: freezed == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -224,6 +267,14 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
           ? _value._chapters
           : chapters // ignore: cast_nullable_to_non_nullable
               as List<Chapter>?,
+      liked: null == liked
+          ? _value.liked
+          : liked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bookmarked: freezed == bookmarked
+          ? _value.bookmarked
+          : bookmarked // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -234,19 +285,22 @@ class _$_Book implements _Book {
   _$_Book(
       {@JsonKey(name: "_id")
           this.id = "",
-      required this.author,
+      @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson)
+          required this.author,
       this.coverUrl,
       this.name = "",
       this.description,
       this.likes = 0,
-      @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<String>? tags,
-      @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<String>? genres,
+      this.status = BookStatus.inProgress,
+      this.state = ReadingsState.unpublished,
+      final List<String> tags = const [],
+      final List<String> genres = const [],
       @JsonKey(toJson: ignore, includeIfNull: false)
           final List<Comment>? comments,
       @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<Chapter>? chapters})
+          final List<Chapter>? chapters,
+      this.liked = false,
+      this.bookmarked})
       : _tags = tags,
         _genres = genres,
         _comments = comments,
@@ -259,6 +313,7 @@ class _$_Book implements _Book {
   final String id;
 //     persistent // just always will be here
   @override
+  @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson)
   final Profile author;
 // add persistent // required for addiction a new book
   @override
@@ -275,29 +330,30 @@ class _$_Book implements _Book {
   @JsonKey()
   final int likes;
 //     persistent
-  final List<String>? _tags;
-//     persistent
   @override
-  @JsonKey(toJson: ignore, includeIfNull: false)
-  List<String>? get tags {
-    final value = _tags;
-    if (value == null) return null;
+  @JsonKey()
+  final BookStatus status;
+  @override
+  @JsonKey()
+  final ReadingsState state;
+  final List<String> _tags;
+  @override
+  @JsonKey()
+  List<String> get tags {
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_tags);
   }
 
 // optional
-  final List<String>? _genres;
+  final List<String> _genres;
 // optional
   @override
-  @JsonKey(toJson: ignore, includeIfNull: false)
-  List<String>? get genres {
-    final value = _genres;
-    if (value == null) return null;
+  @JsonKey()
+  List<String> get genres {
     if (_genres is EqualUnmodifiableListView) return _genres;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_genres);
   }
 
 // optional
@@ -326,9 +382,17 @@ class _$_Book implements _Book {
     return EqualUnmodifiableListView(value);
   }
 
+// optional
+  @override
+  @JsonKey()
+  final bool liked;
+// optional
+  @override
+  final bool? bookmarked;
+
   @override
   String toString() {
-    return 'Book(id: $id, author: $author, coverUrl: $coverUrl, name: $name, description: $description, likes: $likes, tags: $tags, genres: $genres, comments: $comments, chapters: $chapters)';
+    return 'Book(id: $id, author: $author, coverUrl: $coverUrl, name: $name, description: $description, likes: $likes, status: $status, state: $state, tags: $tags, genres: $genres, comments: $comments, chapters: $chapters, liked: $liked, bookmarked: $bookmarked)';
   }
 
   @override
@@ -344,10 +408,15 @@ class _$_Book implements _Book {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.likes, likes) || other.likes == likes) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.state, state) || other.state == state) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             const DeepCollectionEquality().equals(other._comments, _comments) &&
-            const DeepCollectionEquality().equals(other._chapters, _chapters));
+            const DeepCollectionEquality().equals(other._chapters, _chapters) &&
+            (identical(other.liked, liked) || other.liked == liked) &&
+            (identical(other.bookmarked, bookmarked) ||
+                other.bookmarked == bookmarked));
   }
 
   @JsonKey(ignore: true)
@@ -360,10 +429,14 @@ class _$_Book implements _Book {
       name,
       description,
       likes,
+      status,
+      state,
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_genres),
       const DeepCollectionEquality().hash(_comments),
-      const DeepCollectionEquality().hash(_chapters));
+      const DeepCollectionEquality().hash(_chapters),
+      liked,
+      bookmarked);
 
   @JsonKey(ignore: true)
   @override
@@ -383,19 +456,22 @@ abstract class _Book implements Book {
   factory _Book(
       {@JsonKey(name: "_id")
           final String id,
-      required final Profile author,
+      @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson)
+          required final Profile author,
       final String? coverUrl,
       final String name,
       final String? description,
       final int likes,
-      @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<String>? tags,
-      @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<String>? genres,
+      final BookStatus status,
+      final ReadingsState state,
+      final List<String> tags,
+      final List<String> genres,
       @JsonKey(toJson: ignore, includeIfNull: false)
           final List<Comment>? comments,
       @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<Chapter>? chapters}) = _$_Book;
+          final List<Chapter>? chapters,
+      final bool liked,
+      final bool? bookmarked}) = _$_Book;
 
   factory _Book.fromJson(Map<String, dynamic> json) = _$_Book.fromJson;
 
@@ -403,6 +479,7 @@ abstract class _Book implements Book {
   @JsonKey(name: "_id")
   String get id;
   @override //     persistent // just always will be here
+  @JsonKey(toJson: _authorToJson, fromJson: _authorFromJson)
   Profile get author;
   @override // add persistent // required for addiction a new book
   String? get coverUrl;
@@ -413,17 +490,23 @@ abstract class _Book implements Book {
   @override //     persistent
   int get likes;
   @override //     persistent
-  @JsonKey(toJson: ignore, includeIfNull: false)
-  List<String>? get tags;
+  BookStatus get status;
+  @override
+  ReadingsState get state;
+  @override
+  List<String> get tags;
   @override // optional
-  @JsonKey(toJson: ignore, includeIfNull: false)
-  List<String>? get genres;
+  List<String> get genres;
   @override // optional
   @JsonKey(toJson: ignore, includeIfNull: false)
   List<Comment>? get comments;
   @override // optional
   @JsonKey(toJson: ignore, includeIfNull: false)
   List<Chapter>? get chapters;
+  @override // optional
+  bool get liked;
+  @override // optional
+  bool? get bookmarked;
   @override
   @JsonKey(ignore: true)
   _$$_BookCopyWith<_$_Book> get copyWith => throw _privateConstructorUsedError;

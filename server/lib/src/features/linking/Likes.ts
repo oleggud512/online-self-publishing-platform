@@ -12,7 +12,7 @@ export interface ILikes {
 
 const LikesSchema = new Schema({
 	profile: {
-		type: Types.ObjectId,
+		type: String,
 		ref: 'Profile',
 		required: true
 	},
@@ -23,12 +23,12 @@ const LikesSchema = new Schema({
 	},
 	active: {
 		type: Boolean,
-		required: true
+		default: true
 	},
 	onModel: {
 		type: String,
 		enum: ['Book', 'Chapter', 'Comment'],
-		required: true
+		// required: true
 	}
 }, { timestamps: true });
 

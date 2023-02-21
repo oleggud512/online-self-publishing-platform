@@ -4,9 +4,9 @@ import 'package:client/src/features/home/presentation/home_screen_app_bar.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen_app_bar.dart';
 import 'package:client/src/features/profile/presentation/authors/authors_screen_app_bar.dart';
-import 'package:client/src/features/profile/presentation/profile/profile_screen_app_bar.dart';
 import 'package:client/src/router/router.dart';
 import 'package:client/src/router/scaffold_with_bottom_nav_bar_item.dart';
+import 'package:client/src/router/shell_scaffold_key.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
   late List<ScaffoldWithNavigationDrawerItem> primaryDrawerTabs;
   late List<ScaffoldWithNavigationDrawerItem> secondaryDrawerTabs;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> get scaffoldKey => ref.watch(shellScaffoldKeyProvider);
 
   void initTabs() {
     final ll = ref.read(currentLocalizationProvider);
@@ -88,6 +88,12 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
         label: Text(ll.screenTitle.notifications),
       ),
       ScaffoldWithNavigationDrawerItem(
+        initialLocation: MyRoute.bookmarks.path,
+        icon: const Icon(Icons.bookmark_outline),
+        selectedIcon: const Icon(Icons.bookmark),
+        label: Text(ll.screenTitle.bookmarks),
+      ),
+      ScaffoldWithNavigationDrawerItem(
         initialLocation: MyRoute.settings.path,
         icon: const Icon(Icons.settings_outlined),
         selectedIcon: const Icon(Icons.settings),
@@ -137,8 +143,6 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
     final path = primaryTabs[tabSelected].initialLocation;
     if (path == MyRoute.home.path) return HomeScreenAppBar();
     if (path == MyRoute.chats.path) return ChatsScreenAppBar();
-    if (path == MyRoute.books.path) return BooksAppBar();
-    if (path == MyRoute.profiles.path) return AuthorsAppBar();
     return null;
   } 
 

@@ -6,20 +6,52 @@ screenTitle:
   profile: Profile
   settings: Settings
   notifications: Notifications
+  profileBooks: Profile Books
+  filters: Filters
+  bookmarks: Bookmarks
+
 settings:
   changeLanguageLabel: Change Language
   onLangChangedLabel(String newLang): "Language changed to $newLang!"
   ukrainian([bool of = false]): Ukrainian
   english([bool of = false]): English
+
 errors:
   shortPassword: Password must have more than 6 characters
+  cannotSubscribeYourself: "Can't subscribe yourself"
+
 searchPlaceholder: 'type here...'
+
+description: 'description'
+name: 'name'
+displayName: 'display name'
+age: 'age'
+
 profile: 
   subscribers: 'Subscribers'
   subscriptions: 'Subscriptions'
   books: 'books'
   noDescriptionPlaceholder: "No description for this user..."
+
 edit: "Edit"
 subscribe: "Subscribe"
 unsubscribe: "Unsubscribe"
 seeAll: "See All"
+
+book:
+  published: "published"
+  unpublished: "unpublished"
+  publish: "publish"
+  unpublish: "unpublish"
+  
+  completed: "completed"
+  inProgress: "in progress"
+  abandoned: "abandoned"
+
+  saveBook: "Save book"
+
+status: "status"
+wantToHide: "Want to hide the book?"
+wantToPublish: "Want to publish the book?"
+yes: "Yes"
+no: "No"

@@ -1,5 +1,5 @@
 lib/serviceAccountKey.json
-lib/src/common/firebase_constants.ts
+lib/src/common/firebase-constants.ts
 .env
 node_modules/
 out/

@@ -1,12 +1,16 @@
 import { Schema, model, Document, Types } from 'mongoose';
 import { IBook } from '../books/Book';
 
-export enum PublicationState { published, unpublished }
+
+export const ReadingsState = {
+  published: 'published',
+  unpublished: 'unpublished'
+}
 
 export interface IChapter extends Document {
   _id: string
   name: string
-  state: PublicationState
+  state: String
   book: IBook // id reference
   content?: string
   
@@ -16,14 +20,11 @@ export interface IChapter extends Document {
 
 const ChapterSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      enum: Object.values(PublicationState),
-      default: PublicationState.unpublished,
+    name: { type: String, required: true },
+    state: { 
+      type: String, 
+      enum: [ReadingsState.published, ReadingsState.unpublished], 
+      default: ReadingsState.unpublished,
     },
     book: {
       type: Types.ObjectId,

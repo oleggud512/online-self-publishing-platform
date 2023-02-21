@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { FireUser } from "./models/FireUser"
 import * as service from "./service"
-import { guard } from "../../common/handleError"
+import { guard } from "../../common/handle-error"
 
 
 export async function createUser(req: Request, res: Response) {

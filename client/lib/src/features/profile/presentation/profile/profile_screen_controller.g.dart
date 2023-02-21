@@ -6,7 +6,8 @@ part of 'profile_screen_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
+String _$profileScreenControllerHash() =>
+    r'1da7625b6f0a3dc2ec513d68d34447d2b86d5e75';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,26 +30,79 @@ class _SystemHash {
   }
 }
 
-String _$ProfileScreenControllerHash() =>
-    r'3ed6a40003c2a63a1e6693886750f90035ae3c74';
+abstract class _$ProfileScreenController
+    extends BuildlessAutoDisposeAsyncNotifier<ProfileScreenState> {
+  late final String? profileId;
+
+  FutureOr<ProfileScreenState> build(
+    String? profileId,
+  );
+}
+
+/// See also [ProfileScreenController].
+@ProviderFor(ProfileScreenController)
+const profileScreenControllerProvider = ProfileScreenControllerFamily();
+
+/// See also [ProfileScreenController].
+class ProfileScreenControllerFamily
+    extends Family<AsyncValue<ProfileScreenState>> {
+  /// See also [ProfileScreenController].
+  const ProfileScreenControllerFamily();
+
+  /// See also [ProfileScreenController].
+  ProfileScreenControllerProvider call(
+    String? profileId,
+  ) {
+    return ProfileScreenControllerProvider(
+      profileId,
+    );
+  }
+
+  @override
+  ProfileScreenControllerProvider getProviderOverride(
+    covariant ProfileScreenControllerProvider provider,
+  ) {
+    return call(
+      provider.profileId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'profileScreenControllerProvider';
+}
 
 /// See also [ProfileScreenController].
 class ProfileScreenControllerProvider
     extends AutoDisposeAsyncNotifierProviderImpl<ProfileScreenController,
         ProfileScreenState> {
+  /// See also [ProfileScreenController].
   ProfileScreenControllerProvider(
     this.profileId,
-  ) : super(
+  ) : super.internal(
           () => ProfileScreenController()..profileId = profileId,
           from: profileScreenControllerProvider,
           name: r'profileScreenControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$ProfileScreenControllerHash,
+                  : _$profileScreenControllerHash,
+          dependencies: ProfileScreenControllerFamily._dependencies,
+          allTransitiveDependencies:
+              ProfileScreenControllerFamily._allTransitiveDependencies,
         );
 
-  final String profileId;
+  final String? profileId;
 
   @override
   bool operator ==(Object other) {
@@ -66,57 +120,11 @@ class ProfileScreenControllerProvider
 
   @override
   FutureOr<ProfileScreenState> runNotifierBuild(
-    covariant _$ProfileScreenController notifier,
+    covariant ProfileScreenController notifier,
   ) {
     return notifier.build(
       profileId,
     );
   }
 }
-
-typedef ProfileScreenControllerRef
-    = AutoDisposeAsyncNotifierProviderRef<ProfileScreenState>;
-
-/// See also [ProfileScreenController].
-final profileScreenControllerProvider = ProfileScreenControllerFamily();
-
-class ProfileScreenControllerFamily
-    extends Family<AsyncValue<ProfileScreenState>> {
-  ProfileScreenControllerFamily();
-
-  ProfileScreenControllerProvider call(
-    String profileId,
-  ) {
-    return ProfileScreenControllerProvider(
-      profileId,
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderImpl<ProfileScreenController,
-      ProfileScreenState> getProviderOverride(
-    covariant ProfileScreenControllerProvider provider,
-  ) {
-    return call(
-      provider.profileId,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'profileScreenControllerProvider';
-}
-
-abstract class _$ProfileScreenController
-    extends BuildlessAutoDisposeAsyncNotifier<ProfileScreenState> {
-  late final String profileId;
-
-  FutureOr<ProfileScreenState> build(
-    String profileId,
-  );
-}
+// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

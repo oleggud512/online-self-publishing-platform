@@ -6,7 +6,8 @@ part of 'author_widget_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
+String _$authorWidgetControllerHash() =>
+    r'76427142407a8049f796385011994379b8e01d32';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,22 +30,74 @@ class _SystemHash {
   }
 }
 
-String _$AuthorWidgetControllerHash() =>
-    r'c7e3378c2a5e883b1cb71f6a5b57677325696c50';
+abstract class _$AuthorWidgetController
+    extends BuildlessAutoDisposeNotifier<Profile> {
+  late final Profile profile;
+
+  Profile build(
+    Profile profile,
+  );
+}
+
+/// See also [AuthorWidgetController].
+@ProviderFor(AuthorWidgetController)
+const authorWidgetControllerProvider = AuthorWidgetControllerFamily();
+
+/// See also [AuthorWidgetController].
+class AuthorWidgetControllerFamily extends Family<Profile> {
+  /// See also [AuthorWidgetController].
+  const AuthorWidgetControllerFamily();
+
+  /// See also [AuthorWidgetController].
+  AuthorWidgetControllerProvider call(
+    Profile profile,
+  ) {
+    return AuthorWidgetControllerProvider(
+      profile,
+    );
+  }
+
+  @override
+  AuthorWidgetControllerProvider getProviderOverride(
+    covariant AuthorWidgetControllerProvider provider,
+  ) {
+    return call(
+      provider.profile,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'authorWidgetControllerProvider';
+}
 
 /// See also [AuthorWidgetController].
 class AuthorWidgetControllerProvider
     extends AutoDisposeNotifierProviderImpl<AuthorWidgetController, Profile> {
+  /// See also [AuthorWidgetController].
   AuthorWidgetControllerProvider(
     this.profile,
-  ) : super(
+  ) : super.internal(
           () => AuthorWidgetController()..profile = profile,
           from: authorWidgetControllerProvider,
           name: r'authorWidgetControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$AuthorWidgetControllerHash,
+                  : _$authorWidgetControllerHash,
+          dependencies: AuthorWidgetControllerFamily._dependencies,
+          allTransitiveDependencies:
+              AuthorWidgetControllerFamily._allTransitiveDependencies,
         );
 
   final Profile profile;
@@ -64,55 +117,11 @@ class AuthorWidgetControllerProvider
 
   @override
   Profile runNotifierBuild(
-    covariant _$AuthorWidgetController notifier,
+    covariant AuthorWidgetController notifier,
   ) {
     return notifier.build(
       profile,
     );
   }
 }
-
-typedef AuthorWidgetControllerRef = AutoDisposeNotifierProviderRef<Profile>;
-
-/// See also [AuthorWidgetController].
-final authorWidgetControllerProvider = AuthorWidgetControllerFamily();
-
-class AuthorWidgetControllerFamily extends Family<Profile> {
-  AuthorWidgetControllerFamily();
-
-  AuthorWidgetControllerProvider call(
-    Profile profile,
-  ) {
-    return AuthorWidgetControllerProvider(
-      profile,
-    );
-  }
-
-  @override
-  AutoDisposeNotifierProviderImpl<AuthorWidgetController, Profile>
-      getProviderOverride(
-    covariant AuthorWidgetControllerProvider provider,
-  ) {
-    return call(
-      provider.profile,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'authorWidgetControllerProvider';
-}
-
-abstract class _$AuthorWidgetController
-    extends BuildlessAutoDisposeNotifier<Profile> {
-  late final Profile profile;
-
-  Profile build(
-    Profile profile,
-  );
-}
+// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

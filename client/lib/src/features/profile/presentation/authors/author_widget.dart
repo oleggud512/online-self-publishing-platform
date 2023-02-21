@@ -49,7 +49,6 @@ class AuthorWidget extends ConsumerWidget {
         ? Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            w8gap,
             MyImage(
               imageUrl: state.avatarUrl,
               size: const Size.fromRadius(48),
@@ -99,7 +98,6 @@ class AuthorWidget extends ConsumerWidget {
                   },
                   icon: const Icon(Icons.person_add_alt_1)
                 ),
-            w8gap
           ]
         )
         : SizedBox(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,28 +63,7 @@ class EditProfileWidgetController extends AutoDisposeNotifier<EditProfileWidgetS
   }
 
   Future<void> chooseImage() async {
-    String? path;
-    bool? storageStatus;
-    bool? photosStatus;
-
-    if (Platform.isAndroid) {
-      final androidInfo = await DeviceInfoPlugin().androidInfo;
-      if (androidInfo.version.sdkInt <= 32) {
-        storageStatus = await Permission.storage.request().isGranted;
-      } else {
-        photosStatus = await Permission.photos.request().isGranted;
-      }
-    }
-
-    if ((storageStatus ?? false) || (photosStatus ?? false)) {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      final file = File(image.path);
-      printInfo(file.uri);
-      printInfo(file.path);
-      path = file.path;
-    }
+    String? path = await Utils.pickImage();
     state = state.copyWith(profile: state.profile.copyWith(avatarUrl: path));
     ref.watch(currentlyEditedProfileProvider.notifier).state = 
       state.profile.copyWith();

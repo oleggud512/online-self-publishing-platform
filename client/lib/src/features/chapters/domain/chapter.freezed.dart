@@ -24,10 +24,13 @@ mixin _$Chapter {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  ReadingsState get state => throw _privateConstructorUsedError;
   @JsonKey(toJson: ignore, includeIfNull: false)
   Book? get book => throw _privateConstructorUsedError;
   @JsonKey(toJson: ignore, includeIfNull: false)
   List<Comment>? get comments => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,8 +46,11 @@ abstract class $ChapterCopyWith<$Res> {
       {@JsonKey(name: "_id") String id,
       String name,
       String content,
+      ReadingsState state,
       @JsonKey(toJson: ignore, includeIfNull: false) Book? book,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments});
+      @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments,
+      DateTime createdAt,
+      DateTime updatedAt});
 
   $BookCopyWith<$Res>? get book;
 }
@@ -65,8 +71,11 @@ class _$ChapterCopyWithImpl<$Res, $Val extends Chapter>
     Object? id = null,
     Object? name = null,
     Object? content = null,
+    Object? state = null,
     Object? book = freezed,
     Object? comments = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -81,6 +90,10 @@ class _$ChapterCopyWithImpl<$Res, $Val extends Chapter>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ReadingsState,
       book: freezed == book
           ? _value.book
           : book // ignore: cast_nullable_to_non_nullable
@@ -89,6 +102,14 @@ class _$ChapterCopyWithImpl<$Res, $Val extends Chapter>
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<Comment>?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -116,8 +137,11 @@ abstract class _$$_ChapterCopyWith<$Res> implements $ChapterCopyWith<$Res> {
       {@JsonKey(name: "_id") String id,
       String name,
       String content,
+      ReadingsState state,
       @JsonKey(toJson: ignore, includeIfNull: false) Book? book,
-      @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments});
+      @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments,
+      DateTime createdAt,
+      DateTime updatedAt});
 
   @override
   $BookCopyWith<$Res>? get book;
@@ -136,8 +160,11 @@ class __$$_ChapterCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? content = null,
+    Object? state = null,
     Object? book = freezed,
     Object? comments = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_Chapter(
       id: null == id
@@ -152,6 +179,10 @@ class __$$_ChapterCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ReadingsState,
       book: freezed == book
           ? _value.book
           : book // ignore: cast_nullable_to_non_nullable
@@ -160,6 +191,14 @@ class __$$_ChapterCopyWithImpl<$Res>
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<Comment>?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -172,10 +211,13 @@ class _$_Chapter implements _Chapter {
           this.id = "",
       this.name = "",
       this.content = "",
+      this.state = ReadingsState.unpublished,
       @JsonKey(toJson: ignore, includeIfNull: false)
           this.book,
       @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<Comment>? comments})
+          final List<Comment>? comments,
+      required this.createdAt,
+      required this.updatedAt})
       : _comments = comments;
 
   factory _$_Chapter.fromJson(Map<String, dynamic> json) =>
@@ -191,6 +233,9 @@ class _$_Chapter implements _Chapter {
   @JsonKey()
   final String content;
   @override
+  @JsonKey()
+  final ReadingsState state;
+  @override
   @JsonKey(toJson: ignore, includeIfNull: false)
   final Book? book;
   final List<Comment>? _comments;
@@ -205,8 +250,13 @@ class _$_Chapter implements _Chapter {
   }
 
   @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
+
+  @override
   String toString() {
-    return 'Chapter(id: $id, name: $name, content: $content, book: $book, comments: $comments)';
+    return 'Chapter(id: $id, name: $name, content: $content, state: $state, book: $book, comments: $comments, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -217,14 +267,19 @@ class _$_Chapter implements _Chapter {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.state, state) || other.state == state) &&
             (identical(other.book, book) || other.book == book) &&
-            const DeepCollectionEquality().equals(other._comments, _comments));
+            const DeepCollectionEquality().equals(other._comments, _comments) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, content, book,
-      const DeepCollectionEquality().hash(_comments));
+  int get hashCode => Object.hash(runtimeType, id, name, content, state, book,
+      const DeepCollectionEquality().hash(_comments), createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -246,10 +301,13 @@ abstract class _Chapter implements Chapter {
           final String id,
       final String name,
       final String content,
+      final ReadingsState state,
       @JsonKey(toJson: ignore, includeIfNull: false)
           final Book? book,
       @JsonKey(toJson: ignore, includeIfNull: false)
-          final List<Comment>? comments}) = _$_Chapter;
+          final List<Comment>? comments,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_Chapter;
 
   factory _Chapter.fromJson(Map<String, dynamic> json) = _$_Chapter.fromJson;
 
@@ -261,11 +319,17 @@ abstract class _Chapter implements Chapter {
   @override
   String get content;
   @override
+  ReadingsState get state;
+  @override
   @JsonKey(toJson: ignore, includeIfNull: false)
   Book? get book;
   @override
   @JsonKey(toJson: ignore, includeIfNull: false)
   List<Comment>? get comments;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_ChapterCopyWith<_$_Chapter> get copyWith =>

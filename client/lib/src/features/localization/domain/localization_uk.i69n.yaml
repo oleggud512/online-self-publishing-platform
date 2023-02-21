@@ -6,20 +6,52 @@ screenTitle:
   profile: Профіль
   settings: Налаштування
   notifications: Сповіщення
+  profileBooks: Книги
+  filters: Фільтри
+  bookmarks: Закладки
+
 settings:
   changeLanguageLabel: Змінтити мову
   onLangChangedLabel(String newLang): "Мову змінено на $newLang!"
   ukrainian([bool of = false]): "${of ? 'Українську' : 'Українська'}"
   english([bool of = false]): "${of ? 'Англійську' : 'Англійська'}"
+
 errors:
   shortPassword: Пароль повинен мати не менше 6 символів
+  cannotSubscribeYourself: Ви не можете підписатися на себе.
+
 searchPlaceholder: 'введіть запит...'
+
+description: 'опис'
+name: 'імʼя'
+displayName: 'реальне імʼя'
+age: 'вік'
+
 profile: 
   subscribers: 'Підписники'
   subscriptions: 'Підписки'
   books: 'книги'
   noDescriptionPlaceholder: "Без опису..."
+
 edit: "Редагувати"
 subscribe: "Підписатися"
 unsubscribe: "Відписатися"
 seeAll: "Переглянути Всі"
+
+book:
+  published: "опубліковано"
+  unpublished: "чернетка"
+  publish: "опублікувати"
+  unpublish: "сховати"
+  
+  completed: "завершено"
+  inProgress: "в процесі"
+  abandoned: "кинуто"
+
+  saveBook: "Зберегти книгу"
+
+status: "статус"
+wantToHide: "Сховати цю книгу?"
+wantToPublish: "Опублікувати?"
+yes: "Yes"
+no: "No"

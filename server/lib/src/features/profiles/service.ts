@@ -1,9 +1,14 @@
 
 import { Aggregate } from "mongoose";
+import { IBook } from "../books/Book";
+import { BookAggregationBuilder } from "../books/book-aggregation-builder";
+import { Bookmarks } from "../linking/Bookmarks";
 import { Subscriptions } from "../linking/Subscriptions";
-import { SubscriptionsAggregationBuilder } from "../linking/subscriptionsQuery";
+import { SubscriptionsAggregationBuilder } from "../linking/subscriptions-aggregation-builder";
 import { Gender, IProfile, Profile } from "./Profile";
-import { ProfilesAggregation } from "./query";
+import { ProfilesAggregation } from "./profile-aggregation-builder";
+import { somethingWithAuthor } from "./profile-aggreation-utils";
+import { BookmarksAggregationBuilder } from "../linking/bookmarks-aggregation-builder";
 
 
 export async function createProfile(
@@ -22,24 +27,24 @@ export async function createProfile(
 
 export async function getProfiles(
   query: string, 
-  limit: number, 
   from: number, 
+  pageSize: number, 
   exclude?: string
 ) : Promise<Array<IProfile>> {
   var aggr = new ProfilesAggregation()
-  aggr.profiles(query, from, limit)
+    .profiles(query) // тут они, сортироуются по дате создания. А мне не это нужно. 
   if (exclude) aggr.exclude(exclude)
-  aggr.withIsSubscribed(exclude)
-  return await Profile.aggregate(aggr.build())
+  aggr
+    .page(from, pageSize)
+    .withIsSubscribed(exclude)
+  return await aggr.build()
 }
 
-export async function getProfile(id: string) : Promise<IProfile> {
-  let data = await Profile.aggregate(
-    new ProfilesAggregation()
+export async function getProfile(id: string, forProfile?: string) : Promise<IProfile> {
+  let data = await new ProfilesAggregation()
       .profile(id)
-      .withBooks()
+      .withBooks(id, forProfile)
       .build()
-  )
   return data[0] as IProfile
 }
 
@@ -54,7 +59,6 @@ export async function updateProfile(profile: IProfile) : Promise<IProfile> {
   console.log(up)
   return getProfile(profile._id)
 }
-
 
 export async function subscribe(profile: string, subscribedTo: string) : Promise<boolean> {
   console.log({ profile, subscribedTo })
@@ -115,7 +119,7 @@ export async function isSubscribed(profile: string, subscribedTo: string)
   return false;
 }
 
-export async function subscribers(
+export async function getSubscribers(
   _id: string, 
   from: number = 0, 
   pageSize: number = 20
@@ -127,14 +131,47 @@ export async function subscribers(
     .build()
 }
 
-export async function subscriptions(
+export async function getSubscriptions(
   _id: string, 
   from: number = 0, 
   pageSize: number = 20
-) : Promise<IProfile[]>{
+) : Promise<IProfile[]> {
   return await new SubscriptionsAggregationBuilder()
     .subscriptions(_id)
     .sort({ name: 1 })
     .page(from, pageSize)
     .build()
+}
+
+export async function addBookmarks(
+  forProfile: string,
+  newBookmarks: string[]
+) : Promise<boolean> {
+  const bookmarks = await Bookmarks.find({ profile: forProfile })
+  var bookmarksToInsert: any[] = []
+  
+  for (let bookmark of newBookmarks) {
+    console.log(`bookmark: ${bookmark}`)
+    console.log(bookmarks.findIndex(b => b.book == bookmark))
+    if (bookmarks.findIndex(b => b.book == bookmark) == -1) {
+      bookmarksToInsert.push({ book: bookmark, profile: forProfile })
+    }
+  }
+  console.log(`trying to insert these bookmarks: ${JSON.stringify(bookmarksToInsert)}`);
+  await Bookmarks.insertMany(bookmarksToInsert)
+
+  return true
+}
+
+
+export async function getBookmarks(
+  profileId: string, 
+  from: number = 0, 
+  pageSize: number = 20
+) : Promise<IBook[]> {
+  const books = await new BookmarksAggregationBuilder()
+    .bookmarks(profileId)
+    .page(from, pageSize)
+    .build()
+  return books
 }
