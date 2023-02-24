@@ -128,6 +128,10 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
 
     if (index < primaryTabs.length) {
       context.go(primaryTabs[index].initialLocation);
+    } else if (drawerSelected >= primaryTabs.length) {
+      context.pushReplacement(
+        [...primaryDrawerTabs, ...secondaryDrawerTabs][index]
+          .initialLocation);
     } else {
       context.push(
         [...primaryDrawerTabs, ...secondaryDrawerTabs][index]

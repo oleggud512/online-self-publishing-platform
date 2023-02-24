@@ -1,5 +1,6 @@
 import { Aggregate, Model, PipelineStage } from "mongoose"
 import { Profile } from '../features/profiles/Profile'
+import * as baseUtils from "./base-aggregation-utils"
 
 export class BaseAggregationBuilder {
   protected aggregation: Aggregate<any[]>
@@ -10,9 +11,9 @@ export class BaseAggregationBuilder {
   }
 
   page(from: number, pageSize: number = 20) { 
-    this.aggregation
-      .skip(from)
-      .limit(pageSize)
+    this.aggregation.append(
+      ...baseUtils.page(from, pageSize)
+    )
     return this
   }
 

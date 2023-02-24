@@ -7,6 +7,7 @@ import { IProfile } from '../profiles/Profile';
 export interface ILikes {
 	profile: IProfile
 	subject: IBook | IChapter | IComment
+	rate: number
 	active: Boolean
 }
 
@@ -20,6 +21,10 @@ const LikesSchema = new Schema({
 		type: Types.ObjectId,
 		refPath: 'onModel',
 		required: true
+	},
+	rate: {
+		type: Number,
+		default: 0
 	},
 	active: {
 		type: Boolean,

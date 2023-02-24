@@ -6,9 +6,15 @@ import { IProfile } from '../profiles/Profile';
 export interface IComment {
   _id: string
   content: string
-  subject: IBook | IChapter,
   author: IProfile
-  likes: number
+  rate: number
+  depth: number
+  subject: IBook | IChapter,
+  question: string
+
+  hasAnswers?: boolean
+  
+  answers?: IComment[]
   
   createdAt?: Date;
   updatedAt?: Date;
@@ -17,17 +23,22 @@ export interface IComment {
 const CommentSchema = new Schema({
   content: { type: String, required: true },
   author: { type: String, ref: "Profile", required: true },
+  rate: { type: Number, default: 0 },
+  depth: { type: Number, default: 0 },
+  question: { type: Types.ObjectId, ref: "Comment" },
   subject: { 
     type: Types.ObjectId, 
-    refPath: 'onModel', 
+    // refPath: 'onModel', 
     required: true, 
   },
-  onModel: {
-		type: String,
-		enum: ['Book', 'Chapter'],
-		required: true
-  },
-  likes: { type: Number, default: 0 },
+  // onModel: {
+	// 	type: String,
+	// 	enum: ['Book', 'Chapter'],
+	// 	required: true
+  // },
 }, { timestamps: true });
+
+// virtual field answers (nullable)
+// virtual field has answers (required)
 
 export const Comment = model<IComment>('Comment', CommentSchema);

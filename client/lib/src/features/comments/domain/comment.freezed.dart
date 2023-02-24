@@ -24,7 +24,12 @@ mixin _$Comment {
   String get id => throw _privateConstructorUsedError;
   Profile get author => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  dynamic get likes => throw _privateConstructorUsedError;
+  String get subject => throw _privateConstructorUsedError;
+  int get depth => throw _privateConstructorUsedError;
+  int get rate => throw _privateConstructorUsedError;
+  List<Comment> get answers => throw _privateConstructorUsedError;
+  bool get hasAnswers => throw _privateConstructorUsedError;
+  CommentRate? get myRate => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
@@ -42,7 +47,12 @@ abstract class $CommentCopyWith<$Res> {
       {@JsonKey(name: "_id") String id,
       Profile author,
       String content,
-      dynamic likes,
+      String subject,
+      int depth,
+      int rate,
+      List<Comment> answers,
+      bool hasAnswers,
+      CommentRate? myRate,
       DateTime createdAt,
       DateTime updatedAt});
 
@@ -65,7 +75,12 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? id = null,
     Object? author = null,
     Object? content = null,
-    Object? likes = freezed,
+    Object? subject = null,
+    Object? depth = null,
+    Object? rate = null,
+    Object? answers = null,
+    Object? hasAnswers = null,
+    Object? myRate = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -82,10 +97,30 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      likes: freezed == likes
-          ? _value.likes
-          : likes // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      depth: null == depth
+          ? _value.depth
+          : depth // ignore: cast_nullable_to_non_nullable
+              as int,
+      rate: null == rate
+          ? _value.rate
+          : rate // ignore: cast_nullable_to_non_nullable
+              as int,
+      answers: null == answers
+          ? _value.answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<Comment>,
+      hasAnswers: null == hasAnswers
+          ? _value.hasAnswers
+          : hasAnswers // ignore: cast_nullable_to_non_nullable
+              as bool,
+      myRate: freezed == myRate
+          ? _value.myRate
+          : myRate // ignore: cast_nullable_to_non_nullable
+              as CommentRate?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -117,7 +152,12 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       {@JsonKey(name: "_id") String id,
       Profile author,
       String content,
-      dynamic likes,
+      String subject,
+      int depth,
+      int rate,
+      List<Comment> answers,
+      bool hasAnswers,
+      CommentRate? myRate,
       DateTime createdAt,
       DateTime updatedAt});
 
@@ -138,7 +178,12 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? id = null,
     Object? author = null,
     Object? content = null,
-    Object? likes = freezed,
+    Object? subject = null,
+    Object? depth = null,
+    Object? rate = null,
+    Object? answers = null,
+    Object? hasAnswers = null,
+    Object? myRate = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -155,7 +200,30 @@ class __$$_CommentCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      likes: freezed == likes ? _value.likes! : likes,
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      depth: null == depth
+          ? _value.depth
+          : depth // ignore: cast_nullable_to_non_nullable
+              as int,
+      rate: null == rate
+          ? _value.rate
+          : rate // ignore: cast_nullable_to_non_nullable
+              as int,
+      answers: null == answers
+          ? _value._answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<Comment>,
+      hasAnswers: null == hasAnswers
+          ? _value.hasAnswers
+          : hasAnswers // ignore: cast_nullable_to_non_nullable
+              as bool,
+      myRate: freezed == myRate
+          ? _value.myRate
+          : myRate // ignore: cast_nullable_to_non_nullable
+              as CommentRate?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -175,9 +243,15 @@ class _$_Comment implements _Comment {
       {@JsonKey(name: "_id") this.id = "",
       required this.author,
       this.content = "",
-      this.likes = 0,
+      this.subject = "",
+      this.depth = 0,
+      this.rate = 0,
+      final List<Comment> answers = const [],
+      this.hasAnswers = false,
+      this.myRate,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt})
+      : _answers = answers;
 
   factory _$_Comment.fromJson(Map<String, dynamic> json) =>
       _$$_CommentFromJson(json);
@@ -192,7 +266,27 @@ class _$_Comment implements _Comment {
   final String content;
   @override
   @JsonKey()
-  final dynamic likes;
+  final String subject;
+  @override
+  @JsonKey()
+  final int depth;
+  @override
+  @JsonKey()
+  final int rate;
+  final List<Comment> _answers;
+  @override
+  @JsonKey()
+  List<Comment> get answers {
+    if (_answers is EqualUnmodifiableListView) return _answers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_answers);
+  }
+
+  @override
+  @JsonKey()
+  final bool hasAnswers;
+  @override
+  final CommentRate? myRate;
   @override
   final DateTime createdAt;
   @override
@@ -200,7 +294,7 @@ class _$_Comment implements _Comment {
 
   @override
   String toString() {
-    return 'Comment(id: $id, author: $author, content: $content, likes: $likes, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Comment(id: $id, author: $author, content: $content, subject: $subject, depth: $depth, rate: $rate, answers: $answers, hasAnswers: $hasAnswers, myRate: $myRate, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -211,7 +305,13 @@ class _$_Comment implements _Comment {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other.likes, likes) &&
+            (identical(other.subject, subject) || other.subject == subject) &&
+            (identical(other.depth, depth) || other.depth == depth) &&
+            (identical(other.rate, rate) || other.rate == rate) &&
+            const DeepCollectionEquality().equals(other._answers, _answers) &&
+            (identical(other.hasAnswers, hasAnswers) ||
+                other.hasAnswers == hasAnswers) &&
+            (identical(other.myRate, myRate) || other.myRate == myRate) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -220,8 +320,19 @@ class _$_Comment implements _Comment {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, author, content,
-      const DeepCollectionEquality().hash(likes), createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      author,
+      content,
+      subject,
+      depth,
+      rate,
+      const DeepCollectionEquality().hash(_answers),
+      hasAnswers,
+      myRate,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -242,7 +353,12 @@ abstract class _Comment implements Comment {
       {@JsonKey(name: "_id") final String id,
       required final Profile author,
       final String content,
-      final dynamic likes,
+      final String subject,
+      final int depth,
+      final int rate,
+      final List<Comment> answers,
+      final bool hasAnswers,
+      final CommentRate? myRate,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$_Comment;
 
@@ -256,7 +372,17 @@ abstract class _Comment implements Comment {
   @override
   String get content;
   @override
-  dynamic get likes;
+  String get subject;
+  @override
+  int get depth;
+  @override
+  int get rate;
+  @override
+  List<Comment> get answers;
+  @override
+  bool get hasAnswers;
+  @override
+  CommentRate? get myRate;
   @override
   DateTime get createdAt;
   @override

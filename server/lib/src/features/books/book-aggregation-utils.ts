@@ -120,53 +120,5 @@ export function filterBooks(filters: Filters) : LookupPipeline {
         totalScore: -1
       }
     }
-    // {
-    //   $match: {
-    //     $expr: {
-    //       $and: [
-    //         { $eq: ["$state", ReadingsState.published] },
-    //         ...filters.query ? [{
-    //           $or: [
-    //             {  // TODO: change to livenschtain
-    //               $regexMatch: {
-    //                 input: '$name',
-    //                 regex: RegExp(filters.query!, 'i')
-    //               },
-    //             },
-    //             {
-    //               $regexMatch: {
-    //                 input: '$description',
-    //                 regex: RegExp(filters.query!, 'i')
-    //               },
-    //             }
-    //           ]
-    //         }] : [],
-    //         ...filters.tags.length > 0 ? [{
-    //           $gt: [
-    //             {
-    //               $size: {
-    //                 $setIntersection: [ "$tags", filters.tags ]
-    //               }
-    //             },
-    //             0
-    //           ]
-    //         }] : [],
-    //         ...filters.genres.length > 0 ? [{
-    //           $gt: [
-    //             {
-    //               $size: {
-    //                 $setIntersection: [ "$genres", filters.genres ]
-    //               }
-    //             },
-    //             0
-    //           ]
-    //         }] : [],
-    //         {
-    //           $in: [ "$status", filters.statuses ]
-    //         }
-    //       ]
-    //     }
-    //   }
-    // }
   ]
 }

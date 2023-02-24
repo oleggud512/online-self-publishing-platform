@@ -16,11 +16,10 @@ import { Tag } from "./Tag";
 export async function getBook(id: string, forProfile?: string) : Promise<IBook> {
   const bookList = await new BookAggregationBuilder()
     .book(id)
-    .withChapters(forProfile)
+    // .withChapters(forProfile)
     .withAuthor(forProfile)
     .withLiked(forProfile)
     .withBookmarked(forProfile)
-    .withComments()
     .build()
   return bookList[0];
 }

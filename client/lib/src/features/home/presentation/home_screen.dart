@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../comments/presentation/comments/comments_widget.dart';
 import '../../localization/application/ll.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -17,7 +18,6 @@ class HomeScreen extends ConsumerWidget {
     final ll = curLl(context);
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.all(p16),
         children: [
           // FilledButton(
           //   child: Text("to my profile"),

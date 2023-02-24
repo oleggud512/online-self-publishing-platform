@@ -9,6 +9,8 @@ import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/book_status_widget.dart';
+import 'package:client/src/features/comments/presentation/comment/comment_widget.dart';
+import 'package:client/src/features/comments/presentation/comments/comments_widget.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:client/src/router/router.dart';
@@ -208,7 +210,15 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   ]
                 ),
                 subtitle: Text(Constants.dateFormat.format(ch.createdAt)),
-              )).toList() ?? []
+              )).toList() ?? [
+                ListTile(
+                  title: Text("no chapters")
+                )
+              ],
+              Padding(
+                padding: const EdgeInsets.all(p16),
+                child: CommentsWidget(subjectId: book.id),
+              )
             ],
           )
         );

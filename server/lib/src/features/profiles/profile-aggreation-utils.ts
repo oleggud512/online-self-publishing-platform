@@ -11,9 +11,9 @@ import { LookupPipeline } from "../../common/types";
  */
 export function somethingWithAuthor(
   // foreignField: string,
-  args: {
+  args?: {
     pipeline?: LookupPipeline
-  } = { pipeline: [] }
+  }
 ) : LookupPipeline {
   return [
     {
@@ -22,7 +22,7 @@ export function somethingWithAuthor(
         localField: "author",
         foreignField: "_id",
         as: "author",
-        pipeline: args?.pipeline
+        pipeline: args?.pipeline ?? []
       },
     },
     { $unwind: '$author' }

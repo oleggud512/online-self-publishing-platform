@@ -2,10 +2,12 @@ import { PipelineStage, Types } from "mongoose"
 import { BaseAggregationBuilder } from "../../shared/base-aggregation-builder"
 import { ReadingsState } from "../chapters/Chapter"
 import { Book } from "./Book"
-import * as commentsUtils from "../comments/comments-aggregation-utils"
 import * as profileUtils from "../profiles/profile-aggreation-utils"
 import * as bookUtils from "./book-aggregation-utils"
 import { Filters } from "./Filters"
+import { Sorting } from "../comments/Sorting"
+import * as commentsUtils from "../comments/comments-aggregation-utils"
+import * as baseUtils from "../../shared/base-aggregation-utils"
 
 export class BookAggregationBuilder extends BaseAggregationBuilder {
   constructor() {
@@ -134,22 +136,27 @@ export class BookAggregationBuilder extends BaseAggregationBuilder {
     return this
   }
 
-  withComments(
-    from: number = 0, 
-    pageSize: number = 20, 
-    sorting: 'new' | 'popular' = 'new'
-  ) {
-    var sort: PipelineStage.Sort["$sort"]
-    switch (sorting) {
-      case 'new': sort = { createdAt: 1 }
-      case 'popular': sort = { likes: 1 }
-    }
-
-    this.aggregation.append(
-      ...commentsUtils.withComments(
-        // "$_id", 
-        sort, from, pageSize))
-    return this
-  }
+  // withComments(
+  //   from: number = 0, 
+  //   pageSize: number = 20, 
+  //   sorting: Sorting,
+  //   subjectId: string
+  // ) {
+  //   this.aggregation.append(
+  //     {
+  //       $lookup: {
+  //         from: 'comments',
+  //         localField: '_id',
+  //         foreignField: 'subject',
+  //         as: 'comments',
+  //         pipeline: [
+  //           ...commentsUtils.topComments(subjectId, sorting),
+  //           ...baseUtils.page(from, pageSize)
+  //         ]
+  //       }
+  //     }
+  //   )
+  //   return this
+  // }
 
 }
