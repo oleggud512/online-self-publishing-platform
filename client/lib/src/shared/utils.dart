@@ -49,7 +49,11 @@ class Utils {
     return encoder.convert(jsonObject);
   }
 
-  Utils.showMessage(Ref ref, String message) {
+  static void showMessage(Ref ref, String message) {
+    ref.watch(scaffoldMessangerStateProvider).showMessage(message);
+  }
+
+  static void showMessagew(WidgetRef ref, String message) {
     ref.watch(scaffoldMessangerStateProvider).showMessage(message);
   }
 }

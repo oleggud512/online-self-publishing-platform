@@ -5,6 +5,7 @@ import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/comments/domain/comment.dart';
 import 'package:client/src/features/comments/presentation/comment/comment_widget_controller.dart';
 import 'package:client/src/features/comments/presentation/comment/comment_widget_state.dart';
+import 'package:client/src/features/reports/presentation/report_dialog.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,7 +74,9 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
     cont.submitEdited();
   }
 
-  void onReport() async {}
+  void onReport() async {
+    showReportDialog(context, state.comment);
+  }
 
   void onDelete() async {
     cont.deleteThisComment();
@@ -95,28 +98,31 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundImage:
-                        NetworkImage(comment.author.avatarUrl ?? ""),
-                  ),
-                  w8gap,
-                  Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(comment.author.displayName ?? comment.author.name,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Text(Constants.dateFormat.format(comment.createdAt)),
-                      ])
-                ]),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundImage:
+                          NetworkImage(comment.author.avatarUrl ?? ""),
+                    ),
+                    w8gap,
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(comment.author.displayName ?? comment.author.name,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Text(Constants.dateFormat.format(comment.createdAt)),
+                        ])
+                  ]
+                ),
                 h8gap,
                 if (state.isEdit)
                   TextFormField(
                     initialValue: comment.content,
                     onChanged: onEditFieldChanged,
+                    maxLength: 1000,
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
                         icon: Icon(state.editState.isEmpty 
@@ -134,60 +140,63 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
                 else
                   Text(comment.content),
                 if (!state.isFieldShown)
-                  Row(children: [
-                    w8gap,
-                    if (!state.isEdit)
-                      TextButton(
-                        onPressed: onShowAnswer,
-                        child: Text('answer'.hardcoded),
-                      )
-                    else 
-                      TextButton(
-                        onPressed: onHideEdit,
-                        child: Text("hide".hardcoded)
-                      ),
-                    const Spacer(),
-                    PopupMenuButton(
-                      itemBuilder: (BuildContext context) => [
-                        if (ref.watch(myIdProvider) == comment.author.id) ...[
+                  Row(
+                    children: [
+                      w8gap,
+                      if (!state.isEdit)
+                        TextButton(
+                          onPressed: onShowAnswer,
+                          child: Text('answer'.hardcoded),
+                        )
+                      else 
+                        TextButton(
+                          onPressed: onHideEdit,
+                          child: Text("hide".hardcoded)
+                        ),
+
+                      const Spacer(),
+                      PopupMenuButton(
+                        itemBuilder: (BuildContext context) => [
+                          if (ref.watch(myIdProvider) == comment.author.id) ...[
+                            PopupMenuItem(
+                              onTap: onEdit,
+                              child: Text('edit'.hardcoded),
+                            ),
+                            PopupMenuItem(
+                              onTap: onDelete,
+                              child: Text('delete'.hardcoded),
+                            ),
+                          ],
                           PopupMenuItem(
-                            onTap: onEdit,
-                            child: Text('edit'.hardcoded),
-                          ),
-                          PopupMenuItem(
-                            onTap: onDelete,
-                            child: Text('delete'.hardcoded),
+                            onTap: onReport,
+                            child: Text('report'.hardcoded),
                           ),
                         ],
-                        PopupMenuItem(
-                          onTap: onReport,
-                          child: Text('report'.hardcoded),
-                        ),
-                      ],
-                    ),
-                    InkWell(
-                        onTap: onUpRate,
-                        child: Icon(Icons.keyboard_arrow_up_rounded,
-                            color: comment.myRate == CommentRate.like
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.outline)),
-                    w4gap,
-                    ConstrainedBox(
-                        constraints: const BoxConstraints(minWidth: p24),
-                        child: Text(
-                          comment.rate.toString(),
-                          textAlign: TextAlign.center,
-                        )),
-                    w4gap,
-                    InkWell(
-                        onTap: onDownRate,
-                        child: Icon(Icons.keyboard_arrow_down_rounded,
-                          color: comment.myRate == CommentRate.dislike
-                            ? Theme.of(context).colorScheme.error
-                            : Theme.of(context).colorScheme.outline,
-                        ),
-                    ),
-                  ]),
+                      ),
+                      InkWell(
+                          onTap: onUpRate,
+                          child: Icon(Icons.keyboard_arrow_up_rounded,
+                              color: comment.myRate == CommentRate.like
+                                  ? Colors.green
+                                  : Theme.of(context).colorScheme.outline)),
+                      w4gap,
+                      ConstrainedBox(
+                          constraints: const BoxConstraints(minWidth: p24),
+                          child: Text(
+                            comment.rate.toString(),
+                            textAlign: TextAlign.center,
+                          )),
+                      w4gap,
+                      InkWell(
+                          onTap: onDownRate,
+                          child: Icon(Icons.keyboard_arrow_down_rounded,
+                            color: comment.myRate == CommentRate.dislike
+                              ? Theme.of(context).colorScheme.error
+                              : Theme.of(context).colorScheme.outline,
+                          ),
+                      ),
+                    ]
+                  ),
                 if (state.comment.hasAnswers && state.comment.answers.isEmpty)
                   TextButton(
                     onPressed: onLoadMoreAnswers,

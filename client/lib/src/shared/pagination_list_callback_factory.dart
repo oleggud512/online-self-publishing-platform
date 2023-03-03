@@ -1,4 +1,6 @@
 import 'package:client/src/features/books/domain/book.dart';
+import 'package:client/src/features/chapters/data/chapter_repository.dart';
+import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../common/log.dart';
@@ -45,6 +47,13 @@ class PaginationCallbackFactory {
           ), 
           from
         );
+    };
+  }
+
+  PaginationItemsCallback<Chapter> createBookChaptersCallback(WidgetRef ref, String bookId) {
+    return (from) {
+      return ref.watch(chapterRepositoryProvider)
+        .getChapters(bookId, from);
     };
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
@@ -27,8 +29,8 @@ extension GuardX<T> on AsyncValue<T> {
         return await callback();
       } on DioError catch (e) {
         printError(e.toString());
-        if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
-          printInfo("ConnectionException thrown");
+        if (e.type == DioErrorType.unknown && e.error is SocketException) {
+          printInfo("ConnectionException thrown from guardX");
           throw ConnectionException();
         }
         switch (e.response?.statusCode) {

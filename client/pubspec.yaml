@@ -38,14 +38,14 @@ dependencies:
   firebase_core: ^2.4.1
   firebase_auth: ^4.2.5
   go_router: ^6.0.2
-  dio: ^4.0.6
+  dio: ^5.0.1
   flutter_riverpod: ^2.1.3
-  riverpod_annotation: ^1.1.1
+  riverpod_annotation: ^2.0.0
   build_runner: ^2.3.3
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0
   font_awesome_flutter: ^10.3.0
-  google_sign_in: ^5.4.4
+  google_sign_in: ^6.0.1
   image_picker: 
   permission_handler: ^10.2.0
   device_info_plus: ^8.0.0
@@ -61,6 +61,8 @@ dependencies:
   sembast: ^3.4.0+6
   path_provider: ^2.0.12
   equatable: ^2.0.5
+  socket_io_client: ^2.0.1
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +75,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   freezed: ^2.3.2
-  riverpod_generator: ^1.2.0
+  riverpod_generator: ^2.0.0
   json_serializable: ^6.5.4
   custom_lint: ^0.2.5
   riverpod_lint: ^1.0.1

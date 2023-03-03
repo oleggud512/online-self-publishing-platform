@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { AppError } from "../../common/app-error";
-import errors from "../../shared/errors";
 import { Likes } from "../linking/Likes";
 import { Comment, IComment } from "./Comment";
 import { CommentsAggregationBuilder } from "./comments-aggregation-builder";
 import { Sorting } from "./Sorting";
 import "../../common/date-ext"
+import { AppErrors } from "../../shared/errors";
 
 export async function getComments(
   args: {
@@ -75,7 +75,7 @@ export async function updateComment(
   const commentToUpdate = await getComment(comment.id, forProfile)
   console.log(commentToUpdate)
   if (!canEditComment(commentToUpdate, forProfile)) {
-    throw new AppError(errors.cannotEditComment)
+    throw new AppError(AppErrors.cannotEditComment)
   }
   
   await Comment.findByIdAndUpdate(comment.id, { content: comment.content })
@@ -90,6 +90,7 @@ export async function deleteComment(commentId: string, profileId: string) {
   }
 
   await Comment.findByIdAndDelete(commentId)
+  
   return true
 }
 
@@ -143,6 +144,16 @@ export async function rateComment(
     { new: true }
   )
   return updatedComment!.rate
+}
+
+export async function deleteCommentsForSubject(subjectId: string) {
+  const comments = await Comment.find(
+    { subject: new Types.ObjectId(subjectId) }, 
+    { _id: 1 }
+  )
+  const ids = comments.map((c) => c._id)
+  await Likes.deleteMany({ subject: { $in: ids } })
+  await Comment.deleteMany({ _id: { $in: ids } })
 }
 
 function canEditComment(comment: IComment | undefined, forProfile: string) : boolean {

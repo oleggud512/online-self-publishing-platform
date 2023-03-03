@@ -1,6 +1,7 @@
 import 'package:client/src/common/log.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../shared/identifiable.dart';
 import '../../profile/domain/profile.dart';
 
 part 'comment.freezed.dart';
@@ -12,7 +13,7 @@ enum CommentRate {
 }
 
 @freezed
-class Comment with _$Comment {
+class Comment with _$Comment, Identifiable {
   factory Comment({
     @JsonKey(name: "_id") @Default("") String id,
     required Profile author,

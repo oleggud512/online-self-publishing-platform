@@ -14,17 +14,17 @@ class AuthRepository {
   AuthRepository(GoogleAuthRepository googleAuth, Dio dio)
       : _googleAuth = googleAuth,
         _dio = dio {
-    FirebaseAuth.instance.userChanges().listen((u) {
-      if (u == null) {
-        print("Permanent User Listener: not authenticated");
-        return;
-      }
-      print("User: $u");
-      u.getIdTokenResult().then((r) {
-        print("Token Result: $r");
-        print("Claims: ${jsonEncode(r.claims)}");
-      });
-    });
+    // FirebaseAuth.instance.userChanges().listen((u) {
+    //   if (u == null) {
+    //     print("Permanent User Listener: not authenticated");
+    //     return;
+    //   }
+    //   print("User: $u");
+    //   u.getIdTokenResult().then((r) {
+    //     print("Token Result: $r");
+    //     print("Claims: ${jsonEncode(r.claims)}");
+    //   });
+    // });
   }
 
   final Dio _dio;

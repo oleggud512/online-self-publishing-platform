@@ -106,6 +106,7 @@ export class BookAggregationBuilder extends BaseAggregationBuilder {
             _id: 1,
             name: 1,
             state: 1,
+            book: 1,
             createdAt: 1,
             updatedAt: 1
           }

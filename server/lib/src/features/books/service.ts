@@ -16,7 +16,7 @@ import { Tag } from "./Tag";
 export async function getBook(id: string, forProfile?: string) : Promise<IBook> {
   const bookList = await new BookAggregationBuilder()
     .book(id)
-    // .withChapters(forProfile)
+    .withChapters(forProfile)
     .withAuthor(forProfile)
     .withLiked(forProfile)
     .withBookmarked(forProfile)
@@ -146,6 +146,7 @@ export async function toggleLike(bookId: string, profileId: string)
   return true
 }
 
+
 export async function toggleBookmark(bookId: string, profileId: string) 
     : Promise<boolean> {
   const bookmark = await Bookmarks.findOne({ profile: profileId, book: bookId })
@@ -158,6 +159,7 @@ export async function toggleBookmark(bookId: string, profileId: string)
   console.log("toggled")
   return true
 }
+
 
 export async function getBooksByIds(
   ids: string[], 

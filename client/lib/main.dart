@@ -1,5 +1,6 @@
 import 'package:client/firebase_options.dart';
 import 'package:client/src/app.dart';
+import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/books/application/local_bookmarks_provider.dart';
 import 'package:client/src/features/books/data/local_book_repository.dart';
 import 'package:client/src/features/books/data/sembast_book_repository.dart';
@@ -31,8 +32,10 @@ void main() async {
   await container.read(localizationControllerProvider.notifier).loadLocale();
   container.read(localBookmarksControllerProvider);
 
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await container.read(authRepositoryProvider).currentUser?.getIdToken();
+  
   runApp(UncontrolledProviderScope(
     container: container,
     child: const MyApp()

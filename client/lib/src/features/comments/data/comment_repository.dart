@@ -82,6 +82,7 @@ class CommentRepository {
       final resp = await _dio.put('comments/$commentId', 
         data: { 'content': newContent }
       );
+      // comment without answers.
       return Comment.fromJson(resp.data['data']);
     } on DioError catch (e) {
       if (e.response?.statusCode == 500 && e.response!.data['error']['code'] == 'cannotEditComment') {

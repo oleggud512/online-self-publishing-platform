@@ -61,19 +61,26 @@ class CommentsWidget extends ConsumerWidget {
                 printInfo("return TextFormField(${ref.watch(commentsContentFieldState)})");
                 final content = ref.watch(commentsContentFieldState);
                 if (content.isEmpty) contentController.text = "";
-                return TextFormField(
-                  controller: contentController,
-                  onChanged: (v) {
-                    debouncer.debounce(() => ref.watch(commentsContentFieldState.notifier).state = v);
-                  },
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: () {
-                        cont.addComment();
-                      }
+                return ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxHeight: 200
+                  ),
+                  child: TextFormField(
+                    controller: contentController,
+                    onChanged: (v) {
+                      debouncer.debounce(() => ref.watch(commentsContentFieldState.notifier).state = v);
+                    },
+                    maxLength: 1000,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.send),
+                        onPressed: () {
+                          cont.addComment();
+                        }
+                      )
                     )
-                  )
+                  ),
                 ); 
               },
             ),

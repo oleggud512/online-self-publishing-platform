@@ -34,17 +34,39 @@ enum MyRoute {
   book,
     editBook,
     addBook,
+    chapters,
+      chapter,
+        editChapter,
+      addChapter,
   profile,
     editProfile,
     profileBooks,
     subscribers,
     subscriptions,
-  chapter,
-  editChapter
 }
 
-class Prefs {
+class Str {
   static const String currentLocale = 'currentLocale';
+  static final _DioRouters dio = _DioRouters();
+
+}
+
+class _DioRouters {
+  final String chapters = 'chapters';
+  final String bookId = "bookId";
+  final String from = 'from';
+  final String state = 'state';
+  final String pageSize = 'pageSize';
+  final String data = 'data';
+  final String reports = 'reports';
+  final String reportTypes = 'reports/types';
+
+  String chapter(String chapterId) {
+    return "$chapters/$chapterId";
+  }
+  String chapterState(String chapterId) {
+    return "${chapter(chapterId)}/$state";
+  }
 }
 
 class AppColors {

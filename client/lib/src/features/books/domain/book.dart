@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../common/ignore.dart';
+import '../../../shared/identifiable.dart';
 import '../../chapters/domain/chapter.dart';
 import '../../comments/domain/comment.dart';
 import '../../profile/domain/profile.dart';
@@ -28,7 +29,7 @@ String _authorToJson(Profile author) {
 }
 
 @freezed
-class Book with _$Book {
+class Book with _$Book, Identifiable {
   factory Book({
     @JsonKey(name: "_id") @Default("") String id, //     persistent // just always will be here
     @JsonKey(

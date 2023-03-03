@@ -2,6 +2,7 @@ import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/books/data/book_repository.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_state.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../application/local_bookmarks_provider.dart';
@@ -23,6 +24,14 @@ class BookScreenController extends _$BookScreenController {
       ),
       isMy: ref.watch(myIdProvider) == book.author.id,
     );
+  }
+
+  Future<void> refresh() async {
+    try {
+      state = AsyncData(state.value!.copyWith(book: await bookRepo.getBook(bookId)));
+    } catch (e) {
+      Utils.showMessage(ref, "Can't refresh book");
+    }
   }
 
   Future<bool> toggleLike() async {

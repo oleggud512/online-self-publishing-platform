@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 // import * as admin from 'firebase-admin';
 import { getAuth } from 'firebase-admin/auth';
+import { Socket } from 'socket.io';
+import { AppError } from '../../common/app-error';
 
 
 export async function isAuthenticated(req: Request, res: Response, next: Function) {
@@ -22,6 +24,30 @@ export async function isAuthenticated(req: Request, res: Response, next: Functio
   } catch (e) {
     console.error(e)
     return res.status(403).send(e)
+  }
+}
+
+export async function isAuthenticatedSocket(socket: Socket, next: Function) {
+  try {
+    const authorization = socket.handshake.auth.authorization;
+
+    console.log(`SOCKET AUTH - ${authorization}`)
+
+    if (!authorization) 
+      throw new AppError('auth-error')
+
+    const authResult = await checkAuth(authorization)
+    socket.handshake.auth = {
+      ...socket.handshake.auth,
+      ...authResult
+    }
+    console.log(`authenticated: ${JSON.stringify(authResult)}`)
+    next()
+  } catch (error) {
+    // If there is an error, send an error message to the client
+    console.error(error);
+    console.error('^^^ error from isAuthenticated socket ^^^')
+    socket.emit("error", "Failed to authenticate user");
   }
 }
 
@@ -54,14 +80,14 @@ export type AuthResult = { uid: string, role: string, email: string }
 // просто проверяет, авторизован ли.
 // если авторизован, то возвращает uid, role, email
 // если не авторизован, выбрасывает ошибку, с текстом, шо не так. 
-async function checkAuth(authorization: string) : Promise<AuthResult> {
+export async function checkAuth(authorization: string) : Promise<AuthResult> {
   if (!authorization.startsWith('Bearer'))
     throw { error: true, message: 'authorization is not starting with Bearer' }
 
   const split = authorization.split(' ')
 
   if (split.length !== 2)
-    throw{ error: true, message: `split.length != 2. split.length = ${split.length}` }
+    throw { error: true, message: `split.length != 2. split.length = ${split.length}` }
 
   const token = split[1];
   console.log(`THERE IS A TOKEN ${token}`)

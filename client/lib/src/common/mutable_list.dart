@@ -16,4 +16,9 @@ extension MutableList<T> on List<T> {
   List<T> copyToggle(T item, { bool start = false }) {
     return contains(item) ? copyWithout(item) : copyWith(item, start: start);
   }
+
+  List<T> withReplacement(T replacement, bool Function(T item) match) {
+    final int index = indexWhere(match);
+    return [...this]..replaceRange(index, index + 1, [replacement]);
+  }
 }

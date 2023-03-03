@@ -145,8 +145,6 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
       return null;
     }
     final path = primaryTabs[tabSelected].initialLocation;
-    if (path == MyRoute.home.path) return HomeScreenAppBar();
-    if (path == MyRoute.chats.path) return ChatsScreenAppBar();
     return null;
   } 
 
@@ -178,13 +176,6 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
           destinations: primaryTabs
         ) 
         : null
-      // bottomNavigationBar: NavigationBar(
-      //   selectedIndex: tabSelected,
-      //   onDestinationSelected: (index) {
-      //     onDestinationSelected(context, index);
-      //   },
-      //   destinations: primaryTabs
-      // ) ,
     );
   }
 }

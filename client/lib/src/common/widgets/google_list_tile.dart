@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'my_avatar.dart';
+
 class GoogleListTile extends StatelessWidget {
   const GoogleListTile({
     super.key, 
@@ -22,10 +24,7 @@ class GoogleListTile extends StatelessWidget {
           if (onRemove != null) onRemove!();
         }
       ),
-      leading: CircleAvatar(
-        radius: 24,
-        backgroundImage: NetworkImage(googleSignInAccount!.photoUrl ?? ""),
-      )
+      leading: MyAvatar(url: googleSignInAccount!.photoUrl ?? "")
     );
   }
 }

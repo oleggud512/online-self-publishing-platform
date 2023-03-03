@@ -72,6 +72,7 @@ export async function signUpWithGoogle(req: Request, res: Response) {
   });
 }
 
+
 export async function signUpWithEmailAndPassword(req: Request, res: Response, next: NextFunction) {
   const email = req.body.email;
   const password = req.body.password;

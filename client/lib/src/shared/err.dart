@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 
@@ -9,8 +10,8 @@ Future<T> err<T>(Future<T> Function() func) async {
   try {
     return await func();
   } on DioError catch (e) {
-    if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
-      printInfo("ConnectionException thrown");
+    if (e.type == DioErrorType.unknown && e.error is SocketException) {
+      printInfo("ConnectionException thrown from err<T>");
       throw ConnectionException();
     }
     rethrow;

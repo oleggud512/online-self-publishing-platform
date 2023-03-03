@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../comments/presentation/comments/comments_widget.dart';
 import '../../localization/application/ll.dart';
+import 'home_screen_app_bar.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -17,6 +18,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ll = curLl(context);
     return Scaffold(
+      appBar: HomeScreenAppBar(),
       body: ListView(
         children: [
           // FilledButton(

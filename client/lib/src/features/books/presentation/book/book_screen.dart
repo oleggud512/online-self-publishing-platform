@@ -8,7 +8,10 @@ import 'package:client/src/common/widgets/size_controller_widget.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_controller.dart';
+import 'package:client/src/features/books/presentation/book/book_screen_state.dart';
 import 'package:client/src/features/books/presentation/widgets/book_status_widget.dart';
+import 'package:client/src/features/chapters/application/events.dart';
+import 'package:client/src/features/chapters/presentation/chapter/chapter_widget.dart';
 import 'package:client/src/features/comments/presentation/comment/comment_widget.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_widget.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
@@ -24,6 +27,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/constants/constants.dart';
 import '../../../../common/pub_sub.dart';
+import '../../../reports/presentation/report_dialog.dart';
 import '../widgets/readings_state_widget.dart';
 
 class BookScreen extends ConsumerStatefulWidget {
@@ -40,6 +44,8 @@ class BookScreen extends ConsumerStatefulWidget {
 class _BookScreenState extends ConsumerState<BookScreen> {
   BookScreenController get cont => 
       ref.watch(bookScreenControllerProvider(widget.bookId).notifier);
+  AsyncValue<BookScreenState> get state => 
+      ref.watch(bookScreenControllerProvider(widget.bookId));
 
   void onLike() async {
     final isToggled = await cont.toggleLike();
@@ -79,12 +85,27 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     cont.changeBookState();
   }
 
+  void onShowChapters() {
+    printInfo(widget.bookId);
+    context.pushNamed(MyRoute.chapters.name, params: {
+      'id': widget.bookId
+    });
+  }
+
+  void onReport() {
+    showReportDialog(context, state.value!.book);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(bookScreenControllerProvider(widget.bookId));
     final ll = ref.watch(currentLocalizationProvider);
     ref.listen(pubSub, (prev, next) {
-      if (next is BookEditedEvent) cont.bookUpdated(next.updatedBook);
+      if (next is BookEditedEvent) {
+        cont.bookUpdated(next.updatedBook);
+      } else if (next is ChaptersEditedEvent) {
+        cont.refresh();
+      }
     });
     return state.when(
       data: (state) {
@@ -94,27 +115,46 @@ class _BookScreenState extends ConsumerState<BookScreen> {
           appBar: AppBar(
             title: Text(book.name),
             actions: [
-              if (state.isMy) IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: onEdit
-              )
-              else IconButton(
-                icon: Icon(book.bookmarked ?? false 
-                  ? Icons.bookmark 
-                  : Icons.bookmark_outline),
-                onPressed: onBookmark
-              )
+              PopupMenuButton(
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      onTap: onReport,
+                      child: Text('report'.hardcoded)
+                    )
+                  ];
+                }
+              ),
             ],
           ),
           body: ListView(
             children: [
-              if (book.coverUrl != null) 
-                  Center(
-                    child: MyImage(
-                      imageUrl: book.coverUrl,
-                      size: const Size(p232, p304),
+              Stack(
+                children: [
+                  if (book.coverUrl != null) 
+                    Center(
+                      child: MyImage(
+                        imageUrl: book.coverUrl,
+                        size: const Size(p232, p304),
+                      ),
                     ),
-                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: state.isMy 
+                      ? IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: onEdit
+                      )
+                      : IconButton(
+                        icon: Icon(book.bookmarked ?? false 
+                          ? Icons.bookmark 
+                          : Icons.bookmark_outline),
+                        onPressed: onBookmark
+                      )
+                  )
+                ]
+              ),
               h16gap,
               Text(book.name, 
                 style: Theme.of(context).textTheme.headlineMedium,
@@ -189,28 +229,11 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               Padding(
                 padding: const EdgeInsets.all(p16),
                 child: SeeAllHeader(
-                  showSeeAll: false,
-                  labelText: 'Chapters'.hardcoded
+                  labelText: 'Chapters'.hardcoded,
+                  onSeeAll: onShowChapters,
                 ),
               ),
-              ...book.chapters?.map((ch) => ListTile(
-                onTap: () { 
-                  printInfo(book.chapters);
-                },
-                title: Row(
-                  children: [
-                    Expanded(
-                      child: Text(ch.name,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ),
-                    w4gap,
-                    if (state.isMy) ReadingsStateWidget(state: ch.state)
-                  ]
-                ),
-                subtitle: Text(Constants.dateFormat.format(ch.createdAt)),
-              )).toList() ?? [
+              ...book.chapters?.map((ch) => ChapterWidget(chapter: ch)).toList() ?? [
                 ListTile(
                   title: Text("no chapters")
                 )

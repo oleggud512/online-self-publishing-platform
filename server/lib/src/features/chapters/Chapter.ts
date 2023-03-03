@@ -10,8 +10,8 @@ export const ReadingsState = {
 export interface IChapter extends Document {
   _id: string
   name: string
-  state: String
-  book: IBook // id reference
+  state: string
+  book: string // id reference
   content?: string
   
   createdAt?: Date;
@@ -31,7 +31,7 @@ const ChapterSchema = new Schema(
       ref: "Book",
       required: true,
     },
-    content: String,
+    content: { type: String, required: true },
   },
   { timestamps: true }
 );

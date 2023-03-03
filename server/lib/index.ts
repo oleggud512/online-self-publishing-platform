@@ -4,6 +4,7 @@ import express = require("express")
 import qs = require("qs")
 import mongoose from "mongoose"
 import config from './config'
+import http from "http"
 import serviceAccount = require("./serviceAccountKey.json")
 
 // // Import the functions you need from the SDKs you need
@@ -17,11 +18,14 @@ import serviceAccount = require("./serviceAccountKey.json")
 
 // import { getAuth } from "firebase/auth"
 
-import rootRouter from "./src/v1/routes"
+import rootRouter from "./router"
 import { handleErrorMiddleware } from "./src/common/handle-error"
 import { Comment } from "./src/features/comments/Comment"
 import { Book } from "./src/features/books/Book"
 import { Chapter, ReadingsState } from "./src/features/chapters/Chapter"
+import { setupSocketIoServer } from "./socket"
+import { Role } from "./src/features/users/models/Role"
+import { ReportType } from "./src/features/reports/ReportType"
 
 // Initialize FirebaseAdmin
 admin.initializeApp({
@@ -39,10 +43,14 @@ mongoose.connect(config.MONGO_URI).then(async (v) => {
   
   app.use("/api/v1", rootRouter)
   app.use(handleErrorMiddleware)
+
+  const server = http.createServer(app)
+
+  setupSocketIoServer(server)
   
   const PORT = process.env.PORT ?? 3000
   
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Books server is running on port ${PORT}`)
   })
 })

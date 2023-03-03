@@ -38,7 +38,4 @@ const CommentSchema = new Schema({
   // },
 }, { timestamps: true });
 
-// virtual field answers (nullable)
-// virtual field has answers (required)
-
 export const Comment = model<IComment>('Comment', CommentSchema);

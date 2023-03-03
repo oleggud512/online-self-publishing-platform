@@ -2,6 +2,7 @@ import 'package:client/src/common/ignore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../common/log.dart';
+import '../../../shared/identifiable.dart';
 import '../../books/domain/book.dart';
 
 part 'profile.freezed.dart';
@@ -15,7 +16,7 @@ enum Gender {
 }
 
 @freezed
-class Profile with _$Profile {
+class Profile with _$Profile, Identifiable {
   factory Profile({
     @JsonKey(name: "_id") @Default("") String id,
     @Default("") String name,

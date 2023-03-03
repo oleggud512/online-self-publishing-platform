@@ -14,7 +14,7 @@ export function isAuthorized(opts: {
     
     // костыль. Нужен потому что console.firebase.com не позволяет 
     // устанавливать customClaims. 
-    if (email == 'user1@gmail.com') {
+    if (email == 'user3@gmail.com') {
       console.log("I will allow oleggud52@gmail.com to do everything he want to do.")
       return next();
     }
@@ -25,7 +25,7 @@ export function isAuthorized(opts: {
       return next();
     }
     if (!role){ 
-      return res.status(403).send({ error: true, message: "Unauthorized from isAuthorized" });
+      return res.status(403).send({ error: true, message: "isAuthorized: no role" });
     }
     if (opts.hasRole.includes(role)) {
       return next();

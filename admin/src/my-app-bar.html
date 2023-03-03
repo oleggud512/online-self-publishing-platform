@@ -1,0 +1,14 @@
+<template>
+  <require from="./components/my-button.html"></require>
+  <header if.bind="isSignedIn" class="flex justify-end items-center p-4">
+    <span class="pr-4 flex-grow text-slate-400">
+      ${username}
+    </span>
+    <section class="inline">
+      <div class="${nav.isActive ? 'text-orange-800 underline underline-offset-4' : ''} inline mr-4" repeat.for="nav of router.navigation">
+        <a href.bind="nav.href">${nav.title}</a>
+      </div>
+    </section>
+    <my-button click.delegate="signOut()" display="inline-table">Sign Out</my-button>
+  </header>
+</template>

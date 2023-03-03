@@ -8,6 +8,7 @@ final scaffoldMessangerStateProvider = Provider((ref) {
 extension Messanger on GlobalKey<ScaffoldMessengerState> {
   void showMessage(String message) {
     currentState?.showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Text(message),
     ));
   }

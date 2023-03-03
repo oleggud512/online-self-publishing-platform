@@ -26,13 +26,13 @@ class LocalizationController extends Notifier<LocalizationState> {
 
   Future<void> changeLocale(Locale newLocale) async {
     final perfs = await SharedPreferences.getInstance();
-    await perfs.setString(Prefs.currentLocale, newLocale.languageCode);
+    await perfs.setString(Str.currentLocale, newLocale.languageCode);
     state = LocalizationState.fromLocale(newLocale);
   }
 
   Future<void> loadLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    String? currentLocale = prefs.getString(Prefs.currentLocale);
+    String? currentLocale = prefs.getString(Str.currentLocale);
     state = LocalizationState.fromLocale(
       SupportedLocale.localeFromString(currentLocale));
   }

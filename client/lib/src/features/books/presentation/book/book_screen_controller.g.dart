@@ -7,7 +7,7 @@ part of 'book_screen_controller.dart';
 // **************************************************************************
 
 String _$bookScreenControllerHash() =>
-    r'f6d0dc8b6c0c49d111d5b7742f4b48b0a3b01e58';
+    r'4cade46133ff68698daf624e66f60cece58efd18';
 
 /// Copied from Dart SDK
 class _SystemHash {

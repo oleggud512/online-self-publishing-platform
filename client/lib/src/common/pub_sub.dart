@@ -1,3 +1,4 @@
+import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'log.dart';

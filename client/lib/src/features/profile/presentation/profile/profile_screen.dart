@@ -7,12 +7,13 @@ import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/domain/localization.i69n.dart';
+import 'package:client/src/features/messages/domain/chat.dart';
 import 'package:client/src/features/profile/application/current_profile_id.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_screen/edit_profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_state.dart';
-import 'package:client/src/router/shell_scaffold_key.dart';
+import 'package:client/src/features/reports/presentation/report_dialog.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,6 @@ import '../../../../common/widgets/my_image.dart';
 import '../../../../router/menu_button_leading.dart';
 import '../../../auth/application/my_id_provider.dart';
 import '../../../books/presentation/book_list/book_list_widget.dart';
-import '../../../localization/application/ll.dart';
 import 'profile_action_button.dart';
 
 
@@ -42,6 +42,8 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  AsyncValue<ProfileScreenState> get state => 
+    ref.watch(profileScreenControllerProvider(widget.profileId!));
 
   void showBooks() {
     context.pushNamed(MyRoute.profileBooks.name,
@@ -69,8 +71,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     await ref.watch(profileScreenControllerProvider(widget.profileId!).notifier).unsubscribe();
   }
 
+  void onSendMessage() {
+    context.pushNamed(MyRoute.chat.name,
+      params: { 'id': widget.profileId! },
+      extra: Chat(other: ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile)
+    );
+  }
+
   void edit() {
-    context.pushNamed("editProfile", 
+    context.pushNamed(MyRoute.editProfile.name, 
       params: { 'id': ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile.id },
       extra: ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile
     );
@@ -80,6 +89,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     await ref.watch(profileScreenControllerProvider(widget.profileId!).notifier).refresh();
     refreshController.refreshCompleted();
     refreshController.loadComplete();
+  }
+
+  void onReport() {
+    showReportDialog(context, state.value!.profile);
   }
 
   @override
@@ -120,7 +133,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         //     profile.name);
         return Scaffold(
           appBar: AppBar(
-            leading: const MenuButtonLeading(),
+            leading: GoRouter.of(context).location.contains('profiles'.hardcoded) 
+              ? const BackButton()
+              : const MenuButtonLeading(),
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (context) => [PopupMenuItem(
+                  onTap: onReport,
+                  child: Text('report'.hardcoded)
+                )]
+              )
+            ],
             title: Text(profile.name),
           ),
           body: SmartRefresher(
@@ -216,6 +239,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               subscribe: subscribe,
               unsubscribe: unsubscribe,
             ),
+            if (ref.watch(myIdProvider) != profile.id) IconButton(
+              icon: Icon(Icons.message),
+              onPressed: onSendMessage
+            )
           ],
         )
       ]

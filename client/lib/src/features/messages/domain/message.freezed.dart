@@ -23,7 +23,8 @@ mixin _$Message {
   @JsonKey(name: "_id")
   String get id => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  String get sender => throw _privateConstructorUsedError;
+  Profile get from => throw _privateConstructorUsedError;
+  String get to => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
@@ -40,9 +41,12 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "_id") String id,
       String content,
-      String sender,
+      Profile from,
+      String to,
       DateTime createdAt,
       DateTime updatedAt});
+
+  $ProfileCopyWith<$Res> get from;
 }
 
 /// @nodoc
@@ -60,7 +64,8 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   $Res call({
     Object? id = null,
     Object? content = null,
-    Object? sender = null,
+    Object? from = null,
+    Object? to = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -73,9 +78,13 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      sender: null == sender
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as Profile,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -86,6 +95,14 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ProfileCopyWith<$Res> get from {
+    return $ProfileCopyWith<$Res>(_value.from, (value) {
+      return _then(_value.copyWith(from: value) as $Val);
+    });
   }
 }
 
@@ -99,9 +116,13 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "_id") String id,
       String content,
-      String sender,
+      Profile from,
+      String to,
       DateTime createdAt,
       DateTime updatedAt});
+
+  @override
+  $ProfileCopyWith<$Res> get from;
 }
 
 /// @nodoc
@@ -116,7 +137,8 @@ class __$$_MessageCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? content = null,
-    Object? sender = null,
+    Object? from = null,
+    Object? to = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -129,9 +151,13 @@ class __$$_MessageCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      sender: null == sender
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as Profile,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -151,7 +177,8 @@ class _$_Message implements _Message {
   _$_Message(
       {@JsonKey(name: "_id") this.id = "",
       this.content = "",
-      required this.sender,
+      required this.from,
+      required this.to,
       required this.createdAt,
       required this.updatedAt});
 
@@ -165,7 +192,9 @@ class _$_Message implements _Message {
   @JsonKey()
   final String content;
   @override
-  final String sender;
+  final Profile from;
+  @override
+  final String to;
   @override
   final DateTime createdAt;
   @override
@@ -173,7 +202,7 @@ class _$_Message implements _Message {
 
   @override
   String toString() {
-    return 'Message(id: $id, content: $content, sender: $sender, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Message(id: $id, content: $content, from: $from, to: $to, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -183,7 +212,8 @@ class _$_Message implements _Message {
             other is _$_Message &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.sender, sender) || other.sender == sender) &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -193,7 +223,7 @@ class _$_Message implements _Message {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, content, sender, createdAt, updatedAt);
+      Object.hash(runtimeType, id, content, from, to, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +243,8 @@ abstract class _Message implements Message {
   factory _Message(
       {@JsonKey(name: "_id") final String id,
       final String content,
-      required final String sender,
+      required final Profile from,
+      required final String to,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$_Message;
 
@@ -225,7 +256,9 @@ abstract class _Message implements Message {
   @override
   String get content;
   @override
-  String get sender;
+  Profile get from;
+  @override
+  String get to;
   @override
   DateTime get createdAt;
   @override

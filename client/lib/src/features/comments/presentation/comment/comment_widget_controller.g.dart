@@ -7,7 +7,7 @@ part of 'comment_widget_controller.dart';
 // **************************************************************************
 
 String _$commentWidgetControllerHash() =>
-    r'5568c3d57d2b873c19eef1f6fbd89b3fb6896df2';
+    r'aa991930dd351c3658a235bd7752e35aa28e5d38';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1,14 +1,18 @@
 import 'dart:async';
 
 class Debouncer {
-  int milliseconds;
+  final int milliseconds;
 
   Debouncer([this.milliseconds = 800]);
 
-  Timer? timer;
+  Timer? _timer;
 
   debounce(void Function() callback) {
-    timer?.cancel();
-    timer = Timer(Duration(milliseconds: milliseconds), callback);
+    _timer?.cancel();
+    _timer = Timer(Duration(milliseconds: milliseconds), callback);
+  }
+
+  dispose() { 
+    _timer?.cancel();
   }
 }
