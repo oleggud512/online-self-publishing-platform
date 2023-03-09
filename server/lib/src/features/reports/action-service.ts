@@ -12,9 +12,7 @@ export async function addMessage(args: {
     actionType: ActionType.message,
     author: authorId,
     report: reportId,
-    meta: {
-      content: content
-    }
+    content: content
   }).save()
 }
 
@@ -41,9 +39,7 @@ export async function addBookUpdated(args: {
       actionType: actionType,
       author: authorId,
       report: rep._id,
-      meta: {
-        book: bookId
-      }
+      book: bookId
     }))
   }
   await Action.insertMany(actions)
@@ -61,9 +57,7 @@ export async function addChapterUpdated(args: {
     actionType: actionType,
     author: authorId,
     report: reportId,
-    meta: {
-      book: bookId,
-      chapter: chapterId
-    }
+    book: bookId,
+    chapter: chapterId
   })
 }

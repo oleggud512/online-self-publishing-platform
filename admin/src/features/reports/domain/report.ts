@@ -1,13 +1,16 @@
 import { ReportState } from "./report-state";
 import { ReportSubject } from "./report-subject";
 
+
 export class Identifiable {
   _id: string
 }
 
+
 export class Owned {
   author: Profile
 }
+
 
 export class Entity implements Identifiable {
   _id: string
@@ -15,15 +18,18 @@ export class Entity implements Identifiable {
   updatedAt?: Date
 }
 
+
 export class BaseReportSubject implements Entity {
   _id: string
   createdAt?: Date
   updatedAt?: Date
 }
 
+
 export class BaseCommentSubject implements Identifiable {
   _id: string
 }
+
 
 export class Report implements Entity, Owned {
   _id: string
@@ -47,6 +53,10 @@ export class Report implements Entity, Owned {
     this.subjectName = data.subjectName
     this.reportType = new ReportType(data.reportType)
     this.state = data.state
+    
+    if (data.actions && Array.isArray(data.actions)) {
+      this.actions = data.actions.map(action => this._parseAction(action))
+    }
 
     if (data.createdAt) this.createdAt = new Date(data.createdAt)
     if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
@@ -58,6 +68,14 @@ export class Report implements Entity, Owned {
       case (ReportSubject.profile): return new Profile(data)
       case (ReportSubject.comment): return new Comment(data)
     }
+  }
+
+  private _parseAction(action: any) {
+    if (!action || !action.actionType) return undefined
+    if (ActionType.isOfMessageGroup(action.actionType)) return new MessageAction(action)
+    if (ActionType.isOfProfileGroup(action.actionType)) return new ProfileAction(action)
+    if (ActionType.isOfBookGroup(action.actionType)) return new BookAction(action)
+    if (ActionType.isOfChapterGroup(action.actionType)) return new ChapterAction(action)
   }
 
   public get isOnProfile() {
@@ -77,46 +95,138 @@ export class Report implements Entity, Owned {
   }
 }
 
-// class ActionMeta {}
-// class MessageActionMeta extends ActionMeta {
-//   content: string
-// }
-// class BookActionMeta extends ActionMeta {
-//   book: Book
-// }
-// class ChapterActionMeta extends ActionMeta {
-//   book: Book
-//   chapter: Chapter
-// }
+export class ActionType {
+  static message = "message"
 
+  static updateProfile = "updateProfile"
 
-// export class Action implements Entity, Owned {
-//   _id: string
-//   author: Profile
-//   meta: any
+  static addBook = "addBook"
+  static updateBook = "updateBook"
+  static deleteBook = "deleteBook"
+  static publishBook = "publishBook"
+  static unpublishBook = "unpublishBook"
+
+  static addChapter = "addChapter"
+  static updateChapter = "updateChapter"
+  static deleteChapter = "deleteChapter"
+  static publishChapter = "publishChapter"
+  static unpublishChapter = "unpublishChapter"
+
+  static get values() {
+    return [
+      ActionType.message,
+
+      ActionType.updateProfile,
+
+      ActionType.addBook,
+      ActionType.updateBook,
+      ActionType.deleteBook,
+      ActionType.publishBook,
+      ActionType.unpublishBook,
+
+      ActionType.addChapter,
+      ActionType.updateChapter,
+      ActionType.deleteChapter,
+      ActionType.publishChapter,
+      ActionType.unpublishChapter,
+    ]
+  }
+
+  static isOfProfileGroup(actionType: string) : boolean { 
+    return [
+      ActionType.updateProfile
+    ].includes(actionType)
+  }
+
+  static isOfBookGroup(actionType: string) : boolean { 
+    return [
+      ActionType.addBook,
+      ActionType.updateBook,
+      ActionType.deleteBook,
+      ActionType.publishBook,
+      ActionType.unpublishBook,
+    ].includes(actionType)
+  }
+
+  static isOfChapterGroup(actionType: string) : boolean {
+    return [
+      ActionType.addChapter,
+      ActionType.updateChapter,
+      ActionType.deleteChapter,
+      ActionType.publishChapter,
+      ActionType.unpublishChapter,
+    ].includes(actionType)
+  }
+
+  static isOfMessageGroup(actionType: string) : boolean {
+    return [
+      ActionType.message
+    ].includes(actionType)
+  }
+}
+
+export class Action implements Entity, Owned {
+  _id: string
+  actionType: string
+  author: Profile
+  report: string
   
-//   createdAt?: Date
-//   updatedAt?: Date
+  createdAt?: Date
+  updatedAt?: Date
 
-//   constructor(data: any) {
-//     this._id = data._id
-//     this.author = new Profile(data.author)
-//     this.meta = data.meta
+  constructor(data: any) {
+    this._id = data._id
+    this.actionType = data.actionType
+    this.author = new Profile(data.author)
+    this.report = data.report
 
-//     if (data.createdAt) this.createdAt = new Date(data.createdAt)
-//     if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
-//   }
-// }
+    if (data.createdAt) this.createdAt = new Date(data.createdAt)
+    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
+  }
+}
 
-// class SomeAct implements Entity, Owned, MessageActionMeta {
-//   _id: string;
-//   author: Profile;
+// в Action есть author. Если actionType == updateProfile, то это значит 
+// что профиль автора этого Action был обновлен
+export class ProfileAction extends Action {
+  constructor(data: any) { super(data) }
+}
 
-//   createdAt?: Date;
-//   updatedAt?: Date;
 
-  
-// }
+export class MessageAction extends Action {
+  content: string
+
+  constructor(data: any) {
+    super(data)
+    this.content = data.content
+  }
+}
+
+
+export class BookAction extends Action {
+  book: {
+    _id: string
+    name: string
+  }
+
+  constructor(data: any) {
+    super(data)
+    this.book = data.book
+  }
+}
+
+
+export class ChapterAction extends BookAction {
+  chapter: {
+    _id: string
+    name: string
+  }
+
+  constructor(data: any) {
+    super(data)
+    this.chapter = data.chapter
+  }
+}
+
 
 export class ReportType implements Identifiable {
   _id: string
@@ -133,6 +243,7 @@ export class ReportType implements Identifiable {
     this.subjectName = data.subjectName
   }
 }
+
 
 export class Book implements BaseReportSubject, BaseCommentSubject, Owned {
   _id: string
@@ -169,6 +280,7 @@ export class Book implements BaseReportSubject, BaseCommentSubject, Owned {
 
 }
 
+
 export class Chapter implements BaseCommentSubject {
   _id: string
 
@@ -192,6 +304,7 @@ export class Chapter implements BaseCommentSubject {
     if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
   }
 }
+
 
 export class Profile implements BaseReportSubject {
   _id: string
@@ -229,10 +342,13 @@ export class Profile implements BaseReportSubject {
 
 }
 
+
 export enum CommentSubject {
   book = 'Book',
   chapter = 'Chapter'
 }
+
+
 export function parseCommentSubject(data: string) {
   switch (data) {
     case 'Book': return CommentSubject.book
@@ -240,6 +356,7 @@ export function parseCommentSubject(data: string) {
   }
   throw `incorrect data ${data}`
 }
+
 
 export class Comment implements BaseReportSubject, Owned {
   _id: string

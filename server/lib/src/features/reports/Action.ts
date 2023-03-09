@@ -247,6 +247,8 @@ meta: {
 
 
 /*
+- [ ] message - сообщение 
+
 - [ ] updateProfile - обновление контента профиля
 
 - [ ] addBook - добавление книги
@@ -267,22 +269,24 @@ export type IAction = {
   report: string
   author: string
   actionType: string
-  meta: {
-    content?: string
-    book?: {
-      _id: string
-      name: string
-    }
-    chapter?: {
-      _id: string
-      name: string
-    }
+  // or
+  content?: string
+  // or | and
+  book?: {
+    _id: string
+    name: string
   }
-  
+  // or
+  chapter?: {
+    _id: string
+    name: string
+  }
 }
 
 export class ActionType {
   static message = "message"
+
+  static updateProfile = "updateProfile"
 
   static addBook = "addBook"
   static updateBook = "updateBook"
@@ -299,6 +303,8 @@ export class ActionType {
   static get values() {
     return [
       ActionType.message,
+
+      ActionType.updateProfile,
 
       ActionType.addBook,
       ActionType.updateBook,
@@ -319,11 +325,10 @@ const ActionSchema = new Schema({
   actionType: { type: String, required: true },
   author: { type: String, ref: 'Profile', required: true },
   report: { type: Types.ObjectId, ref: 'Report', required: true },
-  meta: {
-    content: { type: String },
-    book: { type: Types.ObjectId, ref: 'Book' },
-    chapter: { type: Types.ObjectId, ref: 'Chapter' }
-  }
+  content: { type: String },
+  profile: { type: String, ref: 'Profile' },
+  book: { type: Types.ObjectId, ref: 'Book' },
+  chapter: { type: Types.ObjectId, ref: 'Chapter' },
 }, { timestamps: true })
 
 ActionSchema.virtual("actions", {
