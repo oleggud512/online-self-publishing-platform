@@ -1,11 +1,10 @@
 <template>
-  <require from="../../../../components/my-button.html"></require>
-  <div class="flex justify-center items-center min-h-screen">
-    <div class="max-w-md flex flex-col grow max-h-screen">
-      <input type="text" placeholder="email" class="mb-2 border-2 rounded-lg p-2 border-orange-800/75">
-      <input type="password" placeholder="password" class="mb-2 border-2 rounded-lg p-2 border-orange-800/75">
-      <my-button click.delegate="alert('Not implemented')" class="mb-2">Sign In</my-button>
-      <my-button click.delegate="signInWithGoogle()">Sign In With Google</my-button>
+  <div class="container vh-100 col col-md-4 d-flex align-items-center">
+    <div class="row g-2">
+      <input type="text" placeholder="email" class="form-control">
+      <input type="password" placeholder="password" class="form-control">
+      <button click.delegate="alert('Not implemented')" class="btn btn-primary">Sign In</button>
+      <button click.delegate="signInWithGoogle()" class="btn btn-outline-primary">Sign In With Google</button>
     </div>
   </div>
 </template>

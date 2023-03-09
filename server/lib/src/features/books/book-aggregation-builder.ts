@@ -50,7 +50,8 @@ export class BookAggregationBuilder extends BaseAggregationBuilder {
       pipeline: [
         {
           $match: {
-            profile: forProfile ?? ""
+            profile: forProfile ?? "",
+            active: true
           }
         }
       ]

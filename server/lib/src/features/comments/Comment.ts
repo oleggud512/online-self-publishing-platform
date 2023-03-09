@@ -9,15 +9,16 @@ export interface IComment {
   author: IProfile
   rate: number
   depth: number
-  subject: IBook | IChapter,
+  subject: IBook | IChapter
+  subjectName: string
   question: string
 
   hasAnswers?: boolean
   
   answers?: IComment[]
   
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 const CommentSchema = new Schema({
@@ -28,14 +29,14 @@ const CommentSchema = new Schema({
   question: { type: Types.ObjectId, ref: "Comment" },
   subject: { 
     type: Types.ObjectId, 
-    // refPath: 'onModel', 
+    refPath: 'subjectName', 
     required: true, 
   },
-  // onModel: {
-	// 	type: String,
-	// 	enum: ['Book', 'Chapter'],
-	// 	required: true
-  // },
+  subjectName: {
+		type: String,
+		enum: ['Book', 'Chapter'],
+		required: true
+  },
 }, { timestamps: true });
 
 export const Comment = model<IComment>('Comment', CommentSchema);

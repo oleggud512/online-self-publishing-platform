@@ -33,6 +33,7 @@ admin.initializeApp({
 })
 
 mongoose.set('strictQuery', true)
+mongoose.set('strictPopulate', false)
 mongoose.connect(config.MONGO_URI).then(async (v) => {
   console.log("connected to mongodb+srv://<user>:<password>@firstcluster.t0xvhqq.mongodb.net/books")
   const app = express()

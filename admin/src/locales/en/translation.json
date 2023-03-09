@@ -1,0 +1,24 @@
+{
+    "messages": "Messages",
+    "reports": "Reports",
+    "english": "English",
+    "ukrainian": "Ukrainian",
+    "reloadNow": "Reload now? All changes will be deleted.",
+
+    "take": "Take",
+    "close": "Close",
+
+    "pending": "Pending",
+    "inProgress": "In Progress",
+    "closed": "Closed",
+
+    "books": "Books",
+    "profiles": "Profiles",
+    "comments": "Comments",
+
+    "my": "My",
+    "all": "All",
+
+    "new": "New",
+    "old": "Old"
+}

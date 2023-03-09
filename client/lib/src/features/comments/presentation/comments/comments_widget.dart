@@ -14,16 +14,21 @@ import 'comments_content_field_state.dart';
 
 
 class CommentsWidget extends ConsumerWidget {
-  CommentsWidget({super.key, required this.subjectId});
+  CommentsWidget({
+    super.key, 
+    required this.subjectId, 
+    required this.subjectName
+  });
 
   final String subjectId;
+  final String subjectName;
   final debouncer = Debouncer();
   final contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cont = ref.watch(commentsWidgetControllerProvider(subjectId).notifier);
-    final state = ref.watch(commentsWidgetControllerProvider(subjectId));
+    final cont = ref.watch(commentsWidgetControllerProvider(subjectId, subjectName).notifier);
+    final state = ref.watch(commentsWidgetControllerProvider(subjectId, subjectName));
 
     return state.when(
       data: (state) {

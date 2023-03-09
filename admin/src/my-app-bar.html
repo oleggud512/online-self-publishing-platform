@@ -1,14 +1,23 @@
 <template>
-  <require from="./components/my-button.html"></require>
-  <header if.bind="isSignedIn" class="flex justify-end items-center p-4">
-    <span class="pr-4 flex-grow text-slate-400">
-      ${username}
-    </span>
-    <section class="inline">
-      <div class="${nav.isActive ? 'text-orange-800 underline underline-offset-4' : ''} inline mr-4" repeat.for="nav of router.navigation">
-        <a href.bind="nav.href">${nav.title}</a>
+  <require from="./components/segmented-buttons/segmented-buttons"></require>
+
+  <header if.bind="isSignedIn" class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <span class="navbar-brand">${username}</span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item" repeat.for="nav of router.navigation">
+            <a href.bind="nav.href" class="nav-link ${nav.isActive ? 'active' : ''}">${t(nav.config.name)}</a>
+          </li>
+        </ul>
+        <button click.delegate="signOut()" class="btn btn-outline-primary d-inline me-3">
+          Sign Out
+        </button>
+        <segmented-buttons name="locales" required="true" value.bind="curLocale" segments.bind="localizationSegments" on-changed.bind="onNewRouteCallback"></segmented-buttons>
       </div>
-    </section>
-    <my-button click.delegate="signOut()" display="inline-table">Sign Out</my-button>
+    </div>
   </header>
 </template>

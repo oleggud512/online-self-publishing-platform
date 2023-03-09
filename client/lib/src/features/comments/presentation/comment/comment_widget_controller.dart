@@ -81,6 +81,7 @@ class CommentWidgetController extends _$CommentWidgetController {
     Comment newComment = await commentRepo.addComment(
       content: state.fieldState, 
       subjectId: state.comment.subject, 
+      subjectName: state.comment.subjectName,
       questionId: state.comment.id
     );
     state = state.copyWith(

@@ -1,0 +1,1 @@
+export type Sorting = 'new' | 'old' | 'popular'

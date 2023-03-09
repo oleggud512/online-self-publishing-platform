@@ -4,7 +4,7 @@ import { Likes } from "../linking/Likes";
 import { Comment, IComment } from "./Comment";
 import { CommentsAggregationBuilder } from "./comments-aggregation-builder";
 import { Sorting } from "./Sorting";
-import "../../common/date-ext"
+import "../../common/ext-date"
 import { AppErrors } from "../../shared/errors";
 
 export async function getComments(
@@ -41,6 +41,7 @@ export async function addComment(
     ofProfile: string
     content: string
     subjectId: string
+    subjectName: string
     questionId?: string
   }
 ) : Promise<IComment> { 
@@ -50,6 +51,7 @@ export async function addComment(
       content: args.content, 
       question: args.questionId, 
       subject: args.subjectId,
+      subjectName: args.subjectName,
       author: args.ofProfile,
       depth: (questionComment?.depth ?? -1) + 1
     }).save()
@@ -121,7 +123,7 @@ export async function rateComment(
         subject: commentId,
         profile: profileId,
         rate: myNewRate,
-        onModel: 'Comment'
+        subjectName: 'Comment'
       }).save()
     }
     // prev =  0  new =  1   =>   change =  1

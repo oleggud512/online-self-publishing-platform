@@ -27,6 +27,7 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
 export async function addComment(req: Request, res: Response, next: NextFunction) {
   const questionId = req.query.questionId as string | undefined
   const subjectId = req.query.subjectId as string // required
+  const subjectName: string = req.query.subjectName as string // required
 
   const content = req.body.content as string
   
@@ -36,6 +37,7 @@ export async function addComment(req: Request, res: Response, next: NextFunction
     ofProfile: whoTriesToAddComment, 
     content,
     subjectId,
+    subjectName,
     questionId,
   })
   console.log(comment)

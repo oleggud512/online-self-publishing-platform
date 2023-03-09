@@ -1,0 +1,4 @@
+.card-header:hover {
+    background-color: rgba(var(--bs-body-color-rgb), 0.1);
+    cursor: pointer;
+}

@@ -19,6 +19,7 @@ class Comment with _$Comment, Identifiable {
     required Profile author,
     @Default("") String content,
     @Default("") String subject,
+    @Default("") String subjectName,
     @Default(0) int depth,
     @Default(0) int rate,
 

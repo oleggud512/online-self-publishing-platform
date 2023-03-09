@@ -10,9 +10,15 @@
   "dependencies": {
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.4.0",
-    "firebase": "^9.17.1"
+    "aurelia-fetch-client": "^1.8.2",
+    "bootstrap": "^5.3.0-alpha1",
+    "firebase": "^9.17.1",
+    "i18next": "^22.4.11",
+    "jquery": "^3.6.3",
+    "popper.js": "^1.16.1"
   },
   "devDependencies": {
+    "@types/i18next": "^13.0.0",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.18",
     "@types/webpack": "^5.28.0",
@@ -59,7 +65,7 @@
     "build:dev": "webpack",
     "analyze": "webpack --env production --analyze",
     "test": "au test",
-    "tailwind": "npx tailwindcss -i ./src/styles/main.css -o ./src/styles/main.tailwind.css --watch"
+    "tailwind": "npx tailwindcss -i ./src/styles/main.tailwind.css -o ./src/styles/main.tailwind.g.css --watch"
   },
   "engines": {
     "node": ">=14.15.0"

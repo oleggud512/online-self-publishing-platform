@@ -1,0 +1,34 @@
+<template>
+  <require from="../components/report-item"></require>
+  <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+
+  <div class="container h-100 pt-3">
+    <div class="row row-cols-md-2 h-100 g-3">
+      <!-- actions -->
+      <div class="col">
+        <section class="card h-100">
+          <div class="card-body">
+  
+          </div>
+          <div class="card-footer">
+            <div class="input-group">
+              <textarea type="text" class="form-control" style="resize: none;" rows="2"></textarea>
+              <button class="btn btn-primary">Send</button>
+            </div>
+          </div>
+        </section>
+      </div>
+  
+      <!-- report info -->
+      <div class="col">
+        <div class="d-flex flex-column gap-3">
+          <report-item if.bind="report" report.bind="report"></report-item>
+          <div if.bind="report.admin">
+            <label class="form-label d-flex flex-column">Admin</label>
+            <profile-item profile.bind="report.admin" class="block"></profile-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

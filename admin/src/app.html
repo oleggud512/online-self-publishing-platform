@@ -1,6 +1,10 @@
 <template>
+  <require from="./styles/main.css"></require>
+  <!-- <require from="./styles/main.tailwind.g.css"></require> -->
   <require from="./my-app-bar"></require>
-  <require from="./styles/main.tailwind.css"></require>
-  <my-app-bar></my-app-bar>
-  <router-view></router-view>
+  <!-- <require from="./styles/main.tailwind.css"></require> -->
+  <div class="d-flex flex-column vh-100">
+    <my-app-bar></my-app-bar>
+    <router-view class="flex-grow-1 p-0 m-0"></router-view>
+  </div>
 </template>

@@ -55,12 +55,14 @@ class CommentRepository {
   Future<Comment> addComment({ 
     required String content, 
     required String subjectId,
+    required String subjectName,
     String? questionId
   }) => err(() async {
     if (content.isEmpty) throw "empty content";
     final resp = await _dio.post('comments', 
       queryParameters: {
         'subjectId': subjectId,
+        'subjectName': subjectName,
         if (questionId != null)'questionId': questionId
       },
       data: {

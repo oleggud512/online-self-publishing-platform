@@ -25,6 +25,7 @@ mixin _$Comment {
   Profile get author => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get subject => throw _privateConstructorUsedError;
+  String get subjectName => throw _privateConstructorUsedError;
   int get depth => throw _privateConstructorUsedError;
   int get rate => throw _privateConstructorUsedError;
   List<Comment> get answers => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $CommentCopyWith<$Res> {
       Profile author,
       String content,
       String subject,
+      String subjectName,
       int depth,
       int rate,
       List<Comment> answers,
@@ -76,6 +78,7 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? author = null,
     Object? content = null,
     Object? subject = null,
+    Object? subjectName = null,
     Object? depth = null,
     Object? rate = null,
     Object? answers = null,
@@ -100,6 +103,10 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
       subject: null == subject
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      subjectName: null == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String,
       depth: null == depth
           ? _value.depth
@@ -153,6 +160,7 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       Profile author,
       String content,
       String subject,
+      String subjectName,
       int depth,
       int rate,
       List<Comment> answers,
@@ -179,6 +187,7 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? author = null,
     Object? content = null,
     Object? subject = null,
+    Object? subjectName = null,
     Object? depth = null,
     Object? rate = null,
     Object? answers = null,
@@ -203,6 +212,10 @@ class __$$_CommentCopyWithImpl<$Res>
       subject: null == subject
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      subjectName: null == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String,
       depth: null == depth
           ? _value.depth
@@ -244,6 +257,7 @@ class _$_Comment implements _Comment {
       required this.author,
       this.content = "",
       this.subject = "",
+      this.subjectName = "",
       this.depth = 0,
       this.rate = 0,
       final List<Comment> answers = const [],
@@ -267,6 +281,9 @@ class _$_Comment implements _Comment {
   @override
   @JsonKey()
   final String subject;
+  @override
+  @JsonKey()
+  final String subjectName;
   @override
   @JsonKey()
   final int depth;
@@ -294,7 +311,7 @@ class _$_Comment implements _Comment {
 
   @override
   String toString() {
-    return 'Comment(id: $id, author: $author, content: $content, subject: $subject, depth: $depth, rate: $rate, answers: $answers, hasAnswers: $hasAnswers, myRate: $myRate, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Comment(id: $id, author: $author, content: $content, subject: $subject, subjectName: $subjectName, depth: $depth, rate: $rate, answers: $answers, hasAnswers: $hasAnswers, myRate: $myRate, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -306,6 +323,8 @@ class _$_Comment implements _Comment {
             (identical(other.author, author) || other.author == author) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.subject, subject) || other.subject == subject) &&
+            (identical(other.subjectName, subjectName) ||
+                other.subjectName == subjectName) &&
             (identical(other.depth, depth) || other.depth == depth) &&
             (identical(other.rate, rate) || other.rate == rate) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
@@ -326,6 +345,7 @@ class _$_Comment implements _Comment {
       author,
       content,
       subject,
+      subjectName,
       depth,
       rate,
       const DeepCollectionEquality().hash(_answers),
@@ -354,6 +374,7 @@ abstract class _Comment implements Comment {
       required final Profile author,
       final String content,
       final String subject,
+      final String subjectName,
       final int depth,
       final int rate,
       final List<Comment> answers,
@@ -373,6 +394,8 @@ abstract class _Comment implements Comment {
   String get content;
   @override
   String get subject;
+  @override
+  String get subjectName;
   @override
   int get depth;
   @override

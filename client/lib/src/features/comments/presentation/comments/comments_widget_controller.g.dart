@@ -7,7 +7,7 @@ part of 'comments_widget_controller.dart';
 // **************************************************************************
 
 String _$commentsWidgetControllerHash() =>
-    r'2a0d5d6f037273dc1a170e382d07e76ff46de7ab';
+    r'6630e504a7240c197420204c6b9d0e4be6b55069';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -33,9 +33,11 @@ class _SystemHash {
 abstract class _$CommentsWidgetController
     extends BuildlessAutoDisposeAsyncNotifier<CommentsWidgetState> {
   late final String subjectId;
+  late final String subjectName;
 
   FutureOr<CommentsWidgetState> build(
     String subjectId,
+    String subjectName,
   );
 }
 
@@ -52,9 +54,11 @@ class CommentsWidgetControllerFamily
   /// See also [CommentsWidgetController].
   CommentsWidgetControllerProvider call(
     String subjectId,
+    String subjectName,
   ) {
     return CommentsWidgetControllerProvider(
       subjectId,
+      subjectName,
     );
   }
 
@@ -64,6 +68,7 @@ class CommentsWidgetControllerFamily
   ) {
     return call(
       provider.subjectId,
+      provider.subjectName,
     );
   }
 
@@ -89,8 +94,11 @@ class CommentsWidgetControllerProvider
   /// See also [CommentsWidgetController].
   CommentsWidgetControllerProvider(
     this.subjectId,
+    this.subjectName,
   ) : super.internal(
-          () => CommentsWidgetController()..subjectId = subjectId,
+          () => CommentsWidgetController()
+            ..subjectId = subjectId
+            ..subjectName = subjectName,
           from: commentsWidgetControllerProvider,
           name: r'commentsWidgetControllerProvider',
           debugGetCreateSourceHash:
@@ -103,17 +111,20 @@ class CommentsWidgetControllerProvider
         );
 
   final String subjectId;
+  final String subjectName;
 
   @override
   bool operator ==(Object other) {
     return other is CommentsWidgetControllerProvider &&
-        other.subjectId == subjectId;
+        other.subjectId == subjectId &&
+        other.subjectName == subjectName;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, subjectId.hashCode);
+    hash = _SystemHash.combine(hash, subjectName.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -124,6 +135,7 @@ class CommentsWidgetControllerProvider
   ) {
     return notifier.build(
       subjectId,
+      subjectName,
     );
   }
 }

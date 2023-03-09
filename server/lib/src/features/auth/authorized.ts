@@ -12,6 +12,7 @@ export function isAuthorized(opts: {
   return (req: Request, res: Response, next: Function) => {
     const { role, email, uid } = res.locals; // тут беру uid из isAuthenticated
     
+    console.log('DETECTING AN ADMIN...')
     // костыль. Нужен потому что console.firebase.com не позволяет 
     // устанавливать customClaims. 
     if (email == 'user3@gmail.com') {
@@ -28,7 +29,12 @@ export function isAuthorized(opts: {
       return res.status(403).send({ error: true, message: "isAuthorized: no role" });
     }
     if (opts.hasRole.includes(role)) {
+      console.log('ADMIN DETECTED! GO!')
       return next();
     }
   }
+}
+
+export function isAuthorizedAdmin() {
+  return isAuthorized({ hasRole: [ 'admin', 'super-admin' ] })
 }

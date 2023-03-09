@@ -1,0 +1,17 @@
+<template>
+  <require from="../../../../components/avatar.html"></require>
+
+  <article class="card d-inline-flex p-3 flex-column gap-2">
+    <!-- head -->
+    <article class="d-flex gap-2">
+      <avatar src.bind="comment.author.avatarUrl"></avatar>
+      <article class="d-inline-flex flex-column">
+        <span class="h6 m-0">${comment.author.displayName ? comment.author.displayName : comment.author.displayName}</span>
+        <span class="text-muted">${comment.createdAt.toLocaleString()}</span>
+      </article>
+    </article>
+    <!-- content -->
+    ${comment.content}
+  </article>
+
+</template>

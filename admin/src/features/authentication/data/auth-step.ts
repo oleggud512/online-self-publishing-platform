@@ -9,7 +9,7 @@ export class AuthStep implements PipelineStep {
   private redirected = false
   private user: auth.User
 
-  s() {
+  listenAuth() {
     auth.onAuthStateChanged(auth.getAuth(), async (u) => {
       console.log('authStateChanged')
       console.log(u)
@@ -29,7 +29,7 @@ export class AuthStep implements PipelineStep {
     })
   }
   constructor(private router: Router) {
-    this.s()
+    this.listenAuth()
   }
 
   public async run(navigationInstruction: NavigationInstruction, next: Next): Promise<any> {

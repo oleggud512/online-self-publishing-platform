@@ -1,4 +1,4 @@
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, model, Types } from "mongoose";
 import { IBook } from "../books/Book";
 import { IComment } from "../comments/Comment";
 import { IProfile } from "../profiles/Profile";
@@ -41,12 +41,20 @@ export type IReport = {
 
 const ReportSchema = new Schema(
   {
-    reportType: { type: String, required: true },
-    author: { type: String, required: true },
-    subject: { type: String, required: true },
-    subjectName: { type: String, required: true },
+    reportType: { type: String, required: true, ref: "ReportType" },
+    author: { type: String, required: true, ref: "Profile" },
+    subject: { 
+      type: Schema.Types.Mixed, 
+      refPath: "subjectName",
+      required: true 
+    },
+    subjectName: { 
+      type: String, 
+      enum: ReportSubject.values,
+      required: true 
+    },
     state: { type: String, default: ReportState.pending },
-    admin: { type: String, default: null }
+    admin: { type: String, default: null, ref: "Profile" }
   }, 
   { timestamps: true }
 )

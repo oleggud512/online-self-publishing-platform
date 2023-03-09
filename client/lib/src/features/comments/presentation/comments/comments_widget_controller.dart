@@ -16,7 +16,7 @@ class CommentsWidgetController extends _$CommentsWidgetController
     with PaginationController<Comment> {
   CommentRepository get commentRepo => ref.watch(commentRepositoryProvider);
   @override
-  FutureOr<CommentsWidgetState> build(String subjectId) async {
+  FutureOr<CommentsWidgetState> build(String subjectId, String subjectName) async {
     _listenDeletion();
     return CommentsWidgetState(comments: await getItems(0));
   }
@@ -44,7 +44,8 @@ class CommentsWidgetController extends _$CommentsWidgetController
   Future<void> addComment() async {
     final Comment newComment = await commentRepo.addComment(
       content: ref.watch(commentsContentFieldState), 
-      subjectId: subjectId
+      subjectId: subjectId,
+      subjectName: subjectName,
     );
     ref.watch(commentsContentFieldState.notifier).state = "";
     state = AsyncData(

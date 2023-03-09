@@ -1,3 +1,30 @@
 <template>
-  <h1>reports-screen.html</h1>
+  <require from="./reports-screen-style.css"></require>
+
+  <require from="../../../../components/segmented-buttons/segmented-buttons"></require>
+  <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+  <require from="../../../books/presentation/book-item/book-item"></require>
+  <require from="../../../comments/presentation/comment-item/comment-item"></require>
+  <require from="../components/report-item"></require>
+  <require from="../../../../components/avatar.html"></require>
+
+
+  <div class="container p-2 d-flex flex-column gap-2">
+
+    <section class="d-inline-flex gap-2 flex-wrap">
+      <segmented-buttons value.bind="filters.state" segments.bind="stateSegments" name="states" required="true"></segmented-buttons>
+      <segmented-buttons value.bind="filters.subjectName" segments.bind="subjectSegments" name="subjects"></segmented-buttons>
+      <segmented-buttons value.bind="filters.owner" segments.bind="isMySegments" name="my" required="true"></segmented-buttons>
+      <segmented-buttons value.bind="filters.sorting" segments.bind="sortingSegments" name="sorting" required="true" class="ms-lg-auto"></segmented-buttons>
+    </section>
+    
+    <report-item repeat.for="report of reports" 
+      report.bind="report" 
+      on-header-click.bind="navigateToReportCallback">
+    </report-item>
+
+    <button click.delegate="loadMore()" class="btn btn-outline-secondary d-inline" type="button" if.bind="hasMore">Load More</button>
+    <div else class="text-center text-muted">No More Reports</div>
+  </div>
+
 </template>

@@ -11,6 +11,8 @@ import { FilteringSource } from "./FilteringSource";
 import { Filters } from "./Filters";
 import { Genre } from "./Genre";
 import { Tag } from "./Tag";
+import * as actionsService from "../reports/action-service"
+import { ActionType } from "../reports/Action";
 
 
 export async function getBook(id: string, forProfile?: string) : Promise<IBook> {
@@ -33,8 +35,16 @@ export async function getFilteringSource() : Promise<FilteringSource> {
 
 
 export async function updateBook(id: string, book: IBook, forProfile: string) : Promise<IBook | null> {
-  const updatedBook = await Book.findByIdAndUpdate(id, book)
-  return getBook(updatedBook!._id, forProfile)
+  // const updatedBook = await Book.findByIdAndUpdate(id, book)
+  const upd = await Book.updateOne({ _id: id }, book)
+  if (upd.modifiedCount) {
+    actionsService.addBookUpdated({
+      actionType: ActionType.updateBook,
+      authorId: forProfile, 
+      bookId: id
+    })
+  }
+  return getBook(id, forProfile)
 }
 
 
@@ -137,7 +147,7 @@ export async function toggleLike(bookId: string, profileId: string)
 
   if (!likeEntity) {
     // like - create a new like entity
-    await new Likes({ subject: bookId, profile: profileId }).save()
+    await new Likes({ subject: bookId, profile: profileId, subjectName: 'Book' }).save()
   } else if (!likeEntity!.active) {
     // like - just make active = true and that's all. 
     await Likes.findOneAndUpdate({ subject: bookId, profile: profileId }, { active: true })

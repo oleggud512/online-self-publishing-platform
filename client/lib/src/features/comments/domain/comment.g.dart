@@ -11,6 +11,7 @@ _$_Comment _$$_CommentFromJson(Map<String, dynamic> json) => _$_Comment(
       author: Profile.fromJson(json['author'] as Map<String, dynamic>),
       content: json['content'] as String? ?? "",
       subject: json['subject'] as String? ?? "",
+      subjectName: json['subjectName'] as String? ?? "",
       depth: json['depth'] as int? ?? 0,
       rate: json['rate'] as int? ?? 0,
       answers: (json['answers'] as List<dynamic>?)
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
       'author': instance.author,
       'content': instance.content,
       'subject': instance.subject,
+      'subjectName': instance.subjectName,
       'depth': instance.depth,
       'rate': instance.rate,
       'answers': instance.answers,

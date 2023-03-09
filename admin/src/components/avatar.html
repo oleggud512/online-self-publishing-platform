@@ -1,0 +1,6 @@
+<template bindable="src">
+  <require from="../icons/profile-filled.html"></require>
+
+  <img if.bind="src" src.bind="src" height="48" width="48" class="rounded-circle"/>
+  <profile-filled else size="48" fill="grey" class="rounded-circle"></profile-filled>
+</template>

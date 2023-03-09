@@ -5,36 +5,37 @@ import { IComment } from '../comments/Comment';
 import { IProfile } from '../profiles/Profile';
 
 export interface ILikes {
-	profile: IProfile
-	subject: IBook | IChapter | IComment
-	rate: number
-	active: Boolean
+  profile: IProfile
+  subject: IBook | IChapter | IComment
+  subjectName: string
+  rate: number
+  active: Boolean
 }
 
 const LikesSchema = new Schema({
-	profile: {
-		type: String,
-		ref: 'Profile',
-		required: true
-	},
-	subject: {
-		type: Types.ObjectId,
-		refPath: 'onModel',
-		required: true
-	},
-	rate: {
-		type: Number,
-		default: 0
-	},
-	active: {
-		type: Boolean,
-		default: true
-	},
-	onModel: {
-		type: String,
-		enum: ['Book', 'Chapter', 'Comment'],
-		// required: true
-	}
+  profile: {
+    type: String,
+    ref: 'Profile',
+    required: true
+  },
+  subject: {
+    type: Types.ObjectId,
+    refPath: 'subjectName',
+    required: true
+  },
+  subjectName: {
+    type: String,
+    enum: ['Book', 'Chapter', 'Comment'],
+    // required: true
+  },
+  rate: {
+    type: Number,
+    default: 0
+  },
+  active: {
+    type: Boolean,
+    default: true
+  },
 }, { timestamps: true });
 
 export const Likes = model<ILikes>('Likes', LikesSchema);

@@ -1,5 +1,18 @@
-import {FrameworkConfiguration} from 'aurelia-framework';
+import {FrameworkConfiguration} from 'aurelia-framework'
+import { HttpClient, Interceptor } from 'aurelia-fetch-client'
 import * as firebase from "firebase/app"
+import { ReportRepository } from 'features/reports/data/report-repository';
+import { AuthInterceptor } from 'features/authentication/data/auth-interceptor';
+import en from '../locales/en/translation.json'
+import uk from '../locales/uk/translation.json'
+import i18next from 'i18next';
+
+
+type Loc = {
+  pending: string
+  inProgress: string
+  closed: string
+}
 
 export function configure(config: FrameworkConfiguration): void {
   //config.globalResources([]);
@@ -14,6 +27,25 @@ export function configure(config: FrameworkConfiguration): void {
   };
   
   firebase.initializeApp(firebaseConfig)
+
+  const curLocale = localStorage.getItem('curLocale')
+  i18next.init<Loc>({
+    lng: curLocale,
+    resources: {
+      en: { translation: en },
+      uk: { translation: uk },
+    },
+  })
+
+  config.container.registerSingleton(HttpClient, () => {
+    return new HttpClient().configure(conf => {
+      conf.baseUrl = "http://127.0.0.1:3000/api/v1/"
+      conf.withInterceptor(new AuthInterceptor())
+    })
+  })
+  config.container.registerSingleton(ReportRepository, () => {
+    return new ReportRepository(config.container.get(HttpClient))
+  })
   console.log('init')
 }
 

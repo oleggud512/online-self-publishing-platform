@@ -5,9 +5,10 @@ import { AuthStep } from "features/authentication/data/auth-step"
 export const MyRoute = {
   home: 'home',
   auth: 'auth',
-  reports: 'reports',
+  nonAdmin: 'nonAdmin',
   messages: 'messages',
-  nonAdmin: 'nonAdmin'
+  reports: 'reports',
+    report: 'report',
 }
 
 export function configureRouter(config: RouterConfiguration, router: Router) {
@@ -51,6 +52,11 @@ export function configureRouter(config: RouterConfiguration, router: Router) {
       moduleId: PLATFORM.moduleName("./features/reports/presentation/reports/reports-screen"),
       nav: true,
       title: 'Reports'
+    },
+    {
+      route: 'reports/:id',
+      name: MyRoute.report,
+      moduleId: PLATFORM.moduleName("./features/reports/presentation/report/report-screen"),
     }
   ])
 }

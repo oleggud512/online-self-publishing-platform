@@ -27,6 +27,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/constants/constants.dart';
 import '../../../../common/pub_sub.dart';
+import '../../../comments/domain/comment_subject.dart';
 import '../../../reports/presentation/report_dialog.dart';
 import '../widgets/readings_state_widget.dart';
 
@@ -240,7 +241,10 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               ],
               Padding(
                 padding: const EdgeInsets.all(p16),
-                child: CommentsWidget(subjectId: book.id),
+                child: CommentsWidget(
+                  subjectId: book.id, 
+                  subjectName: CommentSubjects.book
+                ),
               )
             ],
           )

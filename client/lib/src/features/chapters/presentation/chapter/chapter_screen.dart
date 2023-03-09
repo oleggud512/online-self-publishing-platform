@@ -12,6 +12,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants/constants.dart';
 import '../../../books/domain/book.dart';
+import '../../../comments/domain/comment_subject.dart';
+import '../../../comments/presentation/comments/comments_widget.dart';
 import '../../application/events.dart';
 import 'chapter_screen_state.dart';
 
@@ -71,6 +73,10 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                     Text(state.chapter.content, style: Theme.of(context).textTheme.bodyLarge)
                   ]
                 ),
+              ),
+              CommentsWidget(
+                subjectId: state.chapter.id,
+                subjectName: CommentSubjects.chapter
               )
             ]
           ),
