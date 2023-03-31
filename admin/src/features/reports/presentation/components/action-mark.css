@@ -1,0 +1,60 @@
+@import "../../../../styles/main.css";
+
+action-mark {
+  --circle-diameter: 1rem;
+  --circle-radius: calc(var(--circle-diameter) / 2);
+
+  --line-width: 0.25rem;
+  --line-border-radius: calc(var(--line-width) / 2);
+}
+
+.cont {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: var(--circle-diameter);
+  height: 100%;
+}
+
+/* .cont > div {
+  background-color: var(--bs-primary);
+} */
+
+.message > div {
+  background-color: teal;
+}
+
+.profile > div {
+  background-color: dodgerblue;
+}
+
+.book > div {
+  background-color: chocolate;
+}
+
+.chapter > div {
+  background-color:darkolivegreen;
+}
+
+.line {
+  width: var(--line-width);
+}
+
+.circle {
+  width: var(--circle-diameter);
+  height: var(--circle-diameter);
+  border-radius: 50%;
+  position: absolute;
+  /* top: calc(50% - var(--circle-radius)) */
+  top: 1.5rem;
+}
+
+/* reversed because I display action items flex-collumn-reverse*/
+action-item:first-child action-mark .line {
+  border-end-start-radius: var(--line-border-radius);
+  border-end-end-radius: var(--line-border-radius);
+}
+action-item:last-child  action-mark .line {
+  border-start-start-radius: var(--line-border-radius);
+  border-start-end-radius: var(--line-border-radius);
+}

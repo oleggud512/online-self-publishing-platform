@@ -49,17 +49,24 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
     final state = this.state;
     return state.when(
       data: (state) => Scaffold(
-        floatingActionButton: cont.isMy
-          ? FloatingActionButton(
-            onPressed: onEdit,
-            child: const Icon(Icons.edit),
-          ) 
-          : null,
+        // floatingActionButton: cont.isMy
+        //   ? FloatingActionButton(
+        //     onPressed: onEdit,
+        //     child: const Icon(Icons.edit),
+        //   ) 
+        //   : null,
         body: SafeArea(
           child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: p8),
             children: [
               AppBar(
-                title: Text(state.chapter.name)
+                title: Text(state.chapter.name),
+                actions: [
+                  if (cont.isMy) IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: onEdit,
+                  )
+                ]
               ),
               Padding(
                 padding: const EdgeInsets.all(p8),

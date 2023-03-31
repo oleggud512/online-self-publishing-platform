@@ -9,7 +9,6 @@ export async function getChapters(req: Request, res: Response, next: NextFunctio
 
   chaptersService.getChapters(bookId, from, pageSize, forProfile)
     .then(chapters => {
-      console.log(chapters)
       res.json({ data: chapters })
     })
     .catch(next)

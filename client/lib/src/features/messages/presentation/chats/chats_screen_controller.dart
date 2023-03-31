@@ -26,7 +26,7 @@ class ChatsScreenController extends _$ChatsScreenController
   @override
   FutureOr<ChatsScreenState> build() async {
     printInfo('on ChatsScreenController build');
-    nextMessageHandeler = NextMessageHandler(_populateSomeChat);
+    nextMessageHandeler = NextMessageHandler(_onNextMessage);
     ref.onDispose(() async {
       printInfo("on ChatsScreenController dispose nextMessageHandeler = ($nextMessageHandeler)");
       await nextMessageHandeler?.dispose();
@@ -39,14 +39,27 @@ class ChatsScreenController extends _$ChatsScreenController
       printInfo('on ChatsScreenController resume');
     });
     final chats = await getItems(0);
+    Future(() => loadAdminChats());
     return ChatsScreenState(chats: chats);
   }
 
-  void _populateSomeChat(Message nextMessage) {
-    Chat chatToUpdate = state.value!.chats.firstWhere(
-      (chat) => [nextMessage.from.id, nextMessage.to]
-        .contains(chat.other.id)
-    );
+  Future<void> loadAdminChats() async {
+    state = AsyncData(state.value!.copyWith(
+      adminChats: await chatRepo.getAdminChats()
+    ));
+  }
+
+  /// populates some chat
+  void _onNextMessage(Message nextMessage) {
+    Chat? chatToUpdate;
+
+    try {
+      chatToUpdate = state.value!.chats.firstWhere(
+        (chat) => [nextMessage.from.id, nextMessage.to].contains(chat.other.id)
+      );
+    } catch (e) {
+      return;
+    }
 
     Chat newChat = chatToUpdate.copyWith(lastMessage: nextMessage.content);
     

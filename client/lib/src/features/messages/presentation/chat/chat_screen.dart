@@ -13,6 +13,7 @@ import '../../../../common/constants/constants.dart';
 import '../../../../common/pub_sub.dart';
 import '../../../../common/widgets/my_avatar.dart';
 import '../../domain/message.dart';
+import '../widgets/message_widget.dart';
 import 'chat_screen_controller.dart';
 import 'chat_screen_state.dart';
 
@@ -63,7 +64,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 reverse: true,
                 itemCount: state.messages.length,
                 itemBuilder: (context, index) {
-                  return buildMessage(state.messages[index]);
+                  return MessageWidget(
+                    isMy: (message) => ref.watch(myIdProvider) == message.from.id,
+                    message: state.messages[index], 
+                  );
                 }
               )
             )
@@ -88,13 +92,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     );
   }
 
-  Widget buildMessage(Message message) { 
-    bool my = ref.watch(myIdProvider) == message.from.id;
-    return ListTile(
-      leading: my ? null : MyAvatar(url: message.from.avatarUrl ?? ""),
-      trailing: !my ? null : MyAvatar(url: message.from.avatarUrl ?? ""),
-      title: Text(message.content),
-      subtitle: Text("${my ? "me" : message.from.name} ${Constants.dateFormat.format(message.createdAt)}")
-    );
-  }
+  // Widget buildMessage(Message message) { 
+  //   bool my = ref.watch(myIdProvider) == message.from.id;
+  //   return ListTile(
+  //     leading: my ? null : MyAvatar(url: message.from.avatarUrl ?? ""),
+  //     trailing: !my ? null : MyAvatar(url: message.from.avatarUrl ?? ""),
+  //     title: Text(message.content),
+  //     subtitle: Text("${my ? "me" : message.from.name} ${Constants.dateFormat.format(message.createdAt)}")
+  //   );
+  // }
 }

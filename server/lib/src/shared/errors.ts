@@ -3,5 +3,10 @@ export const AppErrors = {
   cannotAddChapter: "cannotAddChapter",
   cannotUpdateChapter: "cannotUpdateChapter",
   cannotDeleteChapter: "cannotDeleteChapter",
-  missedField: "missedField"
+  missedField: "missedField",
+  cannotChangeState: "cannotChangeState",
+  cannotAddComment: "cannotAddComment",
+  cannotAddMessage: "cannotAddMessage",
+  blockedUserAuth: "blockedUserAuth",
+  invalidAuth: 'invalidAuth',
 }

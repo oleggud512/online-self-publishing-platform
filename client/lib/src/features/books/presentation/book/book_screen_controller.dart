@@ -2,6 +2,9 @@ import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/books/data/book_repository.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_state.dart';
+import 'package:client/src/features/localization/application/current_localization.dart';
+import 'package:client/src/features/localization/data/localization_controller.dart';
+import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -53,11 +56,17 @@ class BookScreenController extends _$BookScreenController {
   }
 
   void changeBookState() async {
-    state = await AsyncValue.guard(() async {
+    try {
       final newState = await bookRepo.changeState(state.value!.book.id);
-      return state.value!.copyWith(
-        book: state.value!.book.copyWith(state: newState)
+      state = AsyncData(
+        state.value!.copyWith(
+          book: state.value!.book.copyWith(
+            state: newState
+          )
+        )
       );
-    });
+    } on StateChangeNotPermitted catch (_) {
+      Utils.showMessage(ref, ref.watch(currentLocalizationProvider).errors.cantPublish);
+    }
   }
 }

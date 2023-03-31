@@ -48,6 +48,8 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   AsyncValue<BookScreenState> get state => 
       ref.watch(bookScreenControllerProvider(widget.bookId));
 
+  final refreshController = RefreshController();
+
   void onLike() async {
     final isToggled = await cont.toggleLike();
     if (!isToggled) {
@@ -88,13 +90,22 @@ class _BookScreenState extends ConsumerState<BookScreen> {
 
   void onShowChapters() {
     printInfo(widget.bookId);
-    context.pushNamed(MyRoute.chapters.name, params: {
-      'id': widget.bookId
-    });
+    context.pushNamed(MyRoute.chapters.name, 
+      params: {
+        'id': widget.bookId
+      },
+      extra: state.value!.book
+    );
   }
 
   void onReport() {
     showReportDialog(context, state.value!.book);
+  }
+
+  void onRefresh() async {
+    await cont.refresh();
+    refreshController.refreshCompleted();
+    refreshController.loadComplete();
   }
 
   @override
@@ -128,125 +139,129 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               ),
             ],
           ),
-          body: ListView(
-            children: [
-              Stack(
-                children: [
-                  if (book.coverUrl != null) 
+          body: SmartRefresher(
+            controller: refreshController,
+            onRefresh: onRefresh,
+            child: ListView(
+              children: [
+                Stack(
+                  children: [
                     Center(
                       child: MyImage(
+                        placeholderIcon: const Icon(Icons.book_outlined, color: Colors.grey, size: p96),
                         imageUrl: book.coverUrl,
                         size: const Size(p232, p304),
                       ),
                     ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: state.isMy 
-                      ? IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: onEdit
-                      )
-                      : IconButton(
-                        icon: Icon(book.bookmarked ?? false 
-                          ? Icons.bookmark 
-                          : Icons.bookmark_outline),
-                        onPressed: onBookmark
-                      )
-                  )
-                ]
-              ),
-              h16gap,
-              Text(book.name, 
-                style: Theme.of(context).textTheme.headlineMedium,
-                textAlign: TextAlign.center,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: p16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        BookStatusWidget(status: book.status),
-                        if (state.isMy) ...[
-                          w8gap,
-                          Container(
-                            color: Theme.of(context).colorScheme.outline,
-                            width: 1,
-                            height: 20,
-                          ),
-                          w8gap,
-                          InkWell(
-                            onTap: onChangeState,
-                            child: ReadingsStateWidget(state: book.state)
-                          )
-                        ],
-                        const Spacer(),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(book.likes.toString(), 
-                              style: Theme.of(context).textTheme.labelLarge
-                            ),
-                            IconButton(
-                              icon: Icon(book.liked 
-                                ? Icons.favorite 
-                                : Icons.favorite_outline),
-                              onPressed: onLike,
-                            )
-                          ]
-                        ),
-                      ]
-                    ),
-                    Text(book.description ?? ll.profile.noDescriptionPlaceholder,
-                      style: Theme.of(context).textTheme.bodyLarge
-                    ),
-                    h8gap,
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Wrap(
-                        spacing: p8,
-                        children: [
-                          ...book.genres.map((g) => FilterChip(
-                            elevation: 8,
-                            selected: false,
-                            onSelected: (s) {},
-                            label: Text(g),
-                          )).toList(),
-                          ...book.tags.map((g) => FilterChip(
-                            selected: false,
-                            onSelected: (s) {},
-                            label: Text(g)
-                          )).toList(),
-                        ]
-                      ),
-                    ),
-                    h8gap,
-                    AuthorWidget(profile: book.author),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: state.isMy 
+                        ? IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: onEdit
+                        )
+                        : IconButton(
+                          icon: Icon(book.bookmarked ?? false 
+                            ? Icons.bookmark 
+                            : Icons.bookmark_outline),
+                          onPressed: onBookmark
+                        )
+                    )
                   ]
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(p16),
-                child: SeeAllHeader(
-                  labelText: 'Chapters'.hardcoded,
-                  onSeeAll: onShowChapters,
+                h16gap,
+                Text(book.name, 
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              ...book.chapters?.map((ch) => ChapterWidget(chapter: ch)).toList() ?? [
-                ListTile(
-                  title: Text("no chapters")
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: p16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          BookStatusWidget(status: book.status),
+                          if (state.isMy) ...[
+                            w8gap,
+                            Container(
+                              color: Theme.of(context).colorScheme.outline,
+                              width: 1,
+                              height: 20,
+                            ),
+                            w8gap,
+                            InkWell(
+                              onTap: onChangeState,
+                              child: ReadingsStateWidget(state: book.state)
+                            )
+                          ],
+                          const Spacer(),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(book.likes.toString(), 
+                                style: Theme.of(context).textTheme.labelLarge
+                              ),
+                              IconButton(
+                                icon: Icon(book.liked 
+                                  ? Icons.favorite 
+                                  : Icons.favorite_outline),
+                                onPressed: onLike,
+                              )
+                            ]
+                          ),
+                        ]
+                      ),
+                      Text(book.description ?? ll.profile.noDescriptionPlaceholder,
+                        style: Theme.of(context).textTheme.bodyLarge
+                      ),
+                      h8gap,
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          spacing: p8,
+                          children: [
+                            ...book.genres.map((g) => FilterChip(
+                              elevation: 8,
+                              selected: false,
+                              onSelected: (s) {},
+                              label: Text(g),
+                            )).toList(),
+                            ...book.tags.map((g) => FilterChip(
+                              selected: false,
+                              onSelected: (s) {},
+                              label: Text(g)
+                            )).toList(),
+                          ]
+                        ),
+                      ),
+                      h8gap,
+                      AuthorWidget(profile: book.author),
+                    ]
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(p16),
+                  child: SeeAllHeader(
+                    labelText: 'Chapters'.hardcoded,
+                    onSeeAll: onShowChapters,
+                  ),
+                ),
+                ...book.chapters?.map((ch) => ChapterWidget(chapter: ch)).toList() ?? [
+                  ListTile(
+                    title: Text("no chapters")
+                  )
+                ],
+                Padding(
+                  padding: const EdgeInsets.all(p16),
+                  child: CommentsWidget(
+                    subjectId: book.id, 
+                    subjectName: CommentSubjects.book
+                  ),
                 )
               ],
-              Padding(
-                padding: const EdgeInsets.all(p16),
-                child: CommentsWidget(
-                  subjectId: book.id, 
-                  subjectName: CommentSubjects.book
-                ),
-              )
-            ],
+            ),
           )
         );
       },

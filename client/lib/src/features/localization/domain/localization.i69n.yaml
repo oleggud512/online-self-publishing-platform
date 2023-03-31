@@ -9,6 +9,17 @@ screenTitle:
   profileBooks: Profile Books
   filters: Filters
   bookmarks: Bookmarks
+  authentication: Authentication
+
+auth: 
+  email: Email
+  password: Password
+  signIn: Sign In
+  signUp: Sign Up
+  skip: Skip
+  switchTo(String to): "Switch to $to"
+
+google: Google
 
 settings:
   changeLanguageLabel: Change Language
@@ -19,6 +30,8 @@ settings:
 errors:
   shortPassword: Password must have more than 6 characters
   cannotSubscribeYourself: "Can't subscribe yourself"
+  cantPublish: "You can't publish this book"
+  cannotAddComment: "You are not permitted to add comments."
 
 searchPlaceholder: 'type here...'
 
@@ -55,3 +68,20 @@ wantToHide: "Want to hide the book?"
 wantToPublish: "Want to publish the book?"
 yes: "Yes"
 no: "No"
+
+notifications:
+  newChapter:
+    title: "New Chapter"
+    body(Map<String, dynamic> data): 'Chapter \"${data["chapter"]}\" has been added to the book \"${data["book"]}\"'
+  bookUnpublished:
+    title: "Your book is unpublished due to violation of ... something"
+    body(Map<String, dynamic> data): '\"${data["book"]}\" has been unpublished. Contact administration through \"Messages\" tab'
+  reportRejected:
+    title: "Your report rejected"
+    body(Map<String, dynamic> data): 'Your report on \"${data["subject"]}\" has been rejected. Rules.'
+  subscribed:
+    title: 'New subscriber'
+    body(Map<String, dynamic> data): 'The user ${data["profile"]} has been subscribed on you.'
+  commentAnswer:
+    title: 'New answer'
+    body(Map<String, dynamic> data): 'The user ${data["profile"]} has been answered your comment.'

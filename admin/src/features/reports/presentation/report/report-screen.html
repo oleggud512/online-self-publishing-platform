@@ -1,34 +1,43 @@
 <template>
   <require from="../components/report-item"></require>
   <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+  <require from="../components/action-mark.html"></require>
+  <require from="../components/action-item"></require>
 
-  <div class="container h-100 pt-3">
-    <div class="row row-cols-md-2 h-100 g-3">
+  <div class="container h-100 py-3">
+    <div class="row row-cols-1 row-cols-md-2 h-100">
       <!-- actions -->
-      <div class="col">
-        <section class="card h-100">
-          <div class="card-body">
-  
+      <section class="col h-100">
+        
+        <div class="card d-flex flex-column">
+          <div class="card-body d-flex flex-column-reverse overflow-y-auto flex-grow-1 px-0">
+            <action-item repeat.for="action of report.actions" action.bind="action"></action-item>
           </div>
+      
           <div class="card-footer">
             <div class="input-group">
-              <textarea type="text" class="form-control" style="resize: none;" rows="2"></textarea>
-              <button class="btn btn-primary">Send</button>
+              <textarea id="messageField" type="text" class="form-control" style="resize: none;" rows="1" value.bind="messageField"></textarea>
+              <button class="btn btn-primary" click.delegate="sendMessage()">Send</button>
             </div>
           </div>
-        </section>
-      </div>
-  
+      
+        </div>
+      </section>
       <!-- report info -->
       <div class="col">
         <div class="d-flex flex-column gap-3">
-          <report-item if.bind="report" report.bind="report"></report-item>
+          <div>
+            <label class="form-label d-flex flex-column">Report</label>
+            <report-item if.bind="report" report.bind="report"></report-item>
+          </div>
           <div if.bind="report.admin">
             <label class="form-label d-flex flex-column">Admin</label>
             <profile-item profile.bind="report.admin" class="block"></profile-item>
           </div>
+          <button if.bind="couldReject" click.delegate="onInsufficientReport()" class="btn btn-danger">${t('insufficientReport')}</button>
         </div>
       </div>
+      
     </div>
   </div>
 </template>

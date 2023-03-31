@@ -1,5 +1,7 @@
+import axios from "axios";
 import { NextFunction, Request, Response } from "express";
 import * as admin from "firebase-admin"
+import * as auth from "firebase/auth"
 import { OAuth2Client } from "google-auth-library";
 import constants from "../../common/firebase-constants"
 import isFirebaseError from "../../common/is-firebase-error";
@@ -107,3 +109,38 @@ export async function signUpWithEmailAndPassword(req: Request, res: Response, ne
     next(e)
   }
 }
+
+
+export async function signInWithEmailAndPassword(req: Request, res: Response, next: NextFunction) {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const resp = await axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBQx-7ZGkxi08pNR4exenZEcn-zjBCtUco`, 
+    { email, password }
+  )
+
+  const uid = resp.data.localId
+
+  const customToken = await admin.auth().createCustomToken(uid)
+
+  return res.json({ data: { uid, customToken }})
+}
+
+
+export async function signInWithGoogle(req: Request, res: Response, next: NextFunction) {
+  const idToken = req.body.idToken;
+  const accessToken = req.body.accessToken;
+
+
+}
+
+/*
+  private static final String VERIFY_CUSTOM_TOKEN_URL =
+      "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyCustomToken";
+  private static final String VERIFY_PASSWORD_URL =
+      "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword";
+  private static final String RESET_PASSWORD_URL =
+      "https://www.googleapis.com/identitytoolkit/v3/relyingparty/resetPassword";
+  private static final String EMAIL_LINK_SIGN_IN_URL =
+      "https://www.googleapis.com/identitytoolkit/v3/relyingparty/emailLinkSignin";
+*/

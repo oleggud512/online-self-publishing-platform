@@ -37,22 +37,13 @@ final dioProvider = Provider((ref) {
       if (e.response?.statusCode == 401) {
         Utils.showMessage(ref, "Not signed in.");
       }
-      // final code = e.response?.data['error']['code'];
-      // if (code) {
-      //   ref.watch(scaffoldMessangerStateProvider).showMessage(
-      //     ref.watch(currentLocalizationProvider)['errors.$code'].toString());
-      // }
-      // if (e.type == DioErrorType.other && e.message.contains('SocketException')) {
-      //   ref.watch(scaffoldMessangerStateProvider).showMessage(
-      //     "No Internet from interceptor");
-      // }
-      // switch (e.response?.statusCode) {
-      //   case 404:
-      //     throw NotFoundException();
-      //   case 500: 
-      //     throw AppException();
-      //   default:
-      // }
+
+      final code = e.response?.data?['error']['code'];
+      printInfo(code);
+      if (code == 'blockedUserAuth') {
+        Utils.showMessage(ref, 'User is blocked');
+      }
+      
       handler.next(e);
     },
     // onResponse: (response, handler) {

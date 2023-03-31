@@ -1,7 +1,8 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { FireUser } from "./models/FireUser"
 import * as service from "./service"
 import { guard } from "../../common/handle-error"
+import { promise } from "../../common/error-handling"
 
 
 export async function createUser(req: Request, res: Response) {
@@ -70,4 +71,30 @@ export async function isAdmin(req: Request, res: Response) {
       data: isAdmin
     });
   })
+}
+
+
+export async function toggleBlocked(req: Request, res: Response, next: NextFunction) {
+  const targetId = req.params.uid
+  const adminId = res.locals.uid
+  const before = req.query.before
+    ? new Date(req.query.before as string)
+    : undefined
+
+  const [blocked, error] = await promise(service.toggleBlocked(targetId, adminId, before))
+
+  if (error) return next(error)
+
+  return res.json({ data: blocked })
+}
+
+
+export async function isBlocked(req: Request, res: Response, next: NextFunction) {
+  const profileId = req.params.uid
+
+  const [blocked, error] = await promise(service.isBlocked(profileId))
+
+  if (error) return next(error)
+
+  return res.json({ data: blocked })
 }

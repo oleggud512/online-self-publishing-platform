@@ -1,8 +1,17 @@
 <template>
   <require from="../../../../components/avatar.html"></require>
   <!-- <div> -->
-  <div class="card px-3 py-2 d-inline-flex flex-row flex-nowrap flex-nowrap gap-3 align-items-center">
+  
+  <article 
+    class.bind="withCard ? `card px-3 py-2 ${hasSlot ? 'align-items-start' : 'align-items-center'}` : ''" 
+    class="d-inline-flex flex-row flex-nowrap flex-nowrap gap-3 align-items-start flex-grow-1"
+  >
     <avatar src.bind="profile.avatarUrl"></avatar>
-    <span class="h6 m-0">${profile.displayName ? profile.displayName : profile.name}</span>
-  </div>
+    <div id="slotContainer" class="d-flex flex-column flex-grow-1">
+      <a class="h6 m-0 mb-1 link-primary" route-href="route: profile; params.bind: { id: profile._id }">
+        ${profile.displayName ? profile.displayName : profile.name}
+      </a>
+      <slot></slot>
+    </div>
+  </article>
 </template>

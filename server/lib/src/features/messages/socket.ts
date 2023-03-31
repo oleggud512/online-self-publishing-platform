@@ -24,10 +24,10 @@ export function setupChatsSocket(io: Server) {
 
   chats.on("connection", (socket: Socket) => {
 
-    socket.on(IncomingEvents.subscribeAllMessages, (data) => {
+    socket.on(IncomingEvents.subscribeAllMessages, (reportId) => {
       if (chats.adapter.rooms.has(socket.handshake.auth.uid) && 
           chats.adapter.rooms.get(socket.handshake.auth.uid)!.has(socket.id)) return
-      socket.join(socket.handshake.auth.uid)
+      socket.join(reportId ?? socket.handshake.auth.uid)
       console.log({ 
         message: "on subscribeAllMessages", 
         // socket_auth: socket.handshake.auth,
@@ -35,8 +35,8 @@ export function setupChatsSocket(io: Server) {
       })
     })
 
-    socket.on(IncomingEvents.unsubscribeAllMessages, (data) => {
-      socket.leave(socket.handshake.auth.uid)
+    socket.on(IncomingEvents.unsubscribeAllMessages, (reportId) => {
+      socket.leave(reportId ?? socket.handshake.auth.uid)
       console.log({ 
         message: "on unsubscribeAllMessages", 
         // socket_auth: socket.handshake.auth,
@@ -49,10 +49,11 @@ export function setupChatsSocket(io: Server) {
 export function addMessage(message: IMessage) {
   console.log({
     messag: "emit message",
-    // message: message
+    message: message
   })
-  chats.to(message.to).emit(OutgoingEvents.nextMessage, message)
-  chats.to(message.from._id).emit(OutgoingEvents.nextMessage, message)
+  chats.to(message.to).emit(OutgoingEvents.nextMessage, message) // когда сообщения отправляет админ то это будет админ ид. 
+  if (message.to != message.from._id) 
+    chats.to(message.from._id).emit(OutgoingEvents.nextMessage, message) // когда админ отправляет то это reportId. 
 }
 
 function chatRoomName(id1: string, id2: string) : string {

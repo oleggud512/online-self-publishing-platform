@@ -12,6 +12,7 @@ import '../../../common/widgets/error_handler.dart';
 part 'comment_repository.g.dart';
 
 class CantEditCommentException extends AppException { }
+class CannotAddCommentException extends AppException { }
 
 class CommentsSorting {
   static const String nnew = 'new';
@@ -58,18 +59,26 @@ class CommentRepository {
     required String subjectName,
     String? questionId
   }) => err(() async {
-    if (content.isEmpty) throw "empty content";
-    final resp = await _dio.post('comments', 
-      queryParameters: {
-        'subjectId': subjectId,
-        'subjectName': subjectName,
-        if (questionId != null)'questionId': questionId
-      },
-      data: {
-        'content': content
+    try {
+      if (content.isEmpty) throw "empty content";
+      final resp = await _dio.post('comments', 
+        queryParameters: {
+          'subjectId': subjectId,
+          'subjectName': subjectName,
+          if (questionId != null)'questionId': questionId
+        },
+        data: {
+          'content': content
+        }
+      );
+      return Comment.fromJson(resp.data['data']);
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.badResponse && 
+          e.response?.data['error']['code'] == 'cannotAddComment') {
+            throw CannotAddCommentException();
       }
-    );
-    return Comment.fromJson(resp.data['data']);
+      rethrow;
+    }
   });
 
   Future<int> rate(String commentId, CommentRate rate) => err(() async {

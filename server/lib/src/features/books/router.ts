@@ -1,5 +1,6 @@
 import express from 'express';
 import { couldBeAuthenticated, isAuthenticated } from '../auth/authenticated';
+import { isAuthorizedAdmin } from '../auth/authorized';
 import * as booksController from './controller'
 
 const router = express.Router();
@@ -45,6 +46,14 @@ router.post('/:id/bookmark',
   isAuthenticated,
   booksController.toggleBookmark)
 
+router.get('/:id/permissions',
+  isAuthenticated,
+  isAuthorizedAdmin(),
+  booksController.getPermissions)
 
+router.put('/:id/permissions/publish',
+  isAuthenticated,
+  isAuthorizedAdmin(),
+  booksController.togglePublish)
 
 export default router;

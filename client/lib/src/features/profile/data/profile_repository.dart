@@ -127,7 +127,7 @@ class ProfileRepository {
 
   Future<void> saveBookmarks(List<String> bookmarks) async {
     if (_myId == null) throw UnauthenticatedException();
-    await _dio.post('profiles/$_myId/bookmarks', data: bookmarks);
+    await _dio.post('profiles/$_myId/bookmarks', data: { 'bookmarks': bookmarks });
   }
 
   Future<List<Book>> getBookmarks([int from = 0, int pageSize = 20]) async {

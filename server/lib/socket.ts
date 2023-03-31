@@ -1,6 +1,6 @@
 import http from "http"
 import { Server, Socket } from "socket.io"
-import { AuthResult, isAuthenticatedSocket } from "./src/features/auth/authenticated"
+import { isAuthenticatedSocket } from "./src/features/auth/authenticated"
 import { setupChatsSocket } from "./src/features/messages/socket"
 
 export function setupSocketIoServer(httpServer: http.Server) {

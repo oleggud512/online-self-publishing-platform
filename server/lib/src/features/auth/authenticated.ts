@@ -1,8 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-// import * as admin from 'firebase-admin';
-import { getAuth } from 'firebase-admin/auth';
+// import admin from 'firebase-admin';
+import admin from 'firebase-admin';
 import { Socket } from 'socket.io';
 import { AppError } from '../../common/app-error';
+import { AppErrors } from '../../shared/errors';
+import { Role } from '../users/models/Role';
+import { AuthResult } from './AuthResult';
 
 
 export async function isAuthenticated(req: Request, res: Response, next: Function) {
@@ -19,11 +22,11 @@ export async function isAuthenticated(req: Request, res: Response, next: Functio
       ...res.locals,
       ...authResult
     }
-    console.log(res.locals)
+    console.log({'isAuthenticated: token verified. res.locals': res.locals})
     next()
   } catch (e) {
     console.error(e)
-    return res.status(403).send(e)
+    return next(e)
   }
 }
 
@@ -46,7 +49,8 @@ export async function isAuthenticatedSocket(socket: Socket, next: Function) {
   } catch (error) {
     // If there is an error, send an error message to the client
     console.error(error);
-    console.error('^^^ error from isAuthenticated socket ^^^')
+    console.error('^^^ error from isAuthenticatedSocket ^^^')
+    next(error)
     socket.emit("error", "Failed to authenticate user");
   }
 }
@@ -69,38 +73,57 @@ export async function couldBeAuthenticated(req: Request, res: Response, next: Ne
       ...res.locals,
       ...authResult
     }
-    next()
+    return next()
   } catch (e) {
-    next()
+    return next(e)
   }
   // check authorization by all of the rules
 }
 
-export type AuthResult = { uid: string, role: string, email: string }
 // просто проверяет, авторизован ли.
 // если авторизован, то возвращает uid, role, email
 // если не авторизован, выбрасывает ошибку, с текстом, шо не так. 
 export async function checkAuth(authorization: string) : Promise<AuthResult> {
-  if (!authorization.startsWith('Bearer'))
-    throw { error: true, message: 'authorization is not starting with Bearer' }
-
-  const split = authorization.split(' ')
-
-  if (split.length !== 2)
-    throw { error: true, message: `split.length != 2. split.length = ${split.length}` }
-
-  const token = split[1];
-  console.log(`THERE IS A TOKEN ${token}`)
   try {
-    console.log(`i want to verify token now`);
-    const decodedToken = await getAuth().verifyIdToken(token);
-    console.log("token successfully verified, decodedtoken: ", JSON.stringify(decodedToken))
-    return {
+    const token = _validateAuthorization(authorization)
+    
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    console.log({'decoded token': decodedToken})
+    if (decodedToken.role == 'blocked' as Role) {
+      throw new AppError(AppErrors.blockedUserAuth)
+    }
+    const result = {
       uid: decodedToken.uid,
       role: decodedToken.role, 
       email: decodedToken.email as string
-    }
+    } as AuthResult
+    console.log("token successfully verified, decodedtoken: ", JSON.stringify(result))
+    return result
+
   } catch (err) {
-    throw { error: true, message: err }
+    console.log('unauthenticated...........')
+    throw err
   }
+}
+
+
+function _validateAuthorization(authorization: string) {
+  if (!authorization.startsWith('Bearer')) {
+    throw new AppError(
+      AppErrors.invalidAuth, 
+      'authorization is not starting with Bearer'
+    )
+  }
+
+  const split = authorization.split(' ')
+
+  if (split.length !== 2) {
+    throw new AppError(
+      AppErrors.invalidAuth, 
+      `split.length != 2. split.length = ${split.length}`
+    )
+  }
+
+  const token = split[1];
+  return token
 }

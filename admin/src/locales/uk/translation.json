@@ -11,6 +11,7 @@
     "pending": "Очікують",
     "inProgress": "В процесі вирішення",
     "closed": "Закриті",
+    "rejected": "Відхилені",
 
     "books": "Книги",
     "profiles": "Користувачі",
@@ -20,5 +21,40 @@
     "all": "Всі скарги",
 
     "new": "Нові",
-    "old": "Старі"
+    "old": "Старі",
+    "popular": "Популярні",
+
+    "updateProfile": "Профіль {{name}} оновлено.",
+    "allowPublishBook": "Користувачу {{name}} дозволено публікувати книги.",
+    "restrictPublishBook": "Користувачу {{name}} заборонено публікувати книги.",  
+    "allowAddComment": "Користувачу {{name}} дозволено додавати коментарі.",  
+    "restrictAddComment": "Користувачу {{name}} заборонено додавати коментарі.", 
+    "profileBlocked": "Користувач {{name}} був заблокований.",
+    "profileUnblocked": "Користувачу {{name}} було відновлено доступ.",
+
+    "addBook": "Було додано книгу \"{{book}}\".",
+    "updateBook": "Книга \"{{book}}\" була оновлена.",
+    "deleteBook": "Книга \"{{book}}\" була видалена.",
+    "publishBook": "Книгу \"{{book}}\" було опубліковано.",
+    "unpublishBook": "Книга \"{{book}}\" була схована.",
+    "unpublishBookPermanently": "Публікацію книги \"{{book}}\" обмежено.",
+    "publishBookPermanently": "Права на публікацію книги \"{{book}}\" відновлено.",
+
+    "addChapter": "Глава \"{{chapter}}\" була додана до книги \"{{book}}\".",
+    "updateChapter": "Глава \"{{chapter}}\" книги \"{{book}}\" була оновлена.",
+    "deleteChapter": "Глава \"{{chapter}}\" книги \"{{book}}\" була видалена.",
+    "publishChapter": "Глава \"{{chapter}}\" книги \"{{book}}\" була опублікована.",
+    "unpublishChapter": "Глава \"{{chapter}}\" книги \"{{book}}\" була схована.",
+
+    "deleted": {
+        "Comment": "Коментар видалено",
+        "Book": "Книгу видалено",
+        "Profile": "Профіль видалено"
+    },
+
+    "Comment": "Коментар",
+    "Book": "Книга",
+    "Profile": "Профіль",
+
+    "insufficientReport": "Недоречна скарга"
 }

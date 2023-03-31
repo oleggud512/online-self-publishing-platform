@@ -14,6 +14,8 @@ import '../../../shared/err.dart';
 
 part 'book_repository.g.dart';
 
+class StateChangeNotPermitted extends AppException { }
+
 class BookRepository {
   final Dio _dio;
   final String? myId;
@@ -74,10 +76,18 @@ class BookRepository {
     return source;
   }
 
-  Future<ReadingsState> changeState(String bookId) async {
-    final resp = await _dio.post("books/$bookId/state");
-    return readingsStateFromString(resp.data['data']);
-  }
+  Future<ReadingsState> changeState(String bookId) => err(() async {
+    try {
+      final resp = await _dio.post("books/$bookId/state");
+      return readingsStateFromString(resp.data['data']);
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.badResponse && 
+        e.response?.data['error']['code'] == 'cannotChangeState'){ 
+          throw StateChangeNotPermitted();
+      }
+      rethrow;
+    }
+  });
 
   Future<bool> toggleLike(String bookId) async {
     final resp = await _dio.post("books/$bookId/like");

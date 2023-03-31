@@ -39,6 +39,7 @@ class BookListWidget extends StatelessWidget {
       : ListView.separated(
         itemCount: books.length,
         scrollDirection: listDirection,
+        padding: const EdgeInsets.all(p16),
         itemBuilder: (context, i) {
           return BookListItemWidget(
             book: books[i], 

@@ -5,6 +5,7 @@ import 'package:client/src/features/books/application/local_bookmarks_provider.d
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_widget/edit_profile_widget_controller.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -45,7 +46,12 @@ class AuthScreenController extends AutoDisposeNotifier<AuthScreenState> {
   Future<bool> submit() async {
     late UserCredential creds;
     if (state.isSignIn) {
-      creds = await signIn();
+      try {
+        creds = await signIn();
+      } on BlockedUserAuthException catch (_) {
+        Utils.showMessage(ref, 'Account is blocked');
+        return false;
+      }
     } else if (state.isSignUp) {
       creds = await signUp();
     }
@@ -74,11 +80,15 @@ class AuthScreenController extends AutoDisposeNotifier<AuthScreenState> {
   }
 
   Future<UserCredential> signIn() async {
-    final authRepo = ref.watch(authRepositoryProvider);
-    if (state.isGoogleAuth) {
-      return await authRepo.signInWithGoogle(state.googleSignInAccount!);
-    } else {
-      return await authRepo.signInWithEmailAndPassword(state.email, state.password);
+    try {
+      final authRepo = ref.watch(authRepositoryProvider);
+      if (state.isGoogleAuth) {
+        return await authRepo.signInWithGoogle(state.googleSignInAccount!);
+      } else {
+        return await authRepo.signInWithEmailAndPassword(state.email, state.password);
+      }
+    } catch (_) {
+      rethrow;
     }
   }
 

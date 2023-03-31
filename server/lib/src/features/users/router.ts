@@ -1,7 +1,7 @@
 import express = require("express")
 import * as usersController from "./controller"
 import { isAuthenticated } from "../auth/authenticated"
-import { isAuthorized } from "../auth/authorized"
+import { isAuthorized, isAuthorizedAdmin } from "../auth/authorized"
 
 const router = express.Router()
 
@@ -36,7 +36,16 @@ router.patch("/:uid",
 router.delete("/:uid", 
   isAuthenticated, 
   isAuthorized({hasRole: ['admin', 'super-admin'], allowSameUser: true}),
-  usersController.deleteUser
-)
+  usersController.deleteUser)
+
+router.put("/:uid/blocked", 
+  isAuthenticated,
+  isAuthorizedAdmin(),
+  usersController.toggleBlocked)
+
+router.get("/:uid/blocked",
+  isAuthenticated,
+  isAuthorizedAdmin(),
+  usersController.isBlocked)
 
 export default router

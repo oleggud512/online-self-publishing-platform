@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/home/presentation/home_screen_app_bar.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
+import '../common/constants/constants.dart';
 import '../features/books/presentation/books/books_screen_app_bar.dart';
 
 class ScaffoldWithNavigation extends ConsumerStatefulWidget {
@@ -140,42 +142,62 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
     scaffoldKey.currentState?.closeDrawer();
   }
 
-  PreferredSizeWidget? get appBar {
-    if (primaryTabs.indexWhere((t) => t.initialLocation == curLocation) == -1) {
-      return null;
-    }
-    final path = primaryTabs[tabSelected].initialLocation;
-    return null;
-  } 
+  bool ext = true;
 
   @override
   Widget build(BuildContext context) {
     ref.listen(currentLocalizationProvider, (p, n) => initTabs());
     printInfo("build ScaffoldWithNavigation $drawerSelected $tabSelected");
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: appBar,
-      drawer: NavigationDrawer(
-        selectedIndex: drawerSelected,
-        children: [
-          ...primaryDrawerTabs,
-          const Divider(),
-          ...secondaryDrawerTabs
-        ],
-        onDestinationSelected: (index) {
-          onDestinationSelected(context, index);
-        },
-      ) ,
-      body: widget.child,
-      bottomNavigationBar: (!secondaryDrawerTabs.map((t) => t.initialLocation).contains(curLocation)) 
-        ? NavigationBar(
-          selectedIndex: tabSelected,
+
+    if (context.isMobile || context.isSmallTablet || context.isTablet) {
+      return Scaffold(
+        key: scaffoldKey,
+        drawer: NavigationDrawer(
+          selectedIndex: drawerSelected,
+          children: [
+            h16gap,
+            ...primaryDrawerTabs,
+            const Divider(),
+            ...secondaryDrawerTabs
+          ],
           onDestinationSelected: (index) {
             onDestinationSelected(context, index);
           },
-          destinations: primaryTabs
-        ) 
-        : null
+        ),
+        body: widget.child,
+        bottomNavigationBar: (!secondaryDrawerTabs.map((t) => t.initialLocation).contains(curLocation)) 
+          ? NavigationBar(
+            selectedIndex: tabSelected,
+            onDestinationSelected: (index) {
+              onDestinationSelected(context, index);
+            },
+            destinations: primaryTabs
+          ) 
+          : null
+      );
+    }
+
+    return Scaffold(
+      key: scaffoldKey,
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (drawerSelected >= 0) NavigationRail(
+            labelType: NavigationRailLabelType.all,
+            destinations: [
+              ...[...primaryDrawerTabs, ...secondaryDrawerTabs]
+                .map((i) => i.toRailDestination())
+            ],
+            selectedIndex: drawerSelected,
+            onDestinationSelected: (index) {
+              onDestinationSelected(context, index);
+            },
+          ),
+          Expanded(
+            child: widget.child
+          )
+        ]
+      ),
     );
   }
 }

@@ -38,6 +38,8 @@ class Localization_uk extends Localization {
   const Localization_uk();
   ScreenTitleLocalization_uk get screenTitle =>
       ScreenTitleLocalization_uk(this);
+  AuthLocalization_uk get auth => AuthLocalization_uk(this);
+  String get google => "Google";
   SettingsLocalization_uk get settings => SettingsLocalization_uk(this);
   ErrorsLocalization_uk get errors => ErrorsLocalization_uk(this);
   String get searchPlaceholder => "введіть запит...";
@@ -56,6 +58,8 @@ class Localization_uk extends Localization {
   String get wantToPublish => "Опублікувати?";
   String get yes => "Yes";
   String get no => "No";
+  NotificationsLocalization_uk get notifications =>
+      NotificationsLocalization_uk(this);
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -65,6 +69,10 @@ class Localization_uk extends Localization {
     switch (key) {
       case 'screenTitle':
         return screenTitle;
+      case 'auth':
+        return auth;
+      case 'google':
+        return google;
       case 'settings':
         return settings;
       case 'errors':
@@ -101,6 +109,8 @@ class Localization_uk extends Localization {
         return yes;
       case 'no':
         return no;
+      case 'notifications':
+        return notifications;
       default:
         return super[key];
     }
@@ -120,6 +130,7 @@ class ScreenTitleLocalization_uk extends ScreenTitleLocalization {
   String get profileBooks => "Книги";
   String get filters => "Фільтри";
   String get bookmarks => "Закладки";
+  String get authentication => "Вхід";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -147,6 +158,42 @@ class ScreenTitleLocalization_uk extends ScreenTitleLocalization {
         return filters;
       case 'bookmarks':
         return bookmarks;
+      case 'authentication':
+        return authentication;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class AuthLocalization_uk extends AuthLocalization {
+  final Localization_uk _parent;
+  const AuthLocalization_uk(this._parent) : super(_parent);
+  String get email => "Email";
+  String get password => "Пароль";
+  String get signIn => "Ввійти";
+  String get signUp => "Зареєструватися";
+  String get skip => "Пропустити";
+  String switchTo(String to) => "Перемкнути на $to";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'email':
+        return email;
+      case 'password':
+        return password;
+      case 'signIn':
+        return signIn;
+      case 'signUp':
+        return signUp;
+      case 'skip':
+        return skip;
+      case 'switchTo':
+        return switchTo;
       default:
         return super[key];
     }
@@ -186,6 +233,8 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
   const ErrorsLocalization_uk(this._parent) : super(_parent);
   String get shortPassword => "Пароль повинен мати не менше 6 символів";
   String get cannotSubscribeYourself => "Ви не можете підписатися на себе.";
+  String get cantPublish => "Ви не можете опублікувати цю книгу";
+  String get cannotAddComment => "Вам не дозволено додавати коментарі.";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -197,6 +246,10 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
         return shortPassword;
       case 'cannotSubscribeYourself':
         return cannotSubscribeYourself;
+      case 'cantPublish':
+        return cantPublish;
+      case 'cannotAddComment':
+        return cannotAddComment;
       default:
         return super[key];
     }
@@ -265,6 +318,165 @@ class BookLocalization_uk extends BookLocalization {
         return abandoned;
       case 'saveBook':
         return saveBook;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class NotificationsLocalization_uk extends NotificationsLocalization {
+  final Localization_uk _parent;
+  const NotificationsLocalization_uk(this._parent) : super(_parent);
+  NewChapterNotificationsLocalization_uk get newChapter =>
+      NewChapterNotificationsLocalization_uk(this);
+  BookUnpublishedNotificationsLocalization_uk get bookUnpublished =>
+      BookUnpublishedNotificationsLocalization_uk(this);
+  ReportRejectedNotificationsLocalization_uk get reportRejected =>
+      ReportRejectedNotificationsLocalization_uk(this);
+  SubscribedNotificationsLocalization_uk get subscribed =>
+      SubscribedNotificationsLocalization_uk(this);
+  CommentAnswerNotificationsLocalization_uk get commentAnswer =>
+      CommentAnswerNotificationsLocalization_uk(this);
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'newChapter':
+        return newChapter;
+      case 'bookUnpublished':
+        return bookUnpublished;
+      case 'reportRejected':
+        return reportRejected;
+      case 'subscribed':
+        return subscribed;
+      case 'commentAnswer':
+        return commentAnswer;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class NewChapterNotificationsLocalization_uk
+    extends NewChapterNotificationsLocalization {
+  final NotificationsLocalization_uk _parent;
+  const NewChapterNotificationsLocalization_uk(this._parent) : super(_parent);
+  String get title => "Нова глава";
+  String body(Map<String, dynamic> data) =>
+      "Глава \"${data["chapter"]}\" була додана до книги \"${data["chapter"]}\"";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'title':
+        return title;
+      case 'body':
+        return body;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class BookUnpublishedNotificationsLocalization_uk
+    extends BookUnpublishedNotificationsLocalization {
+  final NotificationsLocalization_uk _parent;
+  const BookUnpublishedNotificationsLocalization_uk(this._parent)
+      : super(_parent);
+  String get title => "Ваша книга схована через порушення правил.";
+  String body(Map<String, dynamic> data) =>
+      "\"${data["book"]}\" схована. Звʼяжіться з адміністрацією через вкладку \"Повідомлення\"";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'title':
+        return title;
+      case 'body':
+        return body;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class ReportRejectedNotificationsLocalization_uk
+    extends ReportRejectedNotificationsLocalization {
+  final NotificationsLocalization_uk _parent;
+  const ReportRejectedNotificationsLocalization_uk(this._parent)
+      : super(_parent);
+  String get title => "Вашу скаргу відхилено";
+  String body(Map<String, dynamic> data) =>
+      "Вашу скаргу на \"${data["subject"]}\" було відхилено. Правила.";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'title':
+        return title;
+      case 'body':
+        return body;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class SubscribedNotificationsLocalization_uk
+    extends SubscribedNotificationsLocalization {
+  final NotificationsLocalization_uk _parent;
+  const SubscribedNotificationsLocalization_uk(this._parent) : super(_parent);
+  String get title => "Новий підписник";
+  String body(Map<String, dynamic> data) =>
+      "Користувач ${data["profile"]} підписався на вас.";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'title':
+        return title;
+      case 'body':
+        return body;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class CommentAnswerNotificationsLocalization_uk
+    extends CommentAnswerNotificationsLocalization {
+  final NotificationsLocalization_uk _parent;
+  const CommentAnswerNotificationsLocalization_uk(this._parent)
+      : super(_parent);
+  String get title => "Нова відповідь";
+  String body(Map<String, dynamic> data) =>
+      "Користувач ${data["profile"]} відповів на ваш коментар.";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'title':
+        return title;
+      case 'body':
+        return body;
       default:
         return super[key];
     }

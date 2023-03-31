@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../common/app-error";
+import { promise } from "../../common/error-handling";
 import { parsePaginationQuery } from "../../common/parse-pagination-query";
 import { Filters } from "./Filters";
 import * as bookService from "./service"
@@ -95,7 +96,8 @@ export async function changeState(req: Request, res: Response, next: NextFunctio
     return next(new AppError('cant-edit-others-books'))
   }
 
-  const newReadingsState = await bookService.changeState(bookId)
+  const [newReadingsState, error] = await promise(bookService.changeState(bookId))
+  if (error) return next(error)
   return res.json({ data: newReadingsState })
 }
 
@@ -124,4 +126,27 @@ export async function toggleBookmark(req: Request, res: Response, next: NextFunc
   console.log(`bookmark toggled - ${toggled}`)
 
   return res.json({ data: toggled })
+}
+
+
+export async function getPermissions(req: Request, res: Response, next: NextFunction) {
+  const bookId = req.params.id
+
+  const [permissions, error] = await promise(bookService.getPermissions(bookId))
+
+  if (error) return next(error)
+
+  return res.json({ data: permissions })
+}
+
+
+export async function togglePublish(req: Request, res: Response, next: NextFunction) {
+  const bookId = req.params.id
+  const adminId = res.locals.uid
+
+  const [publishBook, error] = await promise(bookService.togglePublish(bookId, adminId))
+
+  if (error) return next(error)
+
+  return res.json({ data: publishBook })
 }

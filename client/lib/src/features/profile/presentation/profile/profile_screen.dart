@@ -207,7 +207,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         Text(profile.displayName ?? profile.name, 
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        Text(profile.id, style: Theme.of(context).textTheme.labelSmall),
+        // Text(profile.id, style: Theme.of(context).textTheme.labelSmall),
         h8gap,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

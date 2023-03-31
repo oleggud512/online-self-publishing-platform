@@ -7,6 +7,7 @@ part 'chats_screen_state.freezed.dart';
 @freezed
 class ChatsScreenState with _$ChatsScreenState {
   factory ChatsScreenState({
-    required List<Chat> chats
+    required List<Chat> chats,
+    List<Chat>? adminChats
   }) = _ChatsScreenState;
 }

@@ -5,9 +5,15 @@ import '../../profile/domain/profile.dart';
 part 'chat.freezed.dart';
 part 'chat.g.dart';
 
+enum ChatSource {
+  admin, 
+  user
+}
+
 @Freezed(toJson: false)
 class Chat with _$Chat {
   factory Chat({
+    @Default(ChatSource.user) ChatSource source,
     required Profile other,
     @Default("") String lastMessage,
   }) = _Chat;

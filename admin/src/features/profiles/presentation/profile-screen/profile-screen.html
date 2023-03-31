@@ -1,3 +1,41 @@
 <template>
-  <h1>profile ${profile ? profile._id : 'no profile'} screen</h1>
+  <section class="container p-3">
+    <div class="row g-3">
+      <img if.bind="profile.avatarUrl" src.bind="profile.avatarUrl" class="col-12 col-md-4 col-lg-3 rounded-2">
+
+      <section if.bind="profile" class="col-12 col-md-8 col-lg-9 d-flex flex-column">
+        <h2>${profileName}</h2>
+        <p if.bind="profile.description" class="text-muted">${profile.description}</p>
+        <p><strong>Subscribers: </strong>${profile.subscribers}</p>
+        <p><strong>Books: </strong>${profile.bookCount}</p>
+        <div>
+          <button 
+            class="btn"
+            class.bind="blocked ? 'btn-secondary' : 'btn-danger'"
+            click.delegate="toggleBlocked()">
+            ${blocked ? 'unblock user' : 'block user'}
+          </button>
+          <button 
+            class="btn" class.bind="permissions && permissions.publishBook ? 'btn-danger' : 'btn-secondary'" 
+            click.delegate="togglePublishBook()" disabled.bind="!permissions">
+            ${permissions.publishBook ? 'forbid to publish books' : 'allow the publication of books'}
+          </button>
+          <button 
+            class="btn" class.bind="permissions && permissions.addComment ? 'btn-danger' : 'btn-secondary'" 
+            click.delegate="toggleAddComment()" disabled.bind="!permissions">
+            ${permissions.addComment ? 'disallow adding comments' : 'allow adding comments'}
+          </button>
+        </div>
+      </section>
+
+      <section>
+        <h3>Reports</h3>
+        <a repeat.for="report of profile.reports" click.delegate="onShowReport(report)" href="javascript:void(0)">${report.reportType.displayName}<br></a>
+      </section>
+      <section>
+        <h3>Reported</h3>
+        <a repeat.for="report of profile.reported" click.delegate="onShowReport(report)" href="javascript:void(0)">${report.reportType.displayName}<br></a>
+      </section>
+    </div>
+  </section>
 </template>

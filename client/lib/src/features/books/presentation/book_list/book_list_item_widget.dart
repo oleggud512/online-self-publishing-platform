@@ -30,7 +30,6 @@ class BookListItemWidget extends ConsumerStatefulWidget {
 class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
   
   void showBook() {
-
     GoRouter.of(context).pushNamed(MyRoute.book.name, params: {
       'id': widget.book.id
     });
@@ -39,7 +38,7 @@ class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
   void bookmark() async {
     await ref.watch(bookListItemWidgetControllerProvider(widget.book).notifier)
       .toggleBookmark();
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +125,7 @@ class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   children: [
@@ -178,7 +178,9 @@ class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
   Widget bookmarkIcon(Book book) {
     return InkWell(
       onTap: bookmark,
-      child: Icon(book.bookmarked ?? false ? Icons.bookmark : Icons.bookmark_outline),
+      child: Icon(book.bookmarked ?? false 
+        ? Icons.bookmark 
+        : Icons.bookmark_outline),
     );
   }
 }

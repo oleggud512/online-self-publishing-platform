@@ -1,10 +1,12 @@
 import { PipelineStage, Types } from "mongoose";
 import { LookupPipeline } from "../../common/types";
 import * as profileUtils from "../profiles/profile-aggreation-utils"
+import * as chapterUtils from "../chapters/chapter-aggregation-utils"
+import { CommentSubjects } from "./CommentSubjects";
 import { Sorting } from "./Sorting";
 
 
-export function topComments(subjectId: string, sorting: Sorting, forProfile?: string) : LookupPipeline {
+export function topComments(subjectId: string, sorting: Sorting, forProfile?: string, full: boolean = false) : LookupPipeline {
   console.log('topComments(subjectId: string, sorting: Sorting)')
   return [
     {
@@ -18,7 +20,7 @@ export function topComments(subjectId: string, sorting: Sorting, forProfile?: st
         }
       },
     },
-    ...comments(forProfile),
+    ...comments(forProfile, full),
     {
       $sort: sorting == 'new' 
         ? { createdAt: -1 } 
@@ -29,18 +31,20 @@ export function topComments(subjectId: string, sorting: Sorting, forProfile?: st
   ]
 }
 
-export function answers(questionId: string, forProfile?: string) : LookupPipeline {
+export function answers(questionId: string, forProfile?: string, full: boolean = false) : LookupPipeline {
   return [
     {
       $match: {
         question: new Types.ObjectId(questionId)
       }
     },
-    ...comments(forProfile),
+    ...comments(forProfile, full),
   ]
 }
 
-export function comments(forProfile?: string) : LookupPipeline {
+export function comments(forProfile?: string, full: boolean = false) : LookupPipeline {
+  const fullSubjectLookup = full ? withFullSubject() : []
+  console.log({fullSubjectLookup, full})
   return [
     ...withAnswersAndAuthor({
       pipeline: [
@@ -51,22 +55,26 @@ export function comments(forProfile?: string) : LookupPipeline {
                 ...withAnswersAndAuthor(),
                 ...withHasAnswers(),
                 ...withMyRate(forProfile),
+                ...fullSubjectLookup,
                 { $unset: "answers" },
                 { $sort: { createdAt: -1 } }
               ]
             }),
             ...withHasAnswers(),
             ...withMyRate(forProfile),
+            ...fullSubjectLookup,
             { $sort: { createdAt: -1 } }
           ]
         }),
         ...withHasAnswers(),
         ...withMyRate(forProfile),
+        ...fullSubjectLookup,
         { $sort: { createdAt: -1 } }
       ]
     }),
     ...withHasAnswers(),
-    ...withMyRate(forProfile)
+    ...withMyRate(forProfile),
+    ...fullSubjectLookup,
   ]
 }
 
@@ -144,5 +152,42 @@ export function withMyRate(forProfile?: string) : LookupPipeline {
       },
       { $unset: "tempMyRateDocument" }
     ] : []
+  ]
+}
+
+
+export function withFullSubject() : LookupPipeline {
+  return [
+    {
+      $lookup: {
+        from: 'books',
+        localField: 'subject',
+        foreignField: '_id',
+        as: 'book',
+        pipeline: profileUtils.somethingWithAuthor()
+      }
+    },
+    {
+      $lookup: {
+        from: 'chapters',
+        localField: 'subject',
+        foreignField: '_id',
+        as: 'chapter',
+        pipeline: chapterUtils.populateChapterPipeline()
+      }
+    },
+    {
+      $addFields: {
+        subject: {
+          $cond: {
+            if: { $eq: [ "$subjectName", CommentSubjects.book ]},
+            then: { $arrayElemAt: [ "$book", 0 ]},
+            else: { $arrayElemAt: [ "$chapter", 0 ]},
+          }
+        }
+      }
+    },
+    { $unset: "book" },
+    { $unset: "chapter" } 
   ]
 }

@@ -1,0 +1,5 @@
+@import "../../../../styles/main.css";
+
+action-item:hover {
+  background-color: var(--bs-gray-300);
+}

@@ -6,29 +6,35 @@ import { CommentsAggregationBuilder } from "./comments-aggregation-builder";
 import { Sorting } from "./Sorting";
 import "../../common/ext-date"
 import { AppErrors } from "../../shared/errors";
+import { IProfile, Profile } from "../profiles/Profile";
+import * as actionService from "../reports/action-service"
+import * as notificationService from "../notifications/service"
+import * as restrictionService from "../restrictions/service"
+import { Restriction } from "../restrictions/Restriction";
 
 export async function getComments(
   args: {
-    subjectId?: string,
-    questionId?: string,
-    sorting?: Sorting,
-    from: number,
-    pageSize: number,
+    subjectId?: string
+    questionId?: string
+    full: boolean
+    sorting?: Sorting
+    from: number
+    pageSize: number
     forProfile?: string
   }
 ) {
-  const { subjectId, questionId, sorting, from, pageSize, forProfile } = args
-  console.log({ subjectId, questionId, sorting, from, pageSize })
+  const { subjectId, questionId, sorting, full, from, pageSize, forProfile } = args
+  console.log({ subjectId, questionId, sorting, full, from, pageSize })
   var builder = new CommentsAggregationBuilder()
 
   if (questionId) {
-    builder.answers(questionId, forProfile)
+    builder.answers(questionId, forProfile, full)
     // return the list of top level comments WITH pagination WITH may be 'popular'
     // won't go further
   } else if (subjectId) {
     // return the list of answers for question WITHOUT pagination 'new'
     builder
-      .comments(subjectId, sorting ?? 'new', forProfile)
+      .comments(subjectId, sorting ?? 'new', forProfile, full)
       .page(from, pageSize)
   }
   const comments = await builder.build()
@@ -46,6 +52,17 @@ export async function addComment(
   }
 ) : Promise<IComment> { 
   try {
+    const author = await Profile.findById(args.ofProfile)
+
+    const restrictions = 
+      await restrictionService.getRestrictions(args.ofProfile)
+    const addCommentRestriction = 
+      restrictions.find(r => r.restriction == Restriction.Name.addComment)
+    if (!author || addCommentRestriction) {
+      console.log({ cannotChangeState: author })
+      throw new AppError(AppErrors.cannotAddComment)
+    }
+    
     const questionComment = await Comment.findOne({ _id: args.questionId });
     const newComment = await new Comment({ 
       content: args.content, 
@@ -55,6 +72,17 @@ export async function addComment(
       author: args.ofProfile,
       depth: (questionComment?.depth ?? -1) + 1
     }).save()
+    
+    const commentReceiver = (await new CommentsAggregationBuilder()
+      .commentReceiver(newComment!._id)
+      .build())[0]
+    
+    if (questionComment) { 
+      notificationService.sendCommentAnswerNotification(
+        newComment, 
+        commentReceiver
+      )
+    }
     return getComment(newComment._id)
   } catch (e) {
     console.error(e)
@@ -62,9 +90,11 @@ export async function addComment(
   }
 }
 
+
 async function getComment(id: string, forProfile?: string) : Promise<IComment> {
   return (await new CommentsAggregationBuilder().comment(id, forProfile).build())[0];
 }
+
 
 export async function updateComment(
   comment: {
@@ -84,6 +114,7 @@ export async function updateComment(
   return await getComment(comment.id, forProfile)
 }
 
+
 export async function deleteComment(commentId: string, profileId: string) {
   const commentToDelete = await getComment(commentId, profileId)
 
@@ -95,6 +126,7 @@ export async function deleteComment(commentId: string, profileId: string) {
   
   return true
 }
+
 
 export async function rateComment(
   commentId: string, 
@@ -148,6 +180,7 @@ export async function rateComment(
   return updatedComment!.rate
 }
 
+
 export async function deleteCommentsForSubject(subjectId: string) {
   const comments = await Comment.find(
     { subject: new Types.ObjectId(subjectId) }, 
@@ -172,7 +205,7 @@ function canEditComment(comment: IComment | undefined, forProfile: string) : boo
     console.log('comment!.createdAt!.getDate() > new Date().subtractDays(1).getDate()')
     return false
   }
-  if (comment!.author._id != forProfile) {
+  if ((comment!.author as IProfile)._id != forProfile) {
     console.log('comment!.author._id != forProfile')
     return false
   }
@@ -180,13 +213,34 @@ function canEditComment(comment: IComment | undefined, forProfile: string) : boo
     console.log('comment!.hasAnswers')
     return false
   }
-  // if (!comment ||
-  //   comment!.rate == 0 || 
-  //   comment!.createdAt!.getDate() > new Date().subtractDays(1).getDate() || 
-  //   comment!.author._id != forProfile ||
-  //   comment!.hasAnswers
-  // ) {
-  //   return false
-  // }
   return true
+}
+
+
+export async function deleteCommentAdmin(commentId: string, profileId: string): Promise<boolean> {
+  async function del(commentId: string) : Promise<boolean> {
+    try {
+      var res = true
+  
+      const comment = await Comment.findById(commentId);
+    
+      if (!comment) {
+        throw new Error('Comment not found');
+      }
+    
+      const answers = await Comment.find({ question: commentId });
+      for (const answer of answers) {
+        res &&= await del(answer._id);
+      }
+      
+      await Likes.deleteMany({ subject: { $in: answers.map(c => c._id) } })
+      await comment.remove();
+      return res
+    } catch (e) {
+      return false
+    }
+  }
+  const res = await del(commentId)
+  actionService.addCommentDeleted({ commentId, authorId: profileId})
+  return res
 }

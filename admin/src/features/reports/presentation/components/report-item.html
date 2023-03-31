@@ -1,7 +1,7 @@
 <template>
   <require from="../../../profiles/presentation/profile-item/profile-item"></require>
   <require from="../../../books/presentation/book-item/book-item"></require>
-  <require from="../../../comments/presentation/comment-item/comment-item"></require>
+  <require from="../../../comments/presentation/report-comment/report-comment"></require>
 
   <article class="card">
 
@@ -10,23 +10,36 @@
       click.delegate="onHeaderClick(report)"
     >
       <span class="card-title h6 m-0">${report.reportType.displayName}</span>
-      <span class="card-subtitle text-muted m-0">${report.createdAt.toLocaleString()}</span>
+      <end class="d-inline-flex gap-2 align-items-center">
+        <span class="badge bg-primary">${t(report.subjectName)}</span>
+        <span class="card-subtitle text-muted m-0">${report.createdAt.toLocaleString()}</span>
+      </end>
     </a>
-    
     <!-- body -->
-    <section class="card-body row row-cols-1 row-cols-md-2 g-2">
+    <section class="card-body row row-cols-1 row-cols-xl-2 g-2">
+
       <div class="col flex-column d-flex">
         <span>Sender</span>
         <hr class="hr">
         <profile-item profile.bind="report.author"></profile-item>
       </div>
-      <div class="col flex-column d-flex">
-        <span>Subject</span>
-        <hr class="hr">
-        <profile-item if.bind="isOnProfile" profile.bind="report.subject"></profile-item>
-        <book-item if.bind="isOnBook" book.bind="report.subject"></book-item>
-        <comment-item if.bind="isOnComment" comment.bind="report.subject"></comment-item>
+
+      <div class="col">
+        <div class="flex-column d-flex">
+          <span>Subject</span>
+          <hr class="hr">
+          
+          <div if.bind="isDeleted">
+            <div class="card p-3 d-inline-block">
+              ${t(`deleted.${report.subjectName}`)}
+            </div>
+          </div>
+          <profile-item if.bind="isOnProfile" profile.bind="report.subject"></profile-item>
+          <book-item if.bind="isOnBook" book.bind="report.subject"></book-item>
+          <report-comment if.bind="isOnComment" comment.bind="report.subject"></report-comment>
+        </div>
       </div>
+
     </section>
     
     <!-- footer -->

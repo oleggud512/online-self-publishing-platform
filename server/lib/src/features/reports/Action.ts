@@ -281,18 +281,30 @@ export type IAction = {
     _id: string
     name: string
   }
+
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export class ActionType {
   static message = "message"
+  static deleteComment = "deleteComment"
 
   static updateProfile = "updateProfile"
+  static allowPublishBook = "allowPublishBook"
+  static restrictPublishBook = "restrictPublishBook"
+  static allowAddComment = "allowAddComment"
+  static restrictAddComment = "restrictAddComment"
+  static profileBlocked = "profileBlocked"
+  static profileUnblocked = "profileUnblocked"
 
   static addBook = "addBook"
   static updateBook = "updateBook"
   static deleteBook = "deleteBook"
   static publishBook = "publishBook"
   static unpublishBook = "unpublishBook"
+  static unpublishBookPermanently = "unpublishBookPermanently"
+  static publishBookPermanently = "publishBookPermanently"
 
   static addChapter = "addChapter"
   static updateChapter = "updateChapter"
@@ -303,14 +315,23 @@ export class ActionType {
   static get values() {
     return [
       ActionType.message,
+      ActionType.deleteComment,
 
       ActionType.updateProfile,
+      ActionType.allowPublishBook,
+      ActionType.restrictPublishBook,
+      ActionType.allowAddComment,
+      ActionType.restrictAddComment,
+      ActionType.profileBlocked,
+      ActionType.profileUnblocked,
 
       ActionType.addBook,
       ActionType.updateBook,
       ActionType.deleteBook,
       ActionType.publishBook,
       ActionType.unpublishBook,
+      ActionType.unpublishBookPermanently,
+      ActionType.publishBookPermanently,
 
       ActionType.addChapter,
       ActionType.updateChapter,
@@ -331,11 +352,4 @@ const ActionSchema = new Schema({
   chapter: { type: Types.ObjectId, ref: 'Chapter' },
 }, { timestamps: true })
 
-ActionSchema.virtual("actions", {
-  ref: 'Action',
-  localField: '_id',
-  foreignField: 'report',
-})
-
-
-export const Action = model('Action', ActionSchema)
+export const Action = model<IAction>('Action', ActionSchema)

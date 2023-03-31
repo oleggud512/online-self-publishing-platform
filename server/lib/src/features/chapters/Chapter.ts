@@ -11,7 +11,7 @@ export interface IChapter extends Document {
   _id: string
   name: string
   state: string
-  book: string // id reference
+  book: IBook | string // id reference
   content?: string
   
   createdAt?: Date;

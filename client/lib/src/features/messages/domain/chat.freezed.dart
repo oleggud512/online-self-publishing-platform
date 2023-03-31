@@ -20,6 +20,7 @@ Chat _$ChatFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Chat {
+  ChatSource get source => throw _privateConstructorUsedError;
   Profile get other => throw _privateConstructorUsedError;
   String get lastMessage => throw _privateConstructorUsedError;
 
@@ -32,7 +33,7 @@ abstract class $ChatCopyWith<$Res> {
   factory $ChatCopyWith(Chat value, $Res Function(Chat) then) =
       _$ChatCopyWithImpl<$Res, Chat>;
   @useResult
-  $Res call({Profile other, String lastMessage});
+  $Res call({ChatSource source, Profile other, String lastMessage});
 
   $ProfileCopyWith<$Res> get other;
 }
@@ -50,10 +51,15 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? source = null,
     Object? other = null,
     Object? lastMessage = null,
   }) {
     return _then(_value.copyWith(
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ChatSource,
       other: null == other
           ? _value.other
           : other // ignore: cast_nullable_to_non_nullable
@@ -80,7 +86,7 @@ abstract class _$$_ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
       __$$_ChatCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Profile other, String lastMessage});
+  $Res call({ChatSource source, Profile other, String lastMessage});
 
   @override
   $ProfileCopyWith<$Res> get other;
@@ -95,10 +101,15 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? source = null,
     Object? other = null,
     Object? lastMessage = null,
   }) {
     return _then(_$_Chat(
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ChatSource,
       other: null == other
           ? _value.other
           : other // ignore: cast_nullable_to_non_nullable
@@ -114,10 +125,16 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
 /// @nodoc
 @JsonSerializable(createToJson: false)
 class _$_Chat implements _Chat {
-  _$_Chat({required this.other, this.lastMessage = ""});
+  _$_Chat(
+      {this.source = ChatSource.user,
+      required this.other,
+      this.lastMessage = ""});
 
   factory _$_Chat.fromJson(Map<String, dynamic> json) => _$$_ChatFromJson(json);
 
+  @override
+  @JsonKey()
+  final ChatSource source;
   @override
   final Profile other;
   @override
@@ -126,7 +143,7 @@ class _$_Chat implements _Chat {
 
   @override
   String toString() {
-    return 'Chat(other: $other, lastMessage: $lastMessage)';
+    return 'Chat(source: $source, other: $other, lastMessage: $lastMessage)';
   }
 
   @override
@@ -134,6 +151,7 @@ class _$_Chat implements _Chat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Chat &&
+            (identical(other.source, source) || other.source == source) &&
             (identical(other.other, this.other) || other.other == this.other) &&
             (identical(other.lastMessage, lastMessage) ||
                 other.lastMessage == lastMessage));
@@ -141,7 +159,7 @@ class _$_Chat implements _Chat {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, other, lastMessage);
+  int get hashCode => Object.hash(runtimeType, source, other, lastMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -151,11 +169,15 @@ class _$_Chat implements _Chat {
 }
 
 abstract class _Chat implements Chat {
-  factory _Chat({required final Profile other, final String lastMessage}) =
-      _$_Chat;
+  factory _Chat(
+      {final ChatSource source,
+      required final Profile other,
+      final String lastMessage}) = _$_Chat;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$_Chat.fromJson;
 
+  @override
+  ChatSource get source;
   @override
   Profile get other;
   @override

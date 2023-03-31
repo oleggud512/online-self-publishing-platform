@@ -1,0 +1,21 @@
+ux-dialog-overlay {
+  background-color: rgba(0, 0, 0, 0.0);
+  transition: background-color 0.05s linear;
+}
+
+ux-dialog-overlay.active {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+ux-dialog-container {
+  opacity: 0;
+  scale: 0.5;
+  transition: 
+    opacity 0.1s linear, 
+    scale 0.1s linear;
+}
+
+ux-dialog-container.active {
+  scale: 1;
+  opacity: 1;
+}

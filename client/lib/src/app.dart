@@ -24,7 +24,7 @@ class MyApp extends ConsumerWidget {
             overflow: TextOverflow.ellipsis
           )
         )
-      )
+      ),
     );
     GoRouter router = ref.watch(routerProvider);
     GlobalKey<ScaffoldMessengerState> scaffoldMessengerState = 

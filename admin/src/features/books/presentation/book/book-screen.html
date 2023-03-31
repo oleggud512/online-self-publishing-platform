@@ -1,0 +1,27 @@
+<template>
+  <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+  <require from="../../../comments/presentation/comments/comments-component"></require>
+
+  <section class="container p-3">
+    <div class="row g-3">
+      <img if.bind="book.coverUrl" src.bind="book.coverUrl" class="col-12 col-md-4 col-lg-3 rounded-2">
+      <section class="col-12 col-md-8 col-lg-9 d-flex flex-column">
+        <h2>${book.name}</h2>
+        <span if.bind="book.description" class="text-muted">${book.description}</span>
+        <div class="mb-1">Author</div>
+        <profile-item profile.bind="book.author" class="mb-3"></profile-item>
+        <p><strong>Tags: </strong>${book.tags.join(", ")}</p>
+        <p><strong>Genres: </strong>${book.genres.join(", ")}</p>
+        <p><strong>Likes: </strong>${book.likes}</p>
+        <div>
+          <button class="btn" class.bind="permissions && permissions.publishBook ? 'btn-danger' : 'btn-secondary'" click.delegate="togglePublish()" disabled.bind="!permissions">
+            ${permissions.publishBook ? 'UNPUBLISH AND RESTRICT PUBLISHMENT' : 'ALLOW PUBLISH'}
+          </button>
+        </div>
+      </section>
+      <section class="col-12">
+        <comments-component subject-id.bind="bookId"></comments-component>
+      </section>
+    </div>
+  </section>
+</template>

@@ -12,7 +12,7 @@ _$_Chapter _$$_ChapterFromJson(Map<String, dynamic> json) => _$_Chapter(
       content: json['content'] as String? ?? "",
       state: $enumDecodeNullable(_$ReadingsStateEnumMap, json['state']) ??
           ReadingsState.unpublished,
-      bookId: json['book'] as String,
+      book: Book.fromJson(json['book'] as Map<String, dynamic>),
       comments: (json['comments'] as List<dynamic>?)
           ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -30,7 +30,7 @@ Map<String, dynamic> _$$_ChapterToJson(_$_Chapter instance) {
     'name': instance.name,
     'content': instance.content,
     'state': _$ReadingsStateEnumMap[instance.state]!,
-    'book': instance.bookId,
+    'book': instance.book,
   };
 
   void writeNotNull(String key, dynamic value) {

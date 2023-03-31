@@ -1,13 +1,15 @@
-import { Document, Schema, model, Types } from "mongoose";
-import { IBook } from "../books/Book";
-import { IComment } from "../comments/Comment";
-import { IProfile } from "../profiles/Profile";
+import { Document, Schema, model, Types } from "mongoose"
+import { IBook } from "../books/Book"
+import { IComment } from "../comments/Comment"
+import { IProfile } from "../profiles/Profile"
+import { IAction } from "./Action"
 
 
 export const ReportState = {
   pending: "pending",
   inProgress: "inProgress",
-  closed: "closed"
+  closed: "closed",
+  rejected: 'rejected'
 }
 
 
@@ -29,13 +31,17 @@ export class ReportSubject {
 export type IReport = {
   _id: string
   reportType: string
-  author: string
-  subject: string
+  author: string | IProfile
+  subject: string | IBook | IProfile | IComment
   subjectName: string
   state: string
-  admin: string
+  admin: string | IProfile
+  defendant: string | IProfile
 
-  actions?: any[]
+  actions?: IAction[]
+
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 
@@ -54,10 +60,26 @@ const ReportSchema = new Schema(
       required: true 
     },
     state: { type: String, default: ReportState.pending },
-    admin: { type: String, default: null, ref: "Profile" }
+    
+    admin: { type: String, ref: "Profile", default: null},
+    defendant: { type: String, ref: "Profile", required: true }
   }, 
-  { timestamps: true }
+  { 
+    timestamps: true, 
+    toJSON: { virtuals: ["actions"] }, 
+    toObject: { virtuals: ["actions"] }
+  }
 )
+
+ReportSchema.virtual("actions", {
+  ref: 'Action',
+  localField: '_id',
+  foreignField: 'report',
+  justOne: false,
+  options: { 
+    sort: { createdAt: -1 } 
+  }
+})
 
 
 export const Report = model<IReport>("Report", ReportSchema)

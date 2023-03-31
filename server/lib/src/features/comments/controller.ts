@@ -2,6 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { parsePaginationQuery } from "../../common/parse-pagination-query";
 import { Sorting } from "./Sorting";
 import * as commentsService from "./service"
+import { promise } from "../../common/error-handling";
+import { AppError } from "../../common/app-error";
+import { AppErrors } from "../../shared/errors";
+import { parseBool, tryParseBool } from "../../common/parse-bool";
+import { Role } from "../users/models/Role";
 
 
 export async function getComments(req: Request, res: Response, next: NextFunction) {
@@ -10,10 +15,14 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
   const subjectId = req.query.subjectId as string | undefined
   const sorting = req.query.sorting as Sorting | undefined
   const questionId = req.query.questionId as string | undefined
+  const full = tryParseBool(req.query.full as string | undefined) ?? false
 
+  if (!(questionId || subjectId)) return next(new AppError(AppErrors.missedField, 'questionId or subjectId is required'))
+  console.log(full)
   const comments = await commentsService.getComments({
     subjectId, 
     questionId, 
+    full,
     sorting, 
     from, 
     pageSize, 
@@ -33,14 +42,15 @@ export async function addComment(req: Request, res: Response, next: NextFunction
   
   const whoTriesToAddComment = res.locals.uid as string
 
-  const comment = await commentsService.addComment({
+  const [comment, error] = await promise(commentsService.addComment({
     ofProfile: whoTriesToAddComment, 
     content,
     subjectId,
     subjectName,
     questionId,
-  })
+  }))
   console.log(comment)
+  if (error) return next(error)
   return res.json({ data: comment })
 }
 
@@ -60,7 +70,16 @@ export async function deleteComment(req: Request, res: Response, next: NextFunct
   const id = req.params.id
   const whoTriesToDeleteComment = res.locals.uid as string
 
-  const deleted = await commentsService.deleteComment(id, whoTriesToDeleteComment)
+  var deleted: boolean 
+
+  if ((['admin', 'super-admin'] as Role[]).includes(res.locals.role)) { 
+    console.log('DELETE ALL COMMENTS')
+    deleted = await commentsService.deleteCommentAdmin(id, whoTriesToDeleteComment)
+    console.log({ adm: deleted})
+  } else {
+    deleted = await commentsService.deleteComment(id, whoTriesToDeleteComment)
+  }
+
 
   return res.json({ data: deleted })
 }

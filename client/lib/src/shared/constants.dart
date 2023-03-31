@@ -43,12 +43,14 @@ enum MyRoute {
     profileBooks,
     subscribers,
     subscriptions,
+  blocked
 }
 
 class Str {
   static const String currentLocale = 'currentLocale';
-  static final _DioRouters dio = _DioRouters();
-
+  static final dio = _DioRouters();
+  static const String notificationType = 'notificationType';
+  static const String sentTime = 'sentTime';
 }
 
 class _DioRouters {

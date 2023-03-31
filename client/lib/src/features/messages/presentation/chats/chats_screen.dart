@@ -2,13 +2,18 @@ import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/localization/application/current_locale.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
+import 'package:client/src/features/messages/data/chat_repository.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/constants/constants.dart';
 import '../../../../common/pagination/page_list_widget.dart';
+import '../../../../shared/constants.dart';
+import '../../domain/chat.dart';
+import '../admin_chats/admin_chat_widget.dart';
 import 'chat_widget.dart';
 import 'chats_screen_controller.dart';
 import 'chats_screen_state.dart';
@@ -24,21 +29,56 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
 
   final refreshController = RefreshController();
 
+  openChat(Chat chat) {
+    context.pushNamed(MyRoute.chat.name, 
+      params: {
+        'id': chat.other.id,
+      },
+      extra: chat
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return state.when(
       data: (state) {
         return Scaffold(
           appBar: ChatsScreenAppBar(),
-          body: PageListWidget(
-            paginationController: cont,
-            refreshController: refreshController, 
-            child: ListView.builder(
-              itemCount: state.chats.length,
-              itemBuilder: (context, index) {
-                return ChatWidget(chat: state.chats[index]);
-              },
-            ),
+          body: Column(
+            children: [
+              Expanded(
+                child: PageListWidget(
+                  paginationController: cont,
+                  refreshController: refreshController, 
+                  child: ListView.builder(
+                    itemCount: state.chats.length,
+                    itemBuilder: (context, index) {
+                      return ChatWidget(
+                        chat: state.chats[index], 
+                        onTap: () => openChat(state.chats[index])
+                      );
+                    },
+                  ),
+                ),
+              ),
+              if (state.adminChats != null) ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: p200),
+                child: Container(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (int index = 0; index < state.adminChats!.length; index++) ChatWidget(
+                          chat: state.adminChats![index],
+                          // onTap: openChat(state.chats[index]),
+                          onTap: () => openChat(state.adminChats![index])
+                        )
+                      ]
+                    ),
+                  ),
+                )
+              )
+            ],
           ),
         );
       },

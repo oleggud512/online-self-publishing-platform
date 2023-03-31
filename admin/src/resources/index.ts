@@ -6,6 +6,13 @@ import { AuthInterceptor } from 'features/authentication/data/auth-interceptor';
 import en from '../locales/en/translation.json'
 import uk from '../locales/uk/translation.json'
 import i18next from 'i18next';
+import { SanitizeHTMLValueConverter } from 'aurelia-templating-resources';
+import { BookRepository } from 'features/books/data/book-repository';
+import { ProfileRepository } from 'features/profiles/data/profile-repository';
+import { CommentRepository } from 'features/comments/data/comment-repository';
+import { EventAggregator } from "aurelia-event-aggregator"
+import { PubSub } from 'shared/pub-sub';
+
 
 
 type Loc = {
@@ -16,6 +23,8 @@ type Loc = {
 
 export function configure(config: FrameworkConfiguration): void {
   //config.globalResources([]);
+  // config.globalResources([SanitizeHTMLValueConverter]);
+
   const firebaseConfig = {
     apiKey: "AIzaSyBQx-7ZGkxi08pNR4exenZEcn-zjBCtUco",
     authDomain: "books-course-work-1.firebaseapp.com",
@@ -46,6 +55,16 @@ export function configure(config: FrameworkConfiguration): void {
   config.container.registerSingleton(ReportRepository, () => {
     return new ReportRepository(config.container.get(HttpClient))
   })
+  config.container.registerSingleton(BookRepository, () => {
+    return new BookRepository(config.container.get(HttpClient))
+  })
+  config.container.registerSingleton(ProfileRepository, () => {
+    return new ProfileRepository(config.container.get(HttpClient))
+  })
+  config.container.registerSingleton(CommentRepository, () => {
+    return new CommentRepository(config.container.get(HttpClient))
+  })
+  config.container.registerSingleton(PubSub, () => new PubSub())
   console.log('init')
 }
 

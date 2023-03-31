@@ -1,5 +1,6 @@
 import { Document, Schema, model } from "mongoose";
 import { IBook } from "../books/Book";
+import { Role } from "../users/models/Role";
 
 export type Gender = "m" | "f" | "other" | "preferNotToSay"
 
@@ -15,6 +16,11 @@ export interface IProfile {
   subscribers?: number
   subscriptions?: number
   booksCount?: number
+
+  permissions?: {
+    publishBook: boolean
+    addComment: boolean
+  }
 
   books?: Array<IBook>
 
@@ -34,7 +40,13 @@ const ProfileSchema: Schema = new Schema(
     avatarUrl: { type: String, required: false },
     subscribers: { type: Number, default: 0 },
     subscriptions: { type: Number, default: 0 },
-    booksCount: { type: Number, default: 0 }
+    booksCount: { type: Number, default: 0 },
+    
+    permissions: new Schema({
+      publishBook: { type: Boolean, default: true },
+      addComment: { type: Boolean, default: true }
+    }),
+    isBlocked: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

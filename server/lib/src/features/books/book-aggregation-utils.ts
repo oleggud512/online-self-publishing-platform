@@ -106,8 +106,20 @@ export function filterBooks(filters: Filters) : LookupPipeline {
     },
     { 
       $addFields: {
-        tagMatchPercent: { $divide: ["$tagMatchCount", { $size: "$tags" }] },
-        genreMatchPercent: { $divide: ["$genreMatchCount", { $size: "$genres" }] }
+        tagMatchPercent: {
+          $cond: {
+            if: { $gt: [ { $size: "$tags" }, 0 ] },
+            then: { $divide: ["$tagMatchCount", { $size: "$tags" }] },
+            else: "$tagMatchCount"
+          }
+        },
+        genreMatchPercent: {
+          $cond: {
+            if: { $gt: [ { $size: "$genres" }, 0 ] },
+            then: { $divide: ["$genreMatchCount", { $size: "$genres" }] },
+            else: "$genreMatchCount"
+          }
+        }
       }
     },
     { 

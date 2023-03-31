@@ -4,9 +4,9 @@
 
   <article class="card d-inline-flex flex-row flex-nowrap p-3 gap-3">
     <img if.bind="book.coverUrl" src.bind="book.coverUrl" width="100" height="120" class="rounded-2">
-    <book-icon else size="48" class="rounded-2"></book-icon>
+    <book-icon else size="48" class="rounded-2" fill="grey"></book-icon>
     <div class="d-flex flex-column gap-3 justify-content-between">
-      <span class="h6">${book.name}</span>
+      <a class="h6 link-primary" route-href="route: book; params.bind: { id: book._id }">${book.name}</a>
       <profile-item profile.bind="book.author"></profile-item>
     </div>
   </article>

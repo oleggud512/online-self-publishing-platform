@@ -9,6 +9,17 @@ screenTitle:
   profileBooks: Книги
   filters: Фільтри
   bookmarks: Закладки
+  authentication: Вхід
+
+auth: 
+  email: Email
+  password: Пароль
+  signIn: Ввійти
+  signUp: Зареєструватися
+  skip: Пропустити
+  switchTo(String to): "Перемкнути на $to"
+
+google: Google
 
 settings:
   changeLanguageLabel: Змінтити мову
@@ -19,6 +30,8 @@ settings:
 errors:
   shortPassword: Пароль повинен мати не менше 6 символів
   cannotSubscribeYourself: Ви не можете підписатися на себе.
+  cantPublish: "Ви не можете опублікувати цю книгу"
+  cannotAddComment: "Вам не дозволено додавати коментарі."
 
 searchPlaceholder: 'введіть запит...'
 
@@ -55,3 +68,20 @@ wantToHide: "Сховати цю книгу?"
 wantToPublish: "Опублікувати?"
 yes: "Yes"
 no: "No"
+
+notifications:
+  newChapter:
+    title: "Нова глава"
+    body(Map<String, dynamic> data): 'Глава \"${data["chapter"]}\" була додана до книги \"${data["chapter"]}\"'
+  bookUnpublished:
+    title: "Ваша книга схована через порушення правил."
+    body(Map<String, dynamic> data): '\"${data["book"]}\" схована. Звʼяжіться з адміністрацією через вкладку \"Повідомлення\"'
+  reportRejected:
+    title: "Вашу скаргу відхилено"
+    body(Map<String, dynamic> data): 'Вашу скаргу на \"${data["subject"]}\" було відхилено. Правила.'
+  subscribed:
+    title: 'Новий підписник'
+    body(Map<String, dynamic> data): 'Користувач ${data["profile"]} підписався на вас.'
+  commentAnswer:
+    title: 'Нова відповідь'
+    body(Map<String, dynamic> data): 'Користувач ${data["profile"]} відповів на ваш коментар.'

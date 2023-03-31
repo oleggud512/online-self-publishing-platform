@@ -1,23 +1,10 @@
+import { Entity, Identifiable, Owned } from "../../../domain"
+import { Book } from "features/books/domain/book";
 import { ReportState } from "./report-state";
 import { ReportSubject } from "./report-subject";
-
-
-export class Identifiable {
-  _id: string
-}
-
-
-export class Owned {
-  author: Profile
-}
-
-
-export class Entity implements Identifiable {
-  _id: string
-  createdAt?: Date
-  updatedAt?: Date
-}
-
+import { Profile } from "features/profiles/domain/profile";
+import { Comment } from "features/comments/domain/comment";
+import { BaseCommentSubject } from "features/comments/domain/comment-subject";
 
 export class BaseReportSubject implements Entity {
   _id: string
@@ -26,103 +13,133 @@ export class BaseReportSubject implements Entity {
 }
 
 
-export class BaseCommentSubject implements Identifiable {
-  _id: string
-}
-
-
 export class Report implements Entity, Owned {
-  _id: string
-  author: Profile
-  subject: BaseReportSubject
-  subjectName: string
-  reportType: ReportType
-  state: string
+  _id: string;
+  author: Profile;
+  subject?: BaseReportSubject;
+  subjectName: string;
+  reportType: ReportType;
+  state: string;
 
-  admin?: Profile
-  actions?: Action[]
+  admin?: Profile;
+  actions?: Action[];
 
-  createdAt: Date
-  updatedAt: Date
-  
-  constructor(data: any) { 
-    this._id = data._id
-    if (data.admin) this.admin = new Profile(data.admin)
-    this.author = new Profile(data.author)
-    this.subject = this._parseSubject(data.subject, data.subjectName)
-    this.subjectName = data.subjectName
-    this.reportType = new ReportType(data.reportType)
-    this.state = data.state
-    
+  createdAt: Date;
+  updatedAt: Date;
+
+  constructor(data: any) {
+    this._id = data._id;
+    if (data.admin) this.admin = new Profile(data.admin);
+    this.author = new Profile(data.author);
+    if (data.subject)
+      this.subject = this._parseSubject(data.subject, data.subjectName);
+    this.subjectName = data.subjectName;
+    this.reportType = new ReportType(data.reportType);
+    this.state = data.state;
+
     if (data.actions && Array.isArray(data.actions)) {
-      this.actions = data.actions.map(action => this._parseAction(action))
+      this.actions = data.actions.map((action) => this._parseAction(action));
     }
 
-    if (data.createdAt) this.createdAt = new Date(data.createdAt)
-    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
+    if (data.createdAt) this.createdAt = new Date(data.createdAt);
+    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt);
   }
 
-  private _parseSubject(data: any, subjectName: string) : BaseReportSubject {
+  private _parseSubject(data: any, subjectName: string): BaseReportSubject {
     switch (subjectName) {
-      case (ReportSubject.book): return new Book(data)
-      case (ReportSubject.profile): return new Profile(data)
-      case (ReportSubject.comment): return new Comment(data)
+      case ReportSubject.book:
+        return new Book(data);
+      case ReportSubject.profile:
+        return new Profile(data);
+      case ReportSubject.comment:
+        return new Comment(data);
     }
   }
 
   private _parseAction(action: any) {
-    if (!action || !action.actionType) return undefined
-    if (ActionType.isOfMessageGroup(action.actionType)) return new MessageAction(action)
-    if (ActionType.isOfProfileGroup(action.actionType)) return new ProfileAction(action)
-    if (ActionType.isOfBookGroup(action.actionType)) return new BookAction(action)
-    if (ActionType.isOfChapterGroup(action.actionType)) return new ChapterAction(action)
+    console.log({ _parseAction: action });
+    if (!action || !action.actionType) return undefined;
+    if (ActionType.isOfMessageGroup(action.actionType))
+      return new MessageAction(action);
+    if (ActionType.isOfProfileGroup(action.actionType))
+      return new ProfileAction(action);
+    if (ActionType.isOfBookGroup(action.actionType))
+      return new BookAction(action);
+    if (ActionType.isOfChapterGroup(action.actionType)) {
+      console.log("IS OF CHAPTER GROUP");
+      return new ChapterAction(action);
+    }
   }
 
   public get isOnProfile() {
     // return this.subject instanceof Profile
-    console.log(`IS ON PROFILE CALLED and returned ${this.subjectName == ReportSubject.profile}`)
-    return this.subjectName === ReportSubject.profile
+    console.log(`IS ON PROFILE CALLED and returned ${
+      this.subjectName == ReportSubject.profile
+    }`);
+    return this.subjectName === ReportSubject.profile;
   }
+  
   public get isOnBook() {
-    console.log(`IS ON BOOK CALLED and returned ${this.subjectName == ReportSubject.book}`)
+    console.log(`IS ON BOOK CALLED and returned ${
+      this.subjectName == ReportSubject.book}`);
     // return this.subject instanceof Book
-    return this.subjectName === ReportSubject.book
+    return this.subjectName === ReportSubject.book;
   }
+
   public get isOnComment() {
     // return this.subject instanceof Comment
-    console.log(`IS ON COMMENT CALLED and returned ${this.subjectName == ReportSubject.comment}`)
-    return this.subjectName === ReportSubject.comment
+    console.log(`IS ON COMMENT CALLED and returned ${
+      this.subjectName == ReportSubject.comment}`);
+    return this.subjectName === ReportSubject.comment;
   }
 }
 
 export class ActionType {
   static message = "message"
+  static deleteComment = "deleteComment"
 
   static updateProfile = "updateProfile"
+  static allowPublishBook = "allowPublishBook"
+  static restrictPublishBook = "restrictPublishBook"
+  static allowAddComment = "allowAddComment"
+  static restrictAddComment = "restrictAddComment"
 
   static addBook = "addBook"
   static updateBook = "updateBook"
   static deleteBook = "deleteBook"
   static publishBook = "publishBook"
   static unpublishBook = "unpublishBook"
+  static profileBlocked = "profileBlocked"
+  static profileUnblocked = "profileUnblocked"
 
   static addChapter = "addChapter"
   static updateChapter = "updateChapter"
   static deleteChapter = "deleteChapter"
   static publishChapter = "publishChapter"
   static unpublishChapter = "unpublishChapter"
+  static unpublishBookPermanently = "unpublishBookPermanently"
+  static publishBookPermanently = "publishBookPermanently"
 
   static get values() {
     return [
       ActionType.message,
+      ActionType.deleteComment,
 
       ActionType.updateProfile,
+      ActionType.allowPublishBook,
+      ActionType.restrictPublishBook,
+      ActionType.allowAddComment,
+      ActionType.restrictAddComment,
+      ActionType.profileBlocked,
+      ActionType.profileUnblocked,
 
       ActionType.addBook,
       ActionType.updateBook,
       ActionType.deleteBook,
       ActionType.publishBook,
       ActionType.unpublishBook,
+      ActionType.unpublishBookPermanently,
+      ActionType.publishBookPermanently,
 
       ActionType.addChapter,
       ActionType.updateChapter,
@@ -134,7 +151,13 @@ export class ActionType {
 
   static isOfProfileGroup(actionType: string) : boolean { 
     return [
-      ActionType.updateProfile
+      ActionType.updateProfile,
+      ActionType.allowPublishBook,
+      ActionType.restrictPublishBook,
+      ActionType.allowAddComment,
+      ActionType.restrictAddComment,
+      ActionType.profileBlocked,
+      ActionType.profileUnblocked,
     ].includes(actionType)
   }
 
@@ -145,6 +168,8 @@ export class ActionType {
       ActionType.deleteBook,
       ActionType.publishBook,
       ActionType.unpublishBook,
+      ActionType.unpublishBookPermanently,
+      ActionType.publishBookPermanently,
     ].includes(actionType)
   }
 
@@ -158,9 +183,10 @@ export class ActionType {
     ].includes(actionType)
   }
 
-  static isOfMessageGroup(actionType: string) : boolean {
+  static isOfMessageGroup(actionType: string) : boolean { // just a text
     return [
-      ActionType.message
+      ActionType.message,
+      ActionType.deleteComment,
     ].includes(actionType)
   }
 }
@@ -242,153 +268,4 @@ export class ReportType implements Identifiable {
     this.name = data.name
     this.subjectName = data.subjectName
   }
-}
-
-
-export class Book implements BaseReportSubject, BaseCommentSubject, Owned {
-  _id: string
-
-  name: string
-  author: Profile
-  description?: string
-  coverUrl?: string
-  genres: string[] = []
-  tags: string[] = []
-  likes: number = 0
-  state: string  // TODO: parse to enum
-  status: string // TODO: parse to enum
-
-  createdAt?: Date
-  updatedAt?: Date
-
-  constructor(data: any) {
-    this._id = data._id
-
-    this.name = data.name
-    this.author = new Profile(data.author)
-    this.description = data.description
-    this.coverUrl = data.coverUrl
-    this.genres = data.genres
-    this.tags = data.tags
-    this.likes = data.likes
-    this.state = data.state
-    this.status = data.status
-
-    if (data.createdAt) this.createdAt = new Date(data.createdAt)
-    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
-  }
-
-}
-
-
-export class Chapter implements BaseCommentSubject {
-  _id: string
-
-  name: string
-  content: string
-  book: string
-  state: string
-  
-  createdAt?: Date
-  updatedAt?: Date
-
-  constructor(data: any) {
-    this._id = data._id
-
-    this.name = data.name
-    this.content = data.content
-    this.state = data.state
-    this.book = data.book
-
-    if (data.createdAt) this.createdAt = new Date(data.createdAt)
-    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
-  }
-}
-
-
-export class Profile implements BaseReportSubject {
-  _id: string
-  name: string
-  email: string
-  avatarUrl?: string
-  description?: string
-  displayName?: string
-  subscribers: number = 0
-  subscriptions: number = 0
-  bookCount: number = 0
-  gender?: string
-  age?: number
-
-  createdAt?: Date
-  updatedAt?: Date
-
-  constructor(data: any) {
-    this._id = data._id
-
-    this.name = data.name
-    this.email = data.email
-    this.avatarUrl = data.avatarUrl
-    this.description = data.description
-    this.displayName = data.displayName
-    if (data.subscribers) this.subscribers = data.subscribers
-    if (data.subscriptions) this.subscriptions = data.subscriptions
-    if (data.bookCount) this.bookCount = data.bookCount
-    this.gender = data.gender
-    this.age = data.age
-
-    if (data.createdAt) this.createdAt = new Date(data.createdAt)
-    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
-  }
-
-}
-
-
-export enum CommentSubject {
-  book = 'Book',
-  chapter = 'Chapter'
-}
-
-
-export function parseCommentSubject(data: string) {
-  switch (data) {
-    case 'Book': return CommentSubject.book
-    case 'Chapter': return CommentSubject.chapter
-  }
-  throw `incorrect data ${data}`
-}
-
-
-export class Comment implements BaseReportSubject, Owned {
-  _id: string
-  author: Profile
-  subject: BaseCommentSubject
-  subjectName: CommentSubject
-  rate: number = 0
-  depth: number = 0
-  content: string
-
-  createdAt?: Date
-  updatedAt?: Date
-
-  constructor(data: any) {
-    this._id = data._id
-
-    this.author = new Profile(data.author)
-    this.content = data.content
-    this.subjectName = data.subjectName
-    this.subject = this._parseCommentSubject(data.subject, data.subjectName)
-    this.rate = data.rate
-    this.depth = data.depth
-
-    if (data.createdAt) this.createdAt = new Date(data.createdAt)
-    if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)
-  }
-
-  private _parseCommentSubject(subject: any, subjectName: string) {
-    switch (subjectName) {
-      case CommentSubject.book: return new Book(subject)
-      case CommentSubject.chapter: return new Chapter(subject)
-    }
-  }
-
 }

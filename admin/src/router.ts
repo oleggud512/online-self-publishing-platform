@@ -9,6 +9,9 @@ export const MyRoute = {
   messages: 'messages',
   reports: 'reports',
     report: 'report',
+  profile: 'profile',
+  book: 'book',
+  chapter: 'chapter'
 }
 
 export function configureRouter(config: RouterConfiguration, router: Router) {
@@ -57,6 +60,21 @@ export function configureRouter(config: RouterConfiguration, router: Router) {
       route: 'reports/:id',
       name: MyRoute.report,
       moduleId: PLATFORM.moduleName("./features/reports/presentation/report/report-screen"),
-    }
+    },
+    {
+      route: 'profiles/:id',
+      name: MyRoute.profile,
+      moduleId: PLATFORM.moduleName("./features/profiles/presentation/profile-screen/profile-screen"),
+    },
+    {
+      route: 'books/:id',
+      name: MyRoute.book,
+      moduleId: PLATFORM.moduleName("./features/books/presentation/book/book-screen"),
+    },
+    {
+      route: 'chapters/:id',
+      name: MyRoute.chapter,
+      moduleId: PLATFORM.moduleName("./features/chapters/presentation/chapter/chapter_screen"),
+    },
   ])
 }

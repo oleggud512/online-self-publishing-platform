@@ -1,6 +1,6 @@
 import express = require("express")
 import { couldBeAuthenticated, isAuthenticated } from "../auth/authenticated"
-import { isAuthorized } from "../auth/authorized"
+import { isAuthorized, isAuthorizedAdmin } from "../auth/authorized"
 import * as profileController from "./controller"
 
 const router = express.Router()
@@ -28,6 +28,21 @@ router.get('/:id/subscriptions', profileController.getSubscriptions)
 // see books router for books/:id/bookmark to toggle bookmark for the user. 
 router.post('/:id/bookmarks', isAuthenticated, profileController.addBookmarks)
 router.get('/:id/bookmarks', isAuthenticated, profileController.getBookmarks)
+
+router.get('/:id/permissions', 
+  isAuthenticated, 
+  isAuthorizedAdmin(), 
+  profileController.getPermissions)
+
+router.put('/:id/permissions/publish', 
+  isAuthenticated,
+  isAuthorizedAdmin(),
+  profileController.togglePublish)
+
+router.put('/:id/permissions/comment', 
+  isAuthenticated,
+  isAuthorizedAdmin(),
+  profileController.toggleComment)
 
 
 export default router

@@ -100,6 +100,9 @@ extension MyRoutePath on MyRoute {
         return '/chapters/:id';
       case MyRoute.editChapter:
         return '/chapters/:id/edit';
+
+      case MyRoute.blocked:
+        return '/blocked';
     }
   }
 }
@@ -192,7 +195,9 @@ final routerProvider = Provider((ref) {
                   pageBuilder: (context, state) {
                     return NoTransitionPage(
                       child: BookChaptersScreen(
-                          bookId: state.params['id'] as String),
+                        bookId: state.params['id'] as String,
+                        book: state.extra as Book
+                      ),
                     );
                   },
                   routes: [
@@ -201,7 +206,9 @@ final routerProvider = Provider((ref) {
                       name: MyRoute.addChapter.name,
                       pageBuilder: (context, state) {
                         return NoTransitionPage(
-                          child: EditChapterScreen.add(forBookId: state.params['id'] as String),
+                          child: EditChapterScreen.add(
+                            forBook: state.extra as Book
+                          ),
                         );
                       },
                     ),
@@ -373,6 +380,44 @@ final routerProvider = Provider((ref) {
               })
             ], child: const AuthScreen());
           }),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        path: MyRoute.blocked.path,
+        name: MyRoute.blocked.name,
+        builder: (context, state) {
+          return const BlockedScreen();
+        }
+      )
     ]
   );
 });
+
+class BlockedScreen extends ConsumerWidget {
+  const BlockedScreen({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Account is blocked.', 
+              style: Theme.of(context).textTheme.displaySmall,
+              textAlign: TextAlign.center,
+            ),
+            FilledButton.icon(
+              onPressed: () {
+                ref.watch(authRepositoryProvider).signOut();
+              }, 
+              icon: const Icon(Icons.logout_rounded),
+              label: Text('Sign Out'.hardcoded)
+            )
+          ],
+        )
+      )
+    );
+  }
+}

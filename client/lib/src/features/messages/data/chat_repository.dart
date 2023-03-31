@@ -3,6 +3,7 @@ import 'package:client/src/common/socket_stream.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/messages/domain/chat.dart';
 import 'package:client/src/features/messages/domain/message.dart';
+import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
 import 'package:client/src/shared/socket.dart';
 import 'package:dio/dio.dart';
@@ -44,38 +45,30 @@ class ChatRepository {
     });
   }
 
-  SocketStream<Message?> watchAllMessages() {
-    printInfo("Stream<Message?> watchAllMessages() {");
-    return SocketStream<Message?>(
-      socket: socket(namespace: 'chats'), 
-      socketEvent: "nextMessage", 
-      parse: (data) {
-        try {
-          printWarning(data);
-          return Message.fromJson(data);
-        } catch (e) {
-          printError(e);
-          return null;
-        }
-      }
-    );
+  Future<List<Chat>> getAdminChats([int? from, int? pageSize]) async {
+    final resp = await _dio.get("reports/chats", queryParameters: {
+      'from': from,
+      'pageSize': pageSize
+    });
+    printInfo(resp.data);
+    return List<dynamic>.from(resp.data[Str.dio.data]).map((c) {
+      final chat = Chat.fromJson(c);
+      return chat.copyWith(source: ChatSource.admin);
+    }).toList();
+    // return chatListFromJson(resp.data[Str.dio.data]);
   }
 
-  SocketStream<Message?> watchChatMessage(String otherId) {
-    printInfo("Stream<Message?> watchChatMessage(String otherId) {");
-    return SocketStream<Message?>(
-      socket: socket(namespace: 'chat', queryParams: { 'other': otherId }), 
-      socketEvent: "nextMessage", 
-      parse: (data) {
-        try {
-          printWarning(data);
-          return Message.fromJson(data);
-        } catch (e) {
-          printError(e);
-          return null;
-        }
-      }
-    );
+  Future<List<Message>> getAdminMessages(String reportId, [int? from, int? pageSize]) async {
+    final resp = await _dio.get("reports/$reportId/messages", queryParameters: {
+      'from': from,
+      'pageSize': pageSize
+    });
+    return messageListFromJson(resp.data[Str.dio.data]);
+  }
+
+  Future<void> addAdminMessage(String reportId, String content) async {
+    final resp = await _dio.post("reports/$reportId/messages", data: { 'content': content });
+    // return Message.fromJson(resp.data);
   }
 }
 

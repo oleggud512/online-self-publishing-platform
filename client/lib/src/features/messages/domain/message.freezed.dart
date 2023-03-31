@@ -178,7 +178,7 @@ class _$_Message implements _Message {
       {@JsonKey(name: "_id") this.id = "",
       this.content = "",
       required this.from,
-      required this.to,
+      this.to = "",
       required this.createdAt,
       required this.updatedAt});
 
@@ -194,6 +194,7 @@ class _$_Message implements _Message {
   @override
   final Profile from;
   @override
+  @JsonKey()
   final String to;
   @override
   final DateTime createdAt;
@@ -244,7 +245,7 @@ abstract class _Message implements Message {
       {@JsonKey(name: "_id") final String id,
       final String content,
       required final Profile from,
-      required final String to,
+      final String to,
       required final DateTime createdAt,
       required final DateTime updatedAt}) = _$_Message;
 

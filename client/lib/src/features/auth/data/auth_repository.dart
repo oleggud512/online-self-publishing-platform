@@ -2,13 +2,19 @@ import 'dart:convert';
 
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/features/auth/data/google_auth_repository.dart';
+import 'package:client/src/shared/err.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../common/widgets/error_handler.dart';
 import '../../../shared/dio.dart';
 import '../../profile/domain/profile.dart';
+
+class BlockedUserAuthException extends AppException { 
+  static const String name = 'blockedUserAuth';
+}
 
 class AuthRepository {
   AuthRepository(GoogleAuthRepository googleAuth, Dio dio)
@@ -58,10 +64,11 @@ class AuthRepository {
   }
 
   Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
-    return await FirebaseAuth.instance.signInWithEmailAndPassword(
+    final creds = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+    return creds;
   }
 
   Future<UserCredential> signUpWithEmailAndPassword({ // password
@@ -84,6 +91,17 @@ class AuthRepository {
       _googleAuth.signOut();
     }
     FirebaseAuth.instance.signOut();
+  }
+
+  Future<T> _handleBlockedAuth<T>(Future<T> Function() func) async {
+    try {
+      return await func();
+    } on AppError catch (e) {
+      if (e.code == BlockedUserAuthException.name) {
+        throw BlockedUserAuthException();
+      }
+      rethrow;
+    }
   }
 }
 

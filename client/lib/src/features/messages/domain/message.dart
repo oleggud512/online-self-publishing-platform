@@ -10,7 +10,7 @@ class Message with _$Message {
     @JsonKey(name: "_id") @Default("") String id,
     @Default("") String content,
     required Profile from,
-    required String to,
+    @Default("") String to,
     required DateTime createdAt,
     required DateTime updatedAt
   }) = _Message;

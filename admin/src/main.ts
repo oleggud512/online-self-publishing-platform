@@ -1,11 +1,15 @@
 import {Aurelia} from 'aurelia-framework';
 import environment from '../config/environment.json';
 import {PLATFORM} from 'aurelia-pal';
+import { SanitizeHTMLValueConverter } from 'aurelia-templating-resources';
+import 'bootstrap';
 
 export function configure(aurelia: Aurelia): void {
   aurelia.use
     .standardConfiguration()
-    .feature(PLATFORM.moduleName('resources/index'));
+    .plugin(PLATFORM.moduleName('@appex/aurelia-dompurify'))
+    .feature(PLATFORM.moduleName('resources/index'))
+    .plugin(PLATFORM.moduleName('aurelia-dialog'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
   // aurelia.use.plugin('aurelia-i18n', (instance) => {

@@ -1,4 +1,4 @@
-import { Document, Schema, model, Types } from "mongoose";
+import { Document, Schema, model, Types, QueryWithHelpers, HydratedDocument, Model } from "mongoose";
 import { IChapter, ReadingsState } from "../chapters/Chapter";
 
 export const BookStatus = {
@@ -25,11 +25,29 @@ export interface IBook {
   createdAt?: Date
   updatedAt?: Date
 
+  permissions?: {
+    publish: boolean
+  }
+
   liked?: boolean
   bookmarked?: boolean
 }
 
-const BookSchema: Schema = new Schema(
+
+// interface BookQueryHelpers {
+//   byName(name: string): QueryWithHelpers<HydratedDocument<IBook>[], HydratedDocument<IBook>, BookQueryHelpers>
+// }
+
+// type BookModelType = Model<IBook, BookQueryHelpers>;
+
+const BookSchema = new Schema
+// <
+//   IBook, 
+//   Model<IBook, BookQueryHelpers>, 
+//   {}, 
+//   BookQueryHelpers
+// >
+(
   {
     permanentlyUnpublished: { 
       type: Boolean, 
@@ -52,8 +70,20 @@ const BookSchema: Schema = new Schema(
     author: { type: String, ref: "Profile", required: true },
     tags: [{ type: String }],
     genres: [{ type: String }],
+    permissions: new Schema({
+      publish: { type: Boolean, default: true }
+    })
   },
   { timestamps: true }
 );
+
+// BookSchema.query.byName = function byName(
+//   this: QueryWithHelpers<any, HydratedDocument<IBook>, BookQueryHelpers>,
+//   name: string
+// ) {
+
+//   return this.find({ name: name });
+// };
+
 
 export const Book = model<IBook>("Book", BookSchema);

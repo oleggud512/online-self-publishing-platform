@@ -21,8 +21,9 @@ import '../chapter/chapter_widget.dart';
 import 'book_chapters_screen_controller.dart';
 
 class BookChaptersScreen extends ConsumerStatefulWidget {
-  const BookChaptersScreen({super.key, required this.bookId});
+  const BookChaptersScreen({super.key, required this.bookId, required this.book});
 
+  final Book book;
   final String bookId;
 
   @override
@@ -42,6 +43,7 @@ class _BookChaptersScreenState extends ConsumerState<BookChaptersScreen> {
       params: {
         'id': widget.bookId
       },
+      extra: widget.book
     );
   }
 
@@ -55,7 +57,7 @@ class _BookChaptersScreenState extends ConsumerState<BookChaptersScreen> {
     return state.when(
       data: (chapters) => Scaffold(
         appBar: AppBar(
-          title: Text('Chapters'.hardcoded)
+          title: Text('Chapters'.hardcoded),
         ),
         body: PageListWidget(
           refreshController: refreshController,

@@ -18,8 +18,12 @@ import 'edit_chapter_screen_state.dart';
 
 class EditChapterScreen extends ConsumerStatefulWidget {
   const EditChapterScreen({super.key, required this.chapter});
-  factory EditChapterScreen.add({Key? key, required String forBookId}) => 
-    EditChapterScreen(key: key, chapter: Chapter(bookId: forBookId));
+
+  factory EditChapterScreen.add({
+    Key? key, 
+    required Book forBook
+  }) => 
+    EditChapterScreen(key: key, chapter: Chapter(book: forBook));
 
   final Chapter chapter;
 

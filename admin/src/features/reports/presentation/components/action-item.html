@@ -1,0 +1,14 @@
+<template>
+  <require from="./action-mark.html"></require>
+  <require from="./action-item.css"></require>
+  <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+
+  <div class="d-flex gap-3 px-3">
+    <action-mark color.bind="markColor"></action-mark>
+    <profile-item profile.bind="action.author" with-card.bind="false" class="my-3 flex-grow-1 d-flex">
+      <span id="actionContent"class="text-wrap"></span>
+      <span class="text-muted small text-end">${action.createdAt.toLocaleString()}</span>
+    </profile-item>
+  </div>
+
+</template>

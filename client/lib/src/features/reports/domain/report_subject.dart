@@ -9,14 +9,31 @@ class ReportSubject {
   static const String profile = "Profile";
   static const String comment = "Comment";
 
-  static String fromObject(dynamic object) {
-    if (object is Book) { 
+  static String subjectNameFromObject(dynamic subject) {
+    if (subject is Book) { 
       return book;
-    } else if (object is Profile) {
+    } else if (subject is Profile) {
       return profile;
-    } else if (object is Comment) {
+    } else if (subject is Comment) {
       return comment;
     }
     throw 'incorrect object';
+  }
+
+  static String? getDefendant(dynamic subject) {
+    final subjectName = subjectNameFromObject(subject);
+    String? defendant;
+    switch (subjectName) { 
+      case ReportSubject.book:
+        defendant = (subject as Book).author.id;
+        break;
+      case ReportSubject.profile:
+        defendant = (subject as Profile).id;
+        break;
+      case ReportSubject.comment:
+        defendant = (subject as Comment).author.id;
+        break;
+    }
+    return defendant;
   }
 }

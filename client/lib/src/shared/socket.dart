@@ -38,10 +38,12 @@ class OutcomingEvents {
 
 
 class NextMessageHandler {
-  NextMessageHandler(this.callback) {
-    chatsSocket.emit(OutcomingEvents.subscribeAllMessages);
+  NextMessageHandler(this.callback, [this.reportId]) {
+    chatsSocket.emit(OutcomingEvents.subscribeAllMessages, reportId);
     chatsSocket.on(IncomingEvents.nextMessage, _listener);
   }
+
+  final String? reportId;
 
   final void Function(Message nextMessage) callback;
 
@@ -51,13 +53,13 @@ class NextMessageHandler {
   Future<void> dispose() async {
     await _subject.close();
     chatsSocket.off(IncomingEvents.nextMessage, _listener);
-    chatsSocket.emit(OutcomingEvents.unsubscribeAllMessages);
+    chatsSocket.emit(OutcomingEvents.unsubscribeAllMessages, reportId);
     chatsSocket.dispose();
   }
 
   void _listener(dynamic data) {
     Message message = Message.fromJson(data);
-    printInfo('_listener');
+    printInfo('NextMessageHandler._listener');
     callback(message);
   }
   

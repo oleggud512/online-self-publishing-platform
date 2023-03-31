@@ -1,0 +1,9 @@
+delete-icon {
+  padding: 0.5rem;
+  border-radius: 3rem;
+}
+
+delete-icon:hover {
+  background-color: gainsboro;
+  cursor: pointer;
+}

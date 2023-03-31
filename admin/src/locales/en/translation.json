@@ -11,6 +11,7 @@
     "pending": "Pending",
     "inProgress": "In Progress",
     "closed": "Closed",
+    "rejected": "Rejected",
 
     "books": "Books",
     "profiles": "Profiles",
@@ -20,5 +21,40 @@
     "all": "All",
 
     "new": "New",
-    "old": "Old"
+    "old": "Old",
+    "popular": "Popular",
+
+    "updateProfile": "{{name}} has been updated.",
+    "allowPublishBook": "User {{name}} is allowed to publish books.",
+    "restrictPublishBook": "User {{name}} is not allowed to publish books.",  
+    "allowAddComment": "{{name}} is allowed to add comments.",  
+    "restrictAddComment": "{{name}} is not allowed to add comments.",  
+    "profileBlocked": "{{name}} has been blocked.",
+    "profileUnblocked": "{{name}} has been unblocked.",
+
+    "addBook": "The book {{book}} has been added.",
+    "updateBook": "The book {{book}} has been added.",
+    "deleteBook": "The book {{book}} has been deleted.",
+    "publishBook": "The book {{book}} has been published.",
+    "unpublishBook": "The book {{book}} has been unpublished.",
+    "unpublishBookPermanently": "\"{{book}}\" publishment restricted.",
+    "publishBookPermanently": "\"{{book}}\" book can be published again.",
+
+    "addChapter": "The chapter {{chapter}} has been added to the book {{book}}.",
+    "updateChapter": "The chapter {{chapter}} of the book {{book}} has been updated.",
+    "deleteChapter": "The chapter {{chapter}} of the book {{book}} has been deleted.",
+    "publishChapter": "The chapter {{chapter}} of the book {{book}} has been published.",
+    "unpublishChapter": "The chapter {{chapter}} of the book {{book}} has been unpublished.",
+
+    "deleted": {
+        "Comment": "Comment deleted",
+        "Book": "Book deleted",
+        "Profile": "Profile deleted"
+    },
+
+    "Comment": "Comment",
+    "Book": "Book",
+    "Profile": "Profile",
+
+    "insufficientReport": "Insufficient Report"
 }

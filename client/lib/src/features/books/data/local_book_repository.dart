@@ -1,4 +1,7 @@
+import 'package:client/src/features/books/data/sembast_book_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../shared/sembast.dart';
 
 part 'local_book_repository.g.dart';
 
@@ -19,5 +22,5 @@ abstract class LocalBookRepository {
 @Riverpod(keepAlive: true)
 LocalBookRepository localBookRepository(LocalBookRepositoryRef ref) {
   // * Override this in the main method
-  throw UnimplementedError();
+  return SembastBookRepsoitory(ref.watch(sembastDatabaseProvider)!);
 }

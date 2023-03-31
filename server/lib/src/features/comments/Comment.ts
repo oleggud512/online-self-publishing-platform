@@ -6,10 +6,10 @@ import { IProfile } from '../profiles/Profile';
 export interface IComment {
   _id: string
   content: string
-  author: IProfile
+  author: string | IProfile
   rate: number
   depth: number
-  subject: IBook | IChapter
+  subject: IBook | IChapter | string
   subjectName: string
   question: string
 

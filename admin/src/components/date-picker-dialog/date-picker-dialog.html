@@ -1,0 +1,18 @@
+<template>
+  <div class="bg-body card">
+    <div class="card-header d-flex justify-content-between">
+      ${message}
+      <button click.delegate="cancel()" class="btn btn-close"></button>
+    </div>
+    <div class="card-body g-3">
+      <input class="form-control" 
+        type="date"
+        value.bind="date"
+        step="7">
+    </div>
+    <div class="card-footer d-flex justify-content-end gap-2">
+      <button click.delegate="cancel()" class="btn btn-outline-primary">Cancel</button>
+      <button click.delegate="submit()" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</template>

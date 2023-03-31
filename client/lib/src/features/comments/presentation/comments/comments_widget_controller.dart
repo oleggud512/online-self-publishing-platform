@@ -3,6 +3,8 @@ import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/features/comments/data/comment_repository.dart';
 import 'package:client/src/features/comments/domain/comment.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_content_field_state.dart';
+import 'package:client/src/features/localization/application/current_localization.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../common/pub_sub.dart';
@@ -42,17 +44,21 @@ class CommentsWidgetController extends _$CommentsWidgetController
   }
 
   Future<void> addComment() async {
-    final Comment newComment = await commentRepo.addComment(
-      content: ref.watch(commentsContentFieldState), 
-      subjectId: subjectId,
-      subjectName: subjectName,
-    );
-    ref.watch(commentsContentFieldState.notifier).state = "";
-    state = AsyncData(
-      state.value!.copyWith(
-        comments: state.value!.comments.copyWith(newComment, start: true),
-      ),
-    );
+    try {
+      final Comment newComment = await commentRepo.addComment(
+        content: ref.watch(commentsContentFieldState), 
+        subjectId: subjectId,
+        subjectName: subjectName,
+      );
+      ref.watch(commentsContentFieldState.notifier).state = "";
+      state = AsyncData(
+        state.value!.copyWith(
+          comments: state.value!.comments.copyWith(newComment, start: true),
+        ),
+      );
+    } on CannotAddCommentException catch (_) {
+      Utils.showMessage(ref, ref.watch(currentLocalizationProvider).errors.cannotAddComment);
+    }
   }
   
   @override

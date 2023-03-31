@@ -40,4 +40,12 @@ class ScaffoldWithNavigationDrawerItem extends NavigationDrawerDestination
     icon: icon,
     label: label
   );
+
+  toRailDestination() {
+    return NavigationRailDestination(
+      selectedIcon: selectedIcon,
+      icon: icon, 
+      label: label
+    );
+  }
 }

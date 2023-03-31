@@ -1,4 +1,7 @@
 import { bindable, computedFrom, autoinject } from "aurelia-framework"
+import { Book } from "features/books/domain/book"
+import { Comment } from "features/comments/domain/comment"
+import { Profile } from "features/profiles/domain/profile"
 import { ReportRepository } from "features/reports/data/report-repository"
 import { Report } from "features/reports/domain/report"
 import { ReportState } from "features/reports/domain/report-state"
@@ -7,26 +10,35 @@ import i18next from "i18next"
 
 @autoinject
 export class ReportItem {
-  t = i18next.t
-
-  constructor(private reportRepo: ReportRepository) { }
-
   @bindable report: Report
   @bindable onHeaderClick: (report: Report) => {}
 
+  t = i18next.t
+  
+  constructor(private reportRepo: ReportRepository) { }
 
-  @computedFrom('report.subjectName')
+  // @computedFrom('report.subjectName')
+  @computedFrom('report.subject')
   get isOnProfile() {
-    return this.report.subjectName == ReportSubject.profile
+    // return this.report.subjectName == ReportSubject.profile
+    return this.report.subject instanceof Profile
   }
-  @computedFrom('report.subjectName')
+  @computedFrom('report.subject')
+  // @computedFrom('report.subjectName')
   get isOnBook() {
-    return this.report.subjectName == ReportSubject.book
+    // return this.report.subjectName == ReportSubject.book
+    return this.report.subject instanceof Book
   }
-  @computedFrom('report.subjectName')
+  @computedFrom('report.subject')
+  // @computedFrom('report.subjectName')
   get isOnComment() {
-    return this.report.subjectName == ReportSubject.comment
+    // return this.report.subjectName == ReportSubject.comment
+    return this.report.subject instanceof Comment
   }
+  get isDeleted() {
+    return !this.report.subject
+  }
+
 
   get actionName() {
     switch (this.report.state) {

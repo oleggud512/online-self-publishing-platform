@@ -1,0 +1,22 @@
+<template>
+  <require from="../comment-item/comment-item"></require>
+  <require from="../../../../components/segmented-buttons/segmented-buttons"></require>
+
+  <segmented-buttons 
+    value.bind="sorting" 
+    segments.bind="sortingSegments" 
+    name="ss" 
+    required="true" 
+    on-changed.bind="onSortingChangedCallback"
+    >
+  </segmented-buttons>
+
+  <section class="d-flex flex-column gap-2" if.bind="comments">
+    <comment-item 
+      repeat.for="comment of comments" 
+      id.bind="`com_${comment._id}`"
+      comment.bind="comment" 
+      selected-comment-id.bind="selectedComment"></comment-item>
+    <button class="btn btn-outline-secondary" click.delegate="loadMore()">Load More</button>
+  </section>
+</template>

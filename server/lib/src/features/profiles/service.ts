@@ -1,14 +1,24 @@
-
 import { Aggregate } from "mongoose";
 import { IBook } from "../books/Book";
 import { BookAggregationBuilder } from "../books/book-aggregation-builder";
 import { Bookmarks } from "../linking/Bookmarks";
 import { Subscriptions } from "../linking/Subscriptions";
-import { SubscriptionsAggregationBuilder } from "../linking/subscriptions-aggregation-builder";
+import { 
+  SubscriptionsAggregationBuilder 
+} from "../linking/subscriptions-aggregation-builder";
 import { Gender, IProfile, Profile } from "./Profile";
-import { ProfilesAggregation } from "./profile-aggregation-builder";
+import { ProfileAggregationBuilder as ProfileAggregationBuilder } from "./profile-aggregation-builder";
 import { somethingWithAuthor } from "./profile-aggreation-utils";
-import { BookmarksAggregationBuilder } from "../linking/bookmarks-aggregation-builder";
+import { 
+  BookmarksAggregationBuilder 
+} from "../linking/bookmarks-aggregation-builder";
+import * as actionService from "../reports/action-service"
+import { AppError } from "../../common/app-error";
+import { ActionType } from "../reports/Action";
+import { Restriction } from "../restrictions/Restriction";
+import { ProfilePermissions } from "./ProfilePermissions";
+import * as restrictionService from "../restrictions/service"
+import * as notificationService from "../notifications/service"
 
 
 export async function createProfile(
@@ -31,8 +41,8 @@ export async function getProfiles(
   pageSize: number, 
   exclude?: string
 ) : Promise<Array<IProfile>> {
-  var aggr = new ProfilesAggregation()
-    .profiles(query) // тут они, сортироуются по дате создания. А мне не это нужно. 
+  var aggr = new ProfileAggregationBuilder()
+    .profiles(query) 
   if (exclude) aggr.exclude(exclude)
   aggr
     .page(from, pageSize)
@@ -40,31 +50,57 @@ export async function getProfiles(
   return await aggr.build()
 }
 
-export async function getProfile(id: string, forProfile?: string) : Promise<IProfile> {
-  let data = await new ProfilesAggregation()
-      .profile(id)
-      .withBooks(id, forProfile)
-      .build()
+export async function getProfile(
+  id: string, 
+  forProfile?: string
+) : Promise<IProfile> {
+  let data = await new ProfileAggregationBuilder()
+    .profile(id)
+    .withBooks(id, forProfile)
+    .build()
   return data[0] as IProfile
 }
 
-export async function isUniqueName(name: string, uid?: string) : Promise<boolean> {
+export async function getProfileForAdmin(id: string, forProfile: string) : Promise<IProfile> {
+  let data = await new ProfileAggregationBuilder()
+    .profile(id)
+    .withBooks(id, forProfile)
+    .withReports()
+    .build()
+  return data[0]
+}
+
+export async function isUniqueName(
+  name: string, 
+  uid?: string
+) : Promise<boolean> {
   const profiles = await Profile.find({ name: name, _id: { $ne: uid } }, "name")
   console.log({name, uid, profiles})
   return profiles.length == 0
 }
 
 export async function updateProfile(profile: IProfile) : Promise<IProfile> {
-  const up = await Profile.findByIdAndUpdate(profile._id, profile)
+  const up = await Profile.updateOne({ _id: profile._id }, profile)
   console.log(up)
+  if (up.acknowledged && up.modifiedCount > 0) {
+    console.log('up.acknowledged!!!!')
+    actionService.addProfileUpdated({
+      actionType: ActionType.updateProfile,
+      authorId: profile._id,
+      profileId: profile._id
+    })
+  }
   return getProfile(profile._id)
 }
 
-export async function subscribe(profile: string, subscribedTo: string) : Promise<boolean> {
+export async function subscribe(
+  profile: string, 
+  subscribedTo: string
+) : Promise<boolean> {
   console.log({ profile, subscribedTo })
   const profiles = await Profile.find({ 
     _id: { $in: [ profile, subscribedTo ] }
-  }, "_id")
+  })
   // console.log(`length = ${await Profile.aggregate(new ProfilesAggregation().profile(profile).profile(subscribedTo).build())}`)
   if (profiles.length < 2) return false
 
@@ -84,10 +120,18 @@ export async function subscribe(profile: string, subscribedTo: string) : Promise
       },
     },
   ])
+
+  notificationService.sendSubscribedNotification(
+    profiles.find(p => p._id == profile)!, 
+    subscribedTo
+  )
   return true
 }
 
-export async function unsubscribe(profile: string, subscribedTo: string) : Promise<boolean> {
+export async function unsubscribe(
+  profile: string, 
+  subscribedTo: string
+) : Promise<boolean> {
   const profiles = await Profile.find({
     _id: { $in: [ profile, subscribedTo ] }
   })
@@ -157,7 +201,6 @@ export async function addBookmarks(
       bookmarksToInsert.push({ book: bookmark, profile: forProfile })
     }
   }
-  console.log(`trying to insert these bookmarks: ${JSON.stringify(bookmarksToInsert)}`);
   await Bookmarks.insertMany(bookmarksToInsert)
 
   return true
@@ -174,4 +217,65 @@ export async function getBookmarks(
     .page(from, pageSize)
     .build()
   return books
+}
+
+
+export async function getPermissions(profileId: string) {
+  const restrictions = await restrictionService.getRestrictions(profileId)
+
+  const publishBookRestriction = restrictions.find(
+    r => r.restriction == Restriction.Name.publishBook
+  )
+  const addCommentRestriction = restrictions.find(
+    r => r.restriction == Restriction.Name.addComment
+  )
+
+  return new ProfilePermissions({
+    publishBook: !publishBookRestriction,
+    addComment: !addCommentRestriction
+  });
+}
+
+
+export async function togglePublishBook(
+  profileId: string,
+  adminId: string, 
+  before?: Date
+) {
+  const canPublishBook = await restrictionService.toggleRestriction({
+    subject: profileId,
+    subjectName: Restriction.Subject.profile,
+    restriction: Restriction.Name.publishBook,
+    before
+  })
+
+  actionService.addProfileUpdated({
+    actionType: canPublishBook 
+      ? ActionType.allowPublishBook
+      : ActionType.restrictPublishBook,
+    authorId: adminId,
+    profileId: profileId
+  })
+
+  return canPublishBook
+}
+
+
+export async function toggleAddComment(profileId: string, adminId: string, before?: Date) {
+  const canAddComment = await restrictionService.toggleRestriction({
+    subject: profileId,
+    subjectName: Restriction.Subject.profile,
+    restriction: Restriction.Name.addComment,
+    before
+  })
+
+  actionService.addProfileUpdated({
+    actionType: canAddComment 
+      ? ActionType.allowPublishBook
+      : ActionType.restrictPublishBook,
+    authorId: adminId,
+    profileId: profileId
+  })
+
+  return canAddComment
 }

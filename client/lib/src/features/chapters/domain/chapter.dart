@@ -14,7 +14,8 @@ class Chapter with _$Chapter {
     @Default("") String name,
     @Default("") String content,
     @Default(ReadingsState.unpublished) ReadingsState state,
-    @JsonKey(name: 'book') required String bookId,
+    // @JsonKey(name: 'book') required String bookId,
+    required Book book,
     @JsonKey(toJson: ignore, includeIfNull: false) List<Comment>? comments,
 
     DateTime? createdAt,

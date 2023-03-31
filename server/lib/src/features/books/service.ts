@@ -1,18 +1,25 @@
-import mongoose, { Types } from "mongoose";
-import { AppError } from "../../common/app-error";
-import { ReadingsState } from "../chapters/Chapter";
-import { Bookmarks } from "../linking/Bookmarks";
-import { BookmarksAggregationBuilder } from "../linking/bookmarks-aggregation-builder";
-import { Likes } from "../linking/Likes";
-import { Profile } from "../profiles/Profile";
-import { Book, IBook } from "./Book";
-import { BookAggregationBuilder } from "./book-aggregation-builder";
-import { FilteringSource } from "./FilteringSource";
-import { Filters } from "./Filters";
-import { Genre } from "./Genre";
-import { Tag } from "./Tag";
-import * as actionsService from "../reports/action-service"
-import { ActionType } from "../reports/Action";
+import mongoose, { Types } from "mongoose"
+import { AppError } from "../../common/app-error"
+import { ReadingsState } from "../chapters/Chapter"
+import { Bookmarks } from "../linking/Bookmarks"
+import { BookmarksAggregationBuilder } from "../linking/bookmarks-aggregation-builder"
+import { Likes } from "../linking/Likes"
+import { Profile } from "../profiles/Profile"
+import { Book, IBook } from "./Book"
+import { BookAggregationBuilder } from "./book-aggregation-builder"
+import { FilteringSource } from "./FilteringSource"
+import { Filters } from "./Filters"
+import { Genre } from "./Genre"
+import { Tag } from "./Tag"
+import * as actionService from "../reports/action-service"
+import { ActionType } from "../reports/Action"
+import { AppErrors } from "../../shared/errors"
+import * as reportService from "../reports/service"
+import * as notificationService from "../notifications/service"
+import { Report, ReportState } from "../reports/Report"
+import * as restrictionService from "../restrictions/service"
+import { Restriction } from "../restrictions/Restriction"
+import { BookPermissions } from "./BookPermissions"
 
 
 export async function getBook(id: string, forProfile?: string) : Promise<IBook> {
@@ -37,8 +44,9 @@ export async function getFilteringSource() : Promise<FilteringSource> {
 export async function updateBook(id: string, book: IBook, forProfile: string) : Promise<IBook | null> {
   // const updatedBook = await Book.findByIdAndUpdate(id, book)
   const upd = await Book.updateOne({ _id: id }, book)
-  if (upd.modifiedCount) {
-    actionsService.addBookUpdated({
+  if (upd.acknowledged && upd.modifiedCount > 0) {
+    console.log("SHALL ADD ACTION!!!")
+    actionService.addBookUpdated({
       actionType: ActionType.updateBook,
       authorId: forProfile, 
       bookId: id
@@ -93,6 +101,11 @@ export async function addBook(book: IBook, forProfile: string) : Promise<IBook> 
   })
   const addedBook = await bookToAdd.save()
   await Profile.findByIdAndUpdate(forProfile, { $inc: { booksCount: 1 } })
+  actionService.addBookUpdated({
+    actionType: ActionType.addBook, 
+    authorId: forProfile, 
+    bookId: addedBook._id
+  })
   return getBook(addedBook._id, forProfile)
 }
 
@@ -105,32 +118,50 @@ export async function hasBook(profileId: string, bookId: string) {
 
 export async function deleteBook(bookId: string, profileId: string) {
   await Profile.findByIdAndUpdate(profileId, { $inc: { booksCount: -1 } })
-  await Book.findOneAndRemove({ _id: bookId})
+  await Book.findOneAndRemove({ _id: bookId })
   await Likes.deleteMany({ subject: bookId })
+  await Report.updateMany({ 
+    subject: bookId, 
+    state: ReportState.inProgress 
+  }, { 
+    state: ReportState.closed 
+  })
+  actionService.addBookUpdated({
+    actionType: ActionType.deleteBook,
+    authorId: profileId,
+    bookId: bookId
+  })
 }
 
 
-export async function changeState(bookId: string) {
-  await Book.updateOne(
-    { _id: bookId },
-    [
-      {
-        $set: {
-          state: {
-            $cond: {
-              if: { $eq: [ "$state", ReadingsState.published ]},
-              then: ReadingsState.unpublished,
-              else: ReadingsState.published,
-            }
-          }
-        }
-      }
-    ]
-  )
-  const updatedBook = await Book.findById(bookId)
-  if (!updatedBook) throw new AppError('cant-update-book-state')
+export async function changeState(bookId: string) : Promise<String> {
+  const book = await Book.findById(bookId)
+  if (!book || book && book.permissions && !book.permissions.publish) {
+    console.log({ cannotChangeState: book })
+    throw new AppError(AppErrors.cannotChangeState)
+  }
 
-  return updatedBook.state
+  const author = await Profile.findById(book.author)
+  if (!author || author && author.permissions && !author.permissions.publishBook) {
+    console.log({ cannotChangeState: author })
+    throw new AppError(AppErrors.cannotChangeState)
+  }
+
+  book.state = book.state == ReadingsState.published 
+    ? ReadingsState.unpublished 
+    : ReadingsState.published
+  
+  await book.save()
+  
+  actionService.addBookUpdated({
+    actionType: book.state == ReadingsState.published 
+      ? ActionType.publishBook
+      : ActionType.unpublishBook,
+    authorId: book.author,
+    bookId: book._id
+  })
+  
+  return book.state
 }
 
 
@@ -185,4 +216,45 @@ export async function getBooksByIds(
     .build()
   console.log(books)
   return books
+}
+
+export async function getPermissions(bookId: string) {
+  const restrictions = await restrictionService.getRestrictions(bookId)
+
+  const publishBookRestriction = Boolean(restrictions.find(
+    r => r.restriction == Restriction.Name.publishBook
+  ))
+
+  // if there is publishBook restrition, it means that book publication is not permitted.
+  
+  return new BookPermissions({ 
+    publishBook: !publishBookRestriction
+  })
+}
+
+export async function togglePublish(bookId: string, adminId: string, before?: Date) {
+  const canPublishBook = await restrictionService.toggleRestriction({
+    subject: bookId,
+    subjectName: Restriction.Subject.book,
+    restriction: Restriction.Name.publishBook,
+    before
+  })
+
+  const book = await Book.findById(bookId)
+
+  actionService.addBookUpdated({
+    actionType: canPublishBook 
+      ? ActionType.publishBookPermanently 
+      : ActionType.unpublishBookPermanently, 
+    bookId: bookId,
+    authorId: adminId
+  })
+
+  if (!canPublishBook && book) {
+    notificationService.sendBookUnpublishedNotification(book)
+  } else if (!book) {
+    console.log('CANNOT GET BOOK')
+  }
+
+  return canPublishBook
 }

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChatsScreenState {
   List<Chat> get chats => throw _privateConstructorUsedError;
+  List<Chat>? get adminChats => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChatsScreenStateCopyWith<ChatsScreenState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $ChatsScreenStateCopyWith<$Res> {
           ChatsScreenState value, $Res Function(ChatsScreenState) then) =
       _$ChatsScreenStateCopyWithImpl<$Res, ChatsScreenState>;
   @useResult
-  $Res call({List<Chat> chats});
+  $Res call({List<Chat> chats, List<Chat>? adminChats});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$ChatsScreenStateCopyWithImpl<$Res, $Val extends ChatsScreenState>
   @override
   $Res call({
     Object? chats = null,
+    Object? adminChats = freezed,
   }) {
     return _then(_value.copyWith(
       chats: null == chats
           ? _value.chats
           : chats // ignore: cast_nullable_to_non_nullable
               as List<Chat>,
+      adminChats: freezed == adminChats
+          ? _value.adminChats
+          : adminChats // ignore: cast_nullable_to_non_nullable
+              as List<Chat>?,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$_ChatsScreenStateCopyWith<$Res>
       __$$_ChatsScreenStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Chat> chats});
+  $Res call({List<Chat> chats, List<Chat>? adminChats});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$_ChatsScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? chats = null,
+    Object? adminChats = freezed,
   }) {
     return _then(_$_ChatsScreenState(
       chats: null == chats
           ? _value._chats
           : chats // ignore: cast_nullable_to_non_nullable
               as List<Chat>,
+      adminChats: freezed == adminChats
+          ? _value._adminChats
+          : adminChats // ignore: cast_nullable_to_non_nullable
+              as List<Chat>?,
     ));
   }
 }
@@ -92,7 +103,10 @@ class __$$_ChatsScreenStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChatsScreenState implements _ChatsScreenState {
-  _$_ChatsScreenState({required final List<Chat> chats}) : _chats = chats;
+  _$_ChatsScreenState(
+      {required final List<Chat> chats, final List<Chat>? adminChats})
+      : _chats = chats,
+        _adminChats = adminChats;
 
   final List<Chat> _chats;
   @override
@@ -102,9 +116,19 @@ class _$_ChatsScreenState implements _ChatsScreenState {
     return EqualUnmodifiableListView(_chats);
   }
 
+  final List<Chat>? _adminChats;
+  @override
+  List<Chat>? get adminChats {
+    final value = _adminChats;
+    if (value == null) return null;
+    if (_adminChats is EqualUnmodifiableListView) return _adminChats;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'ChatsScreenState(chats: $chats)';
+    return 'ChatsScreenState(chats: $chats, adminChats: $adminChats)';
   }
 
   @override
@@ -112,12 +136,16 @@ class _$_ChatsScreenState implements _ChatsScreenState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChatsScreenState &&
-            const DeepCollectionEquality().equals(other._chats, _chats));
+            const DeepCollectionEquality().equals(other._chats, _chats) &&
+            const DeepCollectionEquality()
+                .equals(other._adminChats, _adminChats));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_chats));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_chats),
+      const DeepCollectionEquality().hash(_adminChats));
 
   @JsonKey(ignore: true)
   @override
@@ -127,11 +155,14 @@ class _$_ChatsScreenState implements _ChatsScreenState {
 }
 
 abstract class _ChatsScreenState implements ChatsScreenState {
-  factory _ChatsScreenState({required final List<Chat> chats}) =
-      _$_ChatsScreenState;
+  factory _ChatsScreenState(
+      {required final List<Chat> chats,
+      final List<Chat>? adminChats}) = _$_ChatsScreenState;
 
   @override
   List<Chat> get chats;
+  @override
+  List<Chat>? get adminChats;
   @override
   @JsonKey(ignore: true)
   _$$_ChatsScreenStateCopyWith<_$_ChatsScreenState> get copyWith =>

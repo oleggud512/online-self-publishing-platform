@@ -28,7 +28,7 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
           paginationController: cont, 
           refreshController: refreshController, 
           child: ListView.separated(
-            padding: const EdgeInsets.all(p8),
+            padding: const EdgeInsets.all(p16),
             separatorBuilder: (context, i) => h8gap,
             itemCount: books.length,
             itemBuilder: (context, index) {

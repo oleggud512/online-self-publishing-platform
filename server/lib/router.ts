@@ -8,6 +8,7 @@ import commentsRouter from "./src/features/comments/router"
 import chatsRouter from "./src/features/messages/router"
 import chaptersRouter from "./src/features/chapters/router"
 import reportsRouter from "./src/features/reports/router"
+import notificationsRouter from "./src/features/notifications/router"
 
 const rootRouter = express.Router()
 
@@ -19,5 +20,6 @@ rootRouter.use("/comments", commentsRouter)
 rootRouter.use("/chats", chatsRouter)
 rootRouter.use("/chapters", chaptersRouter)
 rootRouter.use("/reports", reportsRouter)
+rootRouter.use("/notifications", notificationsRouter)
 
 export default rootRouter

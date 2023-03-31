@@ -1,0 +1,1 @@
+export type AuthResult = { uid: string, role: string, email: string }

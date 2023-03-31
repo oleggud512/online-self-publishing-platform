@@ -24,7 +24,7 @@ class ChapterScreenController extends _$ChapterScreenController {
   }
   
   bool get isMy => ref.watch( // TODO: duplicate (book_chapters_screen_controller.dart)
-    bookScreenControllerProvider(state.value!.chapter.bookId)
+    bookScreenControllerProvider(state.value!.chapter.book.id)
         .select((b) => b.value!.book.author.id)) == ref.watch(myIdProvider);
 
   void setChapter(Chapter chapter) {

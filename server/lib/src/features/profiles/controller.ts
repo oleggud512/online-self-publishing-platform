@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from "express"
+import { promise } from "../../common/error-handling"
 import { parsePaginationQuery } from "../../common/parse-pagination-query"
 import { tryParseInt } from "../../common/tryParseInt"
+import { Role } from "../users/models/Role"
 import { CannotSubscribeYourself } from "./errors"
 import { Gender } from "./Profile"
 import * as profileService from "./service"
+
 
 export async function addProfile(req: Request, res: Response) {
   const { _id, email, name, displayName, age, gender } = req.body
@@ -24,6 +27,7 @@ export async function addProfile(req: Request, res: Response) {
   return res.status(200).json({error: false, data: createdProfile})
 }
 
+
 export async function getProfiles(req: Request, res: Response) {
   const { query } = req.query
   const { from, pageSize } = parsePaginationQuery(req.query)
@@ -37,22 +41,37 @@ export async function getProfiles(req: Request, res: Response) {
   return res.status(200).json({ data: profiles })
 }
 
-export async function getProfile(req: Request, res: Response, next: NextFunction) {
+
+export async function getProfile(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
   console.log(`getProfile(${req.params})`)
   const { id } = req.params
   const forProfile = res.locals.uid
-  profileService.getProfile(id, forProfile)
-    .then(profile => {
-      console.log(profile.books?.map<object>(b => ({bookmarked: b.bookmarked, name: b.name})))
-      res.status(200).json({data: profile})
-    }).catch(next)
+
+  const isAdmin = res.locals.role && 
+    (['admin', 'super-admin'] as Role[]).includes(res.locals.role)
+
+  const [profile, error] = await promise(
+    isAdmin 
+      ? profileService.getProfileForAdmin(id, forProfile)
+      : profileService.getProfile(id, forProfile)
+  )
+
+  if (error) return next(error)
+
+  return res.json({ data: profile })
 }
+
 
 export async function isUniqueName(req: Request, res: Response) {
   const name = req.query.name as string
   const uid = req.query.uid as string
   return res.status(200).json({ data: await profileService.isUniqueName(name, uid) })
 }
+
 
 export async function updateProfile(req: Request, res: Response) {
   console.log(`who: ${res.locals.email} ${res.locals.uid}`)
@@ -66,6 +85,7 @@ export async function updateProfile(req: Request, res: Response) {
   return res.status(200).json({ data: profile })
 }
 
+
 export function subscribe(req: Request, res: Response, next: NextFunction) {
   const to = req.params.id as string
   console.info(`subscribe to ${to}`)
@@ -77,17 +97,20 @@ export function subscribe(req: Request, res: Response, next: NextFunction) {
   })
 }
 
+
 export async function unsubscribe(req: Request, res: Response) {
   const to = req.params.id as string
   const isUnsubscribed = await profileService.unsubscribe(res.locals.uid!, to)
   return res.status(200).json({ data: isUnsubscribed })
 }
 
+
 export async function isSubscribed(req: Request, res: Response) {
   const to = req.params.id as string
   const isSubscribed = await profileService.isSubscribed(res.locals.uid!, to)
   return res.status(200).json({ data: isSubscribed })
 }
+
 
 export async function getSubscribers(req: Request, res: Response) {
   const id = req.params.id as string
@@ -103,6 +126,7 @@ export async function getSubscribers(req: Request, res: Response) {
   }) 
 }
 
+
 export async function getSubscriptions(req: Request, res: Response) {
   const id = req.params.id as string
   const from = tryParseInt(req.query.from as string | undefined) ?? 0
@@ -117,9 +141,10 @@ export async function getSubscriptions(req: Request, res: Response) {
   }) 
 }
 
+
 export async function addBookmarks(req: Request, res: Response) {
   const forProfile = req.params.id as string
-  const newBookmarks = req.body as string[]
+  const newBookmarks = req.body.bookmarks as string[]
 
   if (!forProfile || !res.locals.uid || forProfile != res.locals.uid) {
     return res.status(401).json({ data: false })
@@ -130,8 +155,52 @@ export async function addBookmarks(req: Request, res: Response) {
   return res.json({ data: added })
 }
 
+
 export async function getBookmarks(req: Request, res: Response, next: NextFunction) {
   const { from, pageSize } = parsePaginationQuery(req.query)
   const bookmarks = await profileService.getBookmarks(res.locals.uid, from, pageSize);
   return res.json({ data: bookmarks })
+}
+
+
+export async function getPermissions(req: Request, res: Response, next: NextFunction) {
+  const profileId = req.params.id
+
+  const [permissions, error] = await promise(profileService.getPermissions(profileId))
+  
+  if (error) return next(error)
+  console.log({permissions})
+  return res.json({ data: permissions })
+}
+
+
+export async function togglePublish(req: Request, res: Response, next: NextFunction) {
+  const profileId = req.params.id
+  const adminId = res.locals.uid
+
+  const before = req.query.before 
+    ? new Date(req.query.before as string)
+    : undefined
+
+  const [publish, error] = await promise(profileService.togglePublishBook(profileId, adminId, before));
+
+  if (error) return next(error)
+  return res.json({ data: publish })
+}
+
+
+export async function toggleComment(req: Request, res: Response, next: NextFunction) {
+  const profileId = req.params.id
+  const adminId = res.locals.uid
+
+  const before = req.query.before 
+    ? new Date(req.query.before as string)
+    : undefined
+
+  console.log(req.query.before)
+
+  const [comment, error] = await promise(profileService.toggleAddComment(profileId, adminId, before));
+
+  if (error) return next(error)
+  return res.json({ data: comment })
 }

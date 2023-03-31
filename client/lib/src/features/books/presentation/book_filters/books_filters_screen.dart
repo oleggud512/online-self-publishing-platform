@@ -35,11 +35,11 @@ class _BooksFiltersScreenState extends ConsumerState<BooksFiltersScreen> {
             title: Text(ll.screenTitle.filters)
           ),
           body: ListView(
-            padding: const EdgeInsets.all(p8),
+            padding: const EdgeInsets.only(top: p8, left: p16, right: p16),
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'state'.hardcoded
+                  labelText: 'query'.hardcoded
                 ),
                 onChanged: (v) {
                   debouncer.debounce(() {
@@ -47,7 +47,7 @@ class _BooksFiltersScreenState extends ConsumerState<BooksFiltersScreen> {
                   });
                 }
               ),
-              h8gap,
+              h16gap,
               SegmentedButton<BookStatus>(
                 selected: filters.statuses.toSet(),
                 segments: [
@@ -70,7 +70,6 @@ class _BooksFiltersScreenState extends ConsumerState<BooksFiltersScreen> {
                   cont.updateStatuses(statuses.toList());
                 },
               ),
-              h8gap,
               TagsGenresWidget(
                 originTags: source.tags,
                 tags: filters.tags,

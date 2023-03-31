@@ -1,12 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sembast/sembast.dart';
+import 'package:sembast_web/sembast_web.dart';
+import 'package:sembast/sembast_io.dart';
 
 import '../common/log.dart';
 
@@ -55,5 +61,18 @@ class Utils {
 
   static void showMessagew(WidgetRef ref, String message) {
     ref.watch(scaffoldMessangerStateProvider).showMessage(message);
+  }
+
+  static Future<Database> makeSembastDatabase([String? file]) async {
+    late Database db;
+    
+    if (kIsWeb) {
+      db = await databaseFactoryWeb.openDatabase('default.db');
+    } else {
+      final appDocDir = await getApplicationDocumentsDirectory();
+      db = await databaseFactoryIo.openDatabase('${appDocDir.path}/${file ?? 'default.db'}');
+    }
+
+    return db;
   }
 }

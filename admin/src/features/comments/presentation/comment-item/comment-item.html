@@ -1,17 +1,36 @@
 <template>
   <require from="../../../../components/avatar.html"></require>
+  <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+  <require from="../../../../icons/delete-icon.html"></require>
+  <require from="../../../../icons/book-icon.html"></require>
 
-  <article class="card d-inline-flex p-3 flex-column gap-2">
-    <!-- head -->
-    <article class="d-flex gap-2">
-      <avatar src.bind="comment.author.avatarUrl"></avatar>
-      <article class="d-inline-flex flex-column">
-        <span class="h6 m-0">${comment.author.displayName ? comment.author.displayName : comment.author.displayName}</span>
-        <span class="text-muted">${comment.createdAt.toLocaleString()}</span>
-      </article>
+  <require from="./comment-item.css"></require>
+
+  <div class="d-flex flex-column gap-2">
+
+    <article class="d-flex p-3 flex-column gap-2 rounded-2" class.bind="isSelected ? 'bg-black bg-opacity-10' : ''" click.delegate="tap($event)">
+      <!-- head -->
+      <div class="d-flex align-items-start gap-3">
+        <profile-item profile.bind="comment.author" with-card.bind="false" class="flex-grow-1">
+          <span class="text-muted">${comment.createdAt.toLocaleString()}</span>
+        </profile-item>
+        <delete-icon click.delegate="delete()"></delete-icon>
+      </div>
+      ${comment.content}
+      <div if.bind="comment.hasAnswers && comment.answers.length == 0" class="btn btn-outline-secondary" click.delegate="loadMore()">Load More</div>
+      <!-- content -->
     </article>
-    <!-- content -->
-    ${comment.content}
-  </article>
+    
+    <section class="border-start ps-3">
+      <comment-item 
+        repeat.for="answer of comment.answers" 
+        comment.bind="answer" 
+        id="`com_${answer._id}`" 
+        selected-comment-id.bind="selectedCommentId"
+        >
+      </comment-item>
+    </section>
+  
+  </div>
 
 </template>

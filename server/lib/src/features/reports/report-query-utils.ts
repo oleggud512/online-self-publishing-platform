@@ -5,6 +5,7 @@ import { Constants } from "../../shared/Constants";
 export const smallReportPopulateOptions: PopulateOptions[] = [
   { path: "author", select: Constants.profileSelectMin },
   { path: "admin", select: Constants.profileSelectMin },
+  { path: "defendant", select: Constants.profileSelectMin },
   {
     path: "reportType",
     localField: 'reportType',
@@ -20,8 +21,19 @@ export const smallReportPopulateOptions: PopulateOptions[] = [
   }
 ]
 
+export const actionPopulateOptions: PopulateOptions[] = [
+  { path: "author", select: Constants.profileSelectMin },
+  { path: "profile", select: Constants.profileSelectMin },
+  { path: "chapter", select: "_id name" },
+  { path: "book", select: "_id name" },
+]
+
 
 export const fullReportPopulateOptions: PopulateOptions[] = [
-  { path: "actions" },
-  ...smallReportPopulateOptions
+  { 
+    path: "actions", 
+    populate: actionPopulateOptions,
+    options: { sort: { content: -1 } } 
+  },
+  ...smallReportPopulateOptions,
 ]

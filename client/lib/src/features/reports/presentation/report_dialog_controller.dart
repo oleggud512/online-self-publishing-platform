@@ -13,7 +13,7 @@ class ReportDialogController extends _$ReportDialogController {
   ReportRepostiory get reportRepo => ref.watch(reportRepositoryProvider);
 
   FutureOr<List<ReportType>> build(Identifiable subject) {
-    return reportRepo.getReportTypes(ReportSubject.fromObject(subject));
+    return reportRepo.getReportTypes(ReportSubject.subjectNameFromObject(subject));
   }
 
   Future<bool> addReport(ReportType type) async {

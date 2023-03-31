@@ -35,7 +35,8 @@ class Book with _$Book, Identifiable {
     @JsonKey(
       toJson: _authorToJson,
       fromJson: _authorFromJson
-    ) required Profile author,                      // add persistent // required for addiction a new book
+    ) 
+    required Profile author,                      // add persistent // required for addiction a new book
     String? coverUrl,                            //     persistent
     @Default("") String name,                     //     persistent
     String? description,                          //     persistent

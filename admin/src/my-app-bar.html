@@ -13,9 +13,11 @@
             <a href.bind="nav.href" class="nav-link ${nav.isActive ? 'active' : ''}">${t(nav.config.name)}</a>
           </li>
         </ul>
+
         <button click.delegate="signOut()" class="btn btn-outline-primary d-inline me-3">
           Sign Out
         </button>
+
         <segmented-buttons name="locales" required="true" value.bind="curLocale" segments.bind="localizationSegments" on-changed.bind="onNewRouteCallback"></segmented-buttons>
       </div>
     </div>

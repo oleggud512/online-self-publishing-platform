@@ -1,3 +1,4 @@
+import 'package:client/src/common/hardcoded.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/constants/constants.dart';
@@ -22,41 +23,41 @@ class TagsGenresWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Column(
-        children: [
-          Wrap(
-            spacing: p8,
-            children: [
-              OutlinedButton(
-                child: Text("Genres:"),
-                onPressed: () {},
-              ),
-              ...originGenres.map((g) => FilterChip(
-                elevation: 8,
-                selected: genres.contains(g),
-                onSelected: (selected) => onGenreTap(g),
-                label: Text(g),
-              )).toList(),
-            ]
-          ),
-          Wrap(
-            spacing: p8,
-            children: [
-              OutlinedButton(
-                child: Text("Tags:"),
-                onPressed: () {},
-              ),
-              ...originTags.map((t) => FilterChip(
-                selected: tags.contains(t),
-                onSelected: (selected) => onTagTap(t),
-                label: Text(t)
-              )).toList(),
-            ]
-          ),
-        ]
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        h16gap,
+        Text('Genres: '.hardcoded, style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.outline
+        )),
+        const Divider(height: p16),
+        Wrap(
+          spacing: p8,
+          children: [
+            ...originGenres.map((g) => FilterChip(
+              elevation: 8,
+              selected: genres.contains(g),
+              onSelected: (selected) => onGenreTap(g),
+              label: Text(g),
+            )).toList(),
+          ]
+        ),
+        h16gap,
+        Text('Tags: '.hardcoded, style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.outline
+        )),
+        const Divider(height: p16),
+        Wrap(
+          spacing: p8,
+          children: [
+            ...originTags.map((t) => FilterChip(
+              selected: tags.contains(t),
+              onSelected: (selected) => onTagTap(t),
+              label: Text(t)
+            )).toList(),
+          ]
+        ),
+      ]
     );
   }
 }

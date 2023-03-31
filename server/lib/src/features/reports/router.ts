@@ -10,9 +10,14 @@ router.get('/', isAuthenticated, isAuthorizedAdmin(), reportsController.getRepor
 router.post('/', isAuthenticated, reportsController.addReport)
 router.get('/types', reportsController.getTypes)
 
+router.get('/chats', isAuthenticated, reportsController.getChats)
+
 router.get('/:id', isAuthenticated, isAuthorizedAdmin(), reportsController.getReport)
 router.patch('/:id/take', isAuthenticated, isAuthorizedAdmin(), reportsController.takeReport)
 router.patch('/:id/close', isAuthenticated, isAuthorizedAdmin(), reportsController.closeReport)
+router.patch('/:id/reject', isAuthenticated, isAuthorizedAdmin(), reportsController.rejectReport)
 
+router.get('/:id/messages', isAuthenticated, reportsController.getMessages)
+router.post('/:id/messages', isAuthenticated, reportsController.addMessageAction)
 
 export default router

@@ -3,9 +3,10 @@ import { BaseAggregationBuilder } from "../../shared/base-aggregation-builder"
 import { Profile } from "./Profile"
 import * as profileUtils from "./profile-aggreation-utils"
 import * as bookUtils from "../books/book-aggregation-utils"
+import * as reportUtils from "../reports/report-aggregation-utils"
 import { Filters } from "../books/Filters"
 
-export class ProfilesAggregation extends BaseAggregationBuilder {
+export class ProfileAggregationBuilder extends BaseAggregationBuilder {
   constructor() {
     super(Profile)
   }
@@ -63,6 +64,30 @@ export class ProfilesAggregation extends BaseAggregationBuilder {
         ]
       }
     })
+    return this
+  }
+
+  withReports() {
+    this.aggregation.append(
+      {
+        $lookup: {
+          from: "reports",
+          localField: "_id",
+          foreignField: "defendant",
+          as: "reports",
+          pipeline: reportUtils.reportPopulationPipeline()
+        }
+      },
+      {
+        $lookup: {
+          from: "reports",
+          localField: "_id",
+          foreignField: "author",
+          as: "reported",
+          pipeline: reportUtils.reportPopulationPipeline()
+        }
+      }
+    )
     return this
   }
   

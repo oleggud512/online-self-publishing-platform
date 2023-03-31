@@ -7,7 +7,7 @@ part of 'report_dialog_controller.dart';
 // **************************************************************************
 
 String _$reportDialogControllerHash() =>
-    r'd5de5cf91ee399c65d879c897b9de151c3fac39e';
+    r'421a96d133768f1147cc0d62037f8653c28967a4';
 
 /// Copied from Dart SDK
 class _SystemHash {

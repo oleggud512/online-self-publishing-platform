@@ -1,9 +1,9 @@
 <template>
   <div class="container vh-100 col col-md-4 d-flex align-items-center">
     <div class="row g-2">
-      <input type="text" placeholder="email" class="form-control">
-      <input type="password" placeholder="password" class="form-control">
-      <button click.delegate="alert('Not implemented')" class="btn btn-primary">Sign In</button>
+      <input type="text" placeholder="email" class="form-control" value.bind="email">
+      <input type="password" placeholder="password" class="form-control" value.bind="password">
+      <button click.delegate="signInWithEmailAndPassword()" class="btn btn-primary">Sign In</button>
       <button click.delegate="signInWithGoogle()" class="btn btn-outline-primary">Sign In With Google</button>
     </div>
   </div>

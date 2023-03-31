@@ -95,6 +95,7 @@ export class BookAggregationBuilder extends BaseAggregationBuilder {
             }
           }
         },
+        ...profileUtils.somethingWithAuthor(),
         { 
           $sort: {
             createdAt: 1

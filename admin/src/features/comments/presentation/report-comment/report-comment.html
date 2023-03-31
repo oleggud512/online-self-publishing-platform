@@ -1,0 +1,12 @@
+<template>
+  <require from="../../../profiles/presentation/profile-item/profile-item"></require>
+
+  <article class="card d-inline-flex flex-column p-3">
+    <profile-item profile.bind="comment.author" with-card.bind="false">
+      <span class="text-muted">${comment.createdAt.toLocaleString()}</span>
+    </profile-item>
+    <!-- <a route-href="route.bind: subjectRoute; params.bind: { id: subjectId }; fragment.bind: comment._id">${comment.content}</a> -->
+    <a href="javascript:void(0);" click.delegate="navigateSubject()">${comment.content}</a>
+  </article>
+
+</template>

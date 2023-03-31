@@ -1,10 +1,13 @@
 import { HttpClient } from "aurelia-fetch-client";
 import qs from 'querystring'
-import { Report } from "../domain/report";
+import { Action, MessageAction, Report } from "../domain/report";
 import { ReportFilters } from "../domain/report-filters";
+
+class CantAddMessage extends Error { }
 
 export class ReportRepository {
   constructor(private client: HttpClient) { }
+
 
   async getReports(filters: ReportFilters, from: number = 0, pageSize: number = 20) {
     const q = qs.stringify(filters)
@@ -28,7 +31,7 @@ export class ReportRepository {
       method: 'GET'
     })
     const json = await resp.json()
-    console.log({mes: "JSON", json})
+    console.log({getReport: json})
     return new Report(json.data)
   }
 
@@ -39,10 +42,32 @@ export class ReportRepository {
     return new Report(json.data)
   }
 
+
   async closeReport(reportId: string) {
     const resp = await this.client.patch(`reports/${reportId}/close`)
 
     const json = await resp.json()
     return new Report(json.data)
+  }
+
+  async rejectReport(reportId: string) {
+    const resp = await this.client.patch(`reports/${reportId}/reject`)
+
+    const json = await resp.json()
+    return new Report(json.data)
+  }
+
+  async sendMessage(content: string, reportId: string) {
+    try {
+      const resp = await this.client.fetch(`reports/${reportId}/messages`, {
+        method: 'POST',
+        body: JSON.stringify({content})
+      })
+      const json = await resp.json()
+      console.log()
+      return new MessageAction(json.data)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
