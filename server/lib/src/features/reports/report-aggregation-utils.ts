@@ -8,7 +8,7 @@ export function reportPopulationPipeline() : LookupPipeline {
   return [
     // populate author
     ...profileUtils.somethingWithAuthor(),
-    // populate admin
+    // if the admin field is null (the report is rejected or pending) it won't inclue the whole report object in the aggregation result array
     ...baseUtils.tryLookup({
       from: 'profiles',
       localField: 'admin',

@@ -21,7 +21,7 @@ class LocalizationController extends Notifier<LocalizationState> {
 
   @override
   LocalizationState build() {
-    return LocalizationState.fromLocale(const Locale(SupportedLocale.en));
+    return LocalizationState.fromLocale(const Locale(SupportedLocale.uk));
   }
 
   Future<void> changeLocale(Locale newLocale) async {

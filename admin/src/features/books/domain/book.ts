@@ -1,3 +1,4 @@
+import { Chapter } from "features/chapters/domain/chapter"
 import { BaseCommentSubject } from "features/comments/domain/comment-subject"
 import { Profile } from "features/profiles/domain/profile"
 import { BaseReportSubject } from "features/reports/domain/report"
@@ -15,6 +16,7 @@ export class Book implements BaseReportSubject, BaseCommentSubject, Owned {
   likes: number = 0
   state: string  // TODO: parse to enum
   status: string // TODO: parse to enum
+  chapters?: Chapter[]
 
   createdAt?: Date
   updatedAt?: Date
@@ -31,6 +33,8 @@ export class Book implements BaseReportSubject, BaseCommentSubject, Owned {
     this.likes = data.likes
     this.state = data.state
     this.status = data.status
+    if (data.chapters) this.chapters = (data.chapters as Chapter[])
+      .map(c => new Chapter(c))
 
     if (data.createdAt) this.createdAt = new Date(data.createdAt)
     if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)

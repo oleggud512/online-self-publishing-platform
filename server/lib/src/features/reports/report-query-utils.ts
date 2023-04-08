@@ -12,10 +12,13 @@ export const smallReportPopulateOptions: PopulateOptions[] = [
     foreignField: 'name',
     justOne: true
   },
+  // book, comment, profile
   {
     path: "subject",
     populate: [
+      // for book, comment
       { path: "author", select: Constants.profileSelectMin },
+      // for comment (profile)
       { path: "subject" },
     ],
   }

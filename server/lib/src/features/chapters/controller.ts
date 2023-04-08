@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { promise } from "../../common/error-handling";
 import { parsePaginationQuery } from "../../common/parse-pagination-query";
 import * as chaptersService from "./service"
 
@@ -24,6 +25,20 @@ export async function getChapter(req: Request, res: Response, next: NextFunction
     })
     .catch(next)
 
+}
+
+export async function getChapterNavigation(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
+  const chapterId = req.params.id as string
+  console.log(chapterId)
+  const [nav, error] = await promise(chaptersService.getChapterNavigation(chapterId))
+
+  if (error) return next(error)
+  // console.log({nav})
+  return res.json({ data: nav })
 }
 
 export async function addChapter(req: Request, res: Response, next: NextFunction) {

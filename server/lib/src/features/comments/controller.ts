@@ -17,7 +17,7 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
   const questionId = req.query.questionId as string | undefined
   const full = tryParseBool(req.query.full as string | undefined) ?? false
 
-  if (!(questionId || subjectId)) return next(new AppError(AppErrors.missedField, 'questionId or subjectId is required'))
+  if (!(questionId || subjectId)) return next(new AppError(AppErrors.missingField, 'questionId or subjectId is required'))
   console.log(full)
   const comments = await commentsService.getComments({
     subjectId, 

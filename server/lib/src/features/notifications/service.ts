@@ -123,9 +123,11 @@ export async function sendNewChapterNotification(newChapterId: string) {
 
 
 export async function sendBookUnpublishedNotification(book: IBook) {
-  const token = await _getToken(book.author)
-
-  if (!token) return;
+  const token = await _getToken(book.author as string)
+  // something
+  if (!token) {
+    return;
+  }
 
   const mes = admin.messaging()
   const not = await mes.sendToDevice(token.token, {

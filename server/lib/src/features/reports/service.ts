@@ -21,6 +21,8 @@ import * as bookService from "../books/service"
 import { IBook } from "../books/Book"
 import { IProfile } from "../profiles/Profile"
 import * as notificationService from "../notifications/service"
+import * as restrictionService from "../restrictions/service"
+import { Restriction } from "../restrictions/Restriction"
 
 export async function getReportTypes(subjectName: string | undefined) {
   if (subjectName) {
@@ -35,7 +37,8 @@ export async function addReport(
   subject: string, 
   subjectName: string, 
   reportType: string,
-  defendant: string
+  defendant: string,
+  description: string
 ) : Promise<boolean> {
   if (!ReportTypes.values.includes(reportType) || 
       !ReportSubject.values.includes(subjectName)) {
@@ -48,7 +51,8 @@ export async function addReport(
       : new Types.ObjectId(subject),
     subjectName,
     reportType,
-    defendant
+    defendant,
+    description
   })
   await report.save()
   return true
@@ -110,16 +114,37 @@ export async function closeReport(reportId: string) {
     throw new AppError("error close report")
   }
   
-  if (report.subjectName == ReportSubject.book && 
-      (report.subject as IBook).permissions && 
-      !(report.subject as IBook).permissions!.publish) {
-    await bookService.togglePublish(
-      (report.subject as IBook)._id, 
-      (report.admin as IProfile)._id
-    )
+  
+  if (report.subjectName == ReportSubject.book) {
+    const restrictions = await restrictionService
+      .getRestrictions((report.subject as IBook)._id)
+    if (restrictions
+        .find(r => r.restriction == Restriction.Name.publishBook)) {
+      await bookService.togglePublish(
+        (report.subject as IBook)._id, 
+        (report.admin as IProfile)._id
+      )
+    }
   }
 
   report.state = ReportState.closed
+  await report.save()
+  return await Report.findById(reportId).populate(fullReportPopulateOptions)
+}
+
+
+// reopen report when closed.
+export async function openReport(reportId: string) {
+  var [report, error] = await promise(Report
+    .findById(reportId)
+    .populate(smallReportPopulateOptions)
+    .exec())
+
+  if (error || !report || report.state != ReportState.closed) {
+    throw new AppError(AppErrors.cannotReopenReport)
+  }
+
+  report.state = ReportState.inProgress
   await report.save()
   return await Report.findById(reportId).populate(fullReportPopulateOptions)
 }

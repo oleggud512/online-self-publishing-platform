@@ -63,6 +63,10 @@ book:
 
   saveBook: "Save book"
 
+chapter:
+  firstChapterWarning: This is the first chapter.
+  lastChapterWarning: This is the last chapter.
+
 status: "status"
 wantToHide: "Want to hide the book?"
 wantToPublish: "Want to publish the book?"
@@ -85,3 +89,7 @@ notifications:
   commentAnswer:
     title: 'New answer'
     body(Map<String, dynamic> data): 'The user ${data["profile"]} has been answered your comment.'
+
+report:
+  reportDescriptionQuestion: "Please provide a detailed description of the issue you're experiencing. This will help us address the problem effectively."
+  reportAddedMessage: "Report added"

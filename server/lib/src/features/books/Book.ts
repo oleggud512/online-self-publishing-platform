@@ -1,5 +1,6 @@
 import { Document, Schema, model, Types, QueryWithHelpers, HydratedDocument, Model } from "mongoose";
 import { IChapter, ReadingsState } from "../chapters/Chapter";
+import { IProfile } from "../profiles/Profile";
 
 export const BookStatus = {
   completed: 'completed',
@@ -16,7 +17,10 @@ export interface IBook {
   description: string
   coverUrl: string
   likes: number
-  author: string
+  views: number
+  commentCount: number
+  score: number
+  author: string | IProfile
   tags?: string[]
   genres?: string[]
 
@@ -24,10 +28,6 @@ export interface IBook {
 
   createdAt?: Date
   updatedAt?: Date
-
-  permissions?: {
-    publish: boolean
-  }
 
   liked?: boolean
   bookmarked?: boolean
@@ -67,12 +67,12 @@ const BookSchema = new Schema
     description: { type: String },
     coverUrl: { type: String },
     likes: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 },
+    score: { type: Number, default: 0 },
     author: { type: String, ref: "Profile", required: true },
     tags: [{ type: String }],
     genres: [{ type: String }],
-    permissions: new Schema({
-      publish: { type: Boolean, default: true }
-    })
   },
   { timestamps: true }
 );

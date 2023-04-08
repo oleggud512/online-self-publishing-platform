@@ -20,6 +20,7 @@ export class Report implements Entity, Owned {
   subjectName: string;
   reportType: ReportType;
   state: string;
+  description: string;
 
   admin?: Profile;
   actions?: Action[];
@@ -36,6 +37,7 @@ export class Report implements Entity, Owned {
     this.subjectName = data.subjectName;
     this.reportType = new ReportType(data.reportType);
     this.state = data.state;
+    this.description = data.description
 
     if (data.actions && Array.isArray(data.actions)) {
       this.actions = data.actions.map((action) => this._parseAction(action));
@@ -57,7 +59,6 @@ export class Report implements Entity, Owned {
   }
 
   private _parseAction(action: any) {
-    console.log({ _parseAction: action });
     if (!action || !action.actionType) return undefined;
     if (ActionType.isOfMessageGroup(action.actionType))
       return new MessageAction(action);

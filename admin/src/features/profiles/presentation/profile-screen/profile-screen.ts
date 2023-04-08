@@ -9,6 +9,7 @@ import { ProfilePermissions } from "features/profiles/domain/profile-permissions
 import { Report } from "features/reports/domain/report"
 import * as auth from "firebase/auth"
 import { MyRoute } from "router"
+import * as nprog from "nprogress"
 
 
 @autoinject
@@ -35,38 +36,48 @@ export class ProfileScreen {
   }
 
   async refresh() {
+    nprog.start()
     this.profile = await this.profileRepo.getProfile(this.profileId)
     console.log(this.profile)
     this.permissions = await this.profileRepo.getPermissions(this.profileId)
     this.blocked = await this.profileRepo.isBlocked(this.profileId)
+    nprog.done()
   }
 
   async togglePublishBook() {
+    nprog.start()
     this.permissions.publishBook = await this.profileRepo.togglePublishBook(this.profileId)
+    nprog.done()
   }
 
   async toggleAddComment() {
     if (!this.permissions.addComment) {
+      nprog.start()
       this.permissions.addComment = 
         await this.profileRepo.toggleAddComment(this.profileId)
+      nprog.done()
       return
     }
 
     const res = 
       await DatePickerDialog.show(this.dialogService, 'Unblock comments at...')
     if (res?.output) {
+      nprog.start()
       this.permissions.addComment = 
         await this.profileRepo.toggleAddComment(this.profileId, res.output)
+      nprog.done()
     } else {
       console.log('CANNOT RESTRICT COMMENTS')
     }
   }
 
   async toggleBlocked() {
+    nprog.start()
     this.blocked = await this._toggleRestriction(
       this.blocked, 
       this.profileRepo.toggleBlocked
     )
+    nprog.done()
   }
 
   async _toggleRestriction(
@@ -74,13 +85,19 @@ export class ProfileScreen {
     toggler: (...args: any[]) => Promise<any>
   ) : Promise<boolean> {
     if (!permission) {
-      return await toggler(this.profileId)
+      nprog.start()
+      const res = await toggler(this.profileId)
+      nprog.done()
+      return res
     }
 
-    const res = 
+    const dialogResult = 
       await DatePickerDialog.show(this.dialogService, 'Unblock comments at...')
-    if (res?.output) {
-      return await toggler(this.profileId, res.output)
+    if (dialogResult?.output) {
+      nprog.start()
+      const result = await toggler(this.profileId, dialogResult.output)
+      nprog.done()
+      return result
     }
     
     console.log('CANNOT change restriction')

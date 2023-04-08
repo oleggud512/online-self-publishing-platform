@@ -7,7 +7,7 @@ part of 'chapter_screen_controller.dart';
 // **************************************************************************
 
 String _$chapterScreenControllerHash() =>
-    r'5a0166601ad2f8218f110aa99876bee3b3d1b7cf';
+    r'2761b8a5c29c4188cab3f92b0d3ba205918a9bfc';
 
 /// Copied from Dart SDK
 class _SystemHash {

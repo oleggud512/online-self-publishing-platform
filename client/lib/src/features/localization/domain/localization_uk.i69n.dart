@@ -53,6 +53,7 @@ class Localization_uk extends Localization {
   String get unsubscribe => "Відписатися";
   String get seeAll => "Переглянути Всі";
   BookLocalization_uk get book => BookLocalization_uk(this);
+  ChapterLocalization_uk get chapter => ChapterLocalization_uk(this);
   String get status => "статус";
   String get wantToHide => "Сховати цю книгу?";
   String get wantToPublish => "Опублікувати?";
@@ -60,6 +61,7 @@ class Localization_uk extends Localization {
   String get no => "No";
   NotificationsLocalization_uk get notifications =>
       NotificationsLocalization_uk(this);
+  ReportLocalization_uk get report => ReportLocalization_uk(this);
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -99,6 +101,8 @@ class Localization_uk extends Localization {
         return seeAll;
       case 'book':
         return book;
+      case 'chapter':
+        return chapter;
       case 'status':
         return status;
       case 'wantToHide':
@@ -111,6 +115,8 @@ class Localization_uk extends Localization {
         return no;
       case 'notifications':
         return notifications;
+      case 'report':
+        return report;
       default:
         return super[key];
     }
@@ -324,6 +330,28 @@ class BookLocalization_uk extends BookLocalization {
   }
 }
 
+class ChapterLocalization_uk extends ChapterLocalization {
+  final Localization_uk _parent;
+  const ChapterLocalization_uk(this._parent) : super(_parent);
+  String get firstChapterWarning => "Це перша глава.";
+  String get lastChapterWarning => "Це остання глава.";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'firstChapterWarning':
+        return firstChapterWarning;
+      case 'lastChapterWarning':
+        return lastChapterWarning;
+      default:
+        return super[key];
+    }
+  }
+}
+
 class NotificationsLocalization_uk extends NotificationsLocalization {
   final Localization_uk _parent;
   const NotificationsLocalization_uk(this._parent) : super(_parent);
@@ -477,6 +505,29 @@ class CommentAnswerNotificationsLocalization_uk
         return title;
       case 'body':
         return body;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class ReportLocalization_uk extends ReportLocalization {
+  final Localization_uk _parent;
+  const ReportLocalization_uk(this._parent) : super(_parent);
+  String get reportDescriptionQuestion =>
+      "Будь ласка, надайте детальний опис проблеми, з якою ви зіткнулися. Це допоможе нам ефективно вирішити проблему.";
+  String get reportAddedMessage => "Скаргу додано";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'reportDescriptionQuestion':
+        return reportDescriptionQuestion;
+      case 'reportAddedMessage':
+        return reportAddedMessage;
       default:
         return super[key];
     }

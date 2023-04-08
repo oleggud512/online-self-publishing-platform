@@ -6,10 +6,11 @@ export class BookRepository {
   constructor(private client: HttpClient) { }
 
   async getBook(id: string) {
-    const resp = await this.client.fetch(`books/${id}`, { 
+    const resp = await this.client.fetch(`books/${id}?allChapters=true`, { 
       method: 'GET' 
     })
     const json = await resp.json()
+    console.log({getBook: json})
     return new Book(json.data)
   }
 

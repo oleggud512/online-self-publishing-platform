@@ -30,22 +30,25 @@ export async function addReport(
 ) {
   const author = res.locals.uid;
   if (author != req.body.author)
-    return next(new AppError("author doesn't equal the user inside JVT"));
+    return next(new AppError("author doesn't equal the user inside JVT"))
   const subject = req.body.subject as string | undefined;
   if (!subject)
-    return next(new AppError(AppErrors.missedField, "subject is required"));
+    return next(new AppError(AppErrors.missingField, "subject is required"))
   const subjectName = req.body.subjectName as string | undefined;
   if (!subjectName)
-    return next(new AppError(AppErrors.missedField, "subjectName is requried"));
+    return next(new AppError(AppErrors.missingField, "subjectName is requried"))
   const reportType = req.body.reportType as string | undefined;
   if (!reportType)
-    return next(new AppError(AppErrors.missedField, "reportType is required"));
+    return next(new AppError(AppErrors.missingField, "reportType is required"))
   const defendant = req.body.defendant as string | undefined;
   if (!defendant)
-    return next(new AppError(AppErrors.missedField, "defendant is required"));
+    return next(new AppError(AppErrors.missingField, "defendant is required"))
+  const description = req.body.description as string | undefined;
+  if (!description)
+    return next(new AppError(AppErrors.missingField, "description is required"))
 
   reportService
-    .addReport(author, subject, subjectName, reportType, defendant)
+    .addReport(author, subject, subjectName, reportType, defendant, description)
     .then((added) => {
       res.json({ data: added });
     })
@@ -125,6 +128,21 @@ export async function closeReport(
   if (error) return next(error);
   return res.json({ data: report });
 }
+
+
+export async function openReport(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const adminId = res.locals.uid
+  const reportId = req.params.id
+
+  const [ report, error ] = await promise(reportService.openReport(reportId))
+  if (error) return next(error)
+    return res.json({ data: report })
+}
+
 
 export async function rejectReport(
   req: Request,

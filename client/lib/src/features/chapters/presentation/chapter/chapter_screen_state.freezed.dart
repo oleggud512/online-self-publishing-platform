@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChapterScreenState {
   Chapter get chapter => throw _privateConstructorUsedError;
+  String? get next => throw _privateConstructorUsedError;
+  String? get previous => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChapterScreenStateCopyWith<ChapterScreenState> get copyWith =>
@@ -29,7 +31,7 @@ abstract class $ChapterScreenStateCopyWith<$Res> {
           ChapterScreenState value, $Res Function(ChapterScreenState) then) =
       _$ChapterScreenStateCopyWithImpl<$Res, ChapterScreenState>;
   @useResult
-  $Res call({Chapter chapter});
+  $Res call({Chapter chapter, String? next, String? previous});
 
   $ChapterCopyWith<$Res> get chapter;
 }
@@ -48,12 +50,22 @@ class _$ChapterScreenStateCopyWithImpl<$Res, $Val extends ChapterScreenState>
   @override
   $Res call({
     Object? chapter = null,
+    Object? next = freezed,
+    Object? previous = freezed,
   }) {
     return _then(_value.copyWith(
       chapter: null == chapter
           ? _value.chapter
           : chapter // ignore: cast_nullable_to_non_nullable
               as Chapter,
+      next: freezed == next
+          ? _value.next
+          : next // ignore: cast_nullable_to_non_nullable
+              as String?,
+      previous: freezed == previous
+          ? _value.previous
+          : previous // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -74,7 +86,7 @@ abstract class _$$_ChapterScreenStateCopyWith<$Res>
       __$$_ChapterScreenStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Chapter chapter});
+  $Res call({Chapter chapter, String? next, String? previous});
 
   @override
   $ChapterCopyWith<$Res> get chapter;
@@ -92,12 +104,22 @@ class __$$_ChapterScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? chapter = null,
+    Object? next = freezed,
+    Object? previous = freezed,
   }) {
     return _then(_$_ChapterScreenState(
       chapter: null == chapter
           ? _value.chapter
           : chapter // ignore: cast_nullable_to_non_nullable
               as Chapter,
+      next: freezed == next
+          ? _value.next
+          : next // ignore: cast_nullable_to_non_nullable
+              as String?,
+      previous: freezed == previous
+          ? _value.previous
+          : previous // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -105,14 +127,18 @@ class __$$_ChapterScreenStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChapterScreenState implements _ChapterScreenState {
-  _$_ChapterScreenState({required this.chapter});
+  _$_ChapterScreenState({required this.chapter, this.next, this.previous});
 
   @override
   final Chapter chapter;
+  @override
+  final String? next;
+  @override
+  final String? previous;
 
   @override
   String toString() {
-    return 'ChapterScreenState(chapter: $chapter)';
+    return 'ChapterScreenState(chapter: $chapter, next: $next, previous: $previous)';
   }
 
   @override
@@ -120,11 +146,14 @@ class _$_ChapterScreenState implements _ChapterScreenState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChapterScreenState &&
-            (identical(other.chapter, chapter) || other.chapter == chapter));
+            (identical(other.chapter, chapter) || other.chapter == chapter) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, chapter);
+  int get hashCode => Object.hash(runtimeType, chapter, next, previous);
 
   @JsonKey(ignore: true)
   @override
@@ -135,11 +164,17 @@ class _$_ChapterScreenState implements _ChapterScreenState {
 }
 
 abstract class _ChapterScreenState implements ChapterScreenState {
-  factory _ChapterScreenState({required final Chapter chapter}) =
-      _$_ChapterScreenState;
+  factory _ChapterScreenState(
+      {required final Chapter chapter,
+      final String? next,
+      final String? previous}) = _$_ChapterScreenState;
 
   @override
   Chapter get chapter;
+  @override
+  String? get next;
+  @override
+  String? get previous;
   @override
   @JsonKey(ignore: true)
   _$$_ChapterScreenStateCopyWith<_$_ChapterScreenState> get copyWith =>

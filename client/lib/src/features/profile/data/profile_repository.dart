@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../shared/constants.dart';
 import '../../auth/application/my_id_provider.dart';
 
 
@@ -25,12 +26,21 @@ class ProfileRepository {
     int from = 0,
     int pageSize = 20, 
   ]) => err<List<Profile>>(() async {
-    final resp = await _dio.get('profiles', queryParameters: {
+    final resp = await _dio.get(Str.dio.profiles, queryParameters: {
       'query': query,
       'from': from,
       'pageSize': pageSize,
     });
     return profileListFromJson(List<Map<String, dynamic>>.from(resp.data['data']));
+  });
+
+  Future<List<Profile>> getPopularAuthors([int from = 0, int pageSize = 20]) 
+      => err(() async {
+    final resp = await _dio.get(Str.dio.popularAuthors, queryParameters: {
+      Str.dio.from: from,
+      Str.dio.pageSize: pageSize
+    });
+    return profileListFromJson(resp.data[Str.dio.data]);
   });
 
   Future<Profile> getProfile(String? id) async {

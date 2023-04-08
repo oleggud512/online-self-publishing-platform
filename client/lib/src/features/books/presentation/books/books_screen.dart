@@ -21,6 +21,7 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(booksScreenControllerProvider);
     final cont = ref.watch(booksScreenControllerProvider.notifier);
+    
     return Scaffold(
       appBar: BooksAppBar(),
       body: state.when(
@@ -40,24 +41,5 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
         loading: defaultLoading
       )
     );
-    // return state.when(
-    //   data: (books) => Scaffold(
-    //     appBar: BooksAppBar(),
-    //     body: PageListWidget(
-    //       paginationController: cont, 
-    //       refreshController: refreshController, 
-    //       child: ListView.separated(
-    //         padding: const EdgeInsets.all(p8),
-    //         separatorBuilder: (context, i) => h8gap,
-    //         itemCount: books.length,
-    //         itemBuilder: (context, index) {
-    //           return BookListItemWidget(book: books[index]);
-    //         },
-    //       ),
-    //     )
-    //   ),
-    //   loading: defaultLoading,
-    //   error: defaultErrorHandler
-    // );
   }
 }

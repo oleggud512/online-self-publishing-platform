@@ -13,7 +13,6 @@ import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_screen/edit_profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_state.dart';
-import 'package:client/src/features/reports/presentation/report_dialog.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +25,7 @@ import '../../../../common/widgets/my_image.dart';
 import '../../../../router/menu_button_leading.dart';
 import '../../../auth/application/my_id_provider.dart';
 import '../../../books/presentation/book_list/book_list_widget.dart';
+import '../../../reports/presentation/report/report_dialog.dart';
 import 'profile_action_button.dart';
 
 

@@ -1,6 +1,7 @@
 import 'package:client/src/common/go_router_refresh_stream.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
+import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/auth/presentation/auth_screen.dart';
@@ -10,6 +11,7 @@ import 'package:client/src/features/books/presentation/book_list/book_list_widge
 import 'package:client/src/features/books/presentation/books/books_screen.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/features/home/presentation/home_screen.dart';
+import 'package:client/src/features/home/presentation/popular_books_screen.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/messages/domain/chat.dart';
 import 'package:client/src/features/messages/presentation/chat/chat_screen.dart';
@@ -37,6 +39,7 @@ import '../features/books/presentation/edit_book/edit_book_screen.dart';
 import '../features/chapters/presentation/chapter/chapter_screen.dart';
 import '../features/chapters/presentation/chapters/book_chapters_screen.dart';
 import '../features/chapters/presentation/edit_chapter/edit_chapter_screen.dart';
+import '../features/home/presentation/popular_authors_screen.dart';
 import '../features/profile/presentation/authors/authors_screen.dart';
 import '../features/profile/presentation/bookmarks/bookmarks_screen.dart';
 import '../features/profile/presentation/edit_profile_screen/edit_profile_screen.dart';
@@ -103,6 +106,11 @@ extension MyRoutePath on MyRoute {
 
       case MyRoute.blocked:
         return '/blocked';
+
+      case MyRoute.popularBooks:
+        return '/books/popular';
+      case MyRoute.popularAuthors:
+        return '/profiles/popular';
     }
   }
 }
@@ -134,6 +142,24 @@ final routerProvider = Provider((ref) {
             return ScaffoldWithNavigation(child: child);
           },
           routes: [
+            GoRoute(
+              path: MyRoute.popularAuthors.path,
+              name: MyRoute.popularAuthors.name,
+              pageBuilder: (context, state) {
+                return NoTransitionPage(
+                  child: PopularAuthorsScreen()
+                );
+              }
+            ),
+            GoRoute(
+              path: MyRoute.popularBooks.path,
+              name: MyRoute.popularBooks.name,
+              pageBuilder: (context, state) {
+                return NoTransitionPage(
+                  child: PopularBooksScreen()
+                );
+              }
+            ),
             GoRoute(
               path: MyRoute.home.path,
               name: MyRoute.home.name,

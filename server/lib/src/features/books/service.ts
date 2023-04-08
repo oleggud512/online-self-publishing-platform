@@ -2,7 +2,6 @@ import mongoose, { Types } from "mongoose"
 import { AppError } from "../../common/app-error"
 import { ReadingsState } from "../chapters/Chapter"
 import { Bookmarks } from "../linking/Bookmarks"
-import { BookmarksAggregationBuilder } from "../linking/bookmarks-aggregation-builder"
 import { Likes } from "../linking/Likes"
 import { Profile } from "../profiles/Profile"
 import { Book, IBook } from "./Book"
@@ -22,17 +21,18 @@ import { Restriction } from "../restrictions/Restriction"
 import { BookPermissions } from "./BookPermissions"
 
 
-export async function getBook(id: string, forProfile?: string) : Promise<IBook> {
+export async function getBook(id: string, forProfile?: string, allChapters?: boolean) : Promise<IBook> {
   const bookList = await new BookAggregationBuilder()
     .book(id)
-    .withChapters(forProfile)
+    .withChapters(forProfile, Boolean(allChapters))
     .withAuthor(forProfile)
     .withLiked(forProfile)
     .withBookmarked(forProfile)
     .build()
-  return bookList[0];
-}
+  console.log({getBook: bookList, chapters: bookList[0].chapters})
 
+  return bookList[0]
+}
 
 export async function getFilteringSource() : Promise<FilteringSource> {
   const tags: string[] = (await Tag.find()).map((t) => t.name)
@@ -70,6 +70,22 @@ export async function getBooks(
     .withBookmarked(forProfile)
     .page(from, pageSize)
     .build()
+  return books
+}
+
+
+export async function getPopularBooks(
+  from: number, 
+  pageSize: number, 
+  forProfile?: string
+) {
+  const books = await new BookAggregationBuilder()
+    .popularBooks()
+    .withAuthor(forProfile)
+    .withBookmarked(forProfile)
+    .page(from, pageSize)
+    .build()
+  console.log({popularBooks: books})
   return books
 }
 
@@ -136,10 +152,15 @@ export async function deleteBook(bookId: string, profileId: string) {
 
 export async function changeState(bookId: string) : Promise<String> {
   const book = await Book.findById(bookId)
-  if (!book || book && book.permissions && !book.permissions.publish) {
-    console.log({ cannotChangeState: book })
+
+  if (!book) {
     throw new AppError(AppErrors.cannotChangeState)
   }
+  const restrictions = await restrictionService.getRestrictions(book!._id)
+  if (restrictions.find(r => r.restriction == Restriction.Name.publishBook)) {
+    throw new AppError(AppErrors.cannotChangeState)
+  }
+
 
   const author = await Profile.findById(book.author)
   if (!author || author && author.permissions && !author.permissions.publishBook) {
@@ -157,7 +178,7 @@ export async function changeState(bookId: string) : Promise<String> {
     actionType: book.state == ReadingsState.published 
       ? ActionType.publishBook
       : ActionType.unpublishBook,
-    authorId: book.author,
+    authorId: book.author as string,
     bookId: book._id
   })
   
@@ -257,4 +278,15 @@ export async function togglePublish(bookId: string, adminId: string, before?: Da
   }
 
   return canPublishBook
+}
+
+export async function syncScore() {
+  const res = await Book.updateMany({}, [{
+    $set: { score: { $add: [ 
+      { $ifNull: [ "$bookCount", 0 ] },
+      { $ifNull: [ "$views", 0 ] },
+      { $ifNull: [ "$likes", 0 ] }
+    ] } }
+  }])
+  console.log({ message: 'SYNCED', res })
 }

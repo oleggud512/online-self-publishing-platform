@@ -24,7 +24,7 @@ environment:
 # dart pub global activate rps
 scripts:
   # rps cw
-  cw: "flutter pub run build_runner watch --delete-conflicting-outputs"
+  watch: "flutter pub run build_runner watch --delete-conflicting-outputs"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions

@@ -1,4 +1,4 @@
-import {FrameworkConfiguration} from 'aurelia-framework'
+import {FrameworkConfiguration, PLATFORM} from 'aurelia-framework'
 import { HttpClient, Interceptor } from 'aurelia-fetch-client'
 import * as firebase from "firebase/app"
 import { ReportRepository } from 'features/reports/data/report-repository';
@@ -6,13 +6,11 @@ import { AuthInterceptor } from 'features/authentication/data/auth-interceptor';
 import en from '../locales/en/translation.json'
 import uk from '../locales/uk/translation.json'
 import i18next from 'i18next';
-import { SanitizeHTMLValueConverter } from 'aurelia-templating-resources';
 import { BookRepository } from 'features/books/data/book-repository';
 import { ProfileRepository } from 'features/profiles/data/profile-repository';
 import { CommentRepository } from 'features/comments/data/comment-repository';
-import { EventAggregator } from "aurelia-event-aggregator"
 import { PubSub } from 'shared/pub-sub';
-
+import { ChapterRepository } from 'features/chapters/data/chapter-repository';
 
 
 type Loc = {
@@ -21,9 +19,11 @@ type Loc = {
   closed: string
 }
 
+
 export function configure(config: FrameworkConfiguration): void {
   //config.globalResources([]);
   // config.globalResources([SanitizeHTMLValueConverter]);
+  config.globalResources([PLATFORM.moduleName('./elements/loading-indicator')])
 
   const firebaseConfig = {
     apiKey: "AIzaSyBQx-7ZGkxi08pNR4exenZEcn-zjBCtUco",
@@ -63,6 +63,9 @@ export function configure(config: FrameworkConfiguration): void {
   })
   config.container.registerSingleton(CommentRepository, () => {
     return new CommentRepository(config.container.get(HttpClient))
+  })
+  config.container.registerSingleton(ChapterRepository, () => {
+    return new ChapterRepository(config.container.get(HttpClient))
   })
   config.container.registerSingleton(PubSub, () => new PubSub())
   console.log('init')

@@ -17,26 +17,27 @@ export function page(from: number, pageSize: number) : LookupPipeline {
  */
 export function tryLookup(lookup: PipelineStage.Lookup['$lookup']) : LookupPipeline {
   const lookupDoc = 'tryLookupDoc'
+  const tempDoc = lookup.as + lookupDoc
 
   return [
     {
       $lookup: {
         ...lookup,
-        as: lookupDoc,
+        as: tempDoc,
       }
     },
-    { $unwind: `$${lookupDoc}` },
+    { $unwind: `$${tempDoc}` },
     {
       $addFields: {
         [lookup.as]: {
           $cond: {
-            if: { $isArray: `$${lookupDoc}` },
+            if: { $isArray: `$${tempDoc}` },
             then: `$${lookup.localField}`,
-            else: `$${lookupDoc}`
+            else: `$${tempDoc}`
           }
         }
       }
     },
-    { $unset: lookupDoc }
+    { $unset: tempDoc }
   ]
 }

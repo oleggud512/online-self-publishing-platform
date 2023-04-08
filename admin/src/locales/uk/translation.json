@@ -7,6 +7,7 @@
 
     "take": "Взяти на розгляд",
     "close": "Закрити скаргу",
+    "turnBack": "Відкрити", 
 
     "pending": "Очікують",
     "inProgress": "В процесі вирішення",
@@ -56,5 +57,11 @@
     "Book": "Книга",
     "Profile": "Профіль",
 
-    "insufficientReport": "Недоречна скарга"
+    "insufficientReport": "Недоречна скарга",
+
+    "status": "Статус",
+    "reportsOf": "Скарги на...",
+    "owner": "Власник",
+
+    "chapters": "Глави"
 }

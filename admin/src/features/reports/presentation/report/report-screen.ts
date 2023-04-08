@@ -10,6 +10,7 @@ import { ReportRepository } from "features/reports/data/report-repository"
 import { Report } from "features/reports/domain/report"
 import { ReportState } from "features/reports/domain/report-state";
 import i18next from "i18next"
+import * as nprog from "nprogress"
 
 @autoinject
 export class ReportScreen {
@@ -64,8 +65,10 @@ export class ReportScreen {
 
   async sendMessage() {
     console.log(this.messageField)
+    nprog.start()
     const newMessage = 
       await this.reportRepo.sendMessage(this.messageField, this.reportId)
+    nprog.done()
     console.log({newMessage})
     this.report.actions.unshift(newMessage)
     this.messageField = ""
@@ -75,7 +78,9 @@ export class ReportScreen {
   async onInsufficientReport() {
     const resp = await YesNoDialog.show(this.dialogService, 'Are you sure you want to delete report?')
     if ( resp.output) {
+      nprog.start()
       this.report = await this.reportRepo.rejectReport(this.reportId)
+      nprog.done()
       this.router.navigateBack()
     } else {
       console.log('DO NOTHING')

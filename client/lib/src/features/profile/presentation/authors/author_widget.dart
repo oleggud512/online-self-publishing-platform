@@ -63,46 +63,78 @@ class AuthorWidget extends ConsumerWidget {
                   Text(state.displayName ?? state.name,
                     style: Theme.of(context).textTheme.titleMedium
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Icon(
-                        Icons.people_outlined, 
-                        size: 24,
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      w4gap,
-                      Text(state.subscribers.toString(),
-                        textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.outline
-                        )
-                      ),
-                    ]
-                  )
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: buildSubscribersCount(context, state)
+                  ),
                 ]
               ),
             ),
             w8gap,
-            if (state.isSubscribed != null) 
-              state.isSubscribed!
-                ? IconButton(
-                  onPressed: () async {
-                    await cont.unsubscribe();
-                  },
-                  icon: const Icon(Icons.person_remove_alt_1)
-                )
-                : IconButton(
-                  onPressed: () async {
-                    await cont.subscribe();
-                  },
-                  icon: const Icon(Icons.person_add_alt_1)
-                ),
+            buildSubscriptionButton(cont, state),
           ]
         )
-        : SizedBox(
-          child: Text(profile.name)
+        : Column(
+          children: [
+            MyImage(
+              imageUrl: state.avatarUrl,
+              size: const Size.fromRadius(p56),
+              placeholderIconSize: p56,
+            ),
+            h8gap,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(state.displayName ?? state.name,
+                style: Theme.of(context).textTheme.titleMedium
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildSubscribersCount(context, state),
+                buildSubscriptionButton(cont, state),
+              ]
+            )
+          ]
+        )
+    );
+  }
+
+  Widget buildSubscriptionButton(AuthorWidgetController cont, Profile state) {
+    if (state.isSubscribed == null) return shrink;
+
+    return state.isSubscribed!
+      ? IconButton(
+        onPressed: () async {
+          await cont.unsubscribe();
+        },
+        icon: const Icon(Icons.person_remove_alt_1)
+      )
+      : IconButton(
+        onPressed: () async {
+          await cont.subscribe();
+        },
+        icon: const Icon(Icons.person_add_alt_1)
+      );
+  }
+
+  Widget buildSubscribersCount(BuildContext context, Profile state) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.people_outlined, 
+          size: 24,
+          color: Theme.of(context).colorScheme.outline,
         ),
+        w4gap,
+        Text(state.subscribers.toString(),
+          textAlign: TextAlign.right,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.outline
+          )
+        ),
+      ]
     );
   }
 }

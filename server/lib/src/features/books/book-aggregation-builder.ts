@@ -7,6 +7,7 @@ import * as bookUtils from "./book-aggregation-utils"
 import { Filters } from "./Filters"
 import { Sorting } from "../comments/Sorting"
 import * as commentsUtils from "../comments/comments-aggregation-utils"
+import * as chapterUtils from "../chapters/chapter-aggregation-utils"
 import * as baseUtils from "../../shared/base-aggregation-utils"
 
 export class BookAggregationBuilder extends BaseAggregationBuilder {
@@ -22,6 +23,12 @@ export class BookAggregationBuilder extends BaseAggregationBuilder {
 
   books(filters: Filters) {
     this.aggregation.append(...bookUtils.filterBooks(filters))
+    return this
+  }
+
+  popularBooks() { 
+    this.aggregation.append(...bookUtils.filterBooks(new Filters()))
+    this.aggregation.sort({ score: -1 })
     return this
   }
 
@@ -72,47 +79,31 @@ export class BookAggregationBuilder extends BaseAggregationBuilder {
    * should be called before the 'withAuthor()' because it makes '$author' 
    * unavailable. 
    */
-  withChapters(forProfile: string | undefined) {
+  withChapters(forProfile: string | undefined, allChapters: boolean = false) {
     this.aggregation.lookup({
       from: 'chapters',
+      localField: "_id",
+      foreignField: "book",
       let: { bookId: '$_id', authorId: "$author" },
       pipeline: [
+        ...chapterUtils.populateChapterPipeline(),
         {
           $match: {
             $expr: {
-              $and: [
-                { $eq: ["$book", "$$bookId"] },
-                // if I try to get 'my' book, than display all chapters, 
-                // else - published only
-                {
-                  $cond: {
-                    if: { $eq: ["$$authorId", forProfile] }, // if the chapter is of my book
-                    then: { },
-                    else: { $eq: ["$state", ReadingsState.published] }
-                  }
-                }
-              ]
+              $cond: {
+                if: { $eq: [ "$$authorId", forProfile ] },
+                then: true,
+                else: { $eq: [ "$state", ReadingsState.published ]}
+              }
             }
           }
         },
-        ...profileUtils.somethingWithAuthor(),
         { 
           $sort: {
-            createdAt: 1
-          } 
-        },
-        // if you want to get the chapters to display on BookScreen, you won't need all of the chapters
-        { $limit: 5 }, 
-        {
-          $project: {
-            _id: 1,
-            name: 1,
-            state: 1,
-            book: 1,
-            createdAt: 1,
-            updatedAt: 1
+            createdAt: -1
           }
-        }
+        },
+        ...!allChapters ? [ { $limit: 5 } ] : []
       ],
       as: 'chapters',
     })

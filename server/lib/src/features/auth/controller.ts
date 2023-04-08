@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import * as admin from "firebase-admin"
 import * as auth from "firebase/auth"
 import { OAuth2Client } from "google-auth-library";
-import constants from "../../common/firebase-constants"
+import constants from "../../../firebase-constants"
 import isFirebaseError from "../../common/is-firebase-error";
 
 import { IProfile, Profile } from "../profiles/Profile";
@@ -24,10 +24,6 @@ export async function signUpWithGoogle(req: Request, res: Response) {
   const age = req.body.age;
   const gender = req.body.gender;
   
-  // const decodedToken = await admin.auth().verifyIdToken(idToken);
-  // const uid = decodedToken.uid;
-  // const email = decodedToken.email!;
-
   const client = new OAuth2Client(constants.CLIENT_ID);
   const ticket = await client.verifyIdToken({
     idToken: idToken,

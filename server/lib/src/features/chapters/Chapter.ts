@@ -7,6 +7,11 @@ export const ReadingsState = {
   unpublished: 'unpublished'
 }
 
+export type ChapterNav = {
+  next?: string
+  previous?: string
+}
+
 export interface IChapter extends Document {
   _id: string
   name: string

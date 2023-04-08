@@ -16,35 +16,40 @@
       </end>
     </a>
     <!-- body -->
-    <section class="card-body row row-cols-1 row-cols-xl-2 g-2">
+    <div class="card-body">
+      <span if.bind="report.description" class="mb-2">${report.description}</span>
 
-      <div class="col flex-column d-flex">
-        <span>Sender</span>
-        <hr class="hr">
-        <profile-item profile.bind="report.author"></profile-item>
-      </div>
+      <section class="row row-cols-1 row-cols-xl-2 ">
 
-      <div class="col">
-        <div class="flex-column d-flex">
-          <span>Subject</span>
-          <hr class="hr">
-          
-          <div if.bind="isDeleted">
-            <div class="card p-3 d-inline-block">
-              ${t(`deleted.${report.subjectName}`)}
-            </div>
-          </div>
-          <profile-item if.bind="isOnProfile" profile.bind="report.subject"></profile-item>
-          <book-item if.bind="isOnBook" book.bind="report.subject"></book-item>
-          <report-comment if.bind="isOnComment" comment.bind="report.subject"></report-comment>
+        <div class="col flex-column d-flex">
+          <small>Sender</small>
+          <hr class="hr my-3">
+          <profile-item profile.bind="report.author"></profile-item>
         </div>
-      </div>
+  
+        <div class="col">
+          <div class="flex-column d-flex">
+            <small>Subject</small>
+            <hr class="hr my-3">
+            <div if.bind="isDeleted">
+              <div class="card p-3 d-inline-block">
+                ${t(`deleted.${report.subjectName}`)}
+              </div>
+            </div>
+            <profile-item if.bind="isOnProfile" profile.bind="report.subject"></profile-item>
+            <book-item if.bind="isOnBook" book.bind="report.subject"></book-item>
+            <report-comment if.bind="isOnComment" comment.bind="report.subject"></report-comment>
+          </div>
+        </div>
+
+      </section>
+    </div>
 
     </section>
     
     <!-- footer -->
     <section class="card-footer d-flex">
-      <button class="btn btn-primary ms-auto" click.delegate="onReportAction()" disabled.bind="actionDisabled">${actionName}</button>
+      <button class="btn btn-primary ms-auto" click.delegate="onReportAction()">${actionName}</button>
     </section>
     
   </article>

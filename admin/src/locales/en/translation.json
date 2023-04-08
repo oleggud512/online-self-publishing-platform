@@ -7,6 +7,7 @@
 
     "take": "Take",
     "close": "Close",
+    "turnBack": "Turn Back",
 
     "pending": "Pending",
     "inProgress": "In Progress",
@@ -56,5 +57,11 @@
     "Book": "Book",
     "Profile": "Profile",
 
-    "insufficientReport": "Insufficient Report"
+    "insufficientReport": "Insufficient Report",
+
+    "status": "Status",
+    "reportsOf": "Report subject",
+    "owner": "Owner",
+
+    "chapters": "Chapters"
 }

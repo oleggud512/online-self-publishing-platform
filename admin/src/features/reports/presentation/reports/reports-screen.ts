@@ -1,9 +1,6 @@
+import * as nprogress from 'nprogress'
 import {
   autoinject,
-  View,
-  computedFrom,
-  bindable,
-  observable,
   BindingEngine,
   Disposable,
   TaskQueue,
@@ -22,6 +19,7 @@ import { ReportOwner } from "features/reports/domain/report-owner";
 import { Report } from "features/reports/domain/report";
 import { MyRoute } from "router";
 import i18next from "i18next";
+import * as nprog from "nprogress"
 
 @autoinject
 export class ReportsScreen {
@@ -99,19 +97,24 @@ export class ReportsScreen {
   }
 
   async refresh() {
+    nprogress.start()
     this.reports = await this.reportRepo.getReports(
       this.filters,
       0,
       this.pageSize
     );
+    console.log(nprogress.settings)
+    nprogress.done()
   }
 
   async loadMore() {
+    nprog.start()
     const newPage = await this.reportRepo.getReports(
       this.filters,
       this.reports.length,
       this.pageSize
     );
+    nprog.done()
     if (newPage.length > 0) {
       this.reports = [...this.reports, ...newPage];
     } else {

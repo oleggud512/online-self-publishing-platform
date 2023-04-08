@@ -19,6 +19,16 @@
           </button>
         </div>
       </section>
+      <h3>${t('chapters')}</h3>
+      <section class="d-flex flex-column gap-3">
+        <article class="card" repeat.for="chapter of book.chapters" click.delegate="onChapter(chapter)">
+          <div class="card-body">
+            <a href="javascript:void(0)">
+              ${chapter.name}
+            </a>
+          </div>
+        </article>
+      </section>
       <section class="col-12">
         <comments-component subject-id.bind="bookId"></comments-component>
       </section>

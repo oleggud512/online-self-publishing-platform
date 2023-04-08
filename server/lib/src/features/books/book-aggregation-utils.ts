@@ -98,6 +98,7 @@ export function filterBooks(filters: Filters) : LookupPipeline {
         ]
       }
     },
+    // attempt to create best match sorting
     { 
       $addFields: {
         tagMatchCount: { $size: { $setIntersection: ["$tags", filters.tags] } },
@@ -124,7 +125,11 @@ export function filterBooks(filters: Filters) : LookupPipeline {
     },
     { 
       $addFields: {
-        totalScore: { $add: ["$searchScore", "$tagMatchPercent", "$genreMatchPercent"] }
+        totalScore: { $add: [
+          // "$searchScore", 
+          "$tagMatchPercent", 
+          "$genreMatchPercent"
+        ] }
       }
     },
     { 

@@ -14,7 +14,14 @@ class ChapterScreenController extends _$ChapterScreenController {
   
   @override
   FutureOr<ChapterScreenState> build(String chapterId) async {
-    return ChapterScreenState(chapter: await chapterRepo.getChapter(chapterId));
+    final chapter = await chapterRepo.getChapter(chapterId);
+    final state = ChapterScreenState(chapter: chapter);
+    if (chapter.isUnpublished) return state;
+    final nav = await chapterRepo.getNavigation(chapterId);
+    return state.copyWith(
+      next: nav.next,
+      previous: nav.previous
+    );
   }
 
   void refresh() async {

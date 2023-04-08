@@ -1,3 +1,4 @@
+import 'package:client/src/common/log.dart';
 import 'package:client/src/features/books/presentation/book_list/book_list_item_widget_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/book_status_widget.dart';
 import 'package:client/src/features/books/presentation/widgets/readings_state_widget.dart';
@@ -30,6 +31,7 @@ class BookListItemWidget extends ConsumerStatefulWidget {
 class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
   
   void showBook() {
+    printError('I want to navigate to the book ${widget.book.id} ${widget.book.name}');
     GoRouter.of(context).pushNamed(MyRoute.book.name, params: {
       'id': widget.book.id
     });

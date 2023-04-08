@@ -1,3 +1,4 @@
+import { Book } from "features/books/domain/book"
 import { BaseCommentSubject } from "features/comments/domain/comment-subject"
 
 export class Chapter implements BaseCommentSubject {
@@ -5,7 +6,7 @@ export class Chapter implements BaseCommentSubject {
 
   name: string
   content: string
-  book: string
+  book: Book
   state: string
   
   createdAt?: Date
@@ -17,7 +18,7 @@ export class Chapter implements BaseCommentSubject {
     this.name = data.name
     this.content = data.content
     this.state = data.state
-    this.book = data.book
+    this.book = new Book(data.book)
 
     if (data.createdAt) this.createdAt = new Date(data.createdAt)
     if (data.updatedAt) this.updatedAt = new Date(data.updatedAt)

@@ -7,6 +7,7 @@ import { Report } from "features/reports/domain/report"
 import { ReportState } from "features/reports/domain/report-state"
 import { ReportSubject } from "features/reports/domain/report-subject"
 import i18next from "i18next"
+import * as nprog from "nprogress"
 
 @autoinject
 export class ReportItem {
@@ -44,15 +45,16 @@ export class ReportItem {
     switch (this.report.state) {
       case (ReportState.pending): return this.t("take")
       case (ReportState.inProgress): return this.t("close")
-      case (ReportState.closed): return this.t("closed")
+      case (ReportState.closed): return this.t("turnBack")
     }
   }
 
-  get actionDisabled() {
-    return this.report.state == ReportState.closed
-  }
+  // get actionDisabled() {
+  //   return this.report.state == ReportState.closed
+  // }
 
   async onReportAction() {
+    nprog.start()
     switch (this.report.state) {
       case ReportState.pending: 
         console.log("pending. I need to takeReport")
@@ -61,6 +63,10 @@ export class ReportItem {
       case ReportState.inProgress:
         this.report = await this.reportRepo.closeReport(this.report._id)
         break
+      case ReportState.closed:
+        this.report = await this.reportRepo.openReport(this.report._id)
+        break
     }
+    nprog.done()
   }
 }

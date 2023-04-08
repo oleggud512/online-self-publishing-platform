@@ -1,11 +1,16 @@
+import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/readings_state_widget.dart';
+import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/features/chapters/presentation/chapter/chapter_screen_controller.dart';
+import 'package:client/src/features/localization/application/current_localization.dart';
+import 'package:client/src/features/localization/domain/localization.i69n.dart';
 import 'package:client/src/shared/constants.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +33,7 @@ class ChapterScreen extends ConsumerStatefulWidget {
 class _ChapterScreenState extends ConsumerState<ChapterScreen> {
   ChapterScreenController get cont => ref.watch(chapterScreenControllerProvider(widget.chapterId).notifier);
   AsyncValue<ChapterScreenState> get state => ref.watch(chapterScreenControllerProvider(widget.chapterId));
+  Localization get ll => ref.watch(currentLocalizationProvider);
 
   void onEdit() {
     printWarning('onEditChapter');
@@ -38,6 +44,32 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
       extra: state.value!.chapter
     );
   }
+
+  void onPrevious() {
+    printInfo(state.value!.previous);
+    if (state.value!.previous != null) {
+      context.pushReplacementNamed(MyRoute.chapter.name, 
+        params: {
+          "id": state.value!.previous!
+        }
+      );
+    } else {
+      Utils.showMessagew(ref, ll.chapter.firstChapterWarning);      
+    }
+  }
+
+  void onNext() {
+    if (state.value!.next != null) {
+      context.pushReplacementNamed(MyRoute.chapter.name, 
+        params: {
+          "id": state.value!.next!
+        }
+      );
+    } else {
+      Utils.showMessagew(ref, ll.chapter.lastChapterWarning);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +106,36 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (cont.isMy) ReadingsStateWidget(state: state.chapter.state),
-                    Text(state.chapter.name, style: Theme.of(context).textTheme.headlineMedium),
+                    if (cont.isMy) 
+                      ReadingsStateWidget(state: state.chapter.state),
+                    Text(state.chapter.name, 
+                      style: Theme.of(context).textTheme.headlineMedium
+                    ),
                     h8gap,
-                    Text(state.chapter.content, style: Theme.of(context).textTheme.bodyLarge)
+                    Text(state.chapter.content, 
+                      style: Theme.of(context).textTheme.bodyLarge
+                    )
                   ]
                 ),
               ),
+              if (state.chapter.isPublished) Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: onPrevious,
+                      child: Text("Previous".hardcoded),
+                    ),
+                  ),
+                  w16gap,
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: onNext,
+                      child: Text("Next".hardcoded),
+                    ),
+                  )
+                ]
+              ),
+              h8gap,
               CommentsWidget(
                 subjectId: state.chapter.id,
                 subjectName: CommentSubjects.chapter

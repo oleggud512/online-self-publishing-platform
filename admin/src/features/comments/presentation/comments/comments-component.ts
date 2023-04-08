@@ -1,22 +1,22 @@
-import { RouterConfiguration, NavigationInstruction } from "aurelia-router"
 import { autoinject, bindable } from "aurelia-framework"
 import { Comment } from "features/comments/domain/comment"
 import { CommentRepository } from "features/comments/data/comment-repository"
 import { Sorting } from "features/reports/domain/sorting"
-import { EventAggregator } from "aurelia-event-aggregator"
 import { SegmentButton } from "components/segmented-buttons/segment-button"
 import i18next from "i18next"
 import { NavigateCommentEvent } from "../../application/navigate-comment-event"
 import { PubSub } from "shared/pub-sub"
 import { Subscription } from "rxjs"
 import { CommentDeletedEvent } from "features/comments/application/comment-deleted-event"
+import * as nprog from "nprogress"
+
 
 @autoinject
 export class CommentsComponentCustomElement {
   t = i18next.t
 
   @bindable subjectId: string
-  @bindable selectedComment?: string
+  selectedComment?: string
   comments?: Comment[]
 
   onSortingChangedCallback
@@ -31,6 +31,7 @@ export class CommentsComponentCustomElement {
   }
 
   attached() {
+    // after comments is loaded we fetch comment from report-comment.ts to select
     this.refresh().then(() => {
       this.navigateCommentSbs = this.pubSub.on(NavigateCommentEvent, (ev) => {
         console.log('other listen')
@@ -38,9 +39,10 @@ export class CommentsComponentCustomElement {
         console.log(this.selectedComment)
       })
     })
+    // listen to comment deletion
     this.deleteCommentSbs = this.pubSub.on(CommentDeletedEvent, (ev) => {
       const index = this.comments.findIndex(c => c._id == ev.commentId)
-      if (index < 0) return
+      if (index < 0) return;
       this.comments.splice(index, 1)
     })
   }
@@ -51,11 +53,13 @@ export class CommentsComponentCustomElement {
   }
   
   async loadMore() {
+    nprog.start()
     const page = await this.commentRepo.getComments(this.subjectId, { 
       sorting: this.sorting, 
       from: this.comments.length,
       pageSize: this.pageSize
     })
+    nprog.done()
     this.comments.push(...page)
   }
   
@@ -64,10 +68,12 @@ export class CommentsComponentCustomElement {
     this.refresh()
   }
   async refresh() {
+    nprog.start()
     this.comments = await this.commentRepo.getComments(this.subjectId, { 
       sorting: this.sorting,
       pageSize: this.pageSize
     })
+    nprog.done()
   }
 
   sortingSegments = [ 

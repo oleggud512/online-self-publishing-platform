@@ -16,7 +16,8 @@
       repeat.for="comment of comments" 
       id.bind="`com_${comment._id}`"
       comment.bind="comment" 
-      selected-comment-id.bind="selectedComment"></comment-item>
-    <button class="btn btn-outline-secondary" click.delegate="loadMore()">Load More</button>
+      selected-comment-id.bind="selectedComment">
+    </comment-item>
+    <button class="btn btn-outline-secondary mt-3" click.delegate="loadMore()">Load More</button>
   </section>
 </template>

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../common/app-error";
 import { promise } from "../../common/error-handling";
+import { tryParseBool } from "../../common/parse-bool";
 import { parsePaginationQuery } from "../../common/parse-pagination-query";
 import { Filters } from "./Filters";
 import * as bookService from "./service"
@@ -8,8 +9,11 @@ import * as bookService from "./service"
 
 export async function getBook(req: Request, res: Response, next: NextFunction) {
   const bookId = req.params.id
+  // allChapters == false ==> retrieve all published book chapters else only last 5
+  const allChapters = tryParseBool(req.query.allChapters as string | undefined) ?? false
   const forProfile = res.locals.uid
-  const book = await bookService.getBook(bookId, forProfile);
+
+  const book = await bookService.getBook(bookId, forProfile, allChapters);
   return res.json({ data: book })
 }
 
@@ -49,6 +53,7 @@ export async function getBooks(req: Request, res: Response, next: NextFunction) 
   console.log(`uid ${res.locals.uid}`)
   const { from, pageSize } = parsePaginationQuery(req.query)
   const forProfile = res.locals.uid
+  const ofProfile = req.query.ofProfile as string | undefined
 
   if (req.query.ids) {
     console.log("req.query.ids")
@@ -57,9 +62,9 @@ export async function getBooks(req: Request, res: Response, next: NextFunction) 
     return res.json({ data: books })
   }
   
-  if (req.query.ofProfile) {
+  if (ofProfile) {
     const books = await bookService.getProfileBooks(
-      req.query.ofProfile as string, 
+      ofProfile, 
       from, 
       pageSize, 
       forProfile)
@@ -70,6 +75,22 @@ export async function getBooks(req: Request, res: Response, next: NextFunction) 
   const books = await bookService.getBooks(filters, from, pageSize, forProfile)
   console.log(books)
   res.json({ data: books })
+}
+
+
+export async function getPopularBooks(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const { from, pageSize } = parsePaginationQuery(req.query)
+  const forProfile = res.locals.uid
+
+  const [ books, error ] = 
+    await promise(bookService.getPopularBooks(from, pageSize))
+
+  if (error) return next(error)
+  return res.json({ data: books })
 }
 
 
@@ -129,7 +150,11 @@ export async function toggleBookmark(req: Request, res: Response, next: NextFunc
 }
 
 
-export async function getPermissions(req: Request, res: Response, next: NextFunction) {
+export async function getPermissions(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
   const bookId = req.params.id
 
   const [permissions, error] = await promise(bookService.getPermissions(bookId))
@@ -140,11 +165,16 @@ export async function getPermissions(req: Request, res: Response, next: NextFunc
 }
 
 
-export async function togglePublish(req: Request, res: Response, next: NextFunction) {
+export async function togglePublish(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
   const bookId = req.params.id
   const adminId = res.locals.uid
 
-  const [publishBook, error] = await promise(bookService.togglePublish(bookId, adminId))
+  const [publishBook, error] = 
+    await promise(bookService.togglePublish(bookId, adminId))
 
   if (error) return next(error)
 

@@ -60,7 +60,7 @@ class CommentsWidget extends ConsumerWidget {
                 ],
               ),
             ),
-            h8gap,
+            h16gap,
             Consumer(
               builder: (context, ref, child) { 
                 printInfo("return TextFormField(${ref.watch(commentsContentFieldState)})");
@@ -71,6 +71,7 @@ class CommentsWidget extends ConsumerWidget {
                     maxHeight: 200
                   ),
                   child: TextFormField(
+                    scrollPadding: EdgeInsets.zero,
                     controller: contentController,
                     onChanged: (v) {
                       debouncer.debounce(() => ref.watch(commentsContentFieldState.notifier).state = v);

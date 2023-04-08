@@ -8,13 +8,21 @@
   <require from="../components/report-item"></require>
   <require from="../../../../components/avatar.html"></require>
 
-
   <div class="container p-2 d-flex flex-column gap-2">
 
-    <section class="d-inline-flex gap-2 flex-wrap">
-      <segmented-buttons value.bind="filters.state" segments.bind="stateSegments" name="states" required="true"></segmented-buttons>
-      <segmented-buttons value.bind="filters.subjectName" segments.bind="subjectSegments" name="subjects"></segmented-buttons>
-      <segmented-buttons value.bind="filters.owner" segments.bind="isMySegments" name="my" required="true"></segmented-buttons>
+    <section class="d-inline-flex gap-2 flex-wrap align-items-end">
+      <div class="d-inline-flex flex-column">
+        ${t('status')}
+        <segmented-buttons value.bind="filters.state" segments.bind="stateSegments" name="states" required="true"></segmented-buttons>
+      </div>
+      <div class="d-inline-flex flex-column">
+        ${t('reportsOf')}
+        <segmented-buttons value.bind="filters.subjectName" segments.bind="subjectSegments" name="subjects"></segmented-buttons>
+      </div>
+      <div class="d-inline-flex flex-column">
+        ${t('owner')} 
+        <segmented-buttons value.bind="filters.owner" segments.bind="isMySegments" name="my" required="true"></segmented-buttons>
+      </div>
       <segmented-buttons value.bind="filters.sorting" segments.bind="sortingSegments" name="sorting" required="true" class="ms-lg-auto"></segmented-buttons>
     </section>
     

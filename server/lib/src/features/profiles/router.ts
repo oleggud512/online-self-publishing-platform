@@ -1,6 +1,6 @@
 import express = require("express")
 import { couldBeAuthenticated, isAuthenticated } from "../auth/authenticated"
-import { isAuthorized, isAuthorizedAdmin } from "../auth/authorized"
+import { isAuthorizedAdmin } from "../auth/authorized"
 import * as profileController from "./controller"
 
 const router = express.Router()
@@ -8,6 +8,11 @@ const router = express.Router()
 router.get("/", 
   couldBeAuthenticated, 
   profileController.getProfiles)
+
+router.get('/popular',
+  couldBeAuthenticated,
+  profileController.getPopularProfiles)
+
 router.get("/is-unique-name", profileController.isUniqueName) 
 
 router.post('/subscribe/:id', isAuthenticated, profileController.subscribe)

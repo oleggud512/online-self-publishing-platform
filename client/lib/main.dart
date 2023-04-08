@@ -20,9 +20,9 @@ import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'package:firebase_core/firebase_core.dart';
 
 
-void main() async {
+void main(List<String> arguments) async {
   await dotenv.load();
-  
+    
   WidgetsFlutterBinding.ensureInitialized();
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) return stack.vmTrace;
@@ -43,13 +43,16 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final token = await container.read(authRepositoryProvider).currentUser?.getIdToken(true);
+  final token = 
+    await container.read(authRepositoryProvider).currentUser?.getIdToken(true);
 
   await NotificationService.requestPermissions();
   await NotificationService.init();
 
   try {
-    if (token != null) await NotificationService.syncToken(container.read(dioProvider));
+    if (token != null) {
+      await NotificationService.syncToken(container.read(dioProvider));
+    }
   } on DioError catch (e) {
     if (e.response?.data['error']['code'] == 'blockedUserAuth') {
       container.read(routerProvider).goNamed(MyRoute.blocked.name);

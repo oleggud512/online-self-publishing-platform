@@ -31,6 +31,7 @@ mixin _$Book {
   String? get description =>
       throw _privateConstructorUsedError; //     persistent
   int get likes => throw _privateConstructorUsedError; //     persistent
+  int get views => throw _privateConstructorUsedError;
   BookStatus get status => throw _privateConstructorUsedError;
   ReadingsState get state => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError; // optional
@@ -59,6 +60,7 @@ abstract class $BookCopyWith<$Res> {
       String name,
       String? description,
       int likes,
+      int views,
       BookStatus status,
       ReadingsState state,
       List<String> tags,
@@ -90,6 +92,7 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
     Object? name = null,
     Object? description = freezed,
     Object? likes = null,
+    Object? views = null,
     Object? status = null,
     Object? state = null,
     Object? tags = null,
@@ -123,6 +126,10 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
       likes: null == likes
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
+              as int,
+      views: null == views
+          ? _value.views
+          : views // ignore: cast_nullable_to_non_nullable
               as int,
       status: null == status
           ? _value.status
@@ -181,6 +188,7 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
       String name,
       String? description,
       int likes,
+      int views,
       BookStatus status,
       ReadingsState state,
       List<String> tags,
@@ -209,6 +217,7 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? name = null,
     Object? description = freezed,
     Object? likes = null,
+    Object? views = null,
     Object? status = null,
     Object? state = null,
     Object? tags = null,
@@ -242,6 +251,10 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
       likes: null == likes
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
+              as int,
+      views: null == views
+          ? _value.views
+          : views // ignore: cast_nullable_to_non_nullable
               as int,
       status: null == status
           ? _value.status
@@ -291,6 +304,7 @@ class _$_Book implements _Book {
       this.name = "",
       this.description,
       this.likes = 0,
+      this.views = 0,
       this.status = BookStatus.inProgress,
       this.state = ReadingsState.unpublished,
       final List<String> tags = const [],
@@ -330,6 +344,9 @@ class _$_Book implements _Book {
   @JsonKey()
   final int likes;
 //     persistent
+  @override
+  @JsonKey()
+  final int views;
   @override
   @JsonKey()
   final BookStatus status;
@@ -392,7 +409,7 @@ class _$_Book implements _Book {
 
   @override
   String toString() {
-    return 'Book(id: $id, author: $author, coverUrl: $coverUrl, name: $name, description: $description, likes: $likes, status: $status, state: $state, tags: $tags, genres: $genres, comments: $comments, chapters: $chapters, liked: $liked, bookmarked: $bookmarked)';
+    return 'Book(id: $id, author: $author, coverUrl: $coverUrl, name: $name, description: $description, likes: $likes, views: $views, status: $status, state: $state, tags: $tags, genres: $genres, comments: $comments, chapters: $chapters, liked: $liked, bookmarked: $bookmarked)';
   }
 
   @override
@@ -408,6 +425,7 @@ class _$_Book implements _Book {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.likes, likes) || other.likes == likes) &&
+            (identical(other.views, views) || other.views == views) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.state, state) || other.state == state) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
@@ -429,6 +447,7 @@ class _$_Book implements _Book {
       name,
       description,
       likes,
+      views,
       status,
       state,
       const DeepCollectionEquality().hash(_tags),
@@ -462,6 +481,7 @@ abstract class _Book implements Book {
       final String name,
       final String? description,
       final int likes,
+      final int views,
       final BookStatus status,
       final ReadingsState state,
       final List<String> tags,
@@ -490,6 +510,8 @@ abstract class _Book implements Book {
   @override //     persistent
   int get likes;
   @override //     persistent
+  int get views;
+  @override
   BookStatus get status;
   @override
   ReadingsState get state;

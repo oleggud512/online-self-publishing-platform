@@ -16,7 +16,6 @@ class BookListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return listDirection == Axis.horizontal 
       ? SingleChildScrollView(
         scrollDirection: listDirection, 

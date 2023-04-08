@@ -13,6 +13,7 @@ _$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
       name: json['name'] as String? ?? "",
       description: json['description'] as String?,
       likes: json['likes'] as int? ?? 0,
+      views: json['views'] as int? ?? 0,
       status: $enumDecodeNullable(_$BookStatusEnumMap, json['status']) ??
           BookStatus.inProgress,
       state: $enumDecodeNullable(_$ReadingsStateEnumMap, json['state']) ??
@@ -42,6 +43,7 @@ Map<String, dynamic> _$$_BookToJson(_$_Book instance) {
     'name': instance.name,
     'description': instance.description,
     'likes': instance.likes,
+    'views': instance.views,
     'status': _$BookStatusEnumMap[instance.status]!,
     'state': _$ReadingsStateEnumMap[instance.state]!,
     'tags': instance.tags,

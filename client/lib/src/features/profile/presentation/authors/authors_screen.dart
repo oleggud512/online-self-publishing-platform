@@ -46,26 +46,5 @@ class _AuthorsScreenState extends ConsumerState<AuthorsScreen> {
         error: defaultErrorHandler
       )
     );
-    // return state.when(
-    //   data: (authors) {
-    //     return Scaffold(
-    //       appBar: AuthorsAppBar(),
-    //       body: PageListWidget(
-    //         paginationController: ref.watch(authorsScreenControllerProvider.notifier),
-    //         refreshController: refreshController, 
-    //         child: ListView.separated(
-    //           padding: const EdgeInsets.all(p8),
-    //           separatorBuilder: (context, i) => h8gap,
-    //           itemCount: authors.length,
-    //           itemBuilder: (context, index) {
-    //             return AuthorWidget(profile: authors[index]);
-    //           },
-    //         ),
-    //       ),
-    //     );
-    //   },
-    //   loading: defaultLoading,
-    //   error: defaultErrorHandler,
-    // );
   }
 }

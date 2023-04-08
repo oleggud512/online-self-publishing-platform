@@ -8,6 +8,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../shared/dio.dart';
 
+class ChapterNav {
+  String? next;
+  String? previous;
+
+  ChapterNav(this.next, this.previous);
+
+  factory ChapterNav.fromJson(Map<String, dynamic> json) {
+    return ChapterNav(json['next'], json['previous']);
+  }
+}
+
 class ChapterRepository {
   final Dio _dio;
   final String? _myId;
@@ -27,6 +38,14 @@ class ChapterRepository {
       Str.dio.pageSize: pageSize
     });
     return chapterListFromJson(resp.data[Str.dio.data]);
+  }
+
+  Future<ChapterNav> getNavigation(String chapterId) async {
+    final resp = await _dio.get(Str.dio.chapterNav(chapterId));
+    printInfo(resp);
+    final nav = ChapterNav.fromJson(resp.data[Str.dio.data]);
+    printInfo("next=${nav.next} previous=${nav.previous}");
+    return nav;
   }
 
   Future<Chapter> getChapter(String chapterId) async {

@@ -28,7 +28,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../common/constants/constants.dart';
 import '../../../../common/pub_sub.dart';
 import '../../../comments/domain/comment_subject.dart';
-import '../../../reports/presentation/report_dialog.dart';
+import '../../../reports/presentation/report/report_dialog.dart';
 import '../widgets/readings_state_widget.dart';
 
 class BookScreen extends ConsumerStatefulWidget {
@@ -53,14 +53,16 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   void onLike() async {
     final isToggled = await cont.toggleLike();
     if (!isToggled) {
-      ref.watch(scaffoldMessangerStateProvider).showMessage('Can\'t like'.hardcoded);
+      ref.watch(scaffoldMessangerStateProvider)
+        .showMessage('Can\'t like'.hardcoded);
     }
   }
 
   void onBookmark() async {
     final isToggled = await cont.toggleBookmark();
     if (!isToggled) {
-      ref.watch(scaffoldMessangerStateProvider).showMessage('Can\'t bookmark'.hardcoded);
+      ref.watch(scaffoldMessangerStateProvider)
+        .showMessage('Can\'t bookmark'.hardcoded);
     }
   }
 
@@ -119,10 +121,12 @@ class _BookScreenState extends ConsumerState<BookScreen> {
         cont.refresh();
       }
     });
+    printError('BUILD THE BOOK');
     return state.when(
       data: (state) {
         final book = state.book;
 
+        printError('BUILD THE BOOK STATE');
         return Scaffold(
           appBar: AppBar(
             title: Text(book.name),
@@ -208,6 +212,13 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   ? Icons.favorite 
                                   : Icons.favorite_outline),
                                 onPressed: onLike,
+                              ),
+                              Text(book.views.toString(),
+                                style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(color: Colors.grey),
+                              ),
+                              const Icon(Icons.remove_red_eye_outlined, 
+                                color: Colors.grey
                               )
                             ]
                           ),

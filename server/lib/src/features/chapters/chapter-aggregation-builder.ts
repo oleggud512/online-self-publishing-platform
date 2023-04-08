@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { BaseAggregationBuilder } from "../../shared/base-aggregation-builder";
 import { somethingWithAuthor } from "../profiles/profile-aggreation-utils";
 import { Chapter, ReadingsState } from "./Chapter";
+import * as chapterUtils from "./chapter-aggregation-utils"
 
 export class ChapterAggregationBuilder extends BaseAggregationBuilder {
   constructor(public forProfile?: string) {
@@ -12,18 +13,7 @@ export class ChapterAggregationBuilder extends BaseAggregationBuilder {
     console.log("something")
     console.log(bookId)
     this.aggregation.append(
-      {
-        $lookup: {
-          from: 'books',
-          localField: 'book',
-          foreignField: '_id',
-          as: 'book',
-          pipeline: [
-            ...somethingWithAuthor()
-          ]
-        }
-      },
-      { $unwind: "$book" },
+      ...chapterUtils.populateChapterPipeline(),
       {
         $match: {
           $expr: {
@@ -40,6 +30,11 @@ export class ChapterAggregationBuilder extends BaseAggregationBuilder {
           }
         }
       },
+      {
+        $sort: {
+          createdAt: -1
+        }
+      }
     )
     return this
   }

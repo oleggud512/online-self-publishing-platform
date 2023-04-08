@@ -74,7 +74,7 @@ export function configureRouter(config: RouterConfiguration, router: Router) {
     {
       route: 'chapters/:id',
       name: MyRoute.chapter,
-      moduleId: PLATFORM.moduleName("./features/chapters/presentation/chapter/chapter_screen"),
+      moduleId: PLATFORM.moduleName("./features/chapters/presentation/chapter/chapter-screen"),
     },
   ])
 }

@@ -5,6 +5,7 @@ import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/domain/filtering_source.dart';
 import 'package:client/src/features/books/domain/filters.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
+import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -52,15 +53,28 @@ class BookRepository {
     int pageSize = 20
   ]) async {
     return await err(() async {
-      final resp = await _dio.get('books', 
+      final resp = await _dio.get(Str.dio.books, 
         queryParameters: filters?.toJson()
           ?..addAll({
-            'from': from, 
-            'pageSize': pageSize 
+            Str.dio.from: from, 
+            Str.dio.pageSize: pageSize 
           })
       );
       printInfo(resp.data['data'].map((b) => { 'id': b['_id'], 'name': b['name'], 'bookmarked': b['bookmarked']}).toList());
-      return bookListFromJson(resp.data['data']);
+      return bookListFromJson(resp.data[Str.dio.data]);
+    });
+  }
+
+  Future<List<Book>> getPopularBooks([int from = 0, int pageSize = 20]) async {
+    return await err(() async {
+      final resp = await _dio.get(Str.dio.popularBooks,
+        queryParameters: {
+          Str.dio.from: from,
+          Str.dio.pageSize: pageSize
+        }
+      );
+      printSuccess(resp.data);
+      return bookListFromJson(resp.data[Str.dio.data]);
     });
   }
 

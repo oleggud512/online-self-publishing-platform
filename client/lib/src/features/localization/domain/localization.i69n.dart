@@ -51,6 +51,7 @@ class Localization implements i69n.I69nMessageBundle {
   String get unsubscribe => "Unsubscribe";
   String get seeAll => "See All";
   BookLocalization get book => BookLocalization(this);
+  ChapterLocalization get chapter => ChapterLocalization(this);
   String get status => "status";
   String get wantToHide => "Want to hide the book?";
   String get wantToPublish => "Want to publish the book?";
@@ -58,6 +59,7 @@ class Localization implements i69n.I69nMessageBundle {
   String get no => "No";
   NotificationsLocalization get notifications =>
       NotificationsLocalization(this);
+  ReportLocalization get report => ReportLocalization(this);
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -97,6 +99,8 @@ class Localization implements i69n.I69nMessageBundle {
         return seeAll;
       case 'book':
         return book;
+      case 'chapter':
+        return chapter;
       case 'status':
         return status;
       case 'wantToHide':
@@ -109,6 +113,8 @@ class Localization implements i69n.I69nMessageBundle {
         return no;
       case 'notifications':
         return notifications;
+      case 'report':
+        return report;
       default:
         return key;
     }
@@ -322,6 +328,28 @@ class BookLocalization implements i69n.I69nMessageBundle {
   }
 }
 
+class ChapterLocalization implements i69n.I69nMessageBundle {
+  final Localization _parent;
+  const ChapterLocalization(this._parent);
+  String get firstChapterWarning => "This is the first chapter.";
+  String get lastChapterWarning => "This is the last chapter.";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'firstChapterWarning':
+        return firstChapterWarning;
+      case 'lastChapterWarning':
+        return lastChapterWarning;
+      default:
+        return key;
+    }
+  }
+}
+
 class NotificationsLocalization implements i69n.I69nMessageBundle {
   final Localization _parent;
   const NotificationsLocalization(this._parent);
@@ -470,6 +498,29 @@ class CommentAnswerNotificationsLocalization implements i69n.I69nMessageBundle {
         return title;
       case 'body':
         return body;
+      default:
+        return key;
+    }
+  }
+}
+
+class ReportLocalization implements i69n.I69nMessageBundle {
+  final Localization _parent;
+  const ReportLocalization(this._parent);
+  String get reportDescriptionQuestion =>
+      "Please provide a detailed description of the issue you're experiencing. This will help us address the problem effectively.";
+  String get reportAddedMessage => "Report added";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'reportDescriptionQuestion':
+        return reportDescriptionQuestion;
+      case 'reportAddedMessage':
+        return reportAddedMessage;
       default:
         return key;
     }

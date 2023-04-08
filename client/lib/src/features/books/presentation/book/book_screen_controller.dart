@@ -16,6 +16,7 @@ part 'book_screen_controller.g.dart';
 class BookScreenController extends _$BookScreenController {
   BookRepository get bookRepo => ref.watch(bookRepositoryProvider);
 
+  @override
   FutureOr<BookScreenState> build(String bookId) async {
     final book = await bookRepo.getBook(bookId);
     return BookScreenState(

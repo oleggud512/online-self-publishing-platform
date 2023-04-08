@@ -75,7 +75,14 @@ export class ProfileAggregationBuilder extends BaseAggregationBuilder {
           localField: "_id",
           foreignField: "defendant",
           as: "reports",
-          pipeline: reportUtils.reportPopulationPipeline()
+          pipeline: [
+            ...reportUtils.reportPopulationPipeline(),
+            {
+              $sort: {
+                createdAt: -1
+              }
+            }
+          ]
         }
       },
       {
@@ -84,7 +91,14 @@ export class ProfileAggregationBuilder extends BaseAggregationBuilder {
           localField: "_id",
           foreignField: "author",
           as: "reported",
-          pipeline: reportUtils.reportPopulationPipeline()
+          pipeline: [
+            ...reportUtils.reportPopulationPipeline(),
+            {
+              $sort: {
+                createdAt: -1
+              }
+            }
+          ]
         }
       }
     )
@@ -124,6 +138,29 @@ export class ProfileAggregationBuilder extends BaseAggregationBuilder {
           createdAt: 1 // TODO: change to livenschtain
         }
       },
+    )
+    return this
+  }
+
+  popularAuthors() {
+    this.aggregation.append(
+      {
+        $lookup: {
+          from: 'books',
+          localField: '_id',
+          foreignField: 'author',
+          as: 'books',
+        }
+      },
+      {
+        $addFields: {
+          score: {
+            $sum: "$books.score"
+          }
+        }
+      },
+      { $unset: "books" },
+      { $sort: { score: -1 } }
     )
     return this
   }

@@ -21,7 +21,8 @@ class ReportRepostiory {
   // subject - Book, Comment, Profile
   Future<bool> addReport<T extends Identifiable>(
     T subject,
-    String reportType
+    String reportType,
+    String description
   ) => err(() async {
     String subjectName = ReportSubject.subjectNameFromObject(subject);
     String? defendant = ReportSubject.getDefendant(subject);
@@ -29,6 +30,7 @@ class ReportRepostiory {
       'subjectName': subjectName,
       'subject': subject.id,
       'reportType': reportType,
+      'description': description,
       'author': _myId,
       'defendant': defendant
     });

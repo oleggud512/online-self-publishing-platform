@@ -37,6 +37,7 @@ export type IReport = {
   state: string
   admin: string | IProfile
   defendant: string | IProfile
+  description: string
 
   actions?: IAction[]
 
@@ -62,7 +63,8 @@ const ReportSchema = new Schema(
     state: { type: String, default: ReportState.pending },
     
     admin: { type: String, ref: "Profile", default: null},
-    defendant: { type: String, ref: "Profile", required: true }
+    defendant: { type: String, ref: "Profile", required: true },
+    description: { type: String }
   }, 
   { 
     timestamps: true, 

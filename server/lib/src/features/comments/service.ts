@@ -11,6 +11,9 @@ import * as actionService from "../reports/action-service"
 import * as notificationService from "../notifications/service"
 import * as restrictionService from "../restrictions/service"
 import { Restriction } from "../restrictions/Restriction";
+import { CommentSubjects } from "./CommentSubjects";
+import { Book, IBook } from "../books/Book";
+import { IChapter } from "../chapters/Chapter";
 
 export async function getComments(
   args: {
@@ -63,7 +66,7 @@ export async function addComment(
       throw new AppError(AppErrors.cannotAddComment)
     }
     
-    const questionComment = await Comment.findOne({ _id: args.questionId });
+    const questionComment = await Comment.findOne({ _id: args.questionId ?? args.subjectId });
     const newComment = await new Comment({ 
       content: args.content, 
       question: args.questionId, 
@@ -73,9 +76,23 @@ export async function addComment(
       depth: (questionComment?.depth ?? -1) + 1
     }).save()
     
+    if (![CommentSubjects.book, CommentSubjects.chapter]
+        .includes(newComment.subjectName)) {
+          throw 'check if it\'s a chapter or do something else...'
+        }
+    // increment the count of comments 
+    const book = await getCommentBook(newComment._id)
+    if (book) Book.updateOne(
+      { _id: book._id }, 
+      { $inc: { commentCount: 1 } }
+    ).exec()
+    
+    // send notification to the owner of the book 
     const commentReceiver = (await new CommentsAggregationBuilder()
       .commentReceiver(newComment!._id)
       .build())[0]
+      
+    console.log({commentReceiver})
     
     if (questionComment) { 
       notificationService.sendCommentAnswerNotification(
@@ -88,6 +105,21 @@ export async function addComment(
     console.error(e)
     throw e
   }
+}
+
+
+async function getCommentBook(commentId: string) : Promise<IBook | undefined> {
+  const comment = (await new CommentsAggregationBuilder()
+    .comment(commentId, undefined, true).build())[0] as IComment
+  if (![CommentSubjects.book, CommentSubjects.chapter]
+      .includes(comment.subjectName)) {
+        return
+      }
+  const book = comment.subjectName == CommentSubjects.book
+    ? comment.subject as IBook
+    : (comment.subject as IChapter).book as IBook
+
+  return book
 }
 
 
@@ -122,7 +154,16 @@ export async function deleteComment(commentId: string, profileId: string) {
     return false
   }
 
+  // decrement comment count
+  const book = await getCommentBook(commentId)
+  if (book) Book.updateOne(
+    { _id: book._id }, 
+    { $inc: { commentCount: -1 } }
+  ).exec()
+
   await Comment.findByIdAndDelete(commentId)
+
+  console.log({commentToDelete: commentId})
   
   return true
 }
@@ -198,26 +239,30 @@ function canEditComment(comment: IComment | undefined, forProfile: string) : boo
   }
   if (comment!.rate != 0) { 
     console.log(comment)
-    console.log('comment!.rate == 0')
+    console.log('comment has been rated. Can\'t edit.')
     return false
   }
   if (comment!.createdAt!.getDate() < new Date().subtractDays(1).getDate()) { 
-    console.log('comment!.createdAt!.getDate() > new Date().subtractDays(1).getDate()')
+    console.log('24hours passed. You can\'t edit the comment.')
     return false
   }
   if ((comment!.author as IProfile)._id != forProfile) {
-    console.log('comment!.author._id != forProfile')
+    console.log('Who are you? It\'s not your comment. Can\'t edit')
     return false
   }
   if (comment!.hasAnswers) {
-    console.log('comment!.hasAnswers')
+    console.log('The comment has answers. Can\'t edit')
     return false
   }
   return true
 }
 
 
-export async function deleteCommentAdmin(commentId: string, profileId: string): Promise<boolean> {
+export async function deleteCommentAdmin(
+  commentId: string, 
+  profileId: string
+): Promise<boolean> {
+  var deletedCount: number = 0
   async function del(commentId: string) : Promise<boolean> {
     try {
       var res = true
@@ -235,12 +280,23 @@ export async function deleteCommentAdmin(commentId: string, profileId: string): 
       
       await Likes.deleteMany({ subject: { $in: answers.map(c => c._id) } })
       await comment.remove();
+      deletedCount++
       return res
     } catch (e) {
       return false
     }
   }
+  const book = await getCommentBook(commentId)
+
   const res = await del(commentId)
   actionService.addCommentDeleted({ commentId, authorId: profileId})
+
+  // sync commentCount
+  if (book) Book.updateOne(
+    { _id: book._id }, 
+    { $inc: { commentCount: -deletedCount } }
+  ).exec()
+
   return res
 }
+

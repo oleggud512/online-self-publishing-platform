@@ -42,6 +42,21 @@ export async function getProfiles(req: Request, res: Response) {
 }
 
 
+export async function getPopularProfiles(
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) {
+  const { from, pageSize } = parsePaginationQuery(req.query)
+  const forProfile = res.locals.uid as string | undefined
+
+  const [ profiles, error ] = 
+    await promise(profileService.getPopularAuthors(from, pageSize, forProfile))
+  if (error) return next(error)
+  return res.status(200).json({ data: profiles })
+}
+
+
 export async function getProfile(
   req: Request, 
   res: Response, 

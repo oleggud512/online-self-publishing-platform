@@ -15,6 +15,9 @@ router.post('/',
   booksController.addBook
 )
 
+router.get('/popular', 
+  couldBeAuthenticated,
+  booksController.getPopularBooks)
 /**
  * returns tags and genres
  */

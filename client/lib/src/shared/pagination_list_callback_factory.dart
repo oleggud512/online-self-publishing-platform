@@ -26,19 +26,27 @@ class PaginationCallbackFactory {
     return _instance!;
   }
 
-  PaginationItemsCallback<Profile> createSubscribersCallback(WidgetRef ref, String profileId) {
+  PaginationItemsCallback<Profile> createSubscribersCallback(
+    WidgetRef ref, 
+    String profileId
+  ) {
     return (int from) => 
       ref.watch(profileRepositoryProvider).subscribers(profileId, from);
   }
 
-  PaginationItemsCallback<Profile> createSubscriptionsCallback(WidgetRef ref, String profileId) {
+  PaginationItemsCallback<Profile> createSubscriptionsCallback(
+    WidgetRef ref, 
+    String profileId
+  ) {
     return (int from) => 
       ref.watch(profileRepositoryProvider).subscriptions(profileId, from);
   }
 
-  PaginationItemsCallback<Book> createProfileBooksCallback(WidgetRef ref, String ofProfile) {
+  PaginationItemsCallback<Book> createProfileBooksCallback(
+    WidgetRef ref, 
+    String ofProfile
+  ) {
     return (from) {
-      // printSuccess('callback called $from, $ofProfile ${ref.watch(myIdProvider)}');
       return ref.watch(bookRepositoryProvider)
         .getBooks(
           Filters(
@@ -50,10 +58,27 @@ class PaginationCallbackFactory {
     };
   }
 
-  PaginationItemsCallback<Chapter> createBookChaptersCallback(WidgetRef ref, String bookId) {
+  PaginationItemsCallback<Chapter> createBookChaptersCallback(
+    WidgetRef ref, 
+    String bookId
+  ) {
     return (from) {
       return ref.watch(chapterRepositoryProvider)
         .getChapters(bookId, from);
+    };
+  }
+  
+  PaginationItemsCallback<Book> createPopularBooksCallback(WidgetRef ref) {
+    return (from) {
+      return ref.watch(bookRepositoryProvider)
+        .getPopularBooks(from);
+    };
+  }
+  
+  PaginationItemsCallback<Profile> createPopularAuthorsCallback(WidgetRef ref) {
+    return (from) {
+      return ref.watch(profileRepositoryProvider)
+        .getPopularAuthors(from);
     };
   }
 }

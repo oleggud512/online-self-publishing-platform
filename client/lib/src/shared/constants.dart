@@ -43,7 +43,9 @@ enum MyRoute {
     profileBooks,
     subscribers,
     subscriptions,
-  blocked
+  blocked,
+  popularBooks,
+  popularAuthors
 }
 
 class Str {
@@ -54,7 +56,9 @@ class Str {
 }
 
 class _DioRouters {
+  final String books = 'books';
   final String chapters = 'chapters';
+  final String profiles = 'profiles';
   final String bookId = "bookId";
   final String from = 'from';
   final String state = 'state';
@@ -63,11 +67,17 @@ class _DioRouters {
   final String reports = 'reports';
   final String reportTypes = 'reports/types';
 
+  String get popularBooks => '$books/popular';
+  String get popularAuthors => '$profiles/popular';
+
   String chapter(String chapterId) {
     return "$chapters/$chapterId";
   }
   String chapterState(String chapterId) {
     return "${chapter(chapterId)}/$state";
+  }
+  String chapterNav(String chapterId) {
+    return "${chapter(chapterId)}/nav";
   }
 }
 

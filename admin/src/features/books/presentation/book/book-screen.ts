@@ -1,13 +1,18 @@
 import { autoinject } from "aurelia-framework"
-import { RouterConfiguration, NavigationInstruction } from "aurelia-router"
-import { DatePickerDialog } from "components/date-picker-dialog/date-picker-dialog"
+import { RouterConfiguration, NavigationInstruction, Router } from "aurelia-router"
 import { BookRepository } from "features/books/data/book-repository"
 import { Book } from "features/books/domain/book"
 import { BookPermissions } from "features/books/domain/book-permissions"
+import { Chapter } from "features/chapters/domain/chapter"
 import { Comment } from "features/comments/domain/comment"
+import i18next from "i18next"
+import { MyRoute } from "router"
+import * as nprog from "nprogress"
 
 @autoinject
 export class BookScreen {
+  public t = i18next.t
+
   bookId: string
 
   book: Book
@@ -15,7 +20,7 @@ export class BookScreen {
   
   comments: Comment[]
 
-  constructor(private bookRepo: BookRepository) { }
+  constructor(private bookRepo: BookRepository, private router: Router) { }
 
   activate(params, routerConfig: RouterConfiguration, inst: NavigationInstruction) {
     this.bookId = params.id  
@@ -23,8 +28,10 @@ export class BookScreen {
   }
 
   async refresh() {
+    nprog.start()
     this.book = await this.bookRepo.getBook(this.bookId)
-    this.getPermissions()
+    await this.getPermissions()
+    nprog.done()
     console.log(this.book)
   }
 
@@ -33,6 +40,12 @@ export class BookScreen {
   }
 
   async togglePublish() {
+    nprog.start()
     this.permissions.publishBook = await this.bookRepo.togglePublish(this.bookId)
+    nprog.done()
+  }
+  
+  onChapter(chapter: Chapter) {
+    this.router.navigateToRoute(MyRoute.chapter, { id: chapter._id })
   }
 }

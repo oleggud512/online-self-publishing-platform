@@ -63,6 +63,10 @@ book:
 
   saveBook: "Зберегти книгу"
 
+chapter:
+  firstChapterWarning: Це перша глава.
+  lastChapterWarning: Це остання глава.
+
 status: "статус"
 wantToHide: "Сховати цю книгу?"
 wantToPublish: "Опублікувати?"
@@ -85,3 +89,7 @@ notifications:
   commentAnswer:
     title: 'Нова відповідь'
     body(Map<String, dynamic> data): 'Користувач ${data["profile"]} відповів на ваш коментар.'
+
+report:
+  reportDescriptionQuestion: "Будь ласка, надайте детальний опис проблеми, з якою ви зіткнулися. Це допоможе нам ефективно вирішити проблему."
+  reportAddedMessage: "Скаргу додано"

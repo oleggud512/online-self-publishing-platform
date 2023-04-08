@@ -57,6 +57,13 @@ export class ReportRepository {
     return new Report(json.data)
   }
 
+  async openReport(reportId: string) {
+    const resp = await this.client.patch(`reports/${reportId}/open`)
+    
+    const json = await resp.json()
+    return new Report(json.data)
+  }
+
   async sendMessage(content: string, reportId: string) {
     try {
       const resp = await this.client.fetch(`reports/${reportId}/messages`, {

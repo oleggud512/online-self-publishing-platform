@@ -41,6 +41,7 @@ class Book with _$Book, Identifiable {
     @Default("") String name,                     //     persistent
     String? description,                          //     persistent
     @Default(0) int likes,                        //     persistent
+    @Default(0) int views,
     @Default(BookStatus.inProgress) BookStatus status,
     @Default(ReadingsState.unpublished) ReadingsState state,
     @Default([]) List<String> tags,                           // optional

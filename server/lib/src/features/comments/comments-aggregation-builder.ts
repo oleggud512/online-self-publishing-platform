@@ -11,7 +11,9 @@ export class CommentsAggregationBuilder extends BaseAggregationBuilder {
     super(Comment)
   }
 
-  comment(id: string, forProfile?: string) {
+  // TODO: тут можно было бы заменить comment и commentReciver на comment(id, forProfile, withFullSubject = false, withReciever = false)
+
+  comment(id: string, forProfile?: string, withFullSubject: boolean = false) {
     this.aggregation.append(
       {
         $match: {
@@ -20,7 +22,10 @@ export class CommentsAggregationBuilder extends BaseAggregationBuilder {
       },
       ...commentUtils.withAnswersAndAuthor(),
       ...commentUtils.withMyRate(forProfile),
-      ...commentUtils.withHasAnswers()
+      ...commentUtils.withHasAnswers(),
+      ... withFullSubject 
+        ? commentUtils.withFullSubject() 
+        : []
     )
     return this
   }
@@ -35,29 +40,28 @@ export class CommentsAggregationBuilder extends BaseAggregationBuilder {
       },
       ...commentUtils.withFullSubject(),
       {
-        $replaceRoot: {
-          newRoot: {
+        $addFields: {
+          reciever: {
             $cond: {
-              if: { $eq: [ "subjectName", CommentSubjects.book ] },
-              then: { 
-                $getField: { 
-                  input: "$subject",
-                  field: "author"
-                }
-              },
-              else: {
-                $getField: {
-                  field: "author", 
-                  input: { 
-                    $getField: { 
-                      field: "book", 
-                      input: "subject" 
-                    }
-                  }
-                }
-              }
+              if: { $eq: [ "$subjectName", CommentSubjects.book ] },
+              then: "$subject.author",
+              else: "$subject.book.author"
             } 
-          } 
+          }
+        }
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$reciever"
+          // newRoot: {
+          //   $expr: {
+          //     $cond: {
+          //       if: { $eq: [ "subjectName", CommentSubjects.book ] },
+          //       then: "$subject.author",
+          //       else: "$subject.book.author"
+          //     } 
+          //   }
+          // } 
         } 
       }
     ) 

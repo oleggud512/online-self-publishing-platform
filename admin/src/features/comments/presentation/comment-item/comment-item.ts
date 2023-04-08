@@ -4,6 +4,7 @@ import { CommentRepository } from "features/comments/data/comment-repository"
 import { Comment } from "features/comments/domain/comment"
 import { Subscription } from "rxjs"
 import { PubSub } from "shared/pub-sub"
+import * as nprog from "nprogress"
 
 
 @autoinject
@@ -42,8 +43,9 @@ export class CommentItemCustomElement {
   }
 
   async delete() {
-    console.log('some loading....')
+    nprog.start()
     const deleted = await this.commentRepo.deleteComment(this.comment._id)
+    nprog.done()
     if (deleted) {
       this.pubSub.emit(new CommentDeletedEvent(this.comment._id))
     } else {
@@ -52,9 +54,11 @@ export class CommentItemCustomElement {
   }
 
   async loadMore() {
+    nprog.start()
     const answers = await this.commentRepo.getComments(this.comment.subject._id, {
       questionId: this.comment._id,
     })
+    nprog.done()
     this.comment.answers = answers
   }
 }

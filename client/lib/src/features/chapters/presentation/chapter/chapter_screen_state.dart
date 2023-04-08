@@ -7,6 +7,8 @@ part 'chapter_screen_state.freezed.dart';
 @freezed
 class ChapterScreenState with _$ChapterScreenState {
   factory ChapterScreenState({
-    required Chapter chapter
+    required Chapter chapter,
+    String? next,
+    String? previous
   }) = _ChapterScreenState;
 }

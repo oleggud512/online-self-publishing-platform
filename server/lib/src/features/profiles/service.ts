@@ -50,6 +50,19 @@ export async function getProfiles(
   return await aggr.build()
 }
 
+
+export async function getPopularAuthors(
+  from: number, 
+  pageSize: number, 
+  exclude?: string
+) {
+  var aggr = new ProfileAggregationBuilder().popularAuthors()
+  if (exclude) aggr.exclude(exclude)
+  aggr.page(from, pageSize).withIsSubscribed(exclude)
+  return aggr.build()
+}
+
+
 export async function getProfile(
   id: string, 
   forProfile?: string
