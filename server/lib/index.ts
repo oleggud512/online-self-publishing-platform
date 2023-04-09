@@ -15,6 +15,7 @@ import { scheduleTasks } from "./scheduler"
 import { BookView } from "./src/features/linking/View"
 import { Book } from "./src/features/books/Book"
 import { syncScore } from "./src/features/books/service"
+import { Chapter } from "./src/features/chapters/Chapter"
 
 admin.initializeApp({
   credential: admin.credential.cert(<admin.ServiceAccount>serviceAccount)
@@ -29,7 +30,7 @@ mongoose.connect(config.MONGO_URI).then(async (v) => {
   const app = express()
 
   scheduleTasks()
-  syncScore()
+  // syncScore()
 
   app.use(cors())
   app.use(express.json())
@@ -42,7 +43,7 @@ mongoose.connect(config.MONGO_URI).then(async (v) => {
   
   setupSocketIoServer(server)
   
-  const PORT = process.env.PORT ?? 3000
+  const PORT = process.env.PORT || 3000
 
   server.listen(PORT, () => {
     console.log(`Books server is running on port ${PORT}`)

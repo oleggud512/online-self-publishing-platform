@@ -15,6 +15,7 @@ import 'package:client/src/features/chapters/presentation/chapter/chapter_widget
 import 'package:client/src/features/comments/presentation/comment/comment_widget.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_widget.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
+import 'package:client/src/features/localization/application/ll.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/constants.dart';
@@ -52,17 +53,17 @@ class _BookScreenState extends ConsumerState<BookScreen> {
 
   void onLike() async {
     final isToggled = await cont.toggleLike();
-    if (!isToggled) {
+    if (!isToggled && mounted) {
       ref.watch(scaffoldMessangerStateProvider)
-        .showMessage('Can\'t like'.hardcoded);
+        .showMessage(curLl(context)!.book.cantLike);
     }
   }
 
   void onBookmark() async {
     final isToggled = await cont.toggleBookmark();
-    if (!isToggled) {
+    if (!isToggled && mounted) {
       ref.watch(scaffoldMessangerStateProvider)
-        .showMessage('Can\'t bookmark'.hardcoded);
+        .showMessage(curLl(context)!.book.cantBookmark);
     }
   }
 
@@ -136,7 +137,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   return [
                     PopupMenuItem(
                       onTap: onReport,
-                      child: Text('report'.hardcoded)
+                      child: Text(ll.report.toReport)
                     )
                   ];
                 }

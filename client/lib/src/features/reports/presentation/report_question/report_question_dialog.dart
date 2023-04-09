@@ -1,8 +1,6 @@
-import 'package:client/src/common/hardcoded.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/features/localization/application/ll.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:go_router/go_router.dart';
 
 class ReportQuestionDialog extends StatefulWidget {
@@ -34,13 +32,13 @@ class _ReportQuestionDialogState extends State<ReportQuestionDialog> {
           onPressed: () {
             context.pop();
           },
-          child: Text('Cancel'.hardcoded),
+          child: Text(context.ll!.cancel),
         ),
         FilledButton(
           onPressed: () {
             context.pop(descriptionController.text);
           }, 
-          child: Text("Send".hardcoded),
+          child: Text(context.ll!.send),
         )
       ]
     );

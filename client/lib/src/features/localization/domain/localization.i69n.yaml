@@ -16,10 +16,14 @@ auth:
   password: Password
   signIn: Sign In
   signUp: Sign Up
+  signOut: Sign Out
   skip: Skip
   switchTo(String to): "Switch to $to"
+  blocked: Account is blocked
 
 google: Google
+cancel: Cancel
+send: Send
 
 settings:
   changeLanguageLabel: Change Language
@@ -45,6 +49,7 @@ profile:
   subscriptions: 'Subscriptions'
   books: 'books'
   noDescriptionPlaceholder: "No description for this user..."
+  popularAuthors: "Popular Authors"
 
 edit: "Edit"
 subscribe: "Subscribe"
@@ -62,6 +67,10 @@ book:
   abandoned: "abandoned"
 
   saveBook: "Save book"
+
+  popularBooks: "Popular Books"
+  cantLike: "Unauthorized users can't leave likes."
+  cantBookmark: "Can't add the book to bookmarks"
 
 chapter:
   firstChapterWarning: This is the first chapter.
@@ -93,3 +102,4 @@ notifications:
 report:
   reportDescriptionQuestion: "Please provide a detailed description of the issue you're experiencing. This will help us address the problem effectively."
   reportAddedMessage: "Report added"
+  toReport: "Report"

@@ -1,5 +1,4 @@
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/localization/application/current_locale.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
@@ -60,7 +59,7 @@ class SettingsScreen extends ConsumerWidget {
           if (ref.watch(myIdProvider) != null) 
             FilledButton.icon(
               icon: const Icon(Icons.logout),
-              label: Text("Sign Out".hardcoded),
+              label: Text(ll.auth.signOut),
               onPressed: () async {
                 await ref.watch(authRepositoryProvider).signOut();
                 if (context.mounted) context.goNamed(MyRoute.auth.name);
@@ -69,7 +68,7 @@ class SettingsScreen extends ConsumerWidget {
           else 
             FilledButton.icon(
               icon: const Icon(Icons.login),
-              label: Text("Sign In".hardcoded),
+              label: Text(ll.auth.signIn),
               onPressed: () => context.goNamed(MyRoute.auth.name)
             )
         ]

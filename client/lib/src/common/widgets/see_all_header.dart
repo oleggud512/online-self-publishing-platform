@@ -1,4 +1,3 @@
-import 'package:client/src/common/hardcoded.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/localization/application/ll.dart';

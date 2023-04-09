@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
@@ -6,6 +8,7 @@ import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,10 +40,32 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
       ref.watch(editChapterScreenControllerProvider(widget.chapter));
 
   final debouncer = Debouncer();
+  final focusNode = FocusNode();
+  final _controller = QuillController.basic();
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _controller.addListener(() {
+      printInfo('_controller.addListener');
+      final str = jsonEncode(_controller.document.toDelta().toJson());
+      onChangeContent(str);
+    });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    updateText(state.chapter.content);
+    super.didChangeDependencies();
+  }
 
   @override
   void dispose() {
     debouncer.dispose();
+    scrollController.dispose();
+    _controller.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -99,6 +124,16 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
     }
   }
 
+  void updateText(String newDeltaString) {
+    if (newDeltaString.isEmpty) {
+      _controller.document = Document.fromDelta(Delta()..insert('\n'));
+      return;
+    }
+    final json = jsonDecode(newDeltaString);
+    final doc = Document.fromJson(json);
+    _controller.document = doc;
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = this.state;
@@ -139,15 +174,31 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
               ),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            QuillToolbar.basic(
+              controller: _controller,
+              showFontSize: false,
+              showInlineCode: false,
+              showCodeBlock: false,
+              showListCheck: false,
+              showFontFamily: false,
+              showCenterAlignment: true,
+              showLeftAlignment: true,
+              showAlignmentButtons: true,
+              showRightAlignment: true,
+              showJustifyAlignment: true,
+              showLink: false,
+              showDividers: true,
+            ),
             Expanded(
-              child: TextFormField(
-              initialValue: state.chapter.content,
-                onChanged: onChangeContent,
-                maxLines: null,
-                maxLength: 10000,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                ),
+              child: QuillEditor(
+                controller: _controller,
+                readOnly: false,
+                scrollable: true,
+                scrollController: scrollController,
+                focusNode: focusNode,
+                autoFocus: false,
+                expands: true,
+                padding: const EdgeInsets.all(0)
               ),
             ),
           ]

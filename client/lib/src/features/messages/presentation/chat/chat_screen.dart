@@ -37,6 +37,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final textCont = TextEditingController();
   final refreshController = RefreshController();
 
+  void navigateOther() {
+    // context.pushNamed(MyRoute.profile.name, 
+    //   params: { 'id': state.chat.other.id }
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = this.state;
@@ -49,9 +55,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ref.watch(pubSub.notifier).push(FromChatEvent());
           },
         ),
-        title: Text(state.chat.other.displayName ?? state.chat.other.name),
+        title: InkWell(
+          onTap: navigateOther,
+          child: Text(state.chat.other.displayName ?? state.chat.other.name)
+        ),
         actions: [
-          MyAvatar(url: state.chat.other.avatarUrl ?? "")
+          InkWell(
+            onTap: navigateOther, 
+            child: MyAvatar(url: state.chat.other.avatarUrl ?? "")
+          )
         ],
       ),
       body: Column(
@@ -60,7 +72,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             child: PageListWidget(
               paginationController: cont,
               refreshController: refreshController,
-              child: ListView.builder(
+              child: ListView.separated(
+                separatorBuilder: (_, __) => h16gap,
+                padding: const EdgeInsets.all(p16),
                 reverse: true,
                 itemCount: state.messages.length,
                 itemBuilder: (context, index) {
@@ -91,14 +105,4 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       )
     );
   }
-
-  // Widget buildMessage(Message message) { 
-  //   bool my = ref.watch(myIdProvider) == message.from.id;
-  //   return ListTile(
-  //     leading: my ? null : MyAvatar(url: message.from.avatarUrl ?? ""),
-  //     trailing: !my ? null : MyAvatar(url: message.from.avatarUrl ?? ""),
-  //     title: Text(message.content),
-  //     subtitle: Text("${my ? "me" : message.from.name} ${Constants.dateFormat.format(message.createdAt)}")
-  //   );
-  // }
 }

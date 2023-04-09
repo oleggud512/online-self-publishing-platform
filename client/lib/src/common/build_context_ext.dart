@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../features/localization/domain/localization.i69n.dart';
+
 extension BuildContextEntension<T> on BuildContext {
+  Localization? get ll => Localizations.of<Localization>(this, Localization);
 
   bool get isMobile => MediaQuery.of(this).size.width <= 500.0;
   bool get isSmallTablet => MediaQuery.of(this).size.width > 500.0 && MediaQuery.of(this).size.width < 650.0;

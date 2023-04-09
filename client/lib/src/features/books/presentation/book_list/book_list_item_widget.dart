@@ -160,7 +160,18 @@ class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
                     Text(book.author.displayName ?? book.author.name,
                       style: const TextStyle(color: Colors.grey)
                     ),
+
                     const Spacer(),
+
+                    const Icon(Icons.remove_red_eye_outlined, 
+                      size: 16, 
+                      color: Colors.grey
+                    ),
+                    w4gap,
+                    Text(book.views.toString(), style: 
+                      const TextStyle(color: Colors.grey)
+                    ),
+
                     const Icon(Icons.favorite, size: 16, color: Colors.grey),
                     w4gap,
                     Text(book.likes.toString(), 

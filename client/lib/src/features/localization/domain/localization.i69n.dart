@@ -38,6 +38,8 @@ class Localization implements i69n.I69nMessageBundle {
   ScreenTitleLocalization get screenTitle => ScreenTitleLocalization(this);
   AuthLocalization get auth => AuthLocalization(this);
   String get google => "Google";
+  String get cancel => "Cancel";
+  String get send => "Send";
   SettingsLocalization get settings => SettingsLocalization(this);
   ErrorsLocalization get errors => ErrorsLocalization(this);
   String get searchPlaceholder => "type here...";
@@ -73,6 +75,10 @@ class Localization implements i69n.I69nMessageBundle {
         return auth;
       case 'google':
         return google;
+      case 'cancel':
+        return cancel;
+      case 'send':
+        return send;
       case 'settings':
         return settings;
       case 'errors':
@@ -177,8 +183,10 @@ class AuthLocalization implements i69n.I69nMessageBundle {
   String get password => "Password";
   String get signIn => "Sign In";
   String get signUp => "Sign Up";
+  String get signOut => "Sign Out";
   String get skip => "Skip";
   String switchTo(String to) => "Switch to $to";
+  String get blocked => "Account is blocked";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -194,10 +202,14 @@ class AuthLocalization implements i69n.I69nMessageBundle {
         return signIn;
       case 'signUp':
         return signUp;
+      case 'signOut':
+        return signOut;
       case 'skip':
         return skip;
       case 'switchTo':
         return switchTo;
+      case 'blocked':
+        return blocked;
       default:
         return key;
     }
@@ -267,6 +279,7 @@ class ProfileLocalization implements i69n.I69nMessageBundle {
   String get subscriptions => "Subscriptions";
   String get books => "books";
   String get noDescriptionPlaceholder => "No description for this user...";
+  String get popularAuthors => "Popular Authors";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -282,6 +295,8 @@ class ProfileLocalization implements i69n.I69nMessageBundle {
         return books;
       case 'noDescriptionPlaceholder':
         return noDescriptionPlaceholder;
+      case 'popularAuthors':
+        return popularAuthors;
       default:
         return key;
     }
@@ -299,6 +314,9 @@ class BookLocalization implements i69n.I69nMessageBundle {
   String get inProgress => "in progress";
   String get abandoned => "abandoned";
   String get saveBook => "Save book";
+  String get popularBooks => "Popular Books";
+  String get cantLike => "Unauthorized users can't leave likes.";
+  String get cantBookmark => "Can't add the book to bookmarks";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -322,6 +340,12 @@ class BookLocalization implements i69n.I69nMessageBundle {
         return abandoned;
       case 'saveBook':
         return saveBook;
+      case 'popularBooks':
+        return popularBooks;
+      case 'cantLike':
+        return cantLike;
+      case 'cantBookmark':
+        return cantBookmark;
       default:
         return key;
     }
@@ -510,6 +534,7 @@ class ReportLocalization implements i69n.I69nMessageBundle {
   String get reportDescriptionQuestion =>
       "Please provide a detailed description of the issue you're experiencing. This will help us address the problem effectively.";
   String get reportAddedMessage => "Report added";
+  String get toReport => "Report";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -521,6 +546,8 @@ class ReportLocalization implements i69n.I69nMessageBundle {
         return reportDescriptionQuestion;
       case 'reportAddedMessage':
         return reportAddedMessage;
+      case 'toReport':
+        return toReport;
       default:
         return key;
     }

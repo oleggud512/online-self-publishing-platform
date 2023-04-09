@@ -6,7 +6,7 @@
         ${chapter.book.name}
       </a>
       <h1>${chapter.name}</h1>
-      <div>${chapter.content}</div>
+      <div innerhtml.bind="output"></div>
     </div>
     
     <comments-component subject-id.bind="chapterId"></comments-component>

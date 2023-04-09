@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/go_router_refresh_stream.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
@@ -430,7 +431,7 @@ class BlockedScreen extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Account is blocked.', 
+            Text(context.ll!.auth.blocked, 
               style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
@@ -439,7 +440,7 @@ class BlockedScreen extends ConsumerWidget {
                 ref.watch(authRepositoryProvider).signOut();
               }, 
               icon: const Icon(Icons.logout_rounded),
-              label: Text('Sign Out'.hardcoded)
+              label: Text(context.ll!.auth.signOut)
             )
           ],
         )

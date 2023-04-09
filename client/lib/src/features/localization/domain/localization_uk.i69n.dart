@@ -40,6 +40,8 @@ class Localization_uk extends Localization {
       ScreenTitleLocalization_uk(this);
   AuthLocalization_uk get auth => AuthLocalization_uk(this);
   String get google => "Google";
+  String get cancel => "Відмінити";
+  String get send => "Відправити";
   SettingsLocalization_uk get settings => SettingsLocalization_uk(this);
   ErrorsLocalization_uk get errors => ErrorsLocalization_uk(this);
   String get searchPlaceholder => "введіть запит...";
@@ -75,6 +77,10 @@ class Localization_uk extends Localization {
         return auth;
       case 'google':
         return google;
+      case 'cancel':
+        return cancel;
+      case 'send':
+        return send;
       case 'settings':
         return settings;
       case 'errors':
@@ -177,10 +183,12 @@ class AuthLocalization_uk extends AuthLocalization {
   const AuthLocalization_uk(this._parent) : super(_parent);
   String get email => "Email";
   String get password => "Пароль";
-  String get signIn => "Ввійти";
+  String get signIn => "Авторизуватися";
   String get signUp => "Зареєструватися";
+  String get signOut => "Вийти";
   String get skip => "Пропустити";
   String switchTo(String to) => "Перемкнути на $to";
+  String get blocked => "Аккаунт заблоковано";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -196,10 +204,14 @@ class AuthLocalization_uk extends AuthLocalization {
         return signIn;
       case 'signUp':
         return signUp;
+      case 'signOut':
+        return signOut;
       case 'skip':
         return skip;
       case 'switchTo':
         return switchTo;
+      case 'blocked':
+        return blocked;
       default:
         return super[key];
     }
@@ -267,8 +279,9 @@ class ProfileLocalization_uk extends ProfileLocalization {
   const ProfileLocalization_uk(this._parent) : super(_parent);
   String get subscribers => "Підписники";
   String get subscriptions => "Підписки";
-  String get books => "книги";
+  String get books => "Книги";
   String get noDescriptionPlaceholder => "Без опису...";
+  String get popularAuthors => "Популярні автори";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -284,6 +297,8 @@ class ProfileLocalization_uk extends ProfileLocalization {
         return books;
       case 'noDescriptionPlaceholder':
         return noDescriptionPlaceholder;
+      case 'popularAuthors':
+        return popularAuthors;
       default:
         return super[key];
     }
@@ -301,6 +316,9 @@ class BookLocalization_uk extends BookLocalization {
   String get inProgress => "в процесі";
   String get abandoned => "кинуто";
   String get saveBook => "Зберегти книгу";
+  String get popularBooks => "Популярні книги";
+  String get cantLike => "Неавторизовані користувачі не можуть залишати лайки.";
+  String get cantBookmark => "Неможливо додати книгу до закладок";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -324,6 +342,12 @@ class BookLocalization_uk extends BookLocalization {
         return abandoned;
       case 'saveBook':
         return saveBook;
+      case 'popularBooks':
+        return popularBooks;
+      case 'cantLike':
+        return cantLike;
+      case 'cantBookmark':
+        return cantBookmark;
       default:
         return super[key];
     }
@@ -517,6 +541,7 @@ class ReportLocalization_uk extends ReportLocalization {
   String get reportDescriptionQuestion =>
       "Будь ласка, надайте детальний опис проблеми, з якою ви зіткнулися. Це допоможе нам ефективно вирішити проблему.";
   String get reportAddedMessage => "Скаргу додано";
+  String get toReport => "Поскаржитись";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -528,6 +553,8 @@ class ReportLocalization_uk extends ReportLocalization {
         return reportDescriptionQuestion;
       case 'reportAddedMessage':
         return reportAddedMessage;
+      case 'toReport':
+        return toReport;
       default:
         return super[key];
     }

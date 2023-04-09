@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pub_sub.dart';
@@ -12,6 +14,7 @@ import 'package:client/src/features/localization/domain/localization.i69n.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,6 +37,8 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
   ChapterScreenController get cont => ref.watch(chapterScreenControllerProvider(widget.chapterId).notifier);
   AsyncValue<ChapterScreenState> get state => ref.watch(chapterScreenControllerProvider(widget.chapterId));
   Localization get ll => ref.watch(currentLocalizationProvider);
+
+  final focusNode = FocusNode();
 
   void onEdit() {
     printWarning('onEditChapter');
@@ -112,8 +117,20 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                       style: Theme.of(context).textTheme.headlineMedium
                     ),
                     h8gap,
-                    Text(state.chapter.content, 
-                      style: Theme.of(context).textTheme.bodyLarge
+                    QuillEditor(
+                      padding: const EdgeInsets.all(0),
+                      controller: QuillController.basic()
+                        ..document = state.chapter.content.isNotEmpty 
+                          ? Document.fromJson(
+                            jsonDecode(state.chapter.content)
+                          ) 
+                          : Document.fromDelta(Delta()..insert("<< no data >>\n")),
+                      expands: false,
+                      focusNode: focusNode,
+                      autoFocus: false,
+                      scrollable: false,
+                      scrollController: ScrollController(),
+                      readOnly: true
                     )
                   ]
                 ),

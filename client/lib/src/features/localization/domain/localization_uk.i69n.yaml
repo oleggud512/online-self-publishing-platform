@@ -14,12 +14,16 @@ screenTitle:
 auth: 
   email: Email
   password: Пароль
-  signIn: Ввійти
+  signIn: Авторизуватися
   signUp: Зареєструватися
+  signOut: Вийти
   skip: Пропустити
   switchTo(String to): "Перемкнути на $to"
+  blocked: Аккаунт заблоковано
 
 google: Google
+cancel: Відмінити
+send: Відправити
 
 settings:
   changeLanguageLabel: Змінтити мову
@@ -43,8 +47,9 @@ age: 'вік'
 profile: 
   subscribers: 'Підписники'
   subscriptions: 'Підписки'
-  books: 'книги'
+  books: 'Книги'
   noDescriptionPlaceholder: "Без опису..."
+  popularAuthors: 'Популярні автори'
 
 edit: "Редагувати"
 subscribe: "Підписатися"
@@ -62,6 +67,10 @@ book:
   abandoned: "кинуто"
 
   saveBook: "Зберегти книгу"
+
+  popularBooks: "Популярні книги"
+  cantLike: "Неавторизовані користувачі не можуть залишати лайки."
+  cantBookmark: "Неможливо додати книгу до закладок"
 
 chapter:
   firstChapterWarning: Це перша глава.
@@ -93,3 +102,4 @@ notifications:
 report:
   reportDescriptionQuestion: "Будь ласка, надайте детальний опис проблеми, з якою ви зіткнулися. Це допоможе нам ефективно вирішити проблему."
   reportAddedMessage: "Скаргу додано"
+  toReport: "Поскаржитись"

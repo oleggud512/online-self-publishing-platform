@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ll = curLl(context);
+    final ll = curLl(context)!;
     final cont = ref.watch(homeScreenControllerProvider.notifier);
     final state = ref.watch(homeScreenControllerProvider);
 
@@ -30,7 +30,7 @@ class HomeScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(p16),
               child: SeeAllHeader(
-                labelText: 'Popular Books'.hardcoded,
+                labelText: ll.book.popularBooks,
                 onSeeAll: () {
                   context.pushNamed(MyRoute.popularBooks.name);
                 },
@@ -40,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(p16),
               child: SeeAllHeader(
-                labelText: 'Popular Authors'.hardcoded,
+                labelText: ll.profile.popularAuthors,
                 onSeeAll: () {
                   context.pushNamed(MyRoute.popularAuthors.name);
                 },
