@@ -2,6 +2,7 @@ screenTitle:
   home: Головна
   messages: Повідомлення
   books: Книги
+  chapters: Глави
   authors: Автори
   profile: Профіль
   settings: Налаштування
@@ -20,10 +21,21 @@ auth:
   skip: Пропустити
   switchTo(String to): "Перемкнути на $to"
   blocked: Аккаунт заблоковано
+  authenticate: Ввійти в аккаунт
+  gender: Гендер
+  genders:
+    preferNotToSay: Бажаю не вказувати
+    other: Небінарний
+    male: Чоловік
+    female: Жінка
+  age: Вік
 
+saveChanges: Зберегти зміни
 google: Google
 cancel: Відмінити
 send: Відправити
+delete: Видалити
+query: Запит
 
 settings:
   changeLanguageLabel: Змінтити мову
@@ -36,6 +48,12 @@ errors:
   cannotSubscribeYourself: Ви не можете підписатися на себе.
   cantPublish: "Ви не можете опублікувати цю книгу"
   cannotAddComment: "Вам не дозволено додавати коментарі."
+  notFound: Не знайдено
+  unauthenticated: Ви не ввыйшли в аккаунт
+  connectionError: Помилка підключення
+  connectionErrorMessage: Перевірте своє Інтернет зʼєднання
+  cannotSave: "Помилка: Дані не збережено"
+  cannotDelete: "Помилка видалення"
 
 searchPlaceholder: 'введіть запит...'
 
@@ -46,7 +64,9 @@ age: 'вік'
 
 profile: 
   subscribers: 'Підписники'
+  gotSubscribed(String toProfile): "Підписка на ${toProfile}"
   subscriptions: 'Підписки'
+  gotUnsubscribed(String fromProfile): "Ви відписалися від користувача ${fromProfile}"
   books: 'Книги'
   noDescriptionPlaceholder: "Без опису..."
   popularAuthors: 'Популярні автори'
@@ -72,10 +92,35 @@ book:
   cantLike: "Неавторизовані користувачі не можуть залишати лайки."
   cantBookmark: "Неможливо додати книгу до закладок"
 
+  genres: Жанри
+  tags: Піджанри
+
+  addNewBook: Додати нову книгу
+
 chapter:
   firstChapterWarning: Це перша глава.
   lastChapterWarning: Це остання глава.
+  previous: Попередня
+  next: Наступна
+  deleteChapter: Видалити Главу
+  editChapter: Редагувати Главу
+  addChapter: Додати Главу
+  name: Назва
+  noChapters: Глав немає
+  stateChangeFailure(String state): "Не вдалося ${state} главу"
+  stateChangeSuccess(String state): "Глава була успішно ${state}"
 
+
+comments: 
+  nnew: Нові
+  old: Старі
+  popular: Популярні
+
+  answer: Відповісти
+  hide: Сховати
+
+loadMore: Завантажити ще
+save: Зберегти
 status: "статус"
 wantToHide: "Сховати цю книгу?"
 wantToPublish: "Опублікувати?"
@@ -91,7 +136,7 @@ notifications:
     body(Map<String, dynamic> data): '\"${data["book"]}\" схована. Звʼяжіться з адміністрацією через вкладку \"Повідомлення\"'
   reportRejected:
     title: "Вашу скаргу відхилено"
-    body(Map<String, dynamic> data): 'Вашу скаргу на \"${data["subject"]}\" було відхилено. Правила.'
+    body(Map<String, dynamic> data): 'Вашу скаргу на \"${data["subject"]}\" було відхилено. <a href=\"https://example.com\">Правила</a>.'
   subscribed:
     title: 'Новий підписник'
     body(Map<String, dynamic> data): 'Користувач ${data["profile"]} підписався на вас.'

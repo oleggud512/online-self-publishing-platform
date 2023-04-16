@@ -30,20 +30,30 @@ final dioProvider = Provider((ref) {
       });
     },
     onError: (e, handler) {
+      printError('from iterceptor');
       printError(e);
       printError(e.stackTrace);
       printInfo(e.response?.statusCode);
 
       if (e.response?.statusCode == 401) {
-        Utils.showMessage(ref, "Not signed in.");
+        try {
+          Utils.showMessage(ref, "Not signed in.");
+        } catch (e) {
+          printError('nothing much. just can\'t show not signed in message');
+        }
       }
-
-      final code = e.response?.data?['error']['code'];
+      printInfo('something');
+      final code = e.response?.data?['error']?['code'];
       printInfo(code);
       if (code == 'blockedUserAuth') {
-        Utils.showMessage(ref, 'User is blocked');
+        try {
+          Utils.showMessage(ref, 'User is blocked');
+        } catch (e) {
+          printError('cant show blocked message');
+        }
       }
       
+      printError('end from interceptor');
       handler.next(e);
     },
     // onResponse: (response, handler) {

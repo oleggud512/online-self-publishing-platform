@@ -35,7 +35,15 @@ export async function toggleRestriction(
 
 
 export async function getRestrictions(subject: string) {
-  return await Restriction.Model.find({ subject })
+  return await Restriction.Model.aggregate<Restriction.IBase>()
+    .match({
+      $expr: {
+        $eq: [
+          { $toString: "$subject" },
+          String(subject)
+        ]
+      }
+    })
 }
 
 

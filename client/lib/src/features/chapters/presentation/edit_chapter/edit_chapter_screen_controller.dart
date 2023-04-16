@@ -31,12 +31,15 @@ class EditChapterScreenController extends _$EditChapterScreenController {
     }
   }
 
-  set content(String n) =>
-      state = state.copyWith(chapter: state.chapter.copyWith(content: n));
-  set name(String n) =>
-      state = state.copyWith(chapter: state.chapter.copyWith(name: n));
+  set content(String n) {
+    state = state.copyWith.chapter.call(content: n);
+  }
+  set name(String n) {
+    state = state.copyWith.chapter.call(name: n);
+  }
 
   Future<Chapter> save() async {
+    printInfo('chapter before save: ${state.chapter}');
     Chapter chapter = state.chapter.exists()
       ? await chapterRepo.updateChapter(state.chapter)
       : await chapterRepo.addChapter(state.chapter); 

@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/page_list_widget.dart';
@@ -26,7 +27,7 @@ class PopularBooksScreen extends ConsumerWidget {
       .notifier);
     final state = ref.watch(paginationListWidgetControllerProvider(callback!));
     return Scaffold(
-      appBar: AppBar(title: Text('Popular Books'.hardcoded)),
+      appBar: AppBar(title: Text(context.ll!.book.popularBooks)),
       body: state.when(
         data: (books) => PageListWidget(
           paginationController: cont,

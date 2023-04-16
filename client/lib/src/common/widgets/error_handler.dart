@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
+import 'package:client/src/common/widgets/connection_error_screen.dart';
+import 'package:client/src/common/widgets/not_found_error_screen.dart';
+import 'package:client/src/features/auth/presentation/unauthenticated_error_screen.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:client/src/common/log.dart';
 import 'package:go_router/go_router.dart';
 
 class AppException implements Exception { }
@@ -54,27 +56,15 @@ Widget defaultErrorHandler(Object e, StackTrace st) {
   printError('defaultErrorHandler prints an error type: ${e.runtimeType}');
   if (e is NotFoundException) {
     printInfo("NotFoundException handled");
-    return ErrorScreen(
-      message: "Not Found".hardcoded,
-      title: "Not Found".hardcoded,
-    );
+    return const NotFoundErrorScreen();
   }
   else if (e is ConnectionException) {
     printInfo("ConnectionException handled");
-    return ErrorScreen(
-      title: "Connection Error".hardcoded,
-      message: "Check your Internet connection".hardcoded,
-    );
+    return const ConnectionErrorScreen();
   }
   else if (e is UnauthenticatedException) {
     printInfo("UnatuhenticatedException handled in defaultErrorHandler");
-    return ErrorScreen(
-      message: 'Unauthenticated.'.hardcoded,
-      actionMessage: 'Authenticate'.hardcoded,
-      onAction: (context) {
-        context.goNamed(MyRoute.auth.name);
-      }
-    );
+    return const UnauthenticatedErrorScreen();
   }
   return const ErrorScreen();
 }

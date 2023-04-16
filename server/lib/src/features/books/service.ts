@@ -4,7 +4,7 @@ import { ReadingsState } from "../chapters/Chapter"
 import { Bookmarks } from "../linking/Bookmarks"
 import { Likes } from "../linking/Likes"
 import { Profile } from "../profiles/Profile"
-import { Book, IBook } from "./Book"
+import { Book, BookStatus, IBook } from "./Book"
 import { BookAggregationBuilder } from "./book-aggregation-builder"
 import { FilteringSource } from "./FilteringSource"
 import { Filters } from "./Filters"
@@ -116,7 +116,6 @@ export async function addBook(book: IBook, forProfile: string) : Promise<IBook> 
     status: book.status
   })
   const addedBook = await bookToAdd.save()
-  await Profile.findByIdAndUpdate(forProfile, { $inc: { booksCount: 1 } })
   actionService.addBookUpdated({
     actionType: ActionType.addBook, 
     authorId: forProfile, 
@@ -133,7 +132,10 @@ export async function hasBook(profileId: string, bookId: string) {
 
 
 export async function deleteBook(bookId: string, profileId: string) {
-  await Profile.findByIdAndUpdate(profileId, { $inc: { booksCount: -1 } })
+  Book.findById(bookId).exec((_, book) => {
+    if (!book || book.state != ReadingsState.published) return;
+    Profile.findByIdAndUpdate(profileId, { $inc: { booksCount: -1 } }).exec()
+  })
   await Book.findOneAndRemove({ _id: bookId })
   await Likes.deleteMany({ subject: bookId })
   await Report.updateMany({ 
@@ -156,23 +158,27 @@ export async function changeState(bookId: string) : Promise<String> {
   if (!book) {
     throw new AppError(AppErrors.cannotChangeState)
   }
-  const restrictions = await restrictionService.getRestrictions(book!._id)
-  if (restrictions.find(r => r.restriction == Restriction.Name.publishBook)) {
+
+  const bookRestrictions = await restrictionService.getRestrictions(book!._id)
+  if (bookRestrictions.find(r => r.restriction == Restriction.Name.publishBook)) {
     throw new AppError(AppErrors.cannotChangeState)
   }
-
-
-  const author = await Profile.findById(book.author)
-  if (!author || author && author.permissions && !author.permissions.publishBook) {
-    console.log({ cannotChangeState: author })
+  const profileRestrictions = 
+    await restrictionService.getRestrictions(book.author as string);
+  if (profileRestrictions.find(r => r.restriction == Restriction.Name.publishBook && 
+      book.state == ReadingsState.unpublished)) {
     throw new AppError(AppErrors.cannotChangeState)
   }
 
   book.state = book.state == ReadingsState.published 
     ? ReadingsState.unpublished 
     : ReadingsState.published
-  
   await book.save()
+  Profile.updateOne({ _id: book.author }, { 
+    $inc: { 
+      booksCount: book.state == ReadingsState.published ? 1 : -1
+    } 
+  }).exec()
   
   actionService.addBookUpdated({
     actionType: book.state == ReadingsState.published 
@@ -261,7 +267,6 @@ export async function togglePublish(bookId: string, adminId: string, before?: Da
     before
   })
 
-  const book = await Book.findById(bookId)
 
   actionService.addBookUpdated({
     actionType: canPublishBook 
@@ -271,7 +276,11 @@ export async function togglePublish(bookId: string, adminId: string, before?: Da
     authorId: adminId
   })
 
+  const book = await Book.findById(bookId)
+
   if (!canPublishBook && book) {
+    book.state = ReadingsState.unpublished
+    await book.save()
     notificationService.sendBookUnpublishedNotification(book)
   } else if (!book) {
     console.log('CANNOT GET BOOK')

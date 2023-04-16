@@ -37,9 +37,12 @@ class Localization implements i69n.I69nMessageBundle {
   const Localization();
   ScreenTitleLocalization get screenTitle => ScreenTitleLocalization(this);
   AuthLocalization get auth => AuthLocalization(this);
+  String get saveChanges => "Save Changes";
   String get google => "Google";
   String get cancel => "Cancel";
   String get send => "Send";
+  String get delete => "Delete";
+  String get query => "Query";
   SettingsLocalization get settings => SettingsLocalization(this);
   ErrorsLocalization get errors => ErrorsLocalization(this);
   String get searchPlaceholder => "type here...";
@@ -54,6 +57,9 @@ class Localization implements i69n.I69nMessageBundle {
   String get seeAll => "See All";
   BookLocalization get book => BookLocalization(this);
   ChapterLocalization get chapter => ChapterLocalization(this);
+  CommentsLocalization get comments => CommentsLocalization(this);
+  String get loadMore => "Load More";
+  String get save => "Save";
   String get status => "status";
   String get wantToHide => "Want to hide the book?";
   String get wantToPublish => "Want to publish the book?";
@@ -73,12 +79,18 @@ class Localization implements i69n.I69nMessageBundle {
         return screenTitle;
       case 'auth':
         return auth;
+      case 'saveChanges':
+        return saveChanges;
       case 'google':
         return google;
       case 'cancel':
         return cancel;
       case 'send':
         return send;
+      case 'delete':
+        return delete;
+      case 'query':
+        return query;
       case 'settings':
         return settings;
       case 'errors':
@@ -107,6 +119,12 @@ class Localization implements i69n.I69nMessageBundle {
         return book;
       case 'chapter':
         return chapter;
+      case 'comments':
+        return comments;
+      case 'loadMore':
+        return loadMore;
+      case 'save':
+        return save;
       case 'status':
         return status;
       case 'wantToHide':
@@ -133,6 +151,7 @@ class ScreenTitleLocalization implements i69n.I69nMessageBundle {
   String get home => "Home";
   String get messages => "Messages";
   String get books => "Books";
+  String get chapters => "Chapters";
   String get authors => "Authors";
   String get profile => "Profile";
   String get settings => "Settings";
@@ -154,6 +173,8 @@ class ScreenTitleLocalization implements i69n.I69nMessageBundle {
         return messages;
       case 'books':
         return books;
+      case 'chapters':
+        return chapters;
       case 'authors':
         return authors;
       case 'profile':
@@ -187,6 +208,10 @@ class AuthLocalization implements i69n.I69nMessageBundle {
   String get skip => "Skip";
   String switchTo(String to) => "Switch to $to";
   String get blocked => "Account is blocked";
+  String get authenticate => "Authenticate";
+  String get gender => "Gender";
+  GendersAuthLocalization get genders => GendersAuthLocalization(this);
+  String get age => "Age";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -210,6 +235,42 @@ class AuthLocalization implements i69n.I69nMessageBundle {
         return switchTo;
       case 'blocked':
         return blocked;
+      case 'authenticate':
+        return authenticate;
+      case 'gender':
+        return gender;
+      case 'genders':
+        return genders;
+      case 'age':
+        return age;
+      default:
+        return key;
+    }
+  }
+}
+
+class GendersAuthLocalization implements i69n.I69nMessageBundle {
+  final AuthLocalization _parent;
+  const GendersAuthLocalization(this._parent);
+  String get preferNotToSay => "Prefer not to say";
+  String get other => "Other";
+  String get male => "Male";
+  String get female => "Female";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'preferNotToSay':
+        return preferNotToSay;
+      case 'other':
+        return other;
+      case 'male':
+        return male;
+      case 'female':
+        return female;
       default:
         return key;
     }
@@ -251,6 +312,12 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
   String get cannotSubscribeYourself => "Can't subscribe yourself";
   String get cantPublish => "You can't publish this book";
   String get cannotAddComment => "You are not permitted to add comments.";
+  String get notFound => "Not Found";
+  String get unauthenticated => "Unauthenticated";
+  String get connectionError => "Connection Error";
+  String get connectionErrorMessage => "Check your internet connection";
+  String get cannotSave => "Error: Can't save changes";
+  String get cannotDelete => "Error while deleting";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -266,6 +333,18 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
         return cantPublish;
       case 'cannotAddComment':
         return cannotAddComment;
+      case 'notFound':
+        return notFound;
+      case 'unauthenticated':
+        return unauthenticated;
+      case 'connectionError':
+        return connectionError;
+      case 'connectionErrorMessage':
+        return connectionErrorMessage;
+      case 'cannotSave':
+        return cannotSave;
+      case 'cannotDelete':
+        return cannotDelete;
       default:
         return key;
     }
@@ -276,7 +355,9 @@ class ProfileLocalization implements i69n.I69nMessageBundle {
   final Localization _parent;
   const ProfileLocalization(this._parent);
   String get subscribers => "Subscribers";
+  String gotSubscribed(String toProfile) => "Subscribed ${toProfile}";
   String get subscriptions => "Subscriptions";
+  String gotUnsubscribed(String fromProfile) => "${fromProfile} unsubscribed";
   String get books => "books";
   String get noDescriptionPlaceholder => "No description for this user...";
   String get popularAuthors => "Popular Authors";
@@ -289,8 +370,12 @@ class ProfileLocalization implements i69n.I69nMessageBundle {
     switch (key) {
       case 'subscribers':
         return subscribers;
+      case 'gotSubscribed':
+        return gotSubscribed;
       case 'subscriptions':
         return subscriptions;
+      case 'gotUnsubscribed':
+        return gotUnsubscribed;
       case 'books':
         return books;
       case 'noDescriptionPlaceholder':
@@ -317,6 +402,9 @@ class BookLocalization implements i69n.I69nMessageBundle {
   String get popularBooks => "Popular Books";
   String get cantLike => "Unauthorized users can't leave likes.";
   String get cantBookmark => "Can't add the book to bookmarks";
+  String get addNewBook => "Add New Book";
+  String get genres => "Genres";
+  String get tags => "Tags";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -346,6 +434,12 @@ class BookLocalization implements i69n.I69nMessageBundle {
         return cantLike;
       case 'cantBookmark':
         return cantBookmark;
+      case 'addNewBook':
+        return addNewBook;
+      case 'genres':
+        return genres;
+      case 'tags':
+        return tags;
       default:
         return key;
     }
@@ -357,6 +451,17 @@ class ChapterLocalization implements i69n.I69nMessageBundle {
   const ChapterLocalization(this._parent);
   String get firstChapterWarning => "This is the first chapter.";
   String get lastChapterWarning => "This is the last chapter.";
+  String get previous => "Previous";
+  String get next => "Next";
+  String get name => "Name";
+  String get deleteChapter => "Delete Chapter";
+  String get editChapter => "Edit Chapter";
+  String get addChapter => "Add Chapter";
+  String get noChapters => "No Chapters";
+  String stateChangeFailure(String state) =>
+      "The chapter has not been ${state}";
+  String stateChangeSuccess(String state) =>
+      "The chapter has been ${state} successfully";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -368,6 +473,55 @@ class ChapterLocalization implements i69n.I69nMessageBundle {
         return firstChapterWarning;
       case 'lastChapterWarning':
         return lastChapterWarning;
+      case 'previous':
+        return previous;
+      case 'next':
+        return next;
+      case 'name':
+        return name;
+      case 'deleteChapter':
+        return deleteChapter;
+      case 'editChapter':
+        return editChapter;
+      case 'addChapter':
+        return addChapter;
+      case 'noChapters':
+        return noChapters;
+      case 'stateChangeFailure':
+        return stateChangeFailure;
+      case 'stateChangeSuccess':
+        return stateChangeSuccess;
+      default:
+        return key;
+    }
+  }
+}
+
+class CommentsLocalization implements i69n.I69nMessageBundle {
+  final Localization _parent;
+  const CommentsLocalization(this._parent);
+  String get nnew => "New";
+  String get old => "Old";
+  String get popular => "Popular";
+  String get answer => "Answer";
+  String get hide => "Hide";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'nnew':
+        return nnew;
+      case 'old':
+        return old;
+      case 'popular':
+        return popular;
+      case 'answer':
+        return answer;
+      case 'hide':
+        return hide;
       default:
         return key;
     }

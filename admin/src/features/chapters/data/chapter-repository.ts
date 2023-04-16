@@ -10,6 +10,7 @@ export class ChapterRepository {
     })
     const json = await resp.json()
     console.log({getChapter: json})
+    if (json.error) throw json.error
     const chapter = new Chapter(json.data)
     return chapter
   }

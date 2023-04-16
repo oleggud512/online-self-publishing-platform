@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
@@ -76,19 +77,35 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
         showDialog(
           context: context, 
           builder: (context) {
-            return AlertDialog(title: Text("Was not able to ${state.chapter.isPublished ? 'publish' : 'unpublish'}."));
+            return AlertDialog(
+              title: 
+                Text(
+                  context.ll!.chapter.stateChangeFailure(
+                    state.chapter.isPublished 
+                      ? context.ll!.book.published 
+                      : context.ll!.book.unpublished
+                  )
+                )
+            );
           }
         );
       } else {
         ref.watch(pubSub.notifier).push(ChapterUpdatedEvent(state.chapter));
         printInfo(newState);
-        Utils.showMessagew(ref, "${state.chapter.isPublished ? 'Published' : 'Unpublished'} successfully.");
+        Utils.showMessagew(ref, context.ll!.chapter.stateChangeFailure(
+          state.chapter.isPublished 
+            ? context.ll!.book.published 
+            : context.ll!.book.unpublished
+        ));
       }
     });
   }
 
   Future<void> onChangeName(String newName) async {
-    debouncer.debounce(() => cont.name = newName);
+    debouncer.debounce(() {
+      printInfo(newName);
+      cont.name = newName;
+    });
   }
 
   Future<void> onChangeContent(String newContent) async {
@@ -107,7 +124,7 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
       }
     } catch (e) {
       printError(e);
-      Utils.showMessagew(ref, "Error saving chapter".hardcoded);
+      Utils.showMessagew(ref, context.ll!.errors.cannotSave);
     }
   }
 
@@ -120,7 +137,7 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
         context.pop();
       }
     } catch (e) {
-      Utils.showMessagew(ref, "Error deleting chapter".hardcoded);
+      Utils.showMessagew(ref, context.ll!.errors.cannotDelete);
     }
   }
 
@@ -139,7 +156,7 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
     final state = this.state;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Chapter'.hardcoded),
+        title: Text(context.ll!.chapter.editChapter),
         actions: [
           if (state.chapter.exists()) PopupMenuButton(
             itemBuilder: (context) {
@@ -147,12 +164,12 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
                 PopupMenuItem(
                   onTap: onToggleState,
                   child: state.chapter.isPublished 
-                    ? Text('unpublish'.hardcoded)
-                    : Text('publish'.hardcoded),
+                    ? Text(context.ll!.book.unpublish)
+                    : Text(context.ll!.book.publish),
                 ),
                 PopupMenuItem(
                   onTap: onDeleteThisChapter,
-                  child: Text("delete chapter".hardcoded)
+                  child: Text(context.ll!.chapter.deleteChapter)
                 )
               ];
             },
@@ -170,7 +187,7 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
               onChanged: onChangeName,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Chapter Name'.hardcoded,
+                hintText: context.ll!.chapter.name,
               ),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
@@ -208,7 +225,7 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
         padding: const EdgeInsets.all(p8),
         child: FilledButton.icon(
           icon: const Icon(Icons.check),
-          label: Text("save".hardcoded),
+          label: Text(context.ll!.save),
           onPressed: onSave,
         ),
       ),

@@ -52,15 +52,20 @@ export function withBookmarked(forProfile?: string) : LookupPipeline {
 export function filterBooks(filters: Filters) : LookupPipeline {
   console.log(filters)
   return [
-    ...filters.query ? [{ 
-      $search: {
-        "index": "search_books", 
-        "autocomplete": { 
-          "query": filters.query,
-          "path": "name", 
-        } 
-    }
-    }] : [],
+    // ...filters.query ? [{ 
+    //   $search: {
+    //     "index": "search_books", 
+    //     "autocomplete": { 
+    //       "query": filters.query,
+    //       "path": "name", 
+    //     } 
+    // }
+    // }] : [],
+    {
+      $match: {
+        name: { $regex: new RegExp(filters.query!, "i") }
+      }
+    },
     { 
       $match: {
         $and: [

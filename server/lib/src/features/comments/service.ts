@@ -14,6 +14,7 @@ import { Restriction } from "../restrictions/Restriction";
 import { CommentSubjects } from "./CommentSubjects";
 import { Book, IBook } from "../books/Book";
 import { IChapter } from "../chapters/Chapter";
+import { promise } from "../../common/error-handling";
 
 export async function getComments(
   args: {
@@ -40,7 +41,8 @@ export async function getComments(
       .comments(subjectId, sorting ?? 'new', forProfile, full)
       .page(from, pageSize)
   }
-  const comments = await builder.build()
+  const [comments, error] = await promise(builder.build().exec())
+  if (error) throw error
   console.log(comments)
   return comments
 }
@@ -153,6 +155,8 @@ export async function deleteComment(commentId: string, profileId: string) {
   if (!canEditComment(commentToDelete, profileId)) {
     return false
   }
+
+  console.log({ commentToDelete })
 
   // decrement comment count
   const book = await getCommentBook(commentId)

@@ -205,7 +205,7 @@ export async function sendCommentAnswerNotification(
     data: {
       notificationType: NotificationType.commentAnswer,
       profile: receiver.name,
-      subject: comment.subject as string,
+      subject: comment.subject.toString(),
       subjectName: comment.subjectName,
       depth: comment.depth.toString()
     }

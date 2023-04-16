@@ -19,12 +19,11 @@ export async function getChapter(req: Request, res: Response, next: NextFunction
   const forProfile = res.locals.uid
   const chapterId = req.params.id
 
-  chaptersService.getChapter(chapterId, forProfile)
-    .then(chapter => {
-      res.json({ data: chapter })
-    })
-    .catch(next)
-
+  const [ chapter, error ] = 
+    await promise(chaptersService.getChapter(chapterId, forProfile))
+  
+  if (error) return next(error)
+  return res.json({ data: chapter })
 }
 
 export async function getChapterNavigation(
@@ -49,6 +48,8 @@ export async function addChapter(req: Request, res: Response, next: NextFunction
     content: req.body.content,
     name: req.body.name
   }
+
+  console.log({NEW_CHAPTER_DATA: newChapterData})
 
   chaptersService.addChapter(bookId, whoTriesToAddChapter, newChapterData)
     .then(chapter => {

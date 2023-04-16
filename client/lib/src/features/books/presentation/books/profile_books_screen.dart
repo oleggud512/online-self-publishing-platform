@@ -54,7 +54,7 @@ class ProfileBooksScreen extends ConsumerWidget {
             );
           }, 
           icon: const Icon(Icons.add),
-          label: Text('Add new book'.hardcoded)
+          label: Text(ll.book.addNewBook)
         ) 
         : null,
     );

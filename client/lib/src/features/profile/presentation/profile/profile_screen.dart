@@ -133,14 +133,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         //     profile.name);
         return Scaffold(
           appBar: AppBar(
-            leading: GoRouter.of(context).location.contains('profiles'.hardcoded) 
+            leading: GoRouter.of(context).location.contains(MyRoute.profiles.name) 
               ? const BackButton()
               : const MenuButtonLeading(),
             actions: [
               PopupMenuButton(
                 itemBuilder: (context) => [PopupMenuItem(
                   onTap: onReport,
-                  child: Text('report'.hardcoded)
+                  child: Text(ll.report.toReport)
                 )]
               )
             ],

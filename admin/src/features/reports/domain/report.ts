@@ -215,7 +215,22 @@ export class Action implements Entity, Owned {
 // в Action есть author. Если actionType == updateProfile, то это значит 
 // что профиль автора этого Action был обновлен
 export class ProfileAction extends Action {
-  constructor(data: any) { super(data) }
+  profile: {
+    _id: string
+    name: string
+  }
+
+  constructor(data: any) { 
+    super(data) 
+    if (!data.profile) {
+      this.profile = {
+        _id: "no",
+        name: "no"
+      }
+      return
+    }
+    this.profile = data.profile
+  }
 }
 
 
@@ -237,6 +252,13 @@ export class BookAction extends Action {
 
   constructor(data: any) {
     super(data)
+    if (!data.book) {
+      this.book = {
+        _id: "no",
+        name: "&lt;&lt;deleted bookj&gt;&gt;"
+      }
+      return
+    }
     this.book = data.book
   }
 }
@@ -250,6 +272,13 @@ export class ChapterAction extends BookAction {
 
   constructor(data: any) {
     super(data)
+    if (!data.chapter) {
+      this.chapter = {
+        _id: "no",
+        name: "&lt;&lt;deleted chapter&gt;&gt"
+      }
+      return
+    }
     this.chapter = data.chapter
   }
 }

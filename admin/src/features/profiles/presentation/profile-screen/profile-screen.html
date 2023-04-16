@@ -8,32 +8,32 @@
       <section if.bind="profile" class="col-12 col-md-8 col-lg-9 d-flex flex-column">
         <h2>${profileName}</h2>
         <p if.bind="profile.description" class="text-muted">${profile.description}</p>
-        <p><strong>Subscribers: </strong>${profile.subscribers}</p>
-        <p><strong>Books: </strong>${profile.bookCount}</p>
+        <p><strong>${t('subscribers')}: </strong>${profile.subscribers}</p>
+        <p><strong>${t('books')}: </strong>${profile.bookCount}</p>
         <div>
           <button 
             class="btn"
             class.bind="blocked ? 'btn-secondary' : 'btn-danger'"
             click.delegate="toggleBlocked()">
-            ${blocked ? 'unblock user' : 'block user'}
+            ${blocked ? t('unblockProfile') : t('blockProfile')}
           </button>
           <button 
             class="btn" class.bind="permissions && permissions.publishBook ? 'btn-danger' : 'btn-secondary'" 
             click.delegate="togglePublishBook()" disabled.bind="!permissions">
-            ${permissions.publishBook ? 'forbid to publish books' : 'allow the publication of books'}
+            ${permissions.publishBook ? t('restrictPublishmentMessage') : t('allowPublishmentMessage')}
           </button>
           <button 
             class="btn" class.bind="permissions && permissions.addComment ? 'btn-danger' : 'btn-secondary'" 
             click.delegate="toggleAddComment()" disabled.bind="!permissions">
-            ${permissions.addComment ? 'disallow adding comments' : 'allow adding comments'}
+            ${permissions.addComment ? t('restrictAddComment') : t('allowAddComment')}
           </button>
         </div>
       </section>
 
       <section class="d-flex flex-column gap-3">
-        <h3>Reports</h3>
+        <h3>${t('userReports', { name: profile.name })}</h3>
         <report-item repeat.for="report of profile.reports" report.bind="report"></report-item>
-        <h3>Reported</h3>
+        <h3>${t('onUserReports', { name: profile.name })}</h3>
         <report-item repeat.for="report of profile.reported" report.bind="report"></report-item>
       </section>
     </div>

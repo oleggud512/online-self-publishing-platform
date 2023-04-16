@@ -7,7 +7,7 @@ part of 'author_widget_controller.dart';
 // **************************************************************************
 
 String _$authorWidgetControllerHash() =>
-    r'76427142407a8049f796385011994379b8e01d32';
+    r'b61dd0b613c74d462775ac85a01247ab72c3da4a';
 
 /// Copied from Dart SDK
 class _SystemHash {

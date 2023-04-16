@@ -1,6 +1,6 @@
 import express = require("express")
 import { isAuthenticated } from "../auth/authenticated"
-import { isAuthorized, isAuthorizedAdmin } from "../auth/authorized"
+import { isAuthorizedAdmin } from "../auth/authorized"
 import * as reportsController from "./controller"
 
 const router = express.Router()

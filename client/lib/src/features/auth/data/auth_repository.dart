@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../common/widgets/error_handler.dart';
+import '../../../shared/constants.dart';
 import '../../../shared/dio.dart';
 import '../../profile/domain/profile.dart';
 
@@ -51,15 +52,15 @@ class AuthRepository {
     required Profile newProfile
   }) async {
     final auth = await acc.authentication;
-    final resp = await _dio.post('auth/google',
+    final resp = await _dio.post(Str.dio.googleAuth,
         data: newProfile.toJson()
           ..addAll({
-            "idToken".hardcoded: auth.idToken,
-            "accessToken".hardcoded: auth.accessToken
+            Str.dio.idToken: auth.idToken,
+            Str.dio.accessToken: auth.accessToken
           }));
     final creds = GoogleAuthProvider.credential(
-        idToken: resp.data['data']['idToken'],
-        accessToken: resp.data['data']['accessToken']);
+        idToken: resp.data[Str.dio.data][Str.dio.idToken],
+        accessToken: resp.data[Str.dio.data][Str.dio.accessToken]);
     return await FirebaseAuth.instance.signInWithCredential(creds);
   }
 
@@ -76,14 +77,15 @@ class AuthRepository {
     required String password,
     required Profile newProfile
   }) async {
-    final resp = await _dio.post('auth/password',
+    final resp = await _dio.post(Str.dio.passwordAuth,
       data: newProfile.toJson()
         ..addAll({
-          "email".hardcoded: email,
-          "password".hardcoded: password
+          Str.dio.email: email,
+          Str.dio.password: password
         })
     );
-    return await FirebaseAuth.instance.signInWithCustomToken(resp.data['data']['customToken']);
+    return await FirebaseAuth.instance.signInWithCustomToken(
+      resp.data[Str.dio.data][Str.dio.customToken]);
   }
 
   Future<void> signOut() async {

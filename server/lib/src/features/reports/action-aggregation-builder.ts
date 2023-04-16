@@ -8,6 +8,7 @@ export class ActionAggregationBuilder extends BaseAggregationBuilder {
     super(Action)
   }
 
+  // for the regular user.
   messages(reportId: string) {
     this.aggregation.append(
       {

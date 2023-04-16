@@ -1,5 +1,7 @@
 import 'package:client/src/common/hardcoded.dart';
+import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +24,8 @@ class AuthorWidgetController extends _$AuthorWidgetController {
     final subscribedSuccessfully = await profileRepo.subscribe(state.id);
     if (subscribedSuccessfully) {
       state = state.setSubscribed(true);
-      ref.watch(scaffoldMessangerStateProvider).showMessage('Subscribed ${profile.name}'.hardcoded);
+      Utils.showMessage(ref, ref.watch(currentLocalizationProvider)
+        .profile.gotSubscribed(profile.name));
     }
     printInfo(state);
   }
@@ -30,7 +33,8 @@ class AuthorWidgetController extends _$AuthorWidgetController {
   Future<void> unsubscribe() async {
     await profileRepo.unsubscribe(state.id);
     state = state.setSubscribed(false);
-    ref.watch(scaffoldMessangerStateProvider).showMessage('${profile.name} unsubscribed'.hardcoded);
+    Utils.showMessage(ref, ref.watch(currentLocalizationProvider)
+      .profile.gotUnsubscribed(profile.name));
     printInfo(state);
   }
 

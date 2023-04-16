@@ -1,6 +1,6 @@
 <template>
   <require from="../../../comments/presentation/comments/comments-component"></require>
-  <div class="container p-3">
+  <div class="container p-3" if.bind="chapter">
     <div class="pb-3">
       <a href="javascript:void(0)" click.delegate="onBookClicked()">
         ${chapter.book.name}
@@ -10,5 +10,8 @@
     </div>
     
     <comments-component subject-id.bind="chapterId"></comments-component>
+  </div>
+  <div else>
+    <h5>${t('noChapter')}</h5>
   </div>
 </template>

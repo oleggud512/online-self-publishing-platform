@@ -24,12 +24,12 @@ export async function addMessage(args: {
 
 export async function addProfileUpdated(args: {
   actionType: string
+  authorId: string // обновлять профиль может только сам автор action'а (и админ тоже может.)
   profileId: string
-  authorId: string // обновлять профиль может только сам автор action'а
 }) {
   const reports = await Report.find({ 
     state: ReportState.inProgress, 
-    defendant: args.authorId // потому что эти actions могут быть отправлены не только в Profile reports но и в book. Поэтому я не использую просто subject: args.profileId
+    defendant: args.profileId // потому что эти actions могут быть отправлены не только в Profile reports но и в book. Поэтому я не использую просто subject: args.profileId
   })
   var actions = []
   for (var rep of reports) {
@@ -79,7 +79,7 @@ export async function addBookUpdated(args: {
   const reports = await Report.find({ 
     $and: [
       {
-          $or: [ 
+        $or: [ 
           { subject: authorId }, 
           { subject: new Types.ObjectId(bookId) } 
         ]

@@ -67,6 +67,7 @@ class ChapterRepository {
   }
   
   Future<Chapter> addChapter(Chapter newChapter) async {
+    printInfo(newChapter);
     final resp = await _dio.post(Str.dio.chapters, data: newChapter.toJson());
     final createdChapter = Chapter.fromJson(resp.data[Str.dio.data]);
     return createdChapter;

@@ -1,5 +1,6 @@
 import { PopulateOptions } from "mongoose";
 import { Constants } from "../../shared/Constants";
+import { Chapter } from "../chapters/Chapter";
 
 
 export const smallReportPopulateOptions: PopulateOptions[] = [
@@ -27,8 +28,8 @@ export const smallReportPopulateOptions: PopulateOptions[] = [
 export const actionPopulateOptions: PopulateOptions[] = [
   { path: "author", select: Constants.profileSelectMin },
   { path: "profile", select: Constants.profileSelectMin },
-  { path: "chapter", select: "_id name" },
   { path: "book", select: "_id name" },
+  { path: "chapter", select: "_id name", model: Chapter },
 ]
 
 

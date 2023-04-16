@@ -7,7 +7,7 @@ part of 'edit_chapter_screen_controller.dart';
 // **************************************************************************
 
 String _$editChapterScreenControllerHash() =>
-    r'cb487004987fb770f903209bd30ca171fe8217bd';
+    r'85821e1135231c7ae245075bfd3330c4ef64a3e3';
 
 /// Copied from Dart SDK
 class _SystemHash {

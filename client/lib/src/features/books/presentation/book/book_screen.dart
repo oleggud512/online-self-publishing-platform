@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
@@ -256,13 +257,13 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                 Padding(
                   padding: const EdgeInsets.all(p16),
                   child: SeeAllHeader(
-                    labelText: 'Chapters'.hardcoded,
+                    labelText: context.ll!.screenTitle.chapters,
                     onSeeAll: onShowChapters,
                   ),
                 ),
                 ...book.chapters?.map((ch) => ChapterWidget(chapter: ch)).toList() ?? [
                   ListTile(
-                    title: Text("no chapters")
+                    title: Text(ll.chapter.noChapters)
                   )
                 ],
                 Padding(

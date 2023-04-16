@@ -43,9 +43,10 @@ export class ReportItem {
 
   get actionName() {
     switch (this.report.state) {
-      case (ReportState.pending): return this.t("take")
-      case (ReportState.inProgress): return this.t("close")
-      case (ReportState.closed): return this.t("turnBack")
+      case ReportState.pending: return this.t("take")
+      case ReportState.inProgress: return this.t("close")
+      case ReportState.rejected:
+      case ReportState.closed: return this.t("turnBack")
     }
   }
 
@@ -63,7 +64,9 @@ export class ReportItem {
       case ReportState.inProgress:
         this.report = await this.reportRepo.closeReport(this.report._id)
         break
+      case ReportState.rejected:
       case ReportState.closed:
+        console.log(this.report)
         this.report = await this.reportRepo.openReport(this.report._id)
         break
     }

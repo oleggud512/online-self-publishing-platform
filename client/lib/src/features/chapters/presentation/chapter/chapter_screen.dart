@@ -140,14 +140,14 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: onPrevious,
-                      child: Text("Previous".hardcoded),
+                      child: Text(ll.chapter.previous),
                     ),
                   ),
                   w16gap,
                   Expanded(
                     child: FilledButton(
                       onPressed: onNext,
-                      child: Text("Next".hardcoded),
+                      child: Text(ll.chapter.next),
                     ),
                   )
                 ]

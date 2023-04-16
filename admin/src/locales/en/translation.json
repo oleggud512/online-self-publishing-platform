@@ -25,6 +25,8 @@
     "old": "Old",
     "popular": "Popular",
 
+    "deleteComment": "Comment deleted",
+
     "updateProfile": "{{name}} has been updated.",
     "allowPublishBook": "User {{name}} is allowed to publish books.",
     "restrictPublishBook": "User {{name}} is not allowed to publish books.",  
@@ -63,5 +65,31 @@
     "reportsOf": "Report subject",
     "owner": "Owner",
 
-    "chapters": "Chapters"
+    "chapters": "Chapters",
+    "noChapter": "Chapter does not exist",
+
+    "loadMore": "Load More",
+
+    "restrictBookPublishMessage": "Unpublish and restrict publishment",
+    "allowBookPublishMessage": "Allow book publishment",
+
+    "restrictPublishmentMessage": "Restrict the publication of books",
+    "allowPublishmentMessage": "Allow the publication of books",
+
+    "blockProfile": "Block",
+    "unblockProfile": "Unblock",
+
+    "restrictAddComment": "Disallow adding comments",
+    "allowAddComment": "Allow adding comments",
+
+    "subscribers": "Subscribers",
+
+    "userReports": "Reported by {{name}}",
+    "onUserReports": "Reports of {{name}}",
+
+    "likes": "Likes",
+    "genres": "Genres", 
+    "tags": "Tags",
+    "author": "Author"
+
 }

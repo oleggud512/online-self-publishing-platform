@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../common/app-error";
 import { promise } from "../../common/error-handling";
-import { parseBool } from "../../common/parse-bool";
 import { parsePaginationQuery } from "../../common/parse-pagination-query";
 import { AppErrors } from "../../shared/errors";
 import { Sorting } from "../comments/Sorting";
-
 import * as reportService from "./service";
+
 
 export async function getTypes(
   req: Request,
@@ -22,6 +21,7 @@ export async function getTypes(
     })
     .catch(next);
 }
+
 
 export async function addReport(
   req: Request,
@@ -55,6 +55,7 @@ export async function addReport(
     .catch(next);
 }
 
+
 export async function getReports(
   req: Request,
   res: Response,
@@ -86,6 +87,7 @@ export async function getReports(
     .catch(next);
 }
 
+
 export async function getReport(
   req: Request,
   res: Response,
@@ -101,6 +103,7 @@ export async function getReport(
     .catch(next);
 }
 
+
 export async function takeReport(
   req: Request,
   res: Response,
@@ -115,6 +118,7 @@ export async function takeReport(
   if (error) return next(error);
   return res.json({ data: report });
 }
+
 
 export async function closeReport(
   req: Request,
@@ -158,6 +162,7 @@ export async function rejectReport(
   return res.json({ data: report });
 }
 
+
 export async function addMessageAction(
   req: Request,
   res: Response,
@@ -175,6 +180,7 @@ export async function addMessageAction(
   return res.json({ data: message });
 }
 
+
 export async function getChats(
   req: Request,
   res: Response,
@@ -189,6 +195,7 @@ export async function getChats(
   if (error) return next(error);
   return res.json({ data: chats });
 }
+
 
 export async function getMessages(
   req: Request,

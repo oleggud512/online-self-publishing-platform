@@ -46,7 +46,7 @@ export function configureRouter(config: RouterConfiguration, router: Router) {
       route: 'messages',
       name: MyRoute.messages,
       moduleId: PLATFORM.moduleName("./features/messages/presentation/messages/messages-screen"),
-      nav: true,
+      // nav: true,
       title: 'Messages',
     },
     {

@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_widget/edit_profile_widget_controller.dart';
@@ -76,7 +77,7 @@ class _EditProfileWidgetState extends ConsumerState<EditProfileWidget> {
           maxLength: 80,
           initialValue: profile.name,
           decoration: InputDecoration(
-            labelText: "name".hardcoded,
+            labelText: context.ll!.name,
           ),
           onChanged: nameChanged,
           validator: (s) {
@@ -93,7 +94,7 @@ class _EditProfileWidgetState extends ConsumerState<EditProfileWidget> {
           initialValue: profile.displayName,
           maxLength: 80,
           decoration: InputDecoration(
-            labelText: "display name".hardcoded,
+            labelText: context.ll!.displayName,
           ),
           onChanged: (newV) {
             cont.displayName = newV;
@@ -109,7 +110,7 @@ class _EditProfileWidgetState extends ConsumerState<EditProfileWidget> {
                 maxLength: 3,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: "age".hardcoded,
+                  labelText: context.ll!.auth.age,
                 ),
                 onChanged: (newV) {
                   cont.age = int.tryParse(newV, radix: 10);
@@ -120,26 +121,26 @@ class _EditProfileWidgetState extends ConsumerState<EditProfileWidget> {
             Expanded(
               child: DropdownButtonFormField<Gender>(
                 decoration: InputDecoration(
-                  labelText: "gender".hardcoded,
+                  labelText: context.ll!.auth.gender,
                 ),
                 isExpanded: true,
                 value: profile.gender,
                 items: [
                   DropdownMenuItem<Gender>(
                     value: Gender.preferNotToSay,
-                    child: Text("prefer not to say".hardcoded),
+                    child: Text(context.ll!.auth.genders.preferNotToSay),
                   ),
                   DropdownMenuItem<Gender>(
                     value: Gender.other,
-                    child: Text("other".hardcoded),
+                    child: Text(context.ll!.auth.genders.other),
                   ),
                   DropdownMenuItem<Gender>(
                     value: Gender.m,
-                    child: Text("male".hardcoded),
+                    child: Text(context.ll!.auth.genders.male),
                   ),
                   DropdownMenuItem<Gender>(
                     value: Gender.f,
-                    child: Text("female".hardcoded),
+                    child: Text(context.ll!.auth.genders.female),
                   ),
                 ], 
                 onChanged: (newV) {

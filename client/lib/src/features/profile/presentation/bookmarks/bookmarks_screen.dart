@@ -1,4 +1,4 @@
-import 'package:client/src/common/hardcoded.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -20,7 +20,7 @@ class BookmarksScreen extends ConsumerWidget {
     final cont = ref.watch(bookmarksScreenControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: Text('bookmarks'.hardcoded)
+        title: Text(context.ll!.screenTitle.bookmarks)
       ),
       body: state.when(
         data: (books) => PageListWidget(

@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
@@ -28,7 +29,7 @@ class PopularAuthorsScreen extends ConsumerWidget {
       ref.watch(paginationListWidgetControllerProvider(callback!).notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Popular Authors'.hardcoded)),
+      appBar: AppBar(title: Text(context.ll!.profile.popularAuthors)),
       body: state.when(
         data: (authors) => PageListWidget(
           paginationController: cont,

@@ -10,6 +10,7 @@ import 'package:client/src/features/notifications/data/notification_service.dart
 import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
+import 'package:client/src/shared/err.dart';
 import 'package:client/src/shared/sembast.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,25 +44,22 @@ void main(List<String> arguments) async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final token = 
-    await container.read(authRepositoryProvider).currentUser?.getIdToken(true);
-
   await NotificationService.requestPermissions();
   await NotificationService.init();
 
   try {
-    if (token != null) {
-      await NotificationService.syncToken(container.read(dioProvider));
-    }
-  } on DioError catch (e) {
-    if (e.response?.data['error']['code'] == 'blockedUserAuth') {
-      container.read(routerProvider).goNamed(MyRoute.blocked.name);
-    }  
+    await container.read(authRepositoryProvider).currentUser?.getIdToken(true);
+    printInfo('try');
+    await NotificationService.syncToken(container.read(dioProvider));
+  } on BlockedAppError catch (_) {
+    container.read(routerProvider).goNamed(MyRoute.blocked.name);
   } on FirebaseAuthException catch (e) {
     printInfo(e.code);
-    if (e.code == 'firebase_auth/user-token-expired') {
+    if (e.code.startsWith('auth/id-token')) {
       container.read(routerProvider).goNamed(MyRoute.blocked.name);
     }
+  } catch (e) {
+    printError('BLOCKED BLOCKED');
   }
   
   runApp(UncontrolledProviderScope(

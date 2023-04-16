@@ -126,7 +126,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
               foregroundColor: Theme.of(context).colorScheme.error
             ),
             onPressed: onDelete,
-            child: Text("delete".hardcoded),
+            child: Text(ll.delete),
           ),
           // Text(Utils.prettyJson(state.toJson())),
           const SizedBox(height: p72)

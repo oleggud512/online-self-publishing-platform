@@ -1,6 +1,6 @@
 import { bindable, autoinject } from "aurelia-framework"
 import { Router } from "aurelia-router"
-import { Action, BookAction, ChapterAction, MessageAction, ProfileAction } from "features/reports/domain/report"
+import { Action, ActionType, BookAction, ChapterAction, MessageAction, ProfileAction } from "features/reports/domain/report"
 import i18next from "i18next"
 import * as dpf from "dompurify"
 import { MyRoute } from "router"
@@ -24,11 +24,13 @@ export class ActionItem {
     var text: string
 
     if (this.action instanceof MessageAction) {
-      text = this.action.content
+      text = this.action.actionType == ActionType.deleteComment 
+        ? this.t(ActionType.deleteComment)
+        : this.action.content
       this.markColor = 'message'
     } else if (this.action instanceof ProfileAction) {
       text = this.t(this.action.actionType, { 
-        name: `<a href="${this.router.generate(MyRoute.profile, { id: this.action.author._id })}">${this.action.author.name}</a>`
+        name: `<a href="${this.router.generate(MyRoute.profile, { id: this.action.profile._id })}">${this.action.profile.name}</a>`
       })
       this.markColor = 'profile'
     } else if (this.action instanceof ChapterAction) {

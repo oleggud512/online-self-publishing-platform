@@ -76,6 +76,7 @@ export class ReportsScreen {
       this.reports = state.reports;
       // console.log({reports: this.reports})
       window.scrollTo(0, state.scrollPos);
+      this.filters.state = state.state;
     } else {
       this.refresh().then(() => console.log(this.reports));
     }
@@ -89,7 +90,7 @@ export class ReportsScreen {
     const reportsUrl = this.router.generate(MyRoute.reports);
     console.log(report);
     history.pushState(
-      { reports: this.reports, scrollPos: window.scrollY },
+      { reports: this.reports, scrollPos: window.scrollY, state: this.filters.state },
       "",
       reportsUrl
     );

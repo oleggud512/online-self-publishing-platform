@@ -69,10 +69,15 @@ export class CommentsComponentCustomElement {
   }
   async refresh() {
     nprog.start()
-    this.comments = await this.commentRepo.getComments(this.subjectId, { 
-      sorting: this.sorting,
-      pageSize: this.pageSize
-    })
+    try {
+      this.comments = await this.commentRepo.getComments(this.subjectId, { 
+        sorting: this.sorting,
+        pageSize: this.pageSize
+      })
+    } catch (e) {
+      console.log('error while fetching comments. Do something with it.')
+      console.log({theError: e})
+    }
     nprog.done()
   }
 

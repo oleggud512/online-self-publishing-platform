@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/comments/data/comment_repository.dart';
@@ -29,6 +30,7 @@ class CommentsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cont = ref.watch(commentsWidgetControllerProvider(subjectId, subjectName).notifier);
     final state = ref.watch(commentsWidgetControllerProvider(subjectId, subjectName));
+    final ll = context.ll!;
 
     return state.when(
       data: (state) {
@@ -47,15 +49,15 @@ class CommentsWidget extends ConsumerWidget {
                 segments: [
                   ButtonSegment(
                     value: CommentsSorting.nnew,
-                    label: Text("new".hardcoded)
+                    label: Text(ll.comments.nnew)
                   ),
                   ButtonSegment(
                     value: CommentsSorting.old,
-                    label: Text("old".hardcoded)
+                    label: Text(ll.comments.old)
                   ),
                   ButtonSegment(
                     value: CommentsSorting.popular,
-                    label: Text("popular".hardcoded)
+                    label: Text(ll.comments.popular)
                   ),
                 ],
               ),
@@ -74,7 +76,9 @@ class CommentsWidget extends ConsumerWidget {
                     scrollPadding: EdgeInsets.zero,
                     controller: contentController,
                     onChanged: (v) {
-                      debouncer.debounce(() => ref.watch(commentsContentFieldState.notifier).state = v);
+                      debouncer.debounce(
+                        () => ref.watch(commentsContentFieldState.notifier)
+                          .state = v);
                     },
                     maxLength: 1000,
                     maxLines: null,
@@ -94,7 +98,7 @@ class CommentsWidget extends ConsumerWidget {
             ...state.comments.map((c) => CommentWidget(comment: c)).toList(),
             h8gap,
             TextButton(
-              child: Text("Load More".hardcoded),
+              child: Text(ll.loadMore),
               onPressed: () {
                 cont.addPage();
               }

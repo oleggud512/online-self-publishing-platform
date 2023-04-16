@@ -10,10 +10,12 @@ import { Report } from "features/reports/domain/report"
 import * as auth from "firebase/auth"
 import { MyRoute } from "router"
 import * as nprog from "nprogress"
+import i18next from "i18next"
 
 
 @autoinject
 export class ProfileScreen {
+  public t = i18next.t
   profileId: string
   
   profile?: Profile
@@ -73,10 +75,7 @@ export class ProfileScreen {
 
   async toggleBlocked() {
     nprog.start()
-    this.blocked = await this._toggleRestriction(
-      this.blocked, 
-      this.profileRepo.toggleBlocked
-    )
+    this.blocked = await this.profileRepo.toggleBlocked(this.profileId)
     nprog.done()
   }
 

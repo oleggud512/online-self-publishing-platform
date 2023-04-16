@@ -171,7 +171,7 @@ class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
                     Text(book.views.toString(), style: 
                       const TextStyle(color: Colors.grey)
                     ),
-
+                    w4gap,
                     const Icon(Icons.favorite, size: 16, color: Colors.grey),
                     w4gap,
                     Text(book.likes.toString(), 

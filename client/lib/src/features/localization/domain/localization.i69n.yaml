@@ -2,6 +2,7 @@ screenTitle:
   home: Home
   messages: Messages
   books: Books
+  chapters: Chapters
   authors: Authors
   profile: Profile
   settings: Settings
@@ -20,10 +21,21 @@ auth:
   skip: Skip
   switchTo(String to): "Switch to $to"
   blocked: Account is blocked
+  authenticate: Authenticate
+  gender: Gender
+  genders:
+    preferNotToSay: Prefer not to say
+    other: Other
+    male: Male
+    female: Female
+  age: Age
 
+saveChanges: Save Changes
 google: Google
 cancel: Cancel
 send: Send
+delete: Delete
+query: Query
 
 settings:
   changeLanguageLabel: Change Language
@@ -36,6 +48,12 @@ errors:
   cannotSubscribeYourself: "Can't subscribe yourself"
   cantPublish: "You can't publish this book"
   cannotAddComment: "You are not permitted to add comments."
+  notFound: Not Found
+  unauthenticated: Unauthenticated
+  connectionError: Connection Error
+  connectionErrorMessage: Check your internet connection
+  cannotSave: "Error: Can't save changes"
+  cannotDelete: "Error while deleting"
 
 searchPlaceholder: 'type here...'
 
@@ -46,7 +64,9 @@ age: 'age'
 
 profile: 
   subscribers: 'Subscribers'
+  gotSubscribed(String toProfile): "Subscribed ${toProfile}"
   subscriptions: 'Subscriptions'
+  gotUnsubscribed(String fromProfile): "${fromProfile} unsubscribed"
   books: 'books'
   noDescriptionPlaceholder: "No description for this user..."
   popularAuthors: "Popular Authors"
@@ -71,11 +91,34 @@ book:
   popularBooks: "Popular Books"
   cantLike: "Unauthorized users can't leave likes."
   cantBookmark: "Can't add the book to bookmarks"
+  addNewBook: Add New Book
+
+  genres: Genres
+  tags: Tags
 
 chapter:
   firstChapterWarning: This is the first chapter.
   lastChapterWarning: This is the last chapter.
+  previous: Previous
+  next: Next
+  name: Name
+  deleteChapter: Delete Chapter
+  editChapter: Edit Chapter
+  addChapter: Add Chapter
+  noChapters: No Chapters
+  stateChangeFailure(String state): "The chapter has not been ${state}"
+  stateChangeSuccess(String state): "The chapter has been ${state} successfully"
 
+comments: 
+  nnew: New
+  old: Old
+  popular: Popular
+
+  answer: Answer
+  hide: Hide
+
+loadMore: Load More
+save: Save
 status: "status"
 wantToHide: "Want to hide the book?"
 wantToPublish: "Want to publish the book?"

@@ -7,7 +7,7 @@ part of 'book_list_item_widget_controller.dart';
 // **************************************************************************
 
 String _$bookListItemWidgetControllerHash() =>
-    r'f9eb8802ef325bc0722eaa2a8ec7ac64b9d45cda';
+    r'fccf6c979905d677984557f479018d431a9780be';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -39,9 +39,12 @@ class Localization_uk extends Localization {
   ScreenTitleLocalization_uk get screenTitle =>
       ScreenTitleLocalization_uk(this);
   AuthLocalization_uk get auth => AuthLocalization_uk(this);
+  String get saveChanges => "Зберегти зміни";
   String get google => "Google";
   String get cancel => "Відмінити";
   String get send => "Відправити";
+  String get delete => "Видалити";
+  String get query => "Запит";
   SettingsLocalization_uk get settings => SettingsLocalization_uk(this);
   ErrorsLocalization_uk get errors => ErrorsLocalization_uk(this);
   String get searchPlaceholder => "введіть запит...";
@@ -56,6 +59,9 @@ class Localization_uk extends Localization {
   String get seeAll => "Переглянути Всі";
   BookLocalization_uk get book => BookLocalization_uk(this);
   ChapterLocalization_uk get chapter => ChapterLocalization_uk(this);
+  CommentsLocalization_uk get comments => CommentsLocalization_uk(this);
+  String get loadMore => "Завантажити ще";
+  String get save => "Зберегти";
   String get status => "статус";
   String get wantToHide => "Сховати цю книгу?";
   String get wantToPublish => "Опублікувати?";
@@ -75,12 +81,18 @@ class Localization_uk extends Localization {
         return screenTitle;
       case 'auth':
         return auth;
+      case 'saveChanges':
+        return saveChanges;
       case 'google':
         return google;
       case 'cancel':
         return cancel;
       case 'send':
         return send;
+      case 'delete':
+        return delete;
+      case 'query':
+        return query;
       case 'settings':
         return settings;
       case 'errors':
@@ -109,6 +121,12 @@ class Localization_uk extends Localization {
         return book;
       case 'chapter':
         return chapter;
+      case 'comments':
+        return comments;
+      case 'loadMore':
+        return loadMore;
+      case 'save':
+        return save;
       case 'status':
         return status;
       case 'wantToHide':
@@ -135,6 +153,7 @@ class ScreenTitleLocalization_uk extends ScreenTitleLocalization {
   String get home => "Головна";
   String get messages => "Повідомлення";
   String get books => "Книги";
+  String get chapters => "Глави";
   String get authors => "Автори";
   String get profile => "Профіль";
   String get settings => "Налаштування";
@@ -156,6 +175,8 @@ class ScreenTitleLocalization_uk extends ScreenTitleLocalization {
         return messages;
       case 'books':
         return books;
+      case 'chapters':
+        return chapters;
       case 'authors':
         return authors;
       case 'profile':
@@ -189,6 +210,10 @@ class AuthLocalization_uk extends AuthLocalization {
   String get skip => "Пропустити";
   String switchTo(String to) => "Перемкнути на $to";
   String get blocked => "Аккаунт заблоковано";
+  String get authenticate => "Ввійти в аккаунт";
+  String get gender => "Гендер";
+  GendersAuthLocalization_uk get genders => GendersAuthLocalization_uk(this);
+  String get age => "Вік";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -212,6 +237,42 @@ class AuthLocalization_uk extends AuthLocalization {
         return switchTo;
       case 'blocked':
         return blocked;
+      case 'authenticate':
+        return authenticate;
+      case 'gender':
+        return gender;
+      case 'genders':
+        return genders;
+      case 'age':
+        return age;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class GendersAuthLocalization_uk extends GendersAuthLocalization {
+  final AuthLocalization_uk _parent;
+  const GendersAuthLocalization_uk(this._parent) : super(_parent);
+  String get preferNotToSay => "Бажаю не вказувати";
+  String get other => "Небінарний";
+  String get male => "Чоловік";
+  String get female => "Жінка";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'preferNotToSay':
+        return preferNotToSay;
+      case 'other':
+        return other;
+      case 'male':
+        return male;
+      case 'female':
+        return female;
       default:
         return super[key];
     }
@@ -253,6 +314,12 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
   String get cannotSubscribeYourself => "Ви не можете підписатися на себе.";
   String get cantPublish => "Ви не можете опублікувати цю книгу";
   String get cannotAddComment => "Вам не дозволено додавати коментарі.";
+  String get notFound => "Не знайдено";
+  String get unauthenticated => "Ви не ввыйшли в аккаунт";
+  String get connectionError => "Помилка підключення";
+  String get connectionErrorMessage => "Перевірте своє Інтернет зʼєднання";
+  String get cannotSave => "Помилка: Дані не збережено";
+  String get cannotDelete => "Помилка видалення";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -268,6 +335,18 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
         return cantPublish;
       case 'cannotAddComment':
         return cannotAddComment;
+      case 'notFound':
+        return notFound;
+      case 'unauthenticated':
+        return unauthenticated;
+      case 'connectionError':
+        return connectionError;
+      case 'connectionErrorMessage':
+        return connectionErrorMessage;
+      case 'cannotSave':
+        return cannotSave;
+      case 'cannotDelete':
+        return cannotDelete;
       default:
         return super[key];
     }
@@ -278,7 +357,10 @@ class ProfileLocalization_uk extends ProfileLocalization {
   final Localization_uk _parent;
   const ProfileLocalization_uk(this._parent) : super(_parent);
   String get subscribers => "Підписники";
+  String gotSubscribed(String toProfile) => "Підписка на ${toProfile}";
   String get subscriptions => "Підписки";
+  String gotUnsubscribed(String fromProfile) =>
+      "Ви відписалися від користувача ${fromProfile}";
   String get books => "Книги";
   String get noDescriptionPlaceholder => "Без опису...";
   String get popularAuthors => "Популярні автори";
@@ -291,8 +373,12 @@ class ProfileLocalization_uk extends ProfileLocalization {
     switch (key) {
       case 'subscribers':
         return subscribers;
+      case 'gotSubscribed':
+        return gotSubscribed;
       case 'subscriptions':
         return subscriptions;
+      case 'gotUnsubscribed':
+        return gotUnsubscribed;
       case 'books':
         return books;
       case 'noDescriptionPlaceholder':
@@ -319,6 +405,9 @@ class BookLocalization_uk extends BookLocalization {
   String get popularBooks => "Популярні книги";
   String get cantLike => "Неавторизовані користувачі не можуть залишати лайки.";
   String get cantBookmark => "Неможливо додати книгу до закладок";
+  String get genres => "Жанри";
+  String get tags => "Піджанри";
+  String get addNewBook => "Додати нову книгу";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -348,6 +437,12 @@ class BookLocalization_uk extends BookLocalization {
         return cantLike;
       case 'cantBookmark':
         return cantBookmark;
+      case 'genres':
+        return genres;
+      case 'tags':
+        return tags;
+      case 'addNewBook':
+        return addNewBook;
       default:
         return super[key];
     }
@@ -359,6 +454,15 @@ class ChapterLocalization_uk extends ChapterLocalization {
   const ChapterLocalization_uk(this._parent) : super(_parent);
   String get firstChapterWarning => "Це перша глава.";
   String get lastChapterWarning => "Це остання глава.";
+  String get previous => "Попередня";
+  String get next => "Наступна";
+  String get deleteChapter => "Видалити Главу";
+  String get editChapter => "Редагувати Главу";
+  String get addChapter => "Додати Главу";
+  String get name => "Назва";
+  String get noChapters => "Глав немає";
+  String stateChangeFailure(String state) => "Не вдалося ${state} главу";
+  String stateChangeSuccess(String state) => "Глава була успішно ${state}";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {
@@ -370,6 +474,55 @@ class ChapterLocalization_uk extends ChapterLocalization {
         return firstChapterWarning;
       case 'lastChapterWarning':
         return lastChapterWarning;
+      case 'previous':
+        return previous;
+      case 'next':
+        return next;
+      case 'deleteChapter':
+        return deleteChapter;
+      case 'editChapter':
+        return editChapter;
+      case 'addChapter':
+        return addChapter;
+      case 'name':
+        return name;
+      case 'noChapters':
+        return noChapters;
+      case 'stateChangeFailure':
+        return stateChangeFailure;
+      case 'stateChangeSuccess':
+        return stateChangeSuccess;
+      default:
+        return super[key];
+    }
+  }
+}
+
+class CommentsLocalization_uk extends CommentsLocalization {
+  final Localization_uk _parent;
+  const CommentsLocalization_uk(this._parent) : super(_parent);
+  String get nnew => "Нові";
+  String get old => "Старі";
+  String get popular => "Популярні";
+  String get answer => "Відповісти";
+  String get hide => "Сховати";
+  Object operator [](String key) {
+    var index = key.indexOf('.');
+    if (index > 0) {
+      return (this[key.substring(0, index)]
+          as i69n.I69nMessageBundle)[key.substring(index + 1)];
+    }
+    switch (key) {
+      case 'nnew':
+        return nnew;
+      case 'old':
+        return old;
+      case 'popular':
+        return popular;
+      case 'answer':
+        return answer;
+      case 'hide':
+        return hide;
       default:
         return super[key];
     }
@@ -468,7 +621,7 @@ class ReportRejectedNotificationsLocalization_uk
       : super(_parent);
   String get title => "Вашу скаргу відхилено";
   String body(Map<String, dynamic> data) =>
-      "Вашу скаргу на \"${data["subject"]}\" було відхилено. Правила.";
+      "Вашу скаргу на \"${data["subject"]}\" було відхилено. <a href=\"https://example.com\">Правила</a>.";
   Object operator [](String key) {
     var index = key.indexOf('.');
     if (index > 0) {

@@ -13,8 +13,7 @@ export async function isAuthenticated(req: Request, res: Response, next: Functio
   console.log(`Authenticating from ${req.baseUrl}`)
   console.log(`authorization = ''${authorization}''`)
   
-  if (!authorization)
-       return res.status(401).send({ error: true, message: 'There is no authorization' });
+  if (!authorization) return next(new AppError(AppErrors.invalidAuth))
 
   try {
     const authResult = await checkAuth(authorization)

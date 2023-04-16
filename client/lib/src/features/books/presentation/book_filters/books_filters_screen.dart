@@ -39,7 +39,7 @@ class _BooksFiltersScreenState extends ConsumerState<BooksFiltersScreen> {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'query'.hardcoded
+                  labelText: ll.query
                 ),
                 onChanged: (v) {
                   debouncer.debounce(() {

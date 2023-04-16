@@ -140,7 +140,8 @@ export async function openReport(reportId: string) {
     .populate(smallReportPopulateOptions)
     .exec())
 
-  if (error || !report || report.state != ReportState.closed) {
+  if (error || !report || [ReportState.pending, ReportState.inProgress]
+      .includes(report.state)) {
     throw new AppError(AppErrors.cannotReopenReport)
   }
 

@@ -67,8 +67,18 @@ class _DioRouters {
   final String reports = 'reports';
   final String reportTypes = 'reports/types';
 
+  final String email = "email";
+  final String password = "password";
+
+  final String passwordAuth = 'auth/password';
+  final String googleAuth = 'auth/google';
+
   String get popularBooks => '$books/popular';
   String get popularAuthors => '$profiles/popular';
+
+  final String idToken = "idToken";
+  final String accessToken = "accessToken";
+  final String customToken = "customToken";
 
   String chapter(String chapterId) {
     return "$chapters/$chapterId";

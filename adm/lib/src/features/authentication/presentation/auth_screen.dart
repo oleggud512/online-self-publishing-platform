@@ -17,8 +17,9 @@ class AuthScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cont = ref.read(authScreenControllerProvider);
+    final ll = context.ll!;
     return Scaffold(
-      appBar: AppBar(title: Text("Auth screen".hardcoded)),
+      appBar: AppBar(title: Text(ll.scr)),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(
@@ -29,17 +30,15 @@ class AuthScreen extends ConsumerWidget {
             children: [
               TextField(
                 controller: email,
-                decoration: const InputDecoration(
-                  labelText: "email",
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: ,
                 ),
               ),
               h8gap,
               TextFormField(
                 controller: password,
-                decoration: const InputDecoration(
-                  labelText: "password",
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: "password".hardcoded,
                 ),
                 obscureText: true,
               ),
@@ -48,12 +47,17 @@ class AuthScreen extends ConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(56),
                 ),
-                child: const Text("Sign In"),
+                child: Text(ll.auth.signIn),
                 onPressed: () async {
-                  print("Sign in button clicked");
-                  final creds = await cont.signInWithEmailAndPassword(email.text, password.text);
-                  if (creds == null && (scaffoldKey.currentState?.mounted ?? false)) {
-                    ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(const SnackBar(content: Text("Can't sign in")));
+                  final creds = 
+                    await cont.signInWithEmailAndPassword(
+                      email.text, 
+                      password.text
+                    );
+                  if (creds == null && 
+                      (scaffoldKey.currentState?.mounted ?? false)) {
+                    ScaffoldMessenger.of(scaffoldKey.currentContext!)
+                      .showSnackBar(const SnackBar(content: Text("Can't sign in")));
                   }
                 }
               ),
@@ -64,7 +68,7 @@ class AuthScreen extends ConsumerWidget {
                   minimumSize: const Size.fromHeight(56),
                 ),
                 icon: const Icon(FontAwesomeIcons.google),
-                label: const Text("Sign In With Google"),
+                label: Text("Sign In With Google".hardcoded),
                 onPressed: () {
                   cont.signInWithGoogle();
                 }

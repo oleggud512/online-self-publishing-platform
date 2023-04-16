@@ -25,6 +25,8 @@
     "old": "Старі",
     "popular": "Популярні",
 
+    "deleteComment": "Коментар видалено",
+
     "updateProfile": "Профіль {{name}} оновлено.",
     "allowPublishBook": "Користувачу {{name}} дозволено публікувати книги.",
     "restrictPublishBook": "Користувачу {{name}} заборонено публікувати книги.",  
@@ -63,5 +65,29 @@
     "reportsOf": "Скарги на...",
     "owner": "Власник",
 
-    "chapters": "Глави"
+    "chapters": "Глави",
+    "noChapter": "Глава не існує",
+
+    "loadMore": "Завантажити більше",
+
+    "restrictBookPublishMessage": "Приховати і заборонити публікацію",
+    "allowBookPublishMessage": "Дозволити публікацію",
+
+    "restrictPublishmentMessage": "Заборонити публікацію книг",
+    "allowPublishmentMessage": "Дозволити публікацію книг",
+
+    "blockProfile": "Заблокувати",
+    "unblockProfile": "Розблокувати",
+
+    "restrictAddComment": "Заборонити писати коментарі",
+    "allowAddComment": "Дозволити писати коментарі",
+
+    "subscribers": "Підписники",
+
+    "userReports": "Скарги на {{name}}",
+    "onUserReports": "Скарги {{name}}",
+
+    "likes": "Лайки",
+    "genres": "Жанри", 
+    "tags": "Теги"
 }

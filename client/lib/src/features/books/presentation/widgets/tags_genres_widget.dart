@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:flutter/material.dart';
 
@@ -27,9 +28,11 @@ class TagsGenresWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         h16gap,
-        Text('Genres: '.hardcoded, style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: Theme.of(context).colorScheme.outline
-        )),
+        Text(context.ll!.book.genres, 
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Theme.of(context).colorScheme.outline
+          )
+        ),
         const Divider(height: p16),
         Wrap(
           spacing: p8,
@@ -43,9 +46,11 @@ class TagsGenresWidget extends StatelessWidget {
           ]
         ),
         h16gap,
-        Text('Tags: '.hardcoded, style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: Theme.of(context).colorScheme.outline
-        )),
+        Text(context.ll!.book.tags, 
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Theme.of(context).colorScheme.outline
+          )
+        ),
         const Divider(height: p16),
         Wrap(
           spacing: p8,

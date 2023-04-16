@@ -13,6 +13,7 @@ import { chapterPopulateOptions } from "./chapter-query-utils";
 import * as notificationService from "../notifications/service"
 import { BookView } from "../linking/View";
 import { IProfile } from "../profiles/Profile";
+import { promise } from "../../common/error-handling";
 
 
 export async function getChapters(bookId: string, from: number, pageSize: number, forProfile?: string) {
@@ -29,8 +30,11 @@ export async function getChapter(
   forProfile?: string
 ): Promise<IChapter> {
   console.log({getChapter: {forProfile}})
-  const chapter =
-    await Chapter.findById(chapterId).populate(chapterPopulateOptions)
+  // const chapter =
+  //   await Chapter.findById(chapterId).populate(chapterPopulateOptions)
+  const [ chapter, error ] = 
+    await promise(Chapter.findById(chapterId).populate(chapterPopulateOptions).exec())
+  if (error) throw error
   if (chapter && forProfile) addBookView(chapter, forProfile)
   return chapter!
 }
@@ -107,7 +111,8 @@ export async function addChapter(
     throw new AppError(AppErrors.cannotAddChapter, `The user with id ${who} cannot add a chapter to the book with id ${bookId}`)
   }
   const addedChapter = await new Chapter({
-    ...bookChapterData,
+    name: bookChapterData.name,
+    content: bookChapterData.content,
     book: bookId
   }).save()
   actionService.addBookUpdated({

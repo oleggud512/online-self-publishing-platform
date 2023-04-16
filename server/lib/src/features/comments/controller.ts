@@ -19,7 +19,7 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
 
   if (!(questionId || subjectId)) return next(new AppError(AppErrors.missingField, 'questionId or subjectId is required'))
   console.log(full)
-  const comments = await commentsService.getComments({
+  const [comments, error] = await promise(commentsService.getComments({
     subjectId, 
     questionId, 
     full,
@@ -27,7 +27,8 @@ export async function getComments(req: Request, res: Response, next: NextFunctio
     from, 
     pageSize, 
     forProfile: whoTriesToGetComments
-  });
+  }));
+  if (error) return next(error)
 
   return res.json({ data: comments })
 

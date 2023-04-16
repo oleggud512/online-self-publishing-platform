@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pub_sub.dart';
@@ -39,11 +40,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           if (context.mounted && updated) {
             context.pop();
           } else {
-            ref.watch(scaffoldMessangerStateProvider).showMessage('Can\'t save'.hardcoded);
+            ref.watch(scaffoldMessangerStateProvider)
+              .showMessage(context.ll!.errors.cannotSave);
           }
         },
         icon: const Icon(Icons.check),
-        label: Text("Save Changes".hardcoded)
+        label: Text(context.ll!.saveChanges)
       ),
     );
   }

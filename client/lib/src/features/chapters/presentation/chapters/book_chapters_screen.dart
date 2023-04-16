@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/common/pagination/simple_pagination_list_screen.dart';
@@ -57,7 +58,7 @@ class _BookChaptersScreenState extends ConsumerState<BookChaptersScreen> {
     return state.when(
       data: (chapters) => Scaffold(
         appBar: AppBar(
-          title: Text('Chapters'.hardcoded),
+          title: Text(context.ll!.screenTitle.chapters),
         ),
         body: PageListWidget(
           refreshController: refreshController,
@@ -70,7 +71,7 @@ class _BookChaptersScreenState extends ConsumerState<BookChaptersScreen> {
           )
         ),
         floatingActionButton: cont.isMy ? FloatingActionButton.extended(
-          label: Text("Add Chapter".hardcoded),
+          label: Text(context.ll!.chapter.addChapter),
           icon: const Icon(Icons.add),
           onPressed: onAddChapter,
         ) : null,

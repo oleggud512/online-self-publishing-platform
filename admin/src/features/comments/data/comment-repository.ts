@@ -26,6 +26,10 @@ export class CommentRepository {
     })
     const json = await resp.json()
     // console.log({commentsJson: json})
+    if (json.error)  {
+      console.log(json)
+      throw json.error
+    }
     const comments = (json.data as any[]).map(c => new Comment(c))
     return comments
   }

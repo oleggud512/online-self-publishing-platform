@@ -217,7 +217,7 @@ final routerProvider = Provider((ref) {
                   },
                 ),
                 GoRoute(
-                  path: 'chpaters',
+                  path: 'chapters',
                   name: MyRoute.chapters.name,
                   pageBuilder: (context, state) {
                     return NoTransitionPage(

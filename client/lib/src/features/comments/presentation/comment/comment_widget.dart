@@ -1,3 +1,4 @@
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pub_sub.dart';
@@ -88,6 +89,7 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
   Widget build(BuildContext context) {
     final state = this.state;
     final comment = state.comment;
+    final ll = context.ll!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -146,12 +148,12 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
                       if (!state.isEdit)
                         TextButton(
                           onPressed: onShowAnswer,
-                          child: Text('answer'.hardcoded),
+                          child: Text(ll.comments.answer),
                         )
                       else 
                         TextButton(
                           onPressed: onHideEdit,
-                          child: Text("hide".hardcoded)
+                          child: Text(ll.comments.hide)
                         ),
 
                       const Spacer(),
@@ -160,16 +162,16 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
                           if (ref.watch(myIdProvider) == comment.author.id) ...[
                             PopupMenuItem(
                               onTap: onEdit,
-                              child: Text('edit'.hardcoded),
+                              child: Text(ll.edit),
                             ),
                             PopupMenuItem(
                               onTap: onDelete,
-                              child: Text('delete'.hardcoded),
+                              child: Text(ll.delete),
                             ),
                           ],
                           PopupMenuItem(
                             onTap: onReport,
-                            child: Text('report'.hardcoded),
+                            child: Text(ll.report.toReport),
                           ),
                         ],
                       ),
@@ -200,7 +202,7 @@ class _CommentWidgetState extends ConsumerState<CommentWidget> {
                 if (state.comment.hasAnswers && state.comment.answers.isEmpty)
                   TextButton(
                     onPressed: onLoadMoreAnswers,
-                    child: Text("Load More".hardcoded),
+                    child: Text(ll.loadMore),
                   )
               ]),
         ),

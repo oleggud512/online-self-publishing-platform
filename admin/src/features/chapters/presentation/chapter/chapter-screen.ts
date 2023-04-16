@@ -7,11 +7,13 @@ import { MyRoute } from "router";
 import * as nprog from "nprogress"
 import Quill from "quill"
 import * as dp from "dompurify"
+import i18next from "i18next";
 
 @autoinject
 export class ChapterScreen {
+  public t = i18next.t
   chapterId: string
-  chapter: Chapter
+  chapter?: Chapter
 
   output: string
   
@@ -24,7 +26,11 @@ export class ChapterScreen {
 
   async refresh() {
     nprog.start()
-    this.chapter = await this.chapterRepo.getChapter(this.chapterId)
+    try {
+      this.chapter = await this.chapterRepo.getChapter(this.chapterId)
+    } catch (e) {
+      console.log(e)
+    }
     nprog.done()
     const quill = new Quill(document.createElement('div'))
     quill.setContents(JSON.parse(this.chapter.content))
