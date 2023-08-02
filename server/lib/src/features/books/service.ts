@@ -19,6 +19,7 @@ import { Report, ReportState } from "../reports/Report"
 import * as restrictionService from "../restrictions/service"
 import { Restriction } from "../restrictions/Restriction"
 import { BookPermissions } from "./BookPermissions"
+import { BookView } from "../linking/View"
 
 
 export async function getBook(id: string, forProfile?: string, allChapters?: boolean) : Promise<IBook> {
@@ -137,13 +138,14 @@ export async function deleteBook(bookId: string, profileId: string) {
     Profile.findByIdAndUpdate(profileId, { $inc: { booksCount: -1 } }).exec()
   })
   await Book.findOneAndRemove({ _id: bookId })
-  await Likes.deleteMany({ subject: bookId })
-  await Report.updateMany({ 
+  Likes.deleteMany({ subject: bookId }).exec()
+  BookView.M.deleteMany({ book: new Types.ObjectId(bookId) }).exec()
+  Report.updateMany({ 
     subject: bookId, 
     state: ReportState.inProgress 
   }, { 
     state: ReportState.closed 
-  })
+  }).exec()
   actionService.addBookUpdated({
     actionType: ActionType.deleteBook,
     authorId: profileId,

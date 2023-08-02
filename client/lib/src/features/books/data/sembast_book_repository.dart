@@ -16,11 +16,8 @@ class SembastBookRepsoitory implements LocalBookRepository {
 
   final Database db;
   final storea = StoreRef<int, String>('bookmarks');
+  
   final store = StoreRef.main();
-
-  // static Future<SembastBookRepsoitory> makeDefault() async {
-  //   return SembastBookRepsoitory(await Utils.makeSembastDatabase());
-  // }
 
   static const bookmarksKey = 'bookmarks';
 
@@ -46,14 +43,12 @@ class SembastBookRepsoitory implements LocalBookRepository {
       store.record(bookmarksKey).put(db, []);
       return [];
     }
-
     printSuccess('localRepo.getBookmarks() => $bookmarks');
     return List<String>.from(bookmarks as List<dynamic>);
   }
   
   @override
   Stream<List<String>> watchBookmarks() {
-    
     return store.record(bookmarksKey)
       .onSnapshot(db)
       .map((b) => List<String>.from((b?.value ?? []) as List<dynamic>));

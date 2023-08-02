@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sembast/timestamp.dart';
 
 part 'notification.freezed.dart';
 part 'notification.g.dart';

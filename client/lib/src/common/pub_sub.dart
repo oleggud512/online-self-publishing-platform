@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'log.dart';
 
-// class PubSubEvent {}
-
 class PubSubNotifier extends Notifier<PubSubEvent> {
 
   @override

@@ -40,7 +40,8 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
   EditChapterScreenState get state => 
       ref.watch(editChapterScreenControllerProvider(widget.chapter));
 
-  final debouncer = Debouncer();
+  final nameDebouncer = Debouncer();
+  final contentDebouncer = Debouncer();
   final focusNode = FocusNode();
   final _controller = QuillController.basic();
   final scrollController = ScrollController();
@@ -63,7 +64,7 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
 
   @override
   void dispose() {
-    debouncer.dispose();
+    nameDebouncer.dispose();
     scrollController.dispose();
     _controller.dispose();
     focusNode.dispose();
@@ -102,14 +103,14 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
   }
 
   Future<void> onChangeName(String newName) async {
-    debouncer.debounce(() {
+    nameDebouncer.debounce(() {
       printInfo(newName);
       cont.name = newName;
     });
   }
 
   Future<void> onChangeContent(String newContent) async {
-    debouncer.debounce(() => cont.content = newContent);
+    contentDebouncer.debounce(() => cont.content = newContent);
   }
 
   Future<void> onSave() async {

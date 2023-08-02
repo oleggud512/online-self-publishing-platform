@@ -43,7 +43,7 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
   void onEdit() {
     printWarning('onEditChapter');
     context.pushNamed(MyRoute.editChapter.name, 
-      params: {
+      pathParameters: {
         'id': widget.chapterId
       },
       extra: state.value!.chapter
@@ -54,7 +54,7 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
     printInfo(state.value!.previous);
     if (state.value!.previous != null) {
       context.pushReplacementNamed(MyRoute.chapter.name, 
-        params: {
+        pathParameters: {
           "id": state.value!.previous!
         }
       );
@@ -66,7 +66,7 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
   void onNext() {
     if (state.value!.next != null) {
       context.pushReplacementNamed(MyRoute.chapter.name, 
-        params: {
+        pathParameters: {
           "id": state.value!.next!
         }
       );

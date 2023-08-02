@@ -31,11 +31,11 @@ class NotificationWidget extends StatelessWidget {
                 data: data.body,
                 style: {
                   'body': Style(
-                    padding: const EdgeInsets.all(0), 
+                    padding: HtmlPaddings.all(0), 
                     margin: Margins.zero,
                   )
                 },
-                onLinkTap: (link, other1, other2, other3) {
+                onLinkTap: (link, _, __) {
                   if (link == null) return;
                   PolicyDialog.show(context);
                 }

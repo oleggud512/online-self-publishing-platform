@@ -1,12 +1,13 @@
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-class Todo {
+class Node {
   int? id;
   String name;
   bool completed;
+  List<Node>? children;
 
-  Todo({
+  Node({
     required this.name,
     this.completed = false,
   });
@@ -18,18 +19,20 @@ class Todo {
     };
   }
 
-  factory Todo.fromJson(Map<String, dynamic> json) {
-    return Todo(
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
       name: json['name'],
       completed: json['completed'],
     );
   }
 }
 
-class TodoRepository {
+class NodeRepository {
   late final Database _database;
+  final store = intMapStoreFactory.store('nodes');
 
-  TodoRepository() {
+
+  NodeRepository() {
     _initDatabase();
   }
 
@@ -38,7 +41,14 @@ class TodoRepository {
     _database = await databaseFactory.openDatabase('todo_database.db');
   }
 
-  Future<List<Todo>> getAllTodos({String? name, bool? completed}) async {
+  a() {
+    _database.transaction((tnx) async {
+      final top = await store.find(tnx);
+      
+    });
+  }
+
+  Future<List<Node>> getAllTodos({String? name, bool? completed}) async {
     final store = intMapStoreFactory.store('todos');
     final finder = Finder(
       filter: Filter.and([
@@ -48,19 +58,19 @@ class TodoRepository {
     );
     final todosSnapshot = await store.find(_database);
     return todosSnapshot.map((snapshot) {
-      final todo = Todo.fromJson(snapshot.value);
+      final todo = Node.fromJson(snapshot.value);
       todo.id = snapshot.key;
       return todo;
     }).toList();
   }
 
-  Future<int> addNewTodo(Todo todo) async {
+  Future<int> addNewTodo(Node todo) async {
     final store = intMapStoreFactory.store('todos');
     final todoJson = todo.toJson();
     return await store.add(_database, todoJson);
   }
 
-  Future<void> updateTodo(Todo todo) async {
+  Future<void> updateTodo(Node todo) async {
     final store = intMapStoreFactory.store('todos');
     final todoJson = todo.toJson();
     await store.record(todo.id!).update(_database, todoJson);

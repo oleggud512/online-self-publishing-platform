@@ -1,15 +1,11 @@
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
-import 'package:client/src/features/notifications/domain/display_notification_model.dart';
 import 'package:client/src/features/notifications/presentation/notification_widget.dart';
 import 'package:client/src/features/notifications/presentation/notifications_screen_controller.dart';
-import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../common/constants/constants.dart';
-import '../../../common/log.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});

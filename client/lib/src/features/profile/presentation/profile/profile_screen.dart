@@ -47,19 +47,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   void showBooks() {
     context.pushNamed(MyRoute.profileBooks.name,
-      params: { 'id': widget.profileId! }
+      pathParameters: { 'id': widget.profileId! }
     );
   }
 
   void showSubscribers() {
     context.pushNamed(MyRoute.subscribers.name, 
-      params: { 'id': widget.profileId! }
+      pathParameters: { 'id': widget.profileId! }
     );
   }
 
   void showSubscriptions() {
     context.pushNamed(MyRoute.subscriptions.name, 
-      params: { 'id': widget.profileId! }
+      pathParameters: { 'id': widget.profileId! }
     );
   }
   
@@ -73,14 +73,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   void onSendMessage() {
     context.pushNamed(MyRoute.chat.name,
-      params: { 'id': widget.profileId! },
+      pathParameters: { 'id': widget.profileId! },
       extra: Chat(other: ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile)
     );
   }
 
   void edit() {
     context.pushNamed(MyRoute.editProfile.name, 
-      params: { 'id': ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile.id },
+      pathParameters: { 'id': ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile.id },
       extra: ref.watch(profileScreenControllerProvider(widget.profileId!)).value!.profile
     );
   }

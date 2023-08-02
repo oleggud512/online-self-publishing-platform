@@ -70,7 +70,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
 
   void onEdit() {
     context.pushNamed(MyRoute.editBook.name,
-      params: { 'id': widget.bookId },
+      pathParameters: { 'id': widget.bookId },
       extra: ref.watch(bookScreenControllerProvider(widget.bookId)).value!.book
     );
   }
@@ -95,7 +95,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   void onShowChapters() {
     printInfo(widget.bookId);
     context.pushNamed(MyRoute.chapters.name, 
-      params: {
+      pathParameters: {
         'id': widget.bookId
       },
       extra: state.value!.book

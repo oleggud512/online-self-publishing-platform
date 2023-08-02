@@ -34,7 +34,7 @@ class PolicyDialog extends StatelessWidget {
                 data: snapshot.data,
                 style: {
                   'body': Style(
-                    padding: const EdgeInsets.all(p16),
+                    padding: HtmlPaddings.all(p16),
                     margin: Margins.zero
                   )
                 }

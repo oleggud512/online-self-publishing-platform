@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common/utils/debounce.dart';
 
-class AuthorsAppBar extends StatelessWidget with PreferredSizeWidget {
+class AuthorsAppBar extends StatelessWidget implements PreferredSizeWidget {
   AuthorsAppBar({Key? key}) : preferredSize = const Size.fromHeight(56.0), super(key: key);
   
   @override

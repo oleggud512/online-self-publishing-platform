@@ -11,7 +11,9 @@ import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
 import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/logger.dart';
 import 'package:client/src/shared/sembast.dart';
+import 'package:client/src/shared/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,7 @@ void main(List<String> arguments) async {
     await container.read(authRepositoryProvider).currentUser?.getIdToken(true);
     printInfo('try');
     await NotificationService.syncToken(container.read(dioProvider));
+    glogger.v('notification tokens synced successfully');
   } on BlockedAppError catch (_) {
     container.read(routerProvider).goNamed(MyRoute.blocked.name);
   } on FirebaseAuthException catch (e) {

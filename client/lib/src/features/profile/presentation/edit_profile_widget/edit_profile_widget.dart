@@ -101,55 +101,55 @@ class _EditProfileWidgetState extends ConsumerState<EditProfileWidget> {
           }
         ),
         h16gap,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: TextFormField(
-                initialValue: (profile.age ?? 0).toString(), 
-                maxLength: 3,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: context.ll!.auth.age,
-                ),
-                onChanged: (newV) {
-                  cont.age = int.tryParse(newV, radix: 10);
-                }
-              ),
-            ),
-            w16gap,
-            Expanded(
-              child: DropdownButtonFormField<Gender>(
-                decoration: InputDecoration(
-                  labelText: context.ll!.auth.gender,
-                ),
-                isExpanded: true,
-                value: profile.gender,
-                items: [
-                  DropdownMenuItem<Gender>(
-                    value: Gender.preferNotToSay,
-                    child: Text(context.ll!.auth.genders.preferNotToSay),
-                  ),
-                  DropdownMenuItem<Gender>(
-                    value: Gender.other,
-                    child: Text(context.ll!.auth.genders.other),
-                  ),
-                  DropdownMenuItem<Gender>(
-                    value: Gender.m,
-                    child: Text(context.ll!.auth.genders.male),
-                  ),
-                  DropdownMenuItem<Gender>(
-                    value: Gender.f,
-                    child: Text(context.ll!.auth.genders.female),
-                  ),
-                ], 
-                onChanged: (newV) {
-                  cont.gender = newV!;
-                }
-              ),
-            ),
-          ]
-        ),
+        // Row(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     Expanded(
+        //       child: TextFormField(
+        //         initialValue: (profile.age ?? 0).toString(), 
+        //         maxLength: 3,
+        //         keyboardType: TextInputType.number,
+        //         decoration: InputDecoration(
+        //           labelText: context.ll!.auth.age,
+        //         ),
+        //         onChanged: (newV) {
+        //           cont.age = int.tryParse(newV, radix: 10);
+        //         }
+        //       ),
+        //     ),
+        //     w16gap,
+        //     Expanded(
+        //       child: DropdownButtonFormField<Gender>(
+        //         decoration: InputDecoration(
+        //           labelText: context.ll!.auth.gender,
+        //         ),
+        //         isExpanded: true,
+        //         value: profile.gender,
+        //         items: [
+        //           DropdownMenuItem<Gender>(
+        //             value: Gender.preferNotToSay,
+        //             child: Text(context.ll!.auth.genders.preferNotToSay),
+        //           ),
+        //           DropdownMenuItem<Gender>(
+        //             value: Gender.other,
+        //             child: Text(context.ll!.auth.genders.other),
+        //           ),
+        //           DropdownMenuItem<Gender>(
+        //             value: Gender.m,
+        //             child: Text(context.ll!.auth.genders.male),
+        //           ),
+        //           DropdownMenuItem<Gender>(
+        //             value: Gender.f,
+        //             child: Text(context.ll!.auth.genders.female),
+        //           ),
+        //         ], 
+        //         onChanged: (newV) {
+        //           cont.gender = newV!;
+        //         }
+        //       ),
+        //     ),
+        //   ]
+        // ),
         if (!widget.isAuth) ...[
             h16gap,
             DescriptionFormField(

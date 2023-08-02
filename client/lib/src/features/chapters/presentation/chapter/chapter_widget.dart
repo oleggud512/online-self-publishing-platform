@@ -21,7 +21,7 @@ class _ChapterWidgetState extends ConsumerState<ChapterWidget> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        context.pushNamed(MyRoute.chapter.name, params: {
+        context.pushNamed(MyRoute.chapter.name, pathParameters: {
           'id': widget.chapter.id
         });
       },

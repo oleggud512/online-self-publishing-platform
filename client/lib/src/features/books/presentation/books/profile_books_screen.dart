@@ -50,7 +50,7 @@ class ProfileBooksScreen extends ConsumerWidget {
         ? FloatingActionButton.extended(
           onPressed: () {
             context.pushNamed(MyRoute.addBook.name,
-              params: { 'id': ofProfile }
+              pathParameters: { 'id': ofProfile }
             );
           }, 
           icon: const Icon(Icons.add),

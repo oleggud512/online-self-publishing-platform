@@ -1,7 +1,7 @@
 import 'package:client/src/features/localization/application/ll.dart';
 import 'package:flutter/material.dart';
 
-class ChatsScreenAppBar extends StatelessWidget with PreferredSizeWidget {
+class ChatsScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
 @override
   final Size preferredSize;
 

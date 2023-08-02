@@ -34,7 +34,7 @@ class AuthorWidget extends ConsumerWidget {
   
   void view(BuildContext context, WidgetRef ref) {
     context.pushNamed(MyRoute.profile.name,
-      params: { 'id': profile.id }
+      pathParameters: { 'id': profile.id }
     );
   }
 

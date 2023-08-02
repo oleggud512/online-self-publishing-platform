@@ -15,6 +15,7 @@ import 'package:i69n/i69n.dart';
 
 import '../../../common/log.dart';
 import '../../../shared/constants.dart';
+import '../../../shared/logger.dart';
 import '../../../shared/utils.dart';
 
 @pragma('vm:entry-point')
@@ -82,9 +83,11 @@ class NotificationService {
   static Future<void> syncToken(Dio dio) => err(() async {
     try {
       final token = await FirebaseMessaging.instance.getToken() ;
+      glogger.v('NotificationService.syncToken(): start $token');
       final resp = await dio.post('notifications/fcm', data: { 
         'token': token
       });
+      glogger.v('NotificationService.syncToken(): end');
     } catch (e) {
       printError('syncToken - rethrown $e');
       rethrow;

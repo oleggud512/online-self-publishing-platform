@@ -31,7 +31,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
 
   openChat(Chat chat) {
     context.pushNamed(MyRoute.chat.name, 
-      params: {
+      pathParameters: {
         'id': chat.other.id,
       },
       extra: chat

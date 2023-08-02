@@ -6,6 +6,7 @@ export async function syncToken(req: Request, res: Response, next: NextFunction)
   const profileId = res.locals.uid
   const token = req.body.token
 
+  console.log('synco token') 
   const [updated, error] = await promise(notificationService.syncToken(profileId, token))
 
   if (error) return next(error)

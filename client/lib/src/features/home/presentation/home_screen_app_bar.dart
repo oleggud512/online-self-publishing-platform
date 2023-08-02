@@ -2,7 +2,7 @@ import 'package:client/src/features/localization/application/ll.dart';
 import 'package:client/src/router/menu_button_leading.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreenAppBar extends StatelessWidget with PreferredSizeWidget {
+class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
 @override
   final Size preferredSize;
 

@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:client/src/shared/utils.dart';
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 
 import '../common/log.dart';
 import '../common/widgets/error_handler.dart';
+import 'logger.dart';
 
 class AppError {
   String code;
@@ -18,15 +21,15 @@ class BlockedAppError extends AppError {
 
 Future<T> err<T>(Future<T> Function() func) async {
   try {
-    printInfo('TRYING TO CALL FUNC() FROM ERR()');
+    glogger.i('err wrapper: inner function execution');
     return await func();
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     printInfo('DIOERROR CAUGHT');
-    if (e.type == DioErrorType.unknown && e.error is SocketException) {
+    if (e.type == DioExceptionType.unknown && e.error is SocketException) {
       printInfo("ConnectionException thrown from err<T>");
       throw ConnectionException();
     } 
-    if (e.type == DioErrorType.badResponse) {
+    if (e.type == DioExceptionType.badResponse) {
       printInfo('FUCK. IT\'S A BAD RESPONSE');
       final errorCode = e.response!.data['error']['code'];
       if (errorCode == 'blockedUserAuth') {
@@ -37,7 +40,7 @@ Future<T> err<T>(Future<T> Function() func) async {
     }
     rethrow;
   } catch (e) {
-    printError('JUST CAUGHT');
+    glogger.e('err wrapper: unhandled exception');
     rethrow;
   }
 }

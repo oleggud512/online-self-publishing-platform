@@ -204,7 +204,7 @@ final routerProvider = Provider((ref) {
               pageBuilder: (context, state) {
                 return NoTransitionPage(
                     child:
-                        BookScreen(bookId: state.params['id'] as String));
+                        BookScreen(bookId: state.pathParameters['id'] as String));
               },
               routes: [
                 GoRoute(
@@ -222,7 +222,7 @@ final routerProvider = Provider((ref) {
                   pageBuilder: (context, state) {
                     return NoTransitionPage(
                       child: BookChaptersScreen(
-                        bookId: state.params['id'] as String,
+                        bookId: state.pathParameters['id'] as String,
                         book: state.extra as Book
                       ),
                     );
@@ -258,8 +258,8 @@ final routerProvider = Provider((ref) {
                 name: MyRoute.profile.name,
                 builder: (context, state) {
                   Logger()
-                      .i("GoRoute(/profile/:id) id='${state.params['id']}'");
-                  String profileId = state.params['id'] as String;
+                      .i("GoRoute(/profile/:id) id='${state.pathParameters['id']}'");
+                  String profileId = state.pathParameters['id'] as String;
                   print('go to this $profileId profileId');
                   return Consumer(builder: (context, ref, child) {
                     return ProfileScreen(profileId: profileId);
@@ -285,14 +285,14 @@ final routerProvider = Provider((ref) {
                       name: MyRoute.subscribers.name,
                       builder: (context, state) {
                         return SubscribersScreen(
-                            profileId: state.params['id'] as String);
+                            profileId: state.pathParameters['id'] as String);
                       }),
                   GoRoute(
                       path: 'subscriptions',
                       name: MyRoute.subscriptions.name,
                       builder: (context, state) {
                         return SubscriptionsScreen(
-                          profileId: state.params['id'] as String,
+                          profileId: state.pathParameters['id'] as String,
                         );
                       }),
                   GoRoute(
@@ -300,7 +300,7 @@ final routerProvider = Provider((ref) {
                       name: MyRoute.profileBooks.name,
                       builder: (context, state) {
                         return ProfileBooksScreen(
-                            ofProfile: state.params['id']!);
+                            ofProfile: state.pathParameters['id']!);
                       },
                       routes: [
                         GoRoute(
@@ -309,7 +309,7 @@ final routerProvider = Provider((ref) {
                             pageBuilder: (context, state) {
                               return NoTransitionPage(
                                   child: EditBookScreen.add(
-                                      state.params['id']!) // id - profile id
+                                      state.pathParameters['id']!) // id - profile id
                                   );
                             })
                       ]
@@ -360,7 +360,7 @@ final routerProvider = Provider((ref) {
         pageBuilder: (context, state) {
           return NoTransitionPage(
             child: ChapterScreen(
-              chapterId: state.params['id'] as String,
+              chapterId: state.pathParameters['id'] as String,
             ),
           );
         },

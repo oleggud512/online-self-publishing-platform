@@ -32,7 +32,7 @@ class _BookListItemWidgetState extends ConsumerState<BookListItemWidget> {
   
   void showBook() {
     printError('I want to navigate to the book ${widget.book.id} ${widget.book.name}');
-    GoRouter.of(context).pushNamed(MyRoute.book.name, params: {
+    GoRouter.of(context).pushNamed(MyRoute.book.name, pathParameters: {
       'id': widget.book.id
     });
   }

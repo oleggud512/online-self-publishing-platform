@@ -10,7 +10,7 @@ import '../../../localization/application/ll.dart';
 import '../book_filters/books_query_state.dart';
 
 
-class BooksAppBar extends StatelessWidget with PreferredSizeWidget {
+class BooksAppBar extends StatelessWidget implements PreferredSizeWidget {
 @override
   final Size preferredSize;
 

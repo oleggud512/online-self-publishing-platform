@@ -41,7 +41,7 @@ class _BookChaptersScreenState extends ConsumerState<BookChaptersScreen> {
 
   void onAddChapter() {
     context.pushNamed(MyRoute.addChapter.name, 
-      params: {
+      pathParameters: {
         'id': widget.bookId
       },
       extra: widget.book
