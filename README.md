@@ -1,4 +1,4 @@
-# Books Course Work
+# Online self-publishing platform
 
 - **adm** - Super-admin client
 - **admin** - Aurelia admin client
