@@ -1,8 +1,6 @@
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/books/domain/book.dart';
-import 'package:client/src/features/books/presentation/widgets/book_status_dropdown.dart';
 import 'package:client/src/features/books/presentation/widgets/tags_genres_widget.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/application/ext.dart';

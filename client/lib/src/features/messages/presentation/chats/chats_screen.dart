@@ -1,8 +1,4 @@
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
-import 'package:client/src/features/localization/application/current_locale.dart';
-import 'package:client/src/features/localization/application/current_localization.dart';
-import 'package:client/src/features/messages/data/chat_repository.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +9,6 @@ import '../../../../common/constants/constants.dart';
 import '../../../../common/pagination/page_list_widget.dart';
 import '../../../../shared/constants.dart';
 import '../../domain/chat.dart';
-import '../admin_chats/admin_chat_widget.dart';
 import 'chat_widget.dart';
 import 'chats_screen_controller.dart';
 import 'chats_screen_state.dart';
@@ -43,7 +38,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
     return state.when(
       data: (state) {
         return Scaffold(
-          appBar: ChatsScreenAppBar(),
+          appBar: const ChatsScreenAppBar(),
           body: Column(
             children: [
               Expanded(
@@ -62,7 +57,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
                 ),
               ),
               if (state.adminChats != null) ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: p200),
+                constraints: const BoxConstraints(maxHeight: p200),
                 child: Container(
                   child: SingleChildScrollView(
                     child: Column(

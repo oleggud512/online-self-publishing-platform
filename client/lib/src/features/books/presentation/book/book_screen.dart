@@ -1,11 +1,9 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/common/widgets/my_image.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
 import 'package:client/src/common/widgets/show_simple_yes_no_dialog.dart';
-import 'package:client/src/common/widgets/size_controller_widget.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_controller.dart';
@@ -13,18 +11,15 @@ import 'package:client/src/features/books/presentation/book/book_screen_state.da
 import 'package:client/src/features/books/presentation/widgets/book_status_widget.dart';
 import 'package:client/src/features/chapters/application/events.dart';
 import 'package:client/src/features/chapters/presentation/chapter/chapter_widget.dart';
-import 'package:client/src/features/comments/presentation/comment/comment_widget.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_widget.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/application/ll.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
-import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../common/constants/constants.dart';

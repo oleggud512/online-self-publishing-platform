@@ -1,4 +1,3 @@
-import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,12 +17,14 @@ class PageListWidget extends StatelessWidget {
 
   Future<void> refresh() async {
     await paginationController.refresh();
+
     refreshController.refreshCompleted();
     refreshController.loadComplete();
   }
 
   Future<void> addPage() async {
-    bool loaded = await paginationController.addPage();
+    bool loaded = await paginationController.addNewPage();
+
     if (loaded) {
       refreshController.loadComplete();
     } else {

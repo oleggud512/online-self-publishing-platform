@@ -1,4 +1,3 @@
-import 'package:client/src/common/log.dart';
 import 'package:client/src/router/menu_button_leading.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class BooksAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.filter_alt_outlined),
+              icon: const Icon(Icons.filter_alt_outlined),
               onPressed: () {
                 context.goNamed(MyRoute.bookFilters.name);
               }

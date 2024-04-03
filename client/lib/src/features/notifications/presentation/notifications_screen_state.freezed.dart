@@ -12,7 +12,7 @@ part of 'notifications_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NotificationsScreenState {
@@ -58,24 +58,25 @@ class _$NotificationsScreenStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_NotificationsScreenStateCopyWith<$Res>
+abstract class _$$NotificationsScreenStateImplCopyWith<$Res>
     implements $NotificationsScreenStateCopyWith<$Res> {
-  factory _$$_NotificationsScreenStateCopyWith(
-          _$_NotificationsScreenState value,
-          $Res Function(_$_NotificationsScreenState) then) =
-      __$$_NotificationsScreenStateCopyWithImpl<$Res>;
+  factory _$$NotificationsScreenStateImplCopyWith(
+          _$NotificationsScreenStateImpl value,
+          $Res Function(_$NotificationsScreenStateImpl) then) =
+      __$$NotificationsScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<MyNotification> notifications});
 }
 
 /// @nodoc
-class __$$_NotificationsScreenStateCopyWithImpl<$Res>
+class __$$NotificationsScreenStateImplCopyWithImpl<$Res>
     extends _$NotificationsScreenStateCopyWithImpl<$Res,
-        _$_NotificationsScreenState>
-    implements _$$_NotificationsScreenStateCopyWith<$Res> {
-  __$$_NotificationsScreenStateCopyWithImpl(_$_NotificationsScreenState _value,
-      $Res Function(_$_NotificationsScreenState) _then)
+        _$NotificationsScreenStateImpl>
+    implements _$$NotificationsScreenStateImplCopyWith<$Res> {
+  __$$NotificationsScreenStateImplCopyWithImpl(
+      _$NotificationsScreenStateImpl _value,
+      $Res Function(_$NotificationsScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -83,7 +84,7 @@ class __$$_NotificationsScreenStateCopyWithImpl<$Res>
   $Res call({
     Object? notifications = null,
   }) {
-    return _then(_$_NotificationsScreenState(
+    return _then(_$NotificationsScreenStateImpl(
       notifications: null == notifications
           ? _value._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
@@ -94,8 +95,8 @@ class __$$_NotificationsScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_NotificationsScreenState implements _NotificationsScreenState {
-  _$_NotificationsScreenState(
+class _$NotificationsScreenStateImpl implements _NotificationsScreenState {
+  _$NotificationsScreenStateImpl(
       {final List<MyNotification> notifications = const []})
       : _notifications = notifications;
 
@@ -114,10 +115,10 @@ class _$_NotificationsScreenState implements _NotificationsScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NotificationsScreenState &&
+            other is _$NotificationsScreenStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._notifications, _notifications));
   }
@@ -129,19 +130,20 @@ class _$_NotificationsScreenState implements _NotificationsScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NotificationsScreenStateCopyWith<_$_NotificationsScreenState>
-      get copyWith => __$$_NotificationsScreenStateCopyWithImpl<
-          _$_NotificationsScreenState>(this, _$identity);
+  _$$NotificationsScreenStateImplCopyWith<_$NotificationsScreenStateImpl>
+      get copyWith => __$$NotificationsScreenStateImplCopyWithImpl<
+          _$NotificationsScreenStateImpl>(this, _$identity);
 }
 
 abstract class _NotificationsScreenState implements NotificationsScreenState {
   factory _NotificationsScreenState(
-      {final List<MyNotification> notifications}) = _$_NotificationsScreenState;
+          {final List<MyNotification> notifications}) =
+      _$NotificationsScreenStateImpl;
 
   @override
   List<MyNotification> get notifications;
   @override
   @JsonKey(ignore: true)
-  _$$_NotificationsScreenStateCopyWith<_$_NotificationsScreenState>
+  _$$NotificationsScreenStateImplCopyWith<_$NotificationsScreenStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

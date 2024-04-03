@@ -84,8 +84,8 @@
 
     "subscribers": "Підписники",
 
-    "userReports": "Скарги на {{name}}",
-    "onUserReports": "Скарги {{name}}",
+    "userReports": "Скарги {{name}}",
+    "onUserReports": "Скарги на {{name}}",
 
     "likes": "Лайки",
     "genres": "Жанри", 

@@ -1,13 +1,9 @@
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/chapters/data/chapter_repository.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
-import 'package:client/src/shared/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../common/pub_sub.dart';
 import 'edit_chapter_screen_state.dart';
 
 part 'edit_chapter_screen_controller.g.dart';
@@ -16,6 +12,7 @@ part 'edit_chapter_screen_controller.g.dart';
 class EditChapterScreenController extends _$EditChapterScreenController {
   ChapterRepository get chapterRepo => ref.watch(chapterRepositoryProvider);
 
+  @override
   EditChapterScreenState build(Chapter chapterToEdit) {
     return EditChapterScreenState(chapter: chapterToEdit);
   }

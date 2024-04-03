@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/books/domain/book.dart';
-import '../../features/books/presentation/book/book_screen_controller.dart';
 import '../../features/localization/application/current_localization.dart';
 
 Future<bool?> showSimpleYesNoDialog(BuildContext context, String title) {

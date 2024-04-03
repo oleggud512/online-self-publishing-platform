@@ -89,8 +89,8 @@ class BookChaptersScreenControllerProvider
         List<Chapter>> {
   /// See also [BookChaptersScreenController].
   BookChaptersScreenControllerProvider(
-    this.bookId,
-  ) : super.internal(
+    String bookId,
+  ) : this._internal(
           () => BookChaptersScreenController()..bookId = bookId,
           from: bookChaptersScreenControllerProvider,
           name: r'bookChaptersScreenControllerProvider',
@@ -101,9 +101,51 @@ class BookChaptersScreenControllerProvider
           dependencies: BookChaptersScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               BookChaptersScreenControllerFamily._allTransitiveDependencies,
+          bookId: bookId,
         );
 
+  BookChaptersScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.bookId,
+  }) : super.internal();
+
   final String bookId;
+
+  @override
+  FutureOr<List<Chapter>> runNotifierBuild(
+    covariant BookChaptersScreenController notifier,
+  ) {
+    return notifier.build(
+      bookId,
+    );
+  }
+
+  @override
+  Override overrideWith(BookChaptersScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: BookChaptersScreenControllerProvider._internal(
+        () => create()..bookId = bookId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        bookId: bookId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<BookChaptersScreenController,
+      List<Chapter>> createElement() {
+    return _BookChaptersScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -118,14 +160,22 @@ class BookChaptersScreenControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin BookChaptersScreenControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<List<Chapter>> {
+  /// The parameter `bookId` of this provider.
+  String get bookId;
+}
+
+class _BookChaptersScreenControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<
+        BookChaptersScreenController,
+        List<Chapter>> with BookChaptersScreenControllerRef {
+  _BookChaptersScreenControllerProviderElement(super.provider);
 
   @override
-  FutureOr<List<Chapter>> runNotifierBuild(
-    covariant BookChaptersScreenController notifier,
-  ) {
-    return notifier.build(
-      bookId,
-    );
-  }
+  String get bookId => (origin as BookChaptersScreenControllerProvider).bookId;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

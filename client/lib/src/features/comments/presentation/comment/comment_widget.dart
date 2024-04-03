@@ -1,7 +1,5 @@
 import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
-import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/comments/domain/comment.dart';
 import 'package:client/src/features/comments/presentation/comment/comment_widget_controller.dart';
@@ -9,7 +7,6 @@ import 'package:client/src/features/comments/presentation/comment/comment_widget
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../common/utils/debounce.dart';
 import '../../../reports/presentation/report/report_dialog.dart';

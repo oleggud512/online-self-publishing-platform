@@ -1,4 +1,3 @@
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
@@ -8,14 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common/log.dart';
 import '../../../../common/pagination/pagination_controller.dart';
 import '../../../../common/pagination/simple_pagination_list_screen.dart';
 import '../../../../common/pub_sub.dart';
 import '../../../auth/application/my_id_provider.dart';
-import '../../data/book_repository.dart';
 import '../../domain/book.dart';
-import '../../domain/filters.dart';
 import '../book_list/book_list_item_widget.dart';
 
 class ProfileBooksScreen extends ConsumerWidget {

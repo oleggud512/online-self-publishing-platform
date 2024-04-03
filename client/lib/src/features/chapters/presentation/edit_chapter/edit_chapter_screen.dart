@@ -2,14 +2,13 @@ import 'dart:convert';
 
 import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/books/presentation/widgets/readings_state_widget.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -192,31 +191,35 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
               ),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            QuillToolbar.basic(
-              controller: _controller,
-              showFontSize: false,
-              showInlineCode: false,
-              showCodeBlock: false,
-              showListCheck: false,
-              showFontFamily: false,
-              showCenterAlignment: true,
-              showLeftAlignment: true,
-              showAlignmentButtons: true,
-              showRightAlignment: true,
-              showJustifyAlignment: true,
-              showLink: false,
-              showDividers: true,
+            QuillToolbar.simple(
+              configurations: QuillSimpleToolbarConfigurations(
+                controller: _controller,
+                showFontSize: false,
+                showInlineCode: false,
+                showCodeBlock: false,
+                showListCheck: false,
+                showFontFamily: false,
+                showCenterAlignment: true,
+                showLeftAlignment: true,
+                showAlignmentButtons: true,
+                showRightAlignment: true,
+                showJustifyAlignment: true,
+                showLink: false,
+                showDividers: true,
+              ),
             ),
             Expanded(
-              child: QuillEditor(
-                controller: _controller,
-                readOnly: false,
-                scrollable: true,
+              child: QuillEditor.basic(
+                configurations: QuillEditorConfigurations(
+                  controller: _controller,
+                  readOnly: false,
+                  scrollable: true,
+                  autoFocus: false,
+                  expands: true,
+                  padding: const EdgeInsets.all(0)
+                ),
                 scrollController: scrollController,
                 focusNode: focusNode,
-                autoFocus: false,
-                expands: true,
-                padding: const EdgeInsets.all(0)
               ),
             ),
           ]

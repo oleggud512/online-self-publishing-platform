@@ -88,8 +88,8 @@ class ChapterScreenControllerProvider
         ChapterScreenState> {
   /// See also [ChapterScreenController].
   ChapterScreenControllerProvider(
-    this.chapterId,
-  ) : super.internal(
+    String chapterId,
+  ) : this._internal(
           () => ChapterScreenController()..chapterId = chapterId,
           from: chapterScreenControllerProvider,
           name: r'chapterScreenControllerProvider',
@@ -100,9 +100,51 @@ class ChapterScreenControllerProvider
           dependencies: ChapterScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               ChapterScreenControllerFamily._allTransitiveDependencies,
+          chapterId: chapterId,
         );
 
+  ChapterScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chapterId,
+  }) : super.internal();
+
   final String chapterId;
+
+  @override
+  FutureOr<ChapterScreenState> runNotifierBuild(
+    covariant ChapterScreenController notifier,
+  ) {
+    return notifier.build(
+      chapterId,
+    );
+  }
+
+  @override
+  Override overrideWith(ChapterScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ChapterScreenControllerProvider._internal(
+        () => create()..chapterId = chapterId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chapterId: chapterId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ChapterScreenController,
+      ChapterScreenState> createElement() {
+    return _ChapterScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -117,14 +159,21 @@ class ChapterScreenControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ChapterScreenControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<ChapterScreenState> {
+  /// The parameter `chapterId` of this provider.
+  String get chapterId;
+}
+
+class _ChapterScreenControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ChapterScreenController,
+        ChapterScreenState> with ChapterScreenControllerRef {
+  _ChapterScreenControllerProviderElement(super.provider);
 
   @override
-  FutureOr<ChapterScreenState> runNotifierBuild(
-    covariant ChapterScreenController notifier,
-  ) {
-    return notifier.build(
-      chapterId,
-    );
-  }
+  String get chapterId => (origin as ChapterScreenControllerProvider).chapterId;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

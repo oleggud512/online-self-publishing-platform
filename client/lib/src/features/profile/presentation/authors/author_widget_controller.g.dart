@@ -7,7 +7,7 @@ part of 'author_widget_controller.dart';
 // **************************************************************************
 
 String _$authorWidgetControllerHash() =>
-    r'b61dd0b613c74d462775ac85a01247ab72c3da4a';
+    r'4cb683cd5e0cc7ba3ab55b1f74ed7c16199becd1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -86,8 +86,8 @@ class AuthorWidgetControllerProvider
     extends AutoDisposeNotifierProviderImpl<AuthorWidgetController, Profile> {
   /// See also [AuthorWidgetController].
   AuthorWidgetControllerProvider(
-    this.profile,
-  ) : super.internal(
+    Profile profile,
+  ) : this._internal(
           () => AuthorWidgetController()..profile = profile,
           from: authorWidgetControllerProvider,
           name: r'authorWidgetControllerProvider',
@@ -98,9 +98,51 @@ class AuthorWidgetControllerProvider
           dependencies: AuthorWidgetControllerFamily._dependencies,
           allTransitiveDependencies:
               AuthorWidgetControllerFamily._allTransitiveDependencies,
+          profile: profile,
         );
 
+  AuthorWidgetControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.profile,
+  }) : super.internal();
+
   final Profile profile;
+
+  @override
+  Profile runNotifierBuild(
+    covariant AuthorWidgetController notifier,
+  ) {
+    return notifier.build(
+      profile,
+    );
+  }
+
+  @override
+  Override overrideWith(AuthorWidgetController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: AuthorWidgetControllerProvider._internal(
+        () => create()..profile = profile,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        profile: profile,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<AuthorWidgetController, Profile>
+      createElement() {
+    return _AuthorWidgetControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,14 +156,20 @@ class AuthorWidgetControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin AuthorWidgetControllerRef on AutoDisposeNotifierProviderRef<Profile> {
+  /// The parameter `profile` of this provider.
+  Profile get profile;
+}
+
+class _AuthorWidgetControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<AuthorWidgetController, Profile>
+    with AuthorWidgetControllerRef {
+  _AuthorWidgetControllerProviderElement(super.provider);
 
   @override
-  Profile runNotifierBuild(
-    covariant AuthorWidgetController notifier,
-  ) {
-    return notifier.build(
-      profile,
-    );
-  }
+  Profile get profile => (origin as AuthorWidgetControllerProvider).profile;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

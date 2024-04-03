@@ -11,7 +11,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:i69n/i69n.dart';
 
 import '../../../common/log.dart';
 import '../../../shared/constants.dart';
@@ -51,7 +50,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final data = DisplayNotificationModel.fromLocalization(localization, not);
 
   NotificationService.showNotification(body: data.body, title: data.title);
-  printSuccess("Handling a background message: ${const conv.JsonEncoder.withIndent('  ').convert(message.toMap())}\nlocal notification id = $notId\n\n");
+  glogger.i("Handling a background message: ${const conv.JsonEncoder.withIndent('  ').convert(message.toMap())}\nlocal notification id = $notId\n\n");
 }
 
 
@@ -83,11 +82,11 @@ class NotificationService {
   static Future<void> syncToken(Dio dio) => err(() async {
     try {
       final token = await FirebaseMessaging.instance.getToken() ;
-      glogger.v('NotificationService.syncToken(): start $token');
+      glogger.t('NotificationService.syncToken(): start $token');
       final resp = await dio.post('notifications/fcm', data: { 
         'token': token
       });
-      glogger.v('NotificationService.syncToken(): end');
+      glogger.t('NotificationService.syncToken(): end');
     } catch (e) {
       printError('syncToken - rethrown $e');
       rethrow;
@@ -98,7 +97,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
+        ?.requestNotificationsPermission();
   }
 
   static showNotification({required String title, required String body}) async {

@@ -7,7 +7,7 @@ part of 'book_list_item_widget_controller.dart';
 // **************************************************************************
 
 String _$bookListItemWidgetControllerHash() =>
-    r'fccf6c979905d677984557f479018d431a9780be';
+    r'9992a4204a965752e85c0b3dda1257e023182bf5';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -89,8 +89,8 @@ class BookListItemWidgetControllerProvider
         BookListItemWidgetState> {
   /// See also [BookListItemWidgetController].
   BookListItemWidgetControllerProvider(
-    this.book,
-  ) : super.internal(
+    Book book,
+  ) : this._internal(
           () => BookListItemWidgetController()..book = book,
           from: bookListItemWidgetControllerProvider,
           name: r'bookListItemWidgetControllerProvider',
@@ -101,9 +101,51 @@ class BookListItemWidgetControllerProvider
           dependencies: BookListItemWidgetControllerFamily._dependencies,
           allTransitiveDependencies:
               BookListItemWidgetControllerFamily._allTransitiveDependencies,
+          book: book,
         );
 
+  BookListItemWidgetControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.book,
+  }) : super.internal();
+
   final Book book;
+
+  @override
+  BookListItemWidgetState runNotifierBuild(
+    covariant BookListItemWidgetController notifier,
+  ) {
+    return notifier.build(
+      book,
+    );
+  }
+
+  @override
+  Override overrideWith(BookListItemWidgetController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: BookListItemWidgetControllerProvider._internal(
+        () => create()..book = book,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        book: book,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<BookListItemWidgetController,
+      BookListItemWidgetState> createElement() {
+    return _BookListItemWidgetControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -117,14 +159,21 @@ class BookListItemWidgetControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin BookListItemWidgetControllerRef
+    on AutoDisposeNotifierProviderRef<BookListItemWidgetState> {
+  /// The parameter `book` of this provider.
+  Book get book;
+}
+
+class _BookListItemWidgetControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<BookListItemWidgetController,
+        BookListItemWidgetState> with BookListItemWidgetControllerRef {
+  _BookListItemWidgetControllerProviderElement(super.provider);
 
   @override
-  BookListItemWidgetState runNotifierBuild(
-    covariant BookListItemWidgetController notifier,
-  ) {
-    return notifier.build(
-      book,
-    );
-  }
+  Book get book => (origin as BookListItemWidgetControllerProvider).book;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

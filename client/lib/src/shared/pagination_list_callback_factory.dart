@@ -3,13 +3,10 @@ import 'package:client/src/features/chapters/data/chapter_repository.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../common/log.dart';
 import '../common/pagination/pagination_controller.dart';
-import '../common/pagination/pagination_list_widget_controller.dart';
 import '../features/auth/application/my_id_provider.dart';
 import '../features/books/data/book_repository.dart';
 import '../features/books/domain/filters.dart';
-import '../features/profile/application/current_profile_id.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/profile/domain/profile.dart';
 

@@ -15,6 +15,7 @@ part 'comment_widget_controller.g.dart';
 class CommentWidgetController extends _$CommentWidgetController {
   CommentRepository get commentRepo => ref.watch(commentRepositoryProvider);
   
+  @override
   CommentWidgetState build(Comment comment) {
     _listenDeletion();
     return CommentWidgetState(comment: comment);

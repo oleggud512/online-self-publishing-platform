@@ -12,7 +12,7 @@ part of 'book_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BookScreenState {
@@ -73,11 +73,11 @@ class _$BookScreenStateCopyWithImpl<$Res, $Val extends BookScreenState>
 }
 
 /// @nodoc
-abstract class _$$_BookScreenStateCopyWith<$Res>
+abstract class _$$BookScreenStateImplCopyWith<$Res>
     implements $BookScreenStateCopyWith<$Res> {
-  factory _$$_BookScreenStateCopyWith(
-          _$_BookScreenState value, $Res Function(_$_BookScreenState) then) =
-      __$$_BookScreenStateCopyWithImpl<$Res>;
+  factory _$$BookScreenStateImplCopyWith(_$BookScreenStateImpl value,
+          $Res Function(_$BookScreenStateImpl) then) =
+      __$$BookScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Book book, bool isMy});
@@ -87,11 +87,11 @@ abstract class _$$_BookScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BookScreenStateCopyWithImpl<$Res>
-    extends _$BookScreenStateCopyWithImpl<$Res, _$_BookScreenState>
-    implements _$$_BookScreenStateCopyWith<$Res> {
-  __$$_BookScreenStateCopyWithImpl(
-      _$_BookScreenState _value, $Res Function(_$_BookScreenState) _then)
+class __$$BookScreenStateImplCopyWithImpl<$Res>
+    extends _$BookScreenStateCopyWithImpl<$Res, _$BookScreenStateImpl>
+    implements _$$BookScreenStateImplCopyWith<$Res> {
+  __$$BookScreenStateImplCopyWithImpl(
+      _$BookScreenStateImpl _value, $Res Function(_$BookScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_BookScreenStateCopyWithImpl<$Res>
     Object? book = null,
     Object? isMy = null,
   }) {
-    return _then(_$_BookScreenState(
+    return _then(_$BookScreenStateImpl(
       book: null == book
           ? _value.book
           : book // ignore: cast_nullable_to_non_nullable
@@ -115,8 +115,8 @@ class __$$_BookScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BookScreenState implements _BookScreenState {
-  _$_BookScreenState({required this.book, this.isMy = false});
+class _$BookScreenStateImpl implements _BookScreenState {
+  _$BookScreenStateImpl({required this.book, this.isMy = false});
 
   @override
   final Book book;
@@ -130,10 +130,10 @@ class _$_BookScreenState implements _BookScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BookScreenState &&
+            other is _$BookScreenStateImpl &&
             (identical(other.book, book) || other.book == book) &&
             (identical(other.isMy, isMy) || other.isMy == isMy));
   }
@@ -144,13 +144,14 @@ class _$_BookScreenState implements _BookScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BookScreenStateCopyWith<_$_BookScreenState> get copyWith =>
-      __$$_BookScreenStateCopyWithImpl<_$_BookScreenState>(this, _$identity);
+  _$$BookScreenStateImplCopyWith<_$BookScreenStateImpl> get copyWith =>
+      __$$BookScreenStateImplCopyWithImpl<_$BookScreenStateImpl>(
+          this, _$identity);
 }
 
 abstract class _BookScreenState implements BookScreenState {
   factory _BookScreenState({required final Book book, final bool isMy}) =
-      _$_BookScreenState;
+      _$BookScreenStateImpl;
 
   @override
   Book get book;
@@ -158,6 +159,6 @@ abstract class _BookScreenState implements BookScreenState {
   bool get isMy;
   @override
   @JsonKey(ignore: true)
-  _$$_BookScreenStateCopyWith<_$_BookScreenState> get copyWith =>
+  _$$BookScreenStateImplCopyWith<_$BookScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

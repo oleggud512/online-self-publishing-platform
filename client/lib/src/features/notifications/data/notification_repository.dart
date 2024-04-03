@@ -4,8 +4,6 @@ import 'dart:convert';
 
 import 'package:client/src/common/log.dart';
 import 'package:client/src/shared/sembast.dart';
-import 'package:client/src/shared/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sembast/sembast.dart';
 

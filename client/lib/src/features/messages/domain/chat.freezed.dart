@@ -12,7 +12,7 @@ part of 'chat.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Chat _$ChatFromJson(Map<String, dynamic> json) {
   return _Chat.fromJson(json);
@@ -81,9 +81,10 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
 }
 
 /// @nodoc
-abstract class _$$_ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
-  factory _$$_ChatCopyWith(_$_Chat value, $Res Function(_$_Chat) then) =
-      __$$_ChatCopyWithImpl<$Res>;
+abstract class _$$ChatImplCopyWith<$Res> implements $ChatCopyWith<$Res> {
+  factory _$$ChatImplCopyWith(
+          _$ChatImpl value, $Res Function(_$ChatImpl) then) =
+      __$$ChatImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ChatSource source, Profile other, String lastMessage});
@@ -93,9 +94,10 @@ abstract class _$$_ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
-    implements _$$_ChatCopyWith<$Res> {
-  __$$_ChatCopyWithImpl(_$_Chat _value, $Res Function(_$_Chat) _then)
+class __$$ChatImplCopyWithImpl<$Res>
+    extends _$ChatCopyWithImpl<$Res, _$ChatImpl>
+    implements _$$ChatImplCopyWith<$Res> {
+  __$$ChatImplCopyWithImpl(_$ChatImpl _value, $Res Function(_$ChatImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -105,7 +107,7 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
     Object? other = null,
     Object? lastMessage = null,
   }) {
-    return _then(_$_Chat(
+    return _then(_$ChatImpl(
       source: null == source
           ? _value.source
           : source // ignore: cast_nullable_to_non_nullable
@@ -124,13 +126,14 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
 
 /// @nodoc
 @JsonSerializable(createToJson: false)
-class _$_Chat implements _Chat {
-  _$_Chat(
+class _$ChatImpl implements _Chat {
+  _$ChatImpl(
       {this.source = ChatSource.user,
       required this.other,
       this.lastMessage = ""});
 
-  factory _$_Chat.fromJson(Map<String, dynamic> json) => _$$_ChatFromJson(json);
+  factory _$ChatImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatImplFromJson(json);
 
   @override
   @JsonKey()
@@ -147,10 +150,10 @@ class _$_Chat implements _Chat {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Chat &&
+            other is _$ChatImpl &&
             (identical(other.source, source) || other.source == source) &&
             (identical(other.other, this.other) || other.other == this.other) &&
             (identical(other.lastMessage, lastMessage) ||
@@ -164,17 +167,17 @@ class _$_Chat implements _Chat {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChatCopyWith<_$_Chat> get copyWith =>
-      __$$_ChatCopyWithImpl<_$_Chat>(this, _$identity);
+  _$$ChatImplCopyWith<_$ChatImpl> get copyWith =>
+      __$$ChatImplCopyWithImpl<_$ChatImpl>(this, _$identity);
 }
 
 abstract class _Chat implements Chat {
   factory _Chat(
       {final ChatSource source,
       required final Profile other,
-      final String lastMessage}) = _$_Chat;
+      final String lastMessage}) = _$ChatImpl;
 
-  factory _Chat.fromJson(Map<String, dynamic> json) = _$_Chat.fromJson;
+  factory _Chat.fromJson(Map<String, dynamic> json) = _$ChatImpl.fromJson;
 
   @override
   ChatSource get source;
@@ -184,5 +187,6 @@ abstract class _Chat implements Chat {
   String get lastMessage;
   @override
   @JsonKey(ignore: true)
-  _$$_ChatCopyWith<_$_Chat> get copyWith => throw _privateConstructorUsedError;
+  _$$ChatImplCopyWith<_$ChatImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

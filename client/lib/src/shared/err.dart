@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:client/src/shared/utils.dart';
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 
 import '../common/log.dart';
 import '../common/widgets/error_handler.dart';
@@ -21,7 +19,7 @@ class BlockedAppError extends AppError {
 
 Future<T> err<T>(Future<T> Function() func) async {
   try {
-    glogger.i('err wrapper: inner function execution');
+    glogger.t('err wrapper: inner function execution');
     return await func();
   } on DioException catch (e) {
     printInfo('DIOERROR CAUGHT');

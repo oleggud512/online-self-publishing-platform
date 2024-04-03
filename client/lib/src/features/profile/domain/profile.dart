@@ -1,7 +1,6 @@
 import 'package:client/src/common/ignore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../common/log.dart';
 import '../../../shared/identifiable.dart';
 import '../../books/domain/book.dart';
 

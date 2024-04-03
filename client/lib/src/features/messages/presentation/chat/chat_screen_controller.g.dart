@@ -86,8 +86,8 @@ class ChatScreenControllerProvider extends AutoDisposeNotifierProviderImpl<
     ChatScreenController, ChatScreenState> {
   /// See also [ChatScreenController].
   ChatScreenControllerProvider(
-    this.chat,
-  ) : super.internal(
+    Chat chat,
+  ) : this._internal(
           () => ChatScreenController()..chat = chat,
           from: chatScreenControllerProvider,
           name: r'chatScreenControllerProvider',
@@ -98,9 +98,51 @@ class ChatScreenControllerProvider extends AutoDisposeNotifierProviderImpl<
           dependencies: ChatScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               ChatScreenControllerFamily._allTransitiveDependencies,
+          chat: chat,
         );
 
+  ChatScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chat,
+  }) : super.internal();
+
   final Chat chat;
+
+  @override
+  ChatScreenState runNotifierBuild(
+    covariant ChatScreenController notifier,
+  ) {
+    return notifier.build(
+      chat,
+    );
+  }
+
+  @override
+  Override overrideWith(ChatScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ChatScreenControllerProvider._internal(
+        () => create()..chat = chat,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chat: chat,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<ChatScreenController, ChatScreenState>
+      createElement() {
+    return _ChatScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,14 +156,21 @@ class ChatScreenControllerProvider extends AutoDisposeNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ChatScreenControllerRef
+    on AutoDisposeNotifierProviderRef<ChatScreenState> {
+  /// The parameter `chat` of this provider.
+  Chat get chat;
+}
+
+class _ChatScreenControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<ChatScreenController,
+        ChatScreenState> with ChatScreenControllerRef {
+  _ChatScreenControllerProviderElement(super.provider);
 
   @override
-  ChatScreenState runNotifierBuild(
-    covariant ChatScreenController notifier,
-  ) {
-    return notifier.build(
-      chat,
-    );
-  }
+  Chat get chat => (origin as ChatScreenControllerProvider).chat;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

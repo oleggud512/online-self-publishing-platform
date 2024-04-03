@@ -12,7 +12,7 @@ part of 'profile_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ProfileScreenState {
@@ -80,11 +80,11 @@ class _$ProfileScreenStateCopyWithImpl<$Res, $Val extends ProfileScreenState>
 }
 
 /// @nodoc
-abstract class _$$_ProfileScreenStateCopyWith<$Res>
+abstract class _$$ProfileScreenStateImplCopyWith<$Res>
     implements $ProfileScreenStateCopyWith<$Res> {
-  factory _$$_ProfileScreenStateCopyWith(_$_ProfileScreenState value,
-          $Res Function(_$_ProfileScreenState) then) =
-      __$$_ProfileScreenStateCopyWithImpl<$Res>;
+  factory _$$ProfileScreenStateImplCopyWith(_$ProfileScreenStateImpl value,
+          $Res Function(_$ProfileScreenStateImpl) then) =
+      __$$ProfileScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Profile profile, bool isSubscribed, bool isMy});
@@ -94,11 +94,11 @@ abstract class _$$_ProfileScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ProfileScreenStateCopyWithImpl<$Res>
-    extends _$ProfileScreenStateCopyWithImpl<$Res, _$_ProfileScreenState>
-    implements _$$_ProfileScreenStateCopyWith<$Res> {
-  __$$_ProfileScreenStateCopyWithImpl(
-      _$_ProfileScreenState _value, $Res Function(_$_ProfileScreenState) _then)
+class __$$ProfileScreenStateImplCopyWithImpl<$Res>
+    extends _$ProfileScreenStateCopyWithImpl<$Res, _$ProfileScreenStateImpl>
+    implements _$$ProfileScreenStateImplCopyWith<$Res> {
+  __$$ProfileScreenStateImplCopyWithImpl(_$ProfileScreenStateImpl _value,
+      $Res Function(_$ProfileScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$_ProfileScreenStateCopyWithImpl<$Res>
     Object? isSubscribed = null,
     Object? isMy = null,
   }) {
-    return _then(_$_ProfileScreenState(
+    return _then(_$ProfileScreenStateImpl(
       profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
@@ -127,8 +127,8 @@ class __$$_ProfileScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ProfileScreenState implements _ProfileScreenState {
-  _$_ProfileScreenState(
+class _$ProfileScreenStateImpl implements _ProfileScreenState {
+  _$ProfileScreenStateImpl(
       {required this.profile, this.isSubscribed = false, this.isMy = false});
 
   @override
@@ -147,10 +147,10 @@ class _$_ProfileScreenState implements _ProfileScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ProfileScreenState &&
+            other is _$ProfileScreenStateImpl &&
             (identical(other.profile, profile) || other.profile == profile) &&
             (identical(other.isSubscribed, isSubscribed) ||
                 other.isSubscribed == isSubscribed) &&
@@ -163,8 +163,8 @@ class _$_ProfileScreenState implements _ProfileScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ProfileScreenStateCopyWith<_$_ProfileScreenState> get copyWith =>
-      __$$_ProfileScreenStateCopyWithImpl<_$_ProfileScreenState>(
+  _$$ProfileScreenStateImplCopyWith<_$ProfileScreenStateImpl> get copyWith =>
+      __$$ProfileScreenStateImplCopyWithImpl<_$ProfileScreenStateImpl>(
           this, _$identity);
 }
 
@@ -172,7 +172,7 @@ abstract class _ProfileScreenState implements ProfileScreenState {
   factory _ProfileScreenState(
       {required final Profile profile,
       final bool isSubscribed,
-      final bool isMy}) = _$_ProfileScreenState;
+      final bool isMy}) = _$ProfileScreenStateImpl;
 
   @override
   Profile get profile;
@@ -182,6 +182,6 @@ abstract class _ProfileScreenState implements ProfileScreenState {
   bool get isMy;
   @override
   @JsonKey(ignore: true)
-  _$$_ProfileScreenStateCopyWith<_$_ProfileScreenState> get copyWith =>
+  _$$ProfileScreenStateImplCopyWith<_$ProfileScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,10 +1,6 @@
-import 'package:client/src/features/localization/application/current_localization.dart';
-import 'package:client/src/router/router.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../common/log.dart';

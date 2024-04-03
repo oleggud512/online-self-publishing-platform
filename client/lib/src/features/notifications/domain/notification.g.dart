@@ -6,9 +6,9 @@ part of 'notification.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NewChapterNotification _$$NewChapterNotificationFromJson(
+_$NewChapterNotificationImpl _$$NewChapterNotificationImplFromJson(
         Map<String, dynamic> json) =>
-    _$NewChapterNotification(
+    _$NewChapterNotificationImpl(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
@@ -19,22 +19,22 @@ _$NewChapterNotification _$$NewChapterNotificationFromJson(
       chapterId: json['chapterId'] as String?,
     );
 
-Map<String, dynamic> _$$NewChapterNotificationToJson(
-        _$NewChapterNotification instance) =>
+Map<String, dynamic> _$$NewChapterNotificationImplToJson(
+        _$NewChapterNotificationImpl instance) =>
     <String, dynamic>{
       'notificationType': instance.notificationType,
       'localId': instance.localId,
       'messageId': instance.messageId,
-      'sentTime': intDateToJson(instance.sentTime),
+      'sentTime': _intDateToJson(instance.sentTime),
       'book': instance.book,
       'bookId': instance.bookId,
       'chapter': instance.chapter,
       'chapterId': instance.chapterId,
     };
 
-_$BookUnpublishedNotification _$$BookUnpublishedNotificationFromJson(
+_$BookUnpublishedNotificationImpl _$$BookUnpublishedNotificationImplFromJson(
         Map<String, dynamic> json) =>
-    _$BookUnpublishedNotification(
+    _$BookUnpublishedNotificationImpl(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
@@ -43,20 +43,20 @@ _$BookUnpublishedNotification _$$BookUnpublishedNotificationFromJson(
       bookId: json['bookId'] as String?,
     );
 
-Map<String, dynamic> _$$BookUnpublishedNotificationToJson(
-        _$BookUnpublishedNotification instance) =>
+Map<String, dynamic> _$$BookUnpublishedNotificationImplToJson(
+        _$BookUnpublishedNotificationImpl instance) =>
     <String, dynamic>{
       'notificationType': instance.notificationType,
       'localId': instance.localId,
       'messageId': instance.messageId,
-      'sentTime': intDateToJson(instance.sentTime),
+      'sentTime': _intDateToJson(instance.sentTime),
       'book': instance.book,
       'bookId': instance.bookId,
     };
 
-_$ReportRejectedNotification _$$ReportRejectedNotificationFromJson(
+_$ReportRejectedNotificationImpl _$$ReportRejectedNotificationImplFromJson(
         Map<String, dynamic> json) =>
-    _$ReportRejectedNotification(
+    _$ReportRejectedNotificationImpl(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
@@ -66,21 +66,21 @@ _$ReportRejectedNotification _$$ReportRejectedNotificationFromJson(
       subjectId: json['subjectId'] as String,
     );
 
-Map<String, dynamic> _$$ReportRejectedNotificationToJson(
-        _$ReportRejectedNotification instance) =>
+Map<String, dynamic> _$$ReportRejectedNotificationImplToJson(
+        _$ReportRejectedNotificationImpl instance) =>
     <String, dynamic>{
       'notificationType': instance.notificationType,
       'localId': instance.localId,
       'messageId': instance.messageId,
-      'sentTime': intDateToJson(instance.sentTime),
+      'sentTime': _intDateToJson(instance.sentTime),
       'subject': instance.subject,
       'subjectName': instance.subjectName,
       'subjectId': instance.subjectId,
     };
 
-_$SubscribedNotification _$$SubscribedNotificationFromJson(
+_$SubscribedNotificationImpl _$$SubscribedNotificationImplFromJson(
         Map<String, dynamic> json) =>
-    _$SubscribedNotification(
+    _$SubscribedNotificationImpl(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
@@ -89,36 +89,37 @@ _$SubscribedNotification _$$SubscribedNotificationFromJson(
       profileId: json['profileId'] as String,
     );
 
-Map<String, dynamic> _$$SubscribedNotificationToJson(
-        _$SubscribedNotification instance) =>
+Map<String, dynamic> _$$SubscribedNotificationImplToJson(
+        _$SubscribedNotificationImpl instance) =>
     <String, dynamic>{
       'notificationType': instance.notificationType,
       'localId': instance.localId,
       'messageId': instance.messageId,
-      'sentTime': intDateToJson(instance.sentTime),
+      'sentTime': _intDateToJson(instance.sentTime),
       'profile': instance.profile,
       'profileId': instance.profileId,
     };
 
-_$CommentAnswerNotification _$$CommentAnswerNotificationFromJson(
+_$CommentAnswerNotificationImpl _$$CommentAnswerNotificationImplFromJson(
         Map<String, dynamic> json) =>
-    _$CommentAnswerNotification(
+    _$CommentAnswerNotificationImpl(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
       sentTime: DateTime.fromMillisecondsSinceEpoch(json['sentTime'] as int),
       subject: json['subject'] as String? ?? "",
       subjectName: json['subjectName'] as String? ?? "",
-      depth: json['depth'] as int? ?? 0,
+      depth:
+          json['depth'] == null ? 0 : _depthFromJson(json['depth'] as String),
     );
 
-Map<String, dynamic> _$$CommentAnswerNotificationToJson(
-        _$CommentAnswerNotification instance) =>
+Map<String, dynamic> _$$CommentAnswerNotificationImplToJson(
+        _$CommentAnswerNotificationImpl instance) =>
     <String, dynamic>{
       'notificationType': instance.notificationType,
       'localId': instance.localId,
       'messageId': instance.messageId,
-      'sentTime': intDateToJson(instance.sentTime),
+      'sentTime': _intDateToJson(instance.sentTime),
       'subject': instance.subject,
       'subjectName': instance.subjectName,
       'depth': instance.depth,

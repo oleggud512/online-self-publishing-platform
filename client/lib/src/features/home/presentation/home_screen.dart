@@ -1,4 +1,3 @@
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
 import 'package:client/src/features/home/presentation/home_screen_controller.dart';
@@ -23,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
     final state = ref.watch(homeScreenControllerProvider);
 
     return Scaffold(
-      appBar: HomeScreenAppBar(),
+      appBar: const HomeScreenAppBar(),
       body: state.when(
         data: (state) => ListView(
           children: [

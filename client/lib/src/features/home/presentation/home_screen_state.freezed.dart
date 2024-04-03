@@ -12,7 +12,7 @@ part of 'home_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$HomeScreenState {
@@ -63,22 +63,22 @@ class _$HomeScreenStateCopyWithImpl<$Res, $Val extends HomeScreenState>
 }
 
 /// @nodoc
-abstract class _$$_HomeScreenStateCopyWith<$Res>
+abstract class _$$HomeScreenStateImplCopyWith<$Res>
     implements $HomeScreenStateCopyWith<$Res> {
-  factory _$$_HomeScreenStateCopyWith(
-          _$_HomeScreenState value, $Res Function(_$_HomeScreenState) then) =
-      __$$_HomeScreenStateCopyWithImpl<$Res>;
+  factory _$$HomeScreenStateImplCopyWith(_$HomeScreenStateImpl value,
+          $Res Function(_$HomeScreenStateImpl) then) =
+      __$$HomeScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Book> books, List<Profile> authors});
 }
 
 /// @nodoc
-class __$$_HomeScreenStateCopyWithImpl<$Res>
-    extends _$HomeScreenStateCopyWithImpl<$Res, _$_HomeScreenState>
-    implements _$$_HomeScreenStateCopyWith<$Res> {
-  __$$_HomeScreenStateCopyWithImpl(
-      _$_HomeScreenState _value, $Res Function(_$_HomeScreenState) _then)
+class __$$HomeScreenStateImplCopyWithImpl<$Res>
+    extends _$HomeScreenStateCopyWithImpl<$Res, _$HomeScreenStateImpl>
+    implements _$$HomeScreenStateImplCopyWith<$Res> {
+  __$$HomeScreenStateImplCopyWithImpl(
+      _$HomeScreenStateImpl _value, $Res Function(_$HomeScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_HomeScreenStateCopyWithImpl<$Res>
     Object? books = null,
     Object? authors = null,
   }) {
-    return _then(_$_HomeScreenState(
+    return _then(_$HomeScreenStateImpl(
       books: null == books
           ? _value._books
           : books // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_HomeScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HomeScreenState implements _HomeScreenState {
-  _$_HomeScreenState(
+class _$HomeScreenStateImpl implements _HomeScreenState {
+  _$HomeScreenStateImpl(
       {final List<Book> books = const [],
       final List<Profile> authors = const []})
       : _books = books,
@@ -133,10 +133,10 @@ class _$_HomeScreenState implements _HomeScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomeScreenState &&
+            other is _$HomeScreenStateImpl &&
             const DeepCollectionEquality().equals(other._books, _books) &&
             const DeepCollectionEquality().equals(other._authors, _authors));
   }
@@ -150,14 +150,15 @@ class _$_HomeScreenState implements _HomeScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HomeScreenStateCopyWith<_$_HomeScreenState> get copyWith =>
-      __$$_HomeScreenStateCopyWithImpl<_$_HomeScreenState>(this, _$identity);
+  _$$HomeScreenStateImplCopyWith<_$HomeScreenStateImpl> get copyWith =>
+      __$$HomeScreenStateImplCopyWithImpl<_$HomeScreenStateImpl>(
+          this, _$identity);
 }
 
 abstract class _HomeScreenState implements HomeScreenState {
   factory _HomeScreenState(
       {final List<Book> books,
-      final List<Profile> authors}) = _$_HomeScreenState;
+      final List<Profile> authors}) = _$HomeScreenStateImpl;
 
   @override
   List<Book> get books;
@@ -165,6 +166,6 @@ abstract class _HomeScreenState implements HomeScreenState {
   List<Profile> get authors;
   @override
   @JsonKey(ignore: true)
-  _$$_HomeScreenStateCopyWith<_$_HomeScreenState> get copyWith =>
+  _$$HomeScreenStateImplCopyWith<_$HomeScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

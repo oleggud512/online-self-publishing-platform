@@ -31,9 +31,9 @@
       </section>
 
       <section class="d-flex flex-column gap-3">
-        <h3>${t('userReports', { name: profile.name })}</h3>
-        <report-item repeat.for="report of profile.reports" report.bind="report"></report-item>
         <h3>${t('onUserReports', { name: profile.name })}</h3>
+        <report-item repeat.for="report of profile.reports" report.bind="report"></report-item>
+        <h3>${t('userReports', { name: profile.name })}</h3>
         <report-item repeat.for="report of profile.reported" report.bind="report"></report-item>
       </section>
     </div>

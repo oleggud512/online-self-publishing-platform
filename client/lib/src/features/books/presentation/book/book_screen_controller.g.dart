@@ -86,8 +86,8 @@ class BookScreenControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     BookScreenController, BookScreenState> {
   /// See also [BookScreenController].
   BookScreenControllerProvider(
-    this.bookId,
-  ) : super.internal(
+    String bookId,
+  ) : this._internal(
           () => BookScreenController()..bookId = bookId,
           from: bookScreenControllerProvider,
           name: r'bookScreenControllerProvider',
@@ -98,9 +98,51 @@ class BookScreenControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: BookScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               BookScreenControllerFamily._allTransitiveDependencies,
+          bookId: bookId,
         );
 
+  BookScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.bookId,
+  }) : super.internal();
+
   final String bookId;
+
+  @override
+  FutureOr<BookScreenState> runNotifierBuild(
+    covariant BookScreenController notifier,
+  ) {
+    return notifier.build(
+      bookId,
+    );
+  }
+
+  @override
+  Override overrideWith(BookScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: BookScreenControllerProvider._internal(
+        () => create()..bookId = bookId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        bookId: bookId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<BookScreenController, BookScreenState>
+      createElement() {
+    return _BookScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,14 +156,21 @@ class BookScreenControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin BookScreenControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<BookScreenState> {
+  /// The parameter `bookId` of this provider.
+  String get bookId;
+}
+
+class _BookScreenControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<BookScreenController,
+        BookScreenState> with BookScreenControllerRef {
+  _BookScreenControllerProviderElement(super.provider);
 
   @override
-  FutureOr<BookScreenState> runNotifierBuild(
-    covariant BookScreenController notifier,
-  ) {
-    return notifier.build(
-      bookId,
-    );
-  }
+  String get bookId => (origin as BookScreenControllerProvider).bookId;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -7,7 +7,7 @@ part of 'report_dialog_controller.dart';
 // **************************************************************************
 
 String _$reportDialogControllerHash() =>
-    r'8241c1ca46da982b6f4a252d0596625676ec22cf';
+    r'fc56a633a42af3fbf436350a70e948bd1510a757';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -88,8 +88,8 @@ class ReportDialogControllerProvider
         List<ReportType>> {
   /// See also [ReportDialogController].
   ReportDialogControllerProvider(
-    this.subject,
-  ) : super.internal(
+    Identifiable subject,
+  ) : this._internal(
           () => ReportDialogController()..subject = subject,
           from: reportDialogControllerProvider,
           name: r'reportDialogControllerProvider',
@@ -100,9 +100,51 @@ class ReportDialogControllerProvider
           dependencies: ReportDialogControllerFamily._dependencies,
           allTransitiveDependencies:
               ReportDialogControllerFamily._allTransitiveDependencies,
+          subject: subject,
         );
 
+  ReportDialogControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.subject,
+  }) : super.internal();
+
   final Identifiable subject;
+
+  @override
+  FutureOr<List<ReportType>> runNotifierBuild(
+    covariant ReportDialogController notifier,
+  ) {
+    return notifier.build(
+      subject,
+    );
+  }
+
+  @override
+  Override overrideWith(ReportDialogController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ReportDialogControllerProvider._internal(
+        () => create()..subject = subject,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        subject: subject,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ReportDialogController,
+      List<ReportType>> createElement() {
+    return _ReportDialogControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -116,14 +158,22 @@ class ReportDialogControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ReportDialogControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<List<ReportType>> {
+  /// The parameter `subject` of this provider.
+  Identifiable get subject;
+}
+
+class _ReportDialogControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ReportDialogController,
+        List<ReportType>> with ReportDialogControllerRef {
+  _ReportDialogControllerProviderElement(super.provider);
 
   @override
-  FutureOr<List<ReportType>> runNotifierBuild(
-    covariant ReportDialogController notifier,
-  ) {
-    return notifier.build(
-      subject,
-    );
-  }
+  Identifiable get subject =>
+      (origin as ReportDialogControllerProvider).subject;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

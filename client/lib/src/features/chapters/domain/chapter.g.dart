@@ -6,7 +6,8 @@ part of 'chapter.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Chapter _$$_ChapterFromJson(Map<String, dynamic> json) => _$_Chapter(
+_$ChapterImpl _$$ChapterImplFromJson(Map<String, dynamic> json) =>
+    _$ChapterImpl(
       id: json['_id'] as String? ?? "",
       name: json['name'] as String? ?? "",
       content: json['content'] as String? ?? "",
@@ -24,7 +25,7 @@ _$_Chapter _$$_ChapterFromJson(Map<String, dynamic> json) => _$_Chapter(
           : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$$_ChapterToJson(_$_Chapter instance) {
+Map<String, dynamic> _$$ChapterImplToJson(_$ChapterImpl instance) {
   final val = <String, dynamic>{
     '_id': instance.id,
     'name': instance.name,

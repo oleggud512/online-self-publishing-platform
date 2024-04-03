@@ -1,15 +1,12 @@
 
 import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/features/books/data/book_repository.dart';
-import 'package:client/src/features/books/domain/filters.dart';
-import 'package:client/src/features/books/presentation/book/book_screen_controller.dart';
-import 'package:client/src/features/books/presentation/books/books_screen.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../common/log.dart';
 import '../../domain/book.dart';
 import '../book_filters/books_filters_state.dart';
-import 'books_screen_state.dart';
 
 part 'books_screen_controller.g.dart';
 
@@ -25,6 +22,7 @@ class BooksScreenController extends _$BooksScreenController
   }
 
   @override
+  @protected
   List<Book> get listState => state.value!;
 
   @override
@@ -35,6 +33,7 @@ class BooksScreenController extends _$BooksScreenController
   }
   
   @override
+  @protected
   PaginationItemsCallback<Book> get getItems => (int from) {
     return bookRepo.getBooks(ref.watch(booksFiltersStateProvider), from);
   };

@@ -7,7 +7,7 @@ part of 'edit_chapter_screen_controller.dart';
 // **************************************************************************
 
 String _$editChapterScreenControllerHash() =>
-    r'85821e1135231c7ae245075bfd3330c4ef64a3e3';
+    r'18411a5f4e69d9005f85c45e05ac98b1d52a8281';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -87,8 +87,8 @@ class EditChapterScreenControllerProvider
         EditChapterScreenState> {
   /// See also [EditChapterScreenController].
   EditChapterScreenControllerProvider(
-    this.chapterToEdit,
-  ) : super.internal(
+    Chapter chapterToEdit,
+  ) : this._internal(
           () => EditChapterScreenController()..chapterToEdit = chapterToEdit,
           from: editChapterScreenControllerProvider,
           name: r'editChapterScreenControllerProvider',
@@ -99,9 +99,51 @@ class EditChapterScreenControllerProvider
           dependencies: EditChapterScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               EditChapterScreenControllerFamily._allTransitiveDependencies,
+          chapterToEdit: chapterToEdit,
         );
 
+  EditChapterScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chapterToEdit,
+  }) : super.internal();
+
   final Chapter chapterToEdit;
+
+  @override
+  EditChapterScreenState runNotifierBuild(
+    covariant EditChapterScreenController notifier,
+  ) {
+    return notifier.build(
+      chapterToEdit,
+    );
+  }
+
+  @override
+  Override overrideWith(EditChapterScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: EditChapterScreenControllerProvider._internal(
+        () => create()..chapterToEdit = chapterToEdit,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chapterToEdit: chapterToEdit,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<EditChapterScreenController,
+      EditChapterScreenState> createElement() {
+    return _EditChapterScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -116,14 +158,22 @@ class EditChapterScreenControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin EditChapterScreenControllerRef
+    on AutoDisposeNotifierProviderRef<EditChapterScreenState> {
+  /// The parameter `chapterToEdit` of this provider.
+  Chapter get chapterToEdit;
+}
+
+class _EditChapterScreenControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<EditChapterScreenController,
+        EditChapterScreenState> with EditChapterScreenControllerRef {
+  _EditChapterScreenControllerProviderElement(super.provider);
 
   @override
-  EditChapterScreenState runNotifierBuild(
-    covariant EditChapterScreenController notifier,
-  ) {
-    return notifier.build(
-      chapterToEdit,
-    );
-  }
+  Chapter get chapterToEdit =>
+      (origin as EditChapterScreenControllerProvider).chapterToEdit;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

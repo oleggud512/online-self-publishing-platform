@@ -1,5 +1,4 @@
 import 'package:client/src/common/log.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 

@@ -1,7 +1,5 @@
 import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
-import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/features/profile/application/currently_edited_profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_screen/edit_profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_widget/edit_profile_widget.dart';

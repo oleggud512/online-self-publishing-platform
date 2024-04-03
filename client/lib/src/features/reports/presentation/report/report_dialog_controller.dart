@@ -14,6 +14,7 @@ part 'report_dialog_controller.g.dart';
 class ReportDialogController extends _$ReportDialogController {
   ReportRepostiory get reportRepo => ref.watch(reportRepositoryProvider);
 
+  @override
   FutureOr<List<ReportType>> build(Identifiable subject) {
     return reportRepo.getReportTypes(ReportSubject.subjectNameFromObject(subject));
   }

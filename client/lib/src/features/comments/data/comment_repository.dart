@@ -4,7 +4,6 @@ import 'package:client/src/features/comments/domain/comment.dart';
 import 'package:client/src/shared/dio.dart';
 import 'package:client/src/shared/err.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../common/widgets/error_handler.dart';

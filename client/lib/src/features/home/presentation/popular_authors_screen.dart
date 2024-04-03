@@ -1,5 +1,4 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';

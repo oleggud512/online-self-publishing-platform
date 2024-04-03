@@ -6,7 +6,8 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
+_$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
+    _$MessageImpl(
       id: json['_id'] as String? ?? "",
       content: json['content'] as String? ?? "",
       from: Profile.fromJson(json['from'] as Map<String, dynamic>),
@@ -15,7 +16,7 @@ _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
+Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'content': instance.content,

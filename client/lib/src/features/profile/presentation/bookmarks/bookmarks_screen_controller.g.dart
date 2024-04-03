@@ -7,7 +7,7 @@ part of 'bookmarks_screen_controller.dart';
 // **************************************************************************
 
 String _$bookmarksScreenControllerHash() =>
-    r'1be39d18465d74cfe67871c1eafc9e4ec0e1bbba';
+    r'4428b014a48af4f2affaaed8c6271ecd7d7d6e6f';
 
 /// See also [BookmarksScreenController].
 @ProviderFor(BookmarksScreenController)
@@ -23,4 +23,5 @@ final bookmarksScreenControllerProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$BookmarksScreenController = AutoDisposeAsyncNotifier<List<Book>>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

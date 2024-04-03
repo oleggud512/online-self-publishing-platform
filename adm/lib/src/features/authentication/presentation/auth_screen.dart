@@ -17,9 +17,8 @@ class AuthScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cont = ref.read(authScreenControllerProvider);
-    final ll = context.ll!;
     return Scaffold(
-      appBar: AppBar(title: Text(ll.scr)),
+      appBar: AppBar(title: Text("Auth".hardcoded)),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(
@@ -31,7 +30,7 @@ class AuthScreen extends ConsumerWidget {
               TextField(
                 controller: email,
                 decoration: InputDecoration(
-                  labelText: ,
+                  labelText: "email".hardcoded,
                 ),
               ),
               h8gap,
@@ -47,7 +46,7 @@ class AuthScreen extends ConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(56),
                 ),
-                child: Text(ll.auth.signIn),
+                child: Text("Sign in".hardcoded),
                 onPressed: () async {
                   final creds = 
                     await cont.signInWithEmailAndPassword(

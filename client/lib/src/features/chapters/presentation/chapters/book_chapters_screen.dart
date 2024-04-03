@@ -1,16 +1,9 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
-import 'package:client/src/common/pagination/pagination_controller.dart';
-import 'package:client/src/common/pagination/simple_pagination_list_screen.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/chapters/application/events.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
-import 'package:client/src/features/profile/domain/profile.dart';
-import 'package:client/src/shared/pagination_list_callback_factory.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

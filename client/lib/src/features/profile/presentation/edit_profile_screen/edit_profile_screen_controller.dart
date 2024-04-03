@@ -5,12 +5,9 @@ import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/features/profile/application/currently_edited_profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_widget/edit_profile_widget_controller.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:client/src/shared/utils.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../application/current_profile_id.dart';
 import '../../data/profile_repository.dart';
 import '../../domain/profile.dart';
 import 'edit_profile_screen_state.dart';

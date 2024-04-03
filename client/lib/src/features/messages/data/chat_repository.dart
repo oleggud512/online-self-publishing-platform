@@ -1,11 +1,9 @@
 import 'package:client/src/common/log.dart';
-import 'package:client/src/common/socket_stream.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/messages/domain/chat.dart';
 import 'package:client/src/features/messages/domain/message.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
-import 'package:client/src/shared/socket.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

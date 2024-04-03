@@ -12,7 +12,7 @@ part of 'filters.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Filters _$FiltersFromJson(Map<String, dynamic> json) {
   return _Filters.fromJson(json);
@@ -99,10 +99,10 @@ class _$FiltersCopyWithImpl<$Res, $Val extends Filters>
 }
 
 /// @nodoc
-abstract class _$$_FiltersCopyWith<$Res> implements $FiltersCopyWith<$Res> {
-  factory _$$_FiltersCopyWith(
-          _$_Filters value, $Res Function(_$_Filters) then) =
-      __$$_FiltersCopyWithImpl<$Res>;
+abstract class _$$FiltersImplCopyWith<$Res> implements $FiltersCopyWith<$Res> {
+  factory _$$FiltersImplCopyWith(
+          _$FiltersImpl value, $Res Function(_$FiltersImpl) then) =
+      __$$FiltersImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -115,10 +115,11 @@ abstract class _$$_FiltersCopyWith<$Res> implements $FiltersCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_FiltersCopyWithImpl<$Res>
-    extends _$FiltersCopyWithImpl<$Res, _$_Filters>
-    implements _$$_FiltersCopyWith<$Res> {
-  __$$_FiltersCopyWithImpl(_$_Filters _value, $Res Function(_$_Filters) _then)
+class __$$FiltersImplCopyWithImpl<$Res>
+    extends _$FiltersCopyWithImpl<$Res, _$FiltersImpl>
+    implements _$$FiltersImplCopyWith<$Res> {
+  __$$FiltersImplCopyWithImpl(
+      _$FiltersImpl _value, $Res Function(_$FiltersImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,7 +132,7 @@ class __$$_FiltersCopyWithImpl<$Res>
     Object? genres = null,
     Object? statuses = null,
   }) {
-    return _then(_$_Filters(
+    return _then(_$FiltersImpl(
       ofProfile: freezed == ofProfile
           ? _value.ofProfile
           : ofProfile // ignore: cast_nullable_to_non_nullable
@@ -162,8 +163,8 @@ class __$$_FiltersCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Filters implements _Filters {
-  _$_Filters(
+class _$FiltersImpl implements _Filters {
+  _$FiltersImpl(
       {@JsonKey(includeIfNull: false) this.ofProfile,
       @JsonKey(includeIfNull: false) this.forProfile,
       @JsonKey(includeIfNull: false) this.query,
@@ -174,8 +175,8 @@ class _$_Filters implements _Filters {
         _genres = genres,
         _statuses = statuses;
 
-  factory _$_Filters.fromJson(Map<String, dynamic> json) =>
-      _$$_FiltersFromJson(json);
+  factory _$FiltersImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FiltersImplFromJson(json);
 
   @override
   @JsonKey(includeIfNull: false)
@@ -219,10 +220,10 @@ class _$_Filters implements _Filters {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Filters &&
+            other is _$FiltersImpl &&
             (identical(other.ofProfile, ofProfile) ||
                 other.ofProfile == ofProfile) &&
             (identical(other.forProfile, forProfile) ||
@@ -247,12 +248,12 @@ class _$_Filters implements _Filters {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FiltersCopyWith<_$_Filters> get copyWith =>
-      __$$_FiltersCopyWithImpl<_$_Filters>(this, _$identity);
+  _$$FiltersImplCopyWith<_$FiltersImpl> get copyWith =>
+      __$$FiltersImplCopyWithImpl<_$FiltersImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FiltersToJson(
+    return _$$FiltersImplToJson(
       this,
     );
   }
@@ -265,9 +266,9 @@ abstract class _Filters implements Filters {
       @JsonKey(includeIfNull: false) final String? query,
       final List<String> tags,
       final List<String> genres,
-      final List<BookStatus> statuses}) = _$_Filters;
+      final List<BookStatus> statuses}) = _$FiltersImpl;
 
-  factory _Filters.fromJson(Map<String, dynamic> json) = _$_Filters.fromJson;
+  factory _Filters.fromJson(Map<String, dynamic> json) = _$FiltersImpl.fromJson;
 
   @override
   @JsonKey(includeIfNull: false)
@@ -286,6 +287,6 @@ abstract class _Filters implements Filters {
   List<BookStatus> get statuses;
   @override
   @JsonKey(ignore: true)
-  _$$_FiltersCopyWith<_$_Filters> get copyWith =>
+  _$$FiltersImplCopyWith<_$FiltersImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

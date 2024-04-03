@@ -1,18 +1,16 @@
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
-import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/domain/localization.i69n.dart';
 import 'package:client/src/features/messages/domain/chat.dart';
-import 'package:client/src/features/profile/application/current_profile_id.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_screen/edit_profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_state.dart';
+import 'package:client/src/router/utils.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -133,7 +131,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         //     profile.name);
         return Scaffold(
           appBar: AppBar(
-            leading: GoRouter.of(context).location.contains(MyRoute.profiles.name) 
+            leading: getCurrentLocation(GoRouter.of(context)).contains(MyRoute.profiles.name) 
               ? const BackButton()
               : const MenuButtonLeading(),
             actions: [
@@ -240,7 +238,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               unsubscribe: unsubscribe,
             ),
             if (ref.watch(myIdProvider) != profile.id) IconButton(
-              icon: Icon(Icons.message),
+              icon: const Icon(Icons.message),
               onPressed: onSendMessage
             )
           ],

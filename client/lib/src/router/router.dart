@@ -1,37 +1,25 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/go_router_refresh_stream.dart';
-import 'package:client/src/common/hardcoded.dart';
-import 'package:client/src/common/log.dart';
-import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/auth/data/auth_repository.dart';
 import 'package:client/src/features/auth/presentation/auth_screen.dart';
-import 'package:client/src/features/books/domain/filters.dart';
-import 'package:client/src/features/books/presentation/book_list/book_list_item_widget.dart';
-import 'package:client/src/features/books/presentation/book_list/book_list_widget.dart';
 import 'package:client/src/features/books/presentation/books/books_screen.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/features/home/presentation/home_screen.dart';
 import 'package:client/src/features/home/presentation/popular_books_screen.dart';
-import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/messages/domain/chat.dart';
 import 'package:client/src/features/messages/presentation/chat/chat_screen.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen.dart';
 import 'package:client/src/features/notifications/presentation/notifications_screen.dart';
 import 'package:client/src/features/profile/application/currently_edited_profile.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
-import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen.dart';
-import 'package:client/src/common/pagination/simple_pagination_list_screen.dart';
 import 'package:client/src/router/scaffold_with_navigation.dart';
 import 'package:client/src/shared/constants.dart';
-import 'package:client/src/shared/pagination_list_callback_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
-import '../features/books/data/book_repository.dart';
 import '../features/books/domain/book.dart';
 import '../features/books/presentation/book/book_screen.dart';
 import '../features/books/presentation/book_filters/books_filters_screen.dart';
@@ -167,7 +155,7 @@ final routerProvider = Provider((ref) {
               pageBuilder: (context, state) {
                 return NoTransitionPage(
                   key: state.pageKey,
-                  child: HomeScreen(),
+                  child: const HomeScreen(),
                 );
               },
             ),
@@ -177,7 +165,7 @@ final routerProvider = Provider((ref) {
                 pageBuilder: (context, state) {
                   return NoTransitionPage(
                     key: state.pageKey,
-                    child: ChatsScreen(),
+                    child: const ChatsScreen(),
                   );
                 }),
             GoRoute(
@@ -249,7 +237,7 @@ final routerProvider = Provider((ref) {
               pageBuilder: (context, state) {
                 return NoTransitionPage(
                   key: state.pageKey,
-                  child: AuthorsScreen(),
+                  child: const AuthorsScreen(),
                 );
               },
             ),
@@ -352,7 +340,8 @@ final routerProvider = Provider((ref) {
                     key: state.pageKey, child: const SettingsScreen());
               },
             ),
-          ]),
+          ]
+        ),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,
         path: MyRoute.chapter.path,

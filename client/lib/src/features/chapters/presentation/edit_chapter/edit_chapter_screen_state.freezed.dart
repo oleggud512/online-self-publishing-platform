@@ -12,7 +12,7 @@ part of 'edit_chapter_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$EditChapterScreenState {
@@ -68,11 +68,12 @@ class _$EditChapterScreenStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_EditChapterScreenStateCopyWith<$Res>
+abstract class _$$EditChapterScreenStateImplCopyWith<$Res>
     implements $EditChapterScreenStateCopyWith<$Res> {
-  factory _$$_EditChapterScreenStateCopyWith(_$_EditChapterScreenState value,
-          $Res Function(_$_EditChapterScreenState) then) =
-      __$$_EditChapterScreenStateCopyWithImpl<$Res>;
+  factory _$$EditChapterScreenStateImplCopyWith(
+          _$EditChapterScreenStateImpl value,
+          $Res Function(_$EditChapterScreenStateImpl) then) =
+      __$$EditChapterScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Chapter chapter});
@@ -82,12 +83,13 @@ abstract class _$$_EditChapterScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EditChapterScreenStateCopyWithImpl<$Res>
+class __$$EditChapterScreenStateImplCopyWithImpl<$Res>
     extends _$EditChapterScreenStateCopyWithImpl<$Res,
-        _$_EditChapterScreenState>
-    implements _$$_EditChapterScreenStateCopyWith<$Res> {
-  __$$_EditChapterScreenStateCopyWithImpl(_$_EditChapterScreenState _value,
-      $Res Function(_$_EditChapterScreenState) _then)
+        _$EditChapterScreenStateImpl>
+    implements _$$EditChapterScreenStateImplCopyWith<$Res> {
+  __$$EditChapterScreenStateImplCopyWithImpl(
+      _$EditChapterScreenStateImpl _value,
+      $Res Function(_$EditChapterScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +97,7 @@ class __$$_EditChapterScreenStateCopyWithImpl<$Res>
   $Res call({
     Object? chapter = null,
   }) {
-    return _then(_$_EditChapterScreenState(
+    return _then(_$EditChapterScreenStateImpl(
       chapter: null == chapter
           ? _value.chapter
           : chapter // ignore: cast_nullable_to_non_nullable
@@ -106,8 +108,8 @@ class __$$_EditChapterScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EditChapterScreenState implements _EditChapterScreenState {
-  _$_EditChapterScreenState({required this.chapter});
+class _$EditChapterScreenStateImpl implements _EditChapterScreenState {
+  _$EditChapterScreenStateImpl({required this.chapter});
 
   @override
   final Chapter chapter;
@@ -118,10 +120,10 @@ class _$_EditChapterScreenState implements _EditChapterScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EditChapterScreenState &&
+            other is _$EditChapterScreenStateImpl &&
             (identical(other.chapter, chapter) || other.chapter == chapter));
   }
 
@@ -131,19 +133,19 @@ class _$_EditChapterScreenState implements _EditChapterScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EditChapterScreenStateCopyWith<_$_EditChapterScreenState> get copyWith =>
-      __$$_EditChapterScreenStateCopyWithImpl<_$_EditChapterScreenState>(
-          this, _$identity);
+  _$$EditChapterScreenStateImplCopyWith<_$EditChapterScreenStateImpl>
+      get copyWith => __$$EditChapterScreenStateImplCopyWithImpl<
+          _$EditChapterScreenStateImpl>(this, _$identity);
 }
 
 abstract class _EditChapterScreenState implements EditChapterScreenState {
   factory _EditChapterScreenState({required final Chapter chapter}) =
-      _$_EditChapterScreenState;
+      _$EditChapterScreenStateImpl;
 
   @override
   Chapter get chapter;
   @override
   @JsonKey(ignore: true)
-  _$$_EditChapterScreenStateCopyWith<_$_EditChapterScreenState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$EditChapterScreenStateImplCopyWith<_$EditChapterScreenStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

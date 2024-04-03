@@ -1,11 +1,6 @@
 import 'package:client/src/features/messages/domain/chat.dart';
-import 'package:client/src/router/router.dart';
-import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../common/widgets/my_avatar.dart';
 

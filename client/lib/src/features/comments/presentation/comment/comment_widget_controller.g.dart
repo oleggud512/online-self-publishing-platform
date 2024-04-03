@@ -7,7 +7,7 @@ part of 'comment_widget_controller.dart';
 // **************************************************************************
 
 String _$commentWidgetControllerHash() =>
-    r'e0c24e7f2d553e048a4bf1c3673dfcb9988c5bc0';
+    r'cb8de8d9203a12eb2556c0e0eb4cb49f0d938f66';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -86,8 +86,8 @@ class CommentWidgetControllerProvider extends AutoDisposeNotifierProviderImpl<
     CommentWidgetController, CommentWidgetState> {
   /// See also [CommentWidgetController].
   CommentWidgetControllerProvider(
-    this.comment,
-  ) : super.internal(
+    Comment comment,
+  ) : this._internal(
           () => CommentWidgetController()..comment = comment,
           from: commentWidgetControllerProvider,
           name: r'commentWidgetControllerProvider',
@@ -98,9 +98,51 @@ class CommentWidgetControllerProvider extends AutoDisposeNotifierProviderImpl<
           dependencies: CommentWidgetControllerFamily._dependencies,
           allTransitiveDependencies:
               CommentWidgetControllerFamily._allTransitiveDependencies,
+          comment: comment,
         );
 
+  CommentWidgetControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.comment,
+  }) : super.internal();
+
   final Comment comment;
+
+  @override
+  CommentWidgetState runNotifierBuild(
+    covariant CommentWidgetController notifier,
+  ) {
+    return notifier.build(
+      comment,
+    );
+  }
+
+  @override
+  Override overrideWith(CommentWidgetController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: CommentWidgetControllerProvider._internal(
+        () => create()..comment = comment,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        comment: comment,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<CommentWidgetController,
+      CommentWidgetState> createElement() {
+    return _CommentWidgetControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,14 +156,21 @@ class CommentWidgetControllerProvider extends AutoDisposeNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin CommentWidgetControllerRef
+    on AutoDisposeNotifierProviderRef<CommentWidgetState> {
+  /// The parameter `comment` of this provider.
+  Comment get comment;
+}
+
+class _CommentWidgetControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<CommentWidgetController,
+        CommentWidgetState> with CommentWidgetControllerRef {
+  _CommentWidgetControllerProviderElement(super.provider);
 
   @override
-  CommentWidgetState runNotifierBuild(
-    covariant CommentWidgetController notifier,
-  ) {
-    return notifier.build(
-      comment,
-    );
-  }
+  Comment get comment => (origin as CommentWidgetControllerProvider).comment;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,21 +1,17 @@
 
 import 'package:client/src/common/log.dart';
-import 'package:client/src/common/pagination/page_list.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
-import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 
-class PaginationListWidgetController<Type> 
-    extends AutoDisposeFamilyAsyncNotifier<List<Type>, 
-      PaginationItemsCallback<Type>>
-    with PaginationController<Type> {
+/// we would use this with any antity, list of which needs to be paginated
+class PaginationListWidgetController<Type> extends AutoDisposeFamilyAsyncNotifier<List<Type>, PaginationItemsCallback<Type>> with PaginationController<Type> {
 
   @override
   FutureOr<List<Type>> build(PaginationItemsCallback<Type> arg) async {
     this.getItems = arg;
-    printInfo('PaingationListWidgetController<Type> built');
+    printInfo('$runtimeType built');
     return getItems(0);
   }
 

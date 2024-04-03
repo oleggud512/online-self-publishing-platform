@@ -1,6 +1,5 @@
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/comments/domain/comment.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../profile/domain/profile.dart';
 

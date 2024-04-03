@@ -1,5 +1,4 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/widgets/google_list_tile.dart';
 import 'package:client/src/features/auth/presentation/auth_screen_controller.dart';

@@ -12,7 +12,7 @@ part of 'comments_widget_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CommentsWidgetState {
@@ -63,22 +63,22 @@ class _$CommentsWidgetStateCopyWithImpl<$Res, $Val extends CommentsWidgetState>
 }
 
 /// @nodoc
-abstract class _$$_CommentsWidgetStateCopyWith<$Res>
+abstract class _$$CommentsWidgetStateImplCopyWith<$Res>
     implements $CommentsWidgetStateCopyWith<$Res> {
-  factory _$$_CommentsWidgetStateCopyWith(_$_CommentsWidgetState value,
-          $Res Function(_$_CommentsWidgetState) then) =
-      __$$_CommentsWidgetStateCopyWithImpl<$Res>;
+  factory _$$CommentsWidgetStateImplCopyWith(_$CommentsWidgetStateImpl value,
+          $Res Function(_$CommentsWidgetStateImpl) then) =
+      __$$CommentsWidgetStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Comment> comments, String sorting});
 }
 
 /// @nodoc
-class __$$_CommentsWidgetStateCopyWithImpl<$Res>
-    extends _$CommentsWidgetStateCopyWithImpl<$Res, _$_CommentsWidgetState>
-    implements _$$_CommentsWidgetStateCopyWith<$Res> {
-  __$$_CommentsWidgetStateCopyWithImpl(_$_CommentsWidgetState _value,
-      $Res Function(_$_CommentsWidgetState) _then)
+class __$$CommentsWidgetStateImplCopyWithImpl<$Res>
+    extends _$CommentsWidgetStateCopyWithImpl<$Res, _$CommentsWidgetStateImpl>
+    implements _$$CommentsWidgetStateImplCopyWith<$Res> {
+  __$$CommentsWidgetStateImplCopyWithImpl(_$CommentsWidgetStateImpl _value,
+      $Res Function(_$CommentsWidgetStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_CommentsWidgetStateCopyWithImpl<$Res>
     Object? comments = null,
     Object? sorting = null,
   }) {
-    return _then(_$_CommentsWidgetState(
+    return _then(_$CommentsWidgetStateImpl(
       comments: null == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_CommentsWidgetStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CommentsWidgetState implements _CommentsWidgetState {
-  _$_CommentsWidgetState(
+class _$CommentsWidgetStateImpl implements _CommentsWidgetState {
+  _$CommentsWidgetStateImpl(
       {final List<Comment> comments = const [],
       this.sorting = CommentsSorting.nnew})
       : _comments = comments;
@@ -127,10 +127,10 @@ class _$_CommentsWidgetState implements _CommentsWidgetState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CommentsWidgetState &&
+            other is _$CommentsWidgetStateImpl &&
             const DeepCollectionEquality().equals(other._comments, _comments) &&
             (identical(other.sorting, sorting) || other.sorting == sorting));
   }
@@ -142,15 +142,15 @@ class _$_CommentsWidgetState implements _CommentsWidgetState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CommentsWidgetStateCopyWith<_$_CommentsWidgetState> get copyWith =>
-      __$$_CommentsWidgetStateCopyWithImpl<_$_CommentsWidgetState>(
+  _$$CommentsWidgetStateImplCopyWith<_$CommentsWidgetStateImpl> get copyWith =>
+      __$$CommentsWidgetStateImplCopyWithImpl<_$CommentsWidgetStateImpl>(
           this, _$identity);
 }
 
 abstract class _CommentsWidgetState implements CommentsWidgetState {
   factory _CommentsWidgetState(
       {final List<Comment> comments,
-      final String sorting}) = _$_CommentsWidgetState;
+      final String sorting}) = _$CommentsWidgetStateImpl;
 
   @override
   List<Comment> get comments;
@@ -158,6 +158,6 @@ abstract class _CommentsWidgetState implements CommentsWidgetState {
   String get sorting;
   @override
   @JsonKey(ignore: true)
-  _$$_CommentsWidgetStateCopyWith<_$_CommentsWidgetState> get copyWith =>
+  _$$CommentsWidgetStateImplCopyWith<_$CommentsWidgetStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

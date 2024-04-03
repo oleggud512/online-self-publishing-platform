@@ -1,12 +1,8 @@
-import 'dart:io';
 
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/shared/utils.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../application/currently_edited_profile.dart';

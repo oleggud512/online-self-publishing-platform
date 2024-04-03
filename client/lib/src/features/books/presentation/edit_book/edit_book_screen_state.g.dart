@@ -6,9 +6,9 @@ part of 'edit_book_screen_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_EditBookScreenState _$$_EditBookScreenStateFromJson(
+_$EditBookScreenStateImpl _$$EditBookScreenStateImplFromJson(
         Map<String, dynamic> json) =>
-    _$_EditBookScreenState(
+    _$EditBookScreenStateImpl(
       book: Book.fromJson(json['book'] as Map<String, dynamic>),
       genres: (json['genres'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -19,8 +19,8 @@ _$_EditBookScreenState _$$_EditBookScreenStateFromJson(
               const [],
     );
 
-Map<String, dynamic> _$$_EditBookScreenStateToJson(
-        _$_EditBookScreenState instance) =>
+Map<String, dynamic> _$$EditBookScreenStateImplToJson(
+        _$EditBookScreenStateImpl instance) =>
     <String, dynamic>{
       'book': instance.book,
       'genres': instance.genres,

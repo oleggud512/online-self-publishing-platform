@@ -12,7 +12,7 @@ part of 'books_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BooksScreenState {
@@ -73,11 +73,11 @@ class _$BooksScreenStateCopyWithImpl<$Res, $Val extends BooksScreenState>
 }
 
 /// @nodoc
-abstract class _$$_BooksScreenStateCopyWith<$Res>
+abstract class _$$BooksScreenStateImplCopyWith<$Res>
     implements $BooksScreenStateCopyWith<$Res> {
-  factory _$$_BooksScreenStateCopyWith(
-          _$_BooksScreenState value, $Res Function(_$_BooksScreenState) then) =
-      __$$_BooksScreenStateCopyWithImpl<$Res>;
+  factory _$$BooksScreenStateImplCopyWith(_$BooksScreenStateImpl value,
+          $Res Function(_$BooksScreenStateImpl) then) =
+      __$$BooksScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<Book>> books, Filters filters});
@@ -87,11 +87,11 @@ abstract class _$$_BooksScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BooksScreenStateCopyWithImpl<$Res>
-    extends _$BooksScreenStateCopyWithImpl<$Res, _$_BooksScreenState>
-    implements _$$_BooksScreenStateCopyWith<$Res> {
-  __$$_BooksScreenStateCopyWithImpl(
-      _$_BooksScreenState _value, $Res Function(_$_BooksScreenState) _then)
+class __$$BooksScreenStateImplCopyWithImpl<$Res>
+    extends _$BooksScreenStateCopyWithImpl<$Res, _$BooksScreenStateImpl>
+    implements _$$BooksScreenStateImplCopyWith<$Res> {
+  __$$BooksScreenStateImplCopyWithImpl(_$BooksScreenStateImpl _value,
+      $Res Function(_$BooksScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_BooksScreenStateCopyWithImpl<$Res>
     Object? books = null,
     Object? filters = null,
   }) {
-    return _then(_$_BooksScreenState(
+    return _then(_$BooksScreenStateImpl(
       books: null == books
           ? _value.books
           : books // ignore: cast_nullable_to_non_nullable
@@ -115,8 +115,8 @@ class __$$_BooksScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BooksScreenState implements _BooksScreenState {
-  _$_BooksScreenState(
+class _$BooksScreenStateImpl implements _BooksScreenState {
+  _$BooksScreenStateImpl(
       {this.books = const AsyncValue.loading(), required this.filters});
 
   @override
@@ -131,10 +131,10 @@ class _$_BooksScreenState implements _BooksScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BooksScreenState &&
+            other is _$BooksScreenStateImpl &&
             (identical(other.books, books) || other.books == books) &&
             (identical(other.filters, filters) || other.filters == filters));
   }
@@ -145,14 +145,15 @@ class _$_BooksScreenState implements _BooksScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BooksScreenStateCopyWith<_$_BooksScreenState> get copyWith =>
-      __$$_BooksScreenStateCopyWithImpl<_$_BooksScreenState>(this, _$identity);
+  _$$BooksScreenStateImplCopyWith<_$BooksScreenStateImpl> get copyWith =>
+      __$$BooksScreenStateImplCopyWithImpl<_$BooksScreenStateImpl>(
+          this, _$identity);
 }
 
 abstract class _BooksScreenState implements BooksScreenState {
   factory _BooksScreenState(
       {final AsyncValue<List<Book>> books,
-      required final Filters filters}) = _$_BooksScreenState;
+      required final Filters filters}) = _$BooksScreenStateImpl;
 
   @override
   AsyncValue<List<Book>> get books;
@@ -160,6 +161,6 @@ abstract class _BooksScreenState implements BooksScreenState {
   Filters get filters;
   @override
   @JsonKey(ignore: true)
-  _$$_BooksScreenStateCopyWith<_$_BooksScreenState> get copyWith =>
+  _$$BooksScreenStateImplCopyWith<_$BooksScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

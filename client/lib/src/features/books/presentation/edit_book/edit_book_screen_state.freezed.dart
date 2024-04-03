@@ -12,7 +12,7 @@ part of 'edit_book_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 EditBookScreenState _$EditBookScreenStateFromJson(Map<String, dynamic> json) {
   return _EditBookScreenState.fromJson(json);
@@ -84,11 +84,11 @@ class _$EditBookScreenStateCopyWithImpl<$Res, $Val extends EditBookScreenState>
 }
 
 /// @nodoc
-abstract class _$$_EditBookScreenStateCopyWith<$Res>
+abstract class _$$EditBookScreenStateImplCopyWith<$Res>
     implements $EditBookScreenStateCopyWith<$Res> {
-  factory _$$_EditBookScreenStateCopyWith(_$_EditBookScreenState value,
-          $Res Function(_$_EditBookScreenState) then) =
-      __$$_EditBookScreenStateCopyWithImpl<$Res>;
+  factory _$$EditBookScreenStateImplCopyWith(_$EditBookScreenStateImpl value,
+          $Res Function(_$EditBookScreenStateImpl) then) =
+      __$$EditBookScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Book book, List<String> genres, List<String> tags});
@@ -98,11 +98,11 @@ abstract class _$$_EditBookScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EditBookScreenStateCopyWithImpl<$Res>
-    extends _$EditBookScreenStateCopyWithImpl<$Res, _$_EditBookScreenState>
-    implements _$$_EditBookScreenStateCopyWith<$Res> {
-  __$$_EditBookScreenStateCopyWithImpl(_$_EditBookScreenState _value,
-      $Res Function(_$_EditBookScreenState) _then)
+class __$$EditBookScreenStateImplCopyWithImpl<$Res>
+    extends _$EditBookScreenStateCopyWithImpl<$Res, _$EditBookScreenStateImpl>
+    implements _$$EditBookScreenStateImplCopyWith<$Res> {
+  __$$EditBookScreenStateImplCopyWithImpl(_$EditBookScreenStateImpl _value,
+      $Res Function(_$EditBookScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -112,7 +112,7 @@ class __$$_EditBookScreenStateCopyWithImpl<$Res>
     Object? genres = null,
     Object? tags = null,
   }) {
-    return _then(_$_EditBookScreenState(
+    return _then(_$EditBookScreenStateImpl(
       book: null == book
           ? _value.book
           : book // ignore: cast_nullable_to_non_nullable
@@ -131,16 +131,16 @@ class __$$_EditBookScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_EditBookScreenState implements _EditBookScreenState {
-  _$_EditBookScreenState(
+class _$EditBookScreenStateImpl implements _EditBookScreenState {
+  _$EditBookScreenStateImpl(
       {required this.book,
       final List<String> genres = const [],
       final List<String> tags = const []})
       : _genres = genres,
         _tags = tags;
 
-  factory _$_EditBookScreenState.fromJson(Map<String, dynamic> json) =>
-      _$$_EditBookScreenStateFromJson(json);
+  factory _$EditBookScreenStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$EditBookScreenStateImplFromJson(json);
 
   @override
   final Book book;
@@ -168,10 +168,10 @@ class _$_EditBookScreenState implements _EditBookScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EditBookScreenState &&
+            other is _$EditBookScreenStateImpl &&
             (identical(other.book, book) || other.book == book) &&
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             const DeepCollectionEquality().equals(other._tags, _tags));
@@ -188,13 +188,13 @@ class _$_EditBookScreenState implements _EditBookScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EditBookScreenStateCopyWith<_$_EditBookScreenState> get copyWith =>
-      __$$_EditBookScreenStateCopyWithImpl<_$_EditBookScreenState>(
+  _$$EditBookScreenStateImplCopyWith<_$EditBookScreenStateImpl> get copyWith =>
+      __$$EditBookScreenStateImplCopyWithImpl<_$EditBookScreenStateImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EditBookScreenStateToJson(
+    return _$$EditBookScreenStateImplToJson(
       this,
     );
   }
@@ -204,10 +204,10 @@ abstract class _EditBookScreenState implements EditBookScreenState {
   factory _EditBookScreenState(
       {required final Book book,
       final List<String> genres,
-      final List<String> tags}) = _$_EditBookScreenState;
+      final List<String> tags}) = _$EditBookScreenStateImpl;
 
   factory _EditBookScreenState.fromJson(Map<String, dynamic> json) =
-      _$_EditBookScreenState.fromJson;
+      _$EditBookScreenStateImpl.fromJson;
 
   @override
   Book get book;
@@ -217,6 +217,6 @@ abstract class _EditBookScreenState implements EditBookScreenState {
   List<String> get tags;
   @override
   @JsonKey(ignore: true)
-  _$$_EditBookScreenStateCopyWith<_$_EditBookScreenState> get copyWith =>
+  _$$EditBookScreenStateImplCopyWith<_$EditBookScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,6 +1,5 @@
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
-import 'package:client/src/features/profile/application/current_profile_id.dart';
 import 'package:client/src/features/profile/data/profile_repository.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/profile/profile_screen_state.dart';

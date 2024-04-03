@@ -1,11 +1,9 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/features/comments/data/comment_repository.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_widget_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod/src/framework.dart';
 
 import '../../../../common/constants/constants.dart';
 import '../../../../common/log.dart';
@@ -100,7 +98,7 @@ class CommentsWidget extends ConsumerWidget {
             TextButton(
               child: Text(ll.loadMore),
               onPressed: () {
-                cont.addPage();
+                cont.addNewPage();
               }
             )
           ]

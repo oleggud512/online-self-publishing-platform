@@ -6,7 +6,8 @@ part of 'filters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Filters _$$_FiltersFromJson(Map<String, dynamic> json) => _$_Filters(
+_$FiltersImpl _$$FiltersImplFromJson(Map<String, dynamic> json) =>
+    _$FiltersImpl(
       ofProfile: json['ofProfile'] as String?,
       forProfile: json['forProfile'] as String?,
       query: json['query'] as String?,
@@ -23,7 +24,7 @@ _$_Filters _$$_FiltersFromJson(Map<String, dynamic> json) => _$_Filters(
           const [],
     );
 
-Map<String, dynamic> _$$_FiltersToJson(_$_Filters instance) {
+Map<String, dynamic> _$$FiltersImplToJson(_$FiltersImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

@@ -1,14 +1,8 @@
 
-import 'dart:convert';
 
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/books/data/local_book_repository.dart';
-import 'package:client/src/features/books/domain/book.dart';
-import 'package:client/src/shared/utils.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
-import 'package:sembast/src/json_encodable_codec.dart';
 
 
 class SembastBookRepsoitory implements LocalBookRepository {

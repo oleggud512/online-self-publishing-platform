@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/features/auth/data/google_auth_repository.dart';
 import 'package:client/src/shared/err.dart';
 import 'package:dio/dio.dart';

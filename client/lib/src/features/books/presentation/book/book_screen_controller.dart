@@ -3,8 +3,6 @@ import 'package:client/src/features/books/data/book_repository.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/book/book_screen_state.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
-import 'package:client/src/features/localization/data/localization_controller.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

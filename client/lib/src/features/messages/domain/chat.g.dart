@@ -6,7 +6,7 @@ part of 'chat.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Chat _$$_ChatFromJson(Map<String, dynamic> json) => _$_Chat(
+_$ChatImpl _$$ChatImplFromJson(Map<String, dynamic> json) => _$ChatImpl(
       source: $enumDecodeNullable(_$ChatSourceEnumMap, json['source']) ??
           ChatSource.user,
       other: Profile.fromJson(json['other'] as Map<String, dynamic>),

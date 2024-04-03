@@ -1,16 +1,13 @@
 import 'dart:io';
 
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/widgets/connection_error_screen.dart';
 import 'package:client/src/common/widgets/not_found_error_screen.dart';
 import 'package:client/src/features/auth/presentation/unauthenticated_error_screen.dart';
-import 'package:client/src/shared/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class AppException implements Exception { }
 

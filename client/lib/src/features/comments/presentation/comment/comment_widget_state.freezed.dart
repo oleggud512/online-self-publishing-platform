@@ -12,7 +12,7 @@ part of 'comment_widget_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CommentWidgetState {
@@ -96,11 +96,11 @@ class _$CommentWidgetStateCopyWithImpl<$Res, $Val extends CommentWidgetState>
 }
 
 /// @nodoc
-abstract class _$$_CommentWidgetStateCopyWith<$Res>
+abstract class _$$CommentWidgetStateImplCopyWith<$Res>
     implements $CommentWidgetStateCopyWith<$Res> {
-  factory _$$_CommentWidgetStateCopyWith(_$_CommentWidgetState value,
-          $Res Function(_$_CommentWidgetState) then) =
-      __$$_CommentWidgetStateCopyWithImpl<$Res>;
+  factory _$$CommentWidgetStateImplCopyWith(_$CommentWidgetStateImpl value,
+          $Res Function(_$CommentWidgetStateImpl) then) =
+      __$$CommentWidgetStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -115,11 +115,11 @@ abstract class _$$_CommentWidgetStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CommentWidgetStateCopyWithImpl<$Res>
-    extends _$CommentWidgetStateCopyWithImpl<$Res, _$_CommentWidgetState>
-    implements _$$_CommentWidgetStateCopyWith<$Res> {
-  __$$_CommentWidgetStateCopyWithImpl(
-      _$_CommentWidgetState _value, $Res Function(_$_CommentWidgetState) _then)
+class __$$CommentWidgetStateImplCopyWithImpl<$Res>
+    extends _$CommentWidgetStateCopyWithImpl<$Res, _$CommentWidgetStateImpl>
+    implements _$$CommentWidgetStateImplCopyWith<$Res> {
+  __$$CommentWidgetStateImplCopyWithImpl(_$CommentWidgetStateImpl _value,
+      $Res Function(_$CommentWidgetStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,7 +131,7 @@ class __$$_CommentWidgetStateCopyWithImpl<$Res>
     Object? isEdit = null,
     Object? editState = null,
   }) {
-    return _then(_$_CommentWidgetState(
+    return _then(_$CommentWidgetStateImpl(
       comment: null == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -156,8 +156,8 @@ class __$$_CommentWidgetStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CommentWidgetState implements _CommentWidgetState {
-  _$_CommentWidgetState(
+class _$CommentWidgetStateImpl implements _CommentWidgetState {
+  _$CommentWidgetStateImpl(
       {required this.comment,
       this.isFieldShown = false,
       this.fieldState = "",
@@ -185,10 +185,10 @@ class _$_CommentWidgetState implements _CommentWidgetState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CommentWidgetState &&
+            other is _$CommentWidgetStateImpl &&
             (identical(other.comment, comment) || other.comment == comment) &&
             const DeepCollectionEquality()
                 .equals(other.isFieldShown, isFieldShown) &&
@@ -211,8 +211,8 @@ class _$_CommentWidgetState implements _CommentWidgetState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CommentWidgetStateCopyWith<_$_CommentWidgetState> get copyWith =>
-      __$$_CommentWidgetStateCopyWithImpl<_$_CommentWidgetState>(
+  _$$CommentWidgetStateImplCopyWith<_$CommentWidgetStateImpl> get copyWith =>
+      __$$CommentWidgetStateImplCopyWithImpl<_$CommentWidgetStateImpl>(
           this, _$identity);
 }
 
@@ -222,7 +222,7 @@ abstract class _CommentWidgetState implements CommentWidgetState {
       final dynamic isFieldShown,
       final String fieldState,
       final bool isEdit,
-      final String editState}) = _$_CommentWidgetState;
+      final String editState}) = _$CommentWidgetStateImpl;
 
   @override
   Comment get comment;
@@ -236,6 +236,6 @@ abstract class _CommentWidgetState implements CommentWidgetState {
   String get editState;
   @override
   @JsonKey(ignore: true)
-  _$$_CommentWidgetStateCopyWith<_$_CommentWidgetState> get copyWith =>
+  _$$CommentWidgetStateImplCopyWith<_$CommentWidgetStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

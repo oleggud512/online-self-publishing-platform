@@ -1,8 +1,6 @@
-import 'dart:ui';
 
 import 'package:client/src/common/log.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class SizeControllerWidget extends StatefulWidget {
   const SizeControllerWidget({

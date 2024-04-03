@@ -1,6 +1,5 @@
 import 'package:client/src/features/localization/application/current_localization.dart';
 
-import '../../../../common/hardcoded.dart';
 import '../../../auth/application/my_id_provider.dart';
 import 'profile_screen_controller.dart';
 import 'package:flutter/material.dart';

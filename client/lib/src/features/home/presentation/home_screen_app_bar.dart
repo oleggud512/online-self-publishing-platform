@@ -6,7 +6,7 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
 @override
   final Size preferredSize;
 
-  HomeScreenAppBar({Key? key}) : preferredSize = const Size.fromHeight(56.0), super(key: key);
+  const HomeScreenAppBar({Key? key}) : preferredSize = const Size.fromHeight(56.0), super(key: key);
 
   @override
   Widget build(BuildContext context) {

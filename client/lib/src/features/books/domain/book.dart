@@ -1,6 +1,4 @@
-import 'package:client/src/features/books/domain/filtering_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 import '../../../common/ignore.dart';
 import '../../../shared/identifiable.dart';

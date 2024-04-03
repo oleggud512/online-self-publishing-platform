@@ -1,22 +1,16 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
-import 'package:client/src/features/home/presentation/home_screen_app_bar.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
-import 'package:client/src/features/messages/presentation/chats/chats_screen_app_bar.dart';
-import 'package:client/src/features/profile/presentation/authors/authors_screen_app_bar.dart';
 import 'package:client/src/router/router.dart';
 import 'package:client/src/router/scaffold_with_bottom_nav_bar_item.dart';
 import 'package:client/src/router/shell_scaffold_key.dart';
+import 'package:client/src/router/utils.dart';
 import 'package:client/src/shared/constants.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import '../common/constants/constants.dart';
-import '../features/books/presentation/books/books_screen_app_bar.dart';
 
 class ScaffoldWithNavigation extends ConsumerStatefulWidget {
   const ScaffoldWithNavigation({
@@ -111,7 +105,7 @@ class _ScaffoldWithNavigationState extends ConsumerState<ScaffoldWithNavigation>
     initTabs();
   }
 
-  String get curLocation => GoRouter.of(context).location;
+  String get curLocation => getCurrentLocation(GoRouter.of(context));
   int get drawerSelected {
     return [...primaryDrawerTabs, ...secondaryDrawerTabs].indexWhere(
       (t) => t.initialLocation.startsWith(curLocation)

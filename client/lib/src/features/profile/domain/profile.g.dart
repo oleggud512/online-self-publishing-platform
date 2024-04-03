@@ -6,7 +6,8 @@ part of 'profile.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Profile _$$_ProfileFromJson(Map<String, dynamic> json) => _$_Profile(
+_$ProfileImpl _$$ProfileImplFromJson(Map<String, dynamic> json) =>
+    _$ProfileImpl(
       id: json['_id'] as String? ?? "",
       name: json['name'] as String? ?? "",
       avatarUrl: json['avatarUrl'] as String?,
@@ -24,7 +25,7 @@ _$_Profile _$$_ProfileFromJson(Map<String, dynamic> json) => _$_Profile(
       isSubscribed: json['isSubscribed'] as bool?,
     );
 
-Map<String, dynamic> _$$_ProfileToJson(_$_Profile instance) {
+Map<String, dynamic> _$$ProfileImplToJson(_$ProfileImpl instance) {
   final val = <String, dynamic>{
     '_id': instance.id,
     'name': instance.name,

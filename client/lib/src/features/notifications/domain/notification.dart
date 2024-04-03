@@ -28,7 +28,7 @@ class MyNotification with _$MyNotification {
     required String notificationType,
     @Default("") String localId,
     @Default("") String messageId,
-    @intDate required DateTime sentTime,
+    @intDateConvert required DateTime sentTime,
     String? book,
     String? bookId,
     String? chapter,
@@ -40,7 +40,7 @@ class MyNotification with _$MyNotification {
     required String notificationType,
     @Default("") String localId,
     @Default("") String messageId,
-    @intDate required DateTime sentTime,
+    @intDateConvert required DateTime sentTime,
     String? book,
     String? bookId
   }) = BookUnpublishedNotification; 
@@ -50,7 +50,7 @@ class MyNotification with _$MyNotification {
     required String notificationType,
     @Default("") String localId,
     @Default("") String messageId,
-    @intDate required DateTime sentTime,
+    @intDateConvert required DateTime sentTime,
     required String subject,
     required String subjectName,
     required String subjectId
@@ -61,7 +61,7 @@ class MyNotification with _$MyNotification {
     required String notificationType,
     @Default("") String localId,
     @Default("") String messageId,
-    @intDate required DateTime sentTime,
+    @intDateConvert required DateTime sentTime,
     required String profile,
     required String profileId
   }) = SubscribedNotification;
@@ -71,17 +71,20 @@ class MyNotification with _$MyNotification {
     required String notificationType,
     @Default("") String localId,
     @Default("") String messageId,
-    @intDate required DateTime sentTime,
+    @intDateConvert required DateTime sentTime,
     @Default("") String subject,
     @Default("") String subjectName,
-    @Default(0) int depth,
+    @Default(0) @JsonKey(fromJson: _depthFromJson) int depth,
   }) = CommentAnswerNotification;
 
   factory MyNotification.fromJson(Map<String, dynamic> json) => _$MyNotificationFromJson(json);
 }
 
-const intDate = JsonKey(fromJson: DateTime.fromMillisecondsSinceEpoch, toJson: intDateToJson);
+int _depthFromJson(String data) => int.parse(data);
 
-intDateToJson(DateTime date) {
-  return date.millisecondsSinceEpoch;
-}
+int _intDateToJson(DateTime date) => date.millisecondsSinceEpoch;
+
+const intDateConvert = JsonKey(
+  fromJson: DateTime.fromMillisecondsSinceEpoch, 
+  toJson: _intDateToJson
+);

@@ -7,11 +7,8 @@ import 'package:client/src/features/messages/data/chat_repository.dart';
 import 'package:client/src/features/messages/domain/chat.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen_state.dart';
 import 'package:client/src/shared/socket.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
-import '../../../../common/socket_stream.dart';
 import '../../domain/message.dart';
 
 part 'chats_screen_controller.g.dart';

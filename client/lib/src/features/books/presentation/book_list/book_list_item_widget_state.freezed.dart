@@ -12,7 +12,7 @@ part of 'book_list_item_widget_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BookListItemWidgetState {
@@ -74,11 +74,12 @@ class _$BookListItemWidgetStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BookListItemWidgetStateCopyWith<$Res>
+abstract class _$$BookListItemWidgetStateImplCopyWith<$Res>
     implements $BookListItemWidgetStateCopyWith<$Res> {
-  factory _$$_BookListItemWidgetStateCopyWith(_$_BookListItemWidgetState value,
-          $Res Function(_$_BookListItemWidgetState) then) =
-      __$$_BookListItemWidgetStateCopyWithImpl<$Res>;
+  factory _$$BookListItemWidgetStateImplCopyWith(
+          _$BookListItemWidgetStateImpl value,
+          $Res Function(_$BookListItemWidgetStateImpl) then) =
+      __$$BookListItemWidgetStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Book book, bool isMy});
@@ -88,12 +89,13 @@ abstract class _$$_BookListItemWidgetStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BookListItemWidgetStateCopyWithImpl<$Res>
+class __$$BookListItemWidgetStateImplCopyWithImpl<$Res>
     extends _$BookListItemWidgetStateCopyWithImpl<$Res,
-        _$_BookListItemWidgetState>
-    implements _$$_BookListItemWidgetStateCopyWith<$Res> {
-  __$$_BookListItemWidgetStateCopyWithImpl(_$_BookListItemWidgetState _value,
-      $Res Function(_$_BookListItemWidgetState) _then)
+        _$BookListItemWidgetStateImpl>
+    implements _$$BookListItemWidgetStateImplCopyWith<$Res> {
+  __$$BookListItemWidgetStateImplCopyWithImpl(
+      _$BookListItemWidgetStateImpl _value,
+      $Res Function(_$BookListItemWidgetStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -102,7 +104,7 @@ class __$$_BookListItemWidgetStateCopyWithImpl<$Res>
     Object? book = null,
     Object? isMy = null,
   }) {
-    return _then(_$_BookListItemWidgetState(
+    return _then(_$BookListItemWidgetStateImpl(
       book: null == book
           ? _value.book
           : book // ignore: cast_nullable_to_non_nullable
@@ -117,8 +119,8 @@ class __$$_BookListItemWidgetStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BookListItemWidgetState implements _BookListItemWidgetState {
-  _$_BookListItemWidgetState({required this.book, this.isMy = false});
+class _$BookListItemWidgetStateImpl implements _BookListItemWidgetState {
+  _$BookListItemWidgetStateImpl({required this.book, this.isMy = false});
 
   @override
   final Book book;
@@ -132,10 +134,10 @@ class _$_BookListItemWidgetState implements _BookListItemWidgetState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BookListItemWidgetState &&
+            other is _$BookListItemWidgetStateImpl &&
             (identical(other.book, book) || other.book == book) &&
             (identical(other.isMy, isMy) || other.isMy == isMy));
   }
@@ -146,15 +148,15 @@ class _$_BookListItemWidgetState implements _BookListItemWidgetState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BookListItemWidgetStateCopyWith<_$_BookListItemWidgetState>
-      get copyWith =>
-          __$$_BookListItemWidgetStateCopyWithImpl<_$_BookListItemWidgetState>(
-              this, _$identity);
+  _$$BookListItemWidgetStateImplCopyWith<_$BookListItemWidgetStateImpl>
+      get copyWith => __$$BookListItemWidgetStateImplCopyWithImpl<
+          _$BookListItemWidgetStateImpl>(this, _$identity);
 }
 
 abstract class _BookListItemWidgetState implements BookListItemWidgetState {
   factory _BookListItemWidgetState(
-      {required final Book book, final bool isMy}) = _$_BookListItemWidgetState;
+      {required final Book book,
+      final bool isMy}) = _$BookListItemWidgetStateImpl;
 
   @override
   Book get book;
@@ -162,6 +164,6 @@ abstract class _BookListItemWidgetState implements BookListItemWidgetState {
   bool get isMy;
   @override
   @JsonKey(ignore: true)
-  _$$_BookListItemWidgetStateCopyWith<_$_BookListItemWidgetState>
+  _$$BookListItemWidgetStateImplCopyWith<_$BookListItemWidgetStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:client/src/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 

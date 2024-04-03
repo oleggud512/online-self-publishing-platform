@@ -1,5 +1,4 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/features/profile/presentation/edit_profile_widget/edit_profile_widget_controller.dart';
 import 'package:flutter/material.dart';

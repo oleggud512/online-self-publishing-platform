@@ -48,9 +48,11 @@ class BookListItemWidgetController extends _$BookListItemWidgetController {
   Future<bool> toggleBookmark() async {
     final isToggled = await _bookRepo.toggleBookmark(state.book.id);
     state = state.copyWith(book: state.book.toggleBookmark());
-    if (isToggled) ref.watch(pubSub.notifier).push(
+    if (isToggled) {
+      ref.watch(pubSub.notifier).push(
       BookmarkStateChanged(state.book.id, state.book.bookmarked!
     ));
+    }
     return isToggled;
   }
 

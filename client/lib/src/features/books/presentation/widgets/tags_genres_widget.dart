@@ -1,5 +1,4 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/constants/constants.dart';

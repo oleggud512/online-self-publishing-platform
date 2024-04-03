@@ -1,4 +1,3 @@
-import 'package:client/src/common/log.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../shared/identifiable.dart';

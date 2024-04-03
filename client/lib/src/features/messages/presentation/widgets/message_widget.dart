@@ -2,7 +2,6 @@ import 'package:client/src/common/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../common/widgets/my_avatar.dart';
 import '../../../../shared/constants.dart';
 import '../../domain/message.dart';
 

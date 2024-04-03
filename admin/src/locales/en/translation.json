@@ -70,7 +70,7 @@
 
     "loadMore": "Load More",
 
-    "restrictBookPublishMessage": "Unpublish and restrict publishment",
+    "restrictBookPublishMessage": "Unpublish and restrict publication",
     "allowBookPublishMessage": "Allow book publishment",
 
     "restrictPublishmentMessage": "Restrict the publication of books",
@@ -85,7 +85,7 @@
     "subscribers": "Subscribers",
 
     "userReports": "Reported by {{name}}",
-    "onUserReports": "Reports of {{name}}",
+    "onUserReports": "Reports on {{name}}",
 
     "likes": "Likes",
     "genres": "Genres", 

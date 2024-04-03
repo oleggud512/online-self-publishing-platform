@@ -12,7 +12,7 @@ part of 'auth_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AuthScreenState {
@@ -115,11 +115,11 @@ class _$AuthScreenStateCopyWithImpl<$Res, $Val extends AuthScreenState>
 }
 
 /// @nodoc
-abstract class _$$_AuthScreenStateCopyWith<$Res>
+abstract class _$$AuthScreenStateImplCopyWith<$Res>
     implements $AuthScreenStateCopyWith<$Res> {
-  factory _$$_AuthScreenStateCopyWith(
-          _$_AuthScreenState value, $Res Function(_$_AuthScreenState) then) =
-      __$$_AuthScreenStateCopyWithImpl<$Res>;
+  factory _$$AuthScreenStateImplCopyWith(_$AuthScreenStateImpl value,
+          $Res Function(_$AuthScreenStateImpl) then) =
+      __$$AuthScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -135,11 +135,11 @@ abstract class _$$_AuthScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AuthScreenStateCopyWithImpl<$Res>
-    extends _$AuthScreenStateCopyWithImpl<$Res, _$_AuthScreenState>
-    implements _$$_AuthScreenStateCopyWith<$Res> {
-  __$$_AuthScreenStateCopyWithImpl(
-      _$_AuthScreenState _value, $Res Function(_$_AuthScreenState) _then)
+class __$$AuthScreenStateImplCopyWithImpl<$Res>
+    extends _$AuthScreenStateCopyWithImpl<$Res, _$AuthScreenStateImpl>
+    implements _$$AuthScreenStateImplCopyWith<$Res> {
+  __$$AuthScreenStateImplCopyWithImpl(
+      _$AuthScreenStateImpl _value, $Res Function(_$AuthScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -155,7 +155,7 @@ class __$$_AuthScreenStateCopyWithImpl<$Res>
     Object? googleSignInAccount = freezed,
     Object? passwordTooLong = null,
   }) {
-    return _then(_$_AuthScreenState(
+    return _then(_$AuthScreenStateImpl(
       mode: null == mode
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
@@ -198,8 +198,8 @@ class __$$_AuthScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AuthScreenState implements _AuthScreenState {
-  _$_AuthScreenState(
+class _$AuthScreenStateImpl implements _AuthScreenState {
+  _$AuthScreenStateImpl(
       {this.mode = AuthMode.signIn,
       this.email = "",
       this.password = "",
@@ -243,10 +243,10 @@ class _$_AuthScreenState implements _AuthScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthScreenState &&
+            other is _$AuthScreenStateImpl &&
             (identical(other.mode, mode) || other.mode == mode) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
@@ -269,8 +269,9 @@ class _$_AuthScreenState implements _AuthScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthScreenStateCopyWith<_$_AuthScreenState> get copyWith =>
-      __$$_AuthScreenStateCopyWithImpl<_$_AuthScreenState>(this, _$identity);
+  _$$AuthScreenStateImplCopyWith<_$AuthScreenStateImpl> get copyWith =>
+      __$$AuthScreenStateImplCopyWithImpl<_$AuthScreenStateImpl>(
+          this, _$identity);
 }
 
 abstract class _AuthScreenState implements AuthScreenState {
@@ -283,7 +284,7 @@ abstract class _AuthScreenState implements AuthScreenState {
       final int age,
       final Gender gender,
       final GoogleSignInAccount? googleSignInAccount,
-      final bool passwordTooLong}) = _$_AuthScreenState;
+      final bool passwordTooLong}) = _$AuthScreenStateImpl;
 
   @override
   AuthMode get mode;
@@ -305,6 +306,6 @@ abstract class _AuthScreenState implements AuthScreenState {
   bool get passwordTooLong;
   @override
   @JsonKey(ignore: true)
-  _$$_AuthScreenStateCopyWith<_$_AuthScreenState> get copyWith =>
+  _$$AuthScreenStateImplCopyWith<_$AuthScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

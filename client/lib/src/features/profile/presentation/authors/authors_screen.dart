@@ -1,17 +1,12 @@
-import 'dart:async';
 
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
-import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../common/log.dart';
-import '../../domain/profile.dart';
 import 'authors_screen_app_bar.dart';
 import 'authors_screen_controller.dart';
 

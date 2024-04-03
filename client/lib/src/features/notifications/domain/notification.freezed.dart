@@ -12,7 +12,7 @@ part of 'notification.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 MyNotification _$MyNotificationFromJson(Map<String, dynamic> json) {
   switch (json['notificationType']) {
@@ -38,7 +38,7 @@ mixin _$MyNotification {
   String get notificationType => throw _privateConstructorUsedError;
   String get localId => throw _privateConstructorUsedError;
   String get messageId => throw _privateConstructorUsedError;
-  @intDate
+  @intDateConvert
   DateTime get sentTime => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -46,7 +46,7 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
@@ -56,7 +56,7 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId)
         bookUnpublished,
@@ -64,7 +64,7 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)
@@ -73,7 +73,7 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String profile,
             String profileId)
         subscribed,
@@ -81,10 +81,10 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)
+            @JsonKey(fromJson: _depthFromJson) int depth)
         commentAnswer,
   }) =>
       throw _privateConstructorUsedError;
@@ -94,35 +94,40 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult? Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
   }) =>
       throw _privateConstructorUsedError;
@@ -132,35 +137,40 @@ mixin _$MyNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
     required TResult orElse(),
   }) =>
@@ -210,7 +220,7 @@ abstract class $MyNotificationCopyWith<$Res> {
       {String notificationType,
       String localId,
       String messageId,
-      @intDate DateTime sentTime});
+      @intDateConvert DateTime sentTime});
 }
 
 /// @nodoc
@@ -253,18 +263,19 @@ class _$MyNotificationCopyWithImpl<$Res, $Val extends MyNotification>
 }
 
 /// @nodoc
-abstract class _$$NewChapterNotificationCopyWith<$Res>
+abstract class _$$NewChapterNotificationImplCopyWith<$Res>
     implements $MyNotificationCopyWith<$Res> {
-  factory _$$NewChapterNotificationCopyWith(_$NewChapterNotification value,
-          $Res Function(_$NewChapterNotification) then) =
-      __$$NewChapterNotificationCopyWithImpl<$Res>;
+  factory _$$NewChapterNotificationImplCopyWith(
+          _$NewChapterNotificationImpl value,
+          $Res Function(_$NewChapterNotificationImpl) then) =
+      __$$NewChapterNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String notificationType,
       String localId,
       String messageId,
-      @intDate DateTime sentTime,
+      @intDateConvert DateTime sentTime,
       String? book,
       String? bookId,
       String? chapter,
@@ -272,11 +283,12 @@ abstract class _$$NewChapterNotificationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NewChapterNotificationCopyWithImpl<$Res>
-    extends _$MyNotificationCopyWithImpl<$Res, _$NewChapterNotification>
-    implements _$$NewChapterNotificationCopyWith<$Res> {
-  __$$NewChapterNotificationCopyWithImpl(_$NewChapterNotification _value,
-      $Res Function(_$NewChapterNotification) _then)
+class __$$NewChapterNotificationImplCopyWithImpl<$Res>
+    extends _$MyNotificationCopyWithImpl<$Res, _$NewChapterNotificationImpl>
+    implements _$$NewChapterNotificationImplCopyWith<$Res> {
+  __$$NewChapterNotificationImplCopyWithImpl(
+      _$NewChapterNotificationImpl _value,
+      $Res Function(_$NewChapterNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -291,7 +303,7 @@ class __$$NewChapterNotificationCopyWithImpl<$Res>
     Object? chapter = freezed,
     Object? chapterId = freezed,
   }) {
-    return _then(_$NewChapterNotification(
+    return _then(_$NewChapterNotificationImpl(
       notificationType: null == notificationType
           ? _value.notificationType
           : notificationType // ignore: cast_nullable_to_non_nullable
@@ -330,19 +342,19 @@ class __$$NewChapterNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NewChapterNotification implements NewChapterNotification {
-  _$NewChapterNotification(
+class _$NewChapterNotificationImpl implements NewChapterNotification {
+  _$NewChapterNotificationImpl(
       {required this.notificationType,
       this.localId = "",
       this.messageId = "",
-      @intDate required this.sentTime,
+      @intDateConvert required this.sentTime,
       this.book,
       this.bookId,
       this.chapter,
       this.chapterId});
 
-  factory _$NewChapterNotification.fromJson(Map<String, dynamic> json) =>
-      _$$NewChapterNotificationFromJson(json);
+  factory _$NewChapterNotificationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NewChapterNotificationImplFromJson(json);
 
   @override
   final String notificationType;
@@ -353,7 +365,7 @@ class _$NewChapterNotification implements NewChapterNotification {
   @JsonKey()
   final String messageId;
   @override
-  @intDate
+  @intDateConvert
   final DateTime sentTime;
   @override
   final String? book;
@@ -370,10 +382,10 @@ class _$NewChapterNotification implements NewChapterNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NewChapterNotification &&
+            other is _$NewChapterNotificationImpl &&
             (identical(other.notificationType, notificationType) ||
                 other.notificationType == notificationType) &&
             (identical(other.localId, localId) || other.localId == localId) &&
@@ -396,9 +408,9 @@ class _$NewChapterNotification implements NewChapterNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$NewChapterNotificationCopyWith<_$NewChapterNotification> get copyWith =>
-      __$$NewChapterNotificationCopyWithImpl<_$NewChapterNotification>(
-          this, _$identity);
+  _$$NewChapterNotificationImplCopyWith<_$NewChapterNotificationImpl>
+      get copyWith => __$$NewChapterNotificationImplCopyWithImpl<
+          _$NewChapterNotificationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -407,7 +419,7 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
@@ -417,7 +429,7 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId)
         bookUnpublished,
@@ -425,7 +437,7 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)
@@ -434,7 +446,7 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String profile,
             String profileId)
         subscribed,
@@ -442,10 +454,10 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)
+            @JsonKey(fromJson: _depthFromJson) int depth)
         commentAnswer,
   }) {
     return newChapter(notificationType, localId, messageId, sentTime, book,
@@ -459,35 +471,40 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult? Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
   }) {
     return newChapter?.call(notificationType, localId, messageId, sentTime,
@@ -501,35 +518,40 @@ class _$NewChapterNotification implements NewChapterNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
     required TResult orElse(),
   }) {
@@ -583,7 +605,7 @@ class _$NewChapterNotification implements NewChapterNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$NewChapterNotificationToJson(
+    return _$$NewChapterNotificationImplToJson(
       this,
     );
   }
@@ -594,14 +616,14 @@ abstract class NewChapterNotification implements MyNotification {
       {required final String notificationType,
       final String localId,
       final String messageId,
-      @intDate required final DateTime sentTime,
+      @intDateConvert required final DateTime sentTime,
       final String? book,
       final String? bookId,
       final String? chapter,
-      final String? chapterId}) = _$NewChapterNotification;
+      final String? chapterId}) = _$NewChapterNotificationImpl;
 
   factory NewChapterNotification.fromJson(Map<String, dynamic> json) =
-      _$NewChapterNotification.fromJson;
+      _$NewChapterNotificationImpl.fromJson;
 
   @override
   String get notificationType;
@@ -610,7 +632,7 @@ abstract class NewChapterNotification implements MyNotification {
   @override
   String get messageId;
   @override
-  @intDate
+  @intDateConvert
   DateTime get sentTime;
   String? get book;
   String? get bookId;
@@ -618,35 +640,36 @@ abstract class NewChapterNotification implements MyNotification {
   String? get chapterId;
   @override
   @JsonKey(ignore: true)
-  _$$NewChapterNotificationCopyWith<_$NewChapterNotification> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$NewChapterNotificationImplCopyWith<_$NewChapterNotificationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$BookUnpublishedNotificationCopyWith<$Res>
+abstract class _$$BookUnpublishedNotificationImplCopyWith<$Res>
     implements $MyNotificationCopyWith<$Res> {
-  factory _$$BookUnpublishedNotificationCopyWith(
-          _$BookUnpublishedNotification value,
-          $Res Function(_$BookUnpublishedNotification) then) =
-      __$$BookUnpublishedNotificationCopyWithImpl<$Res>;
+  factory _$$BookUnpublishedNotificationImplCopyWith(
+          _$BookUnpublishedNotificationImpl value,
+          $Res Function(_$BookUnpublishedNotificationImpl) then) =
+      __$$BookUnpublishedNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String notificationType,
       String localId,
       String messageId,
-      @intDate DateTime sentTime,
+      @intDateConvert DateTime sentTime,
       String? book,
       String? bookId});
 }
 
 /// @nodoc
-class __$$BookUnpublishedNotificationCopyWithImpl<$Res>
-    extends _$MyNotificationCopyWithImpl<$Res, _$BookUnpublishedNotification>
-    implements _$$BookUnpublishedNotificationCopyWith<$Res> {
-  __$$BookUnpublishedNotificationCopyWithImpl(
-      _$BookUnpublishedNotification _value,
-      $Res Function(_$BookUnpublishedNotification) _then)
+class __$$BookUnpublishedNotificationImplCopyWithImpl<$Res>
+    extends _$MyNotificationCopyWithImpl<$Res,
+        _$BookUnpublishedNotificationImpl>
+    implements _$$BookUnpublishedNotificationImplCopyWith<$Res> {
+  __$$BookUnpublishedNotificationImplCopyWithImpl(
+      _$BookUnpublishedNotificationImpl _value,
+      $Res Function(_$BookUnpublishedNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -659,7 +682,7 @@ class __$$BookUnpublishedNotificationCopyWithImpl<$Res>
     Object? book = freezed,
     Object? bookId = freezed,
   }) {
-    return _then(_$BookUnpublishedNotification(
+    return _then(_$BookUnpublishedNotificationImpl(
       notificationType: null == notificationType
           ? _value.notificationType
           : notificationType // ignore: cast_nullable_to_non_nullable
@@ -690,17 +713,18 @@ class __$$BookUnpublishedNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BookUnpublishedNotification implements BookUnpublishedNotification {
-  _$BookUnpublishedNotification(
+class _$BookUnpublishedNotificationImpl implements BookUnpublishedNotification {
+  _$BookUnpublishedNotificationImpl(
       {required this.notificationType,
       this.localId = "",
       this.messageId = "",
-      @intDate required this.sentTime,
+      @intDateConvert required this.sentTime,
       this.book,
       this.bookId});
 
-  factory _$BookUnpublishedNotification.fromJson(Map<String, dynamic> json) =>
-      _$$BookUnpublishedNotificationFromJson(json);
+  factory _$BookUnpublishedNotificationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$BookUnpublishedNotificationImplFromJson(json);
 
   @override
   final String notificationType;
@@ -711,7 +735,7 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
   @JsonKey()
   final String messageId;
   @override
-  @intDate
+  @intDateConvert
   final DateTime sentTime;
   @override
   final String? book;
@@ -724,10 +748,10 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BookUnpublishedNotification &&
+            other is _$BookUnpublishedNotificationImpl &&
             (identical(other.notificationType, notificationType) ||
                 other.notificationType == notificationType) &&
             (identical(other.localId, localId) || other.localId == localId) &&
@@ -747,9 +771,9 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BookUnpublishedNotificationCopyWith<_$BookUnpublishedNotification>
-      get copyWith => __$$BookUnpublishedNotificationCopyWithImpl<
-          _$BookUnpublishedNotification>(this, _$identity);
+  _$$BookUnpublishedNotificationImplCopyWith<_$BookUnpublishedNotificationImpl>
+      get copyWith => __$$BookUnpublishedNotificationImplCopyWithImpl<
+          _$BookUnpublishedNotificationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -758,7 +782,7 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
@@ -768,7 +792,7 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId)
         bookUnpublished,
@@ -776,7 +800,7 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)
@@ -785,7 +809,7 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String profile,
             String profileId)
         subscribed,
@@ -793,10 +817,10 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)
+            @JsonKey(fromJson: _depthFromJson) int depth)
         commentAnswer,
   }) {
     return bookUnpublished(
@@ -810,35 +834,40 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult? Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
   }) {
     return bookUnpublished?.call(
@@ -852,35 +881,40 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
     required TResult orElse(),
   }) {
@@ -934,7 +968,7 @@ class _$BookUnpublishedNotification implements BookUnpublishedNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BookUnpublishedNotificationToJson(
+    return _$$BookUnpublishedNotificationImplToJson(
       this,
     );
   }
@@ -945,12 +979,12 @@ abstract class BookUnpublishedNotification implements MyNotification {
       {required final String notificationType,
       final String localId,
       final String messageId,
-      @intDate required final DateTime sentTime,
+      @intDateConvert required final DateTime sentTime,
       final String? book,
-      final String? bookId}) = _$BookUnpublishedNotification;
+      final String? bookId}) = _$BookUnpublishedNotificationImpl;
 
   factory BookUnpublishedNotification.fromJson(Map<String, dynamic> json) =
-      _$BookUnpublishedNotification.fromJson;
+      _$BookUnpublishedNotificationImpl.fromJson;
 
   @override
   String get notificationType;
@@ -959,42 +993,42 @@ abstract class BookUnpublishedNotification implements MyNotification {
   @override
   String get messageId;
   @override
-  @intDate
+  @intDateConvert
   DateTime get sentTime;
   String? get book;
   String? get bookId;
   @override
   @JsonKey(ignore: true)
-  _$$BookUnpublishedNotificationCopyWith<_$BookUnpublishedNotification>
+  _$$BookUnpublishedNotificationImplCopyWith<_$BookUnpublishedNotificationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ReportRejectedNotificationCopyWith<$Res>
+abstract class _$$ReportRejectedNotificationImplCopyWith<$Res>
     implements $MyNotificationCopyWith<$Res> {
-  factory _$$ReportRejectedNotificationCopyWith(
-          _$ReportRejectedNotification value,
-          $Res Function(_$ReportRejectedNotification) then) =
-      __$$ReportRejectedNotificationCopyWithImpl<$Res>;
+  factory _$$ReportRejectedNotificationImplCopyWith(
+          _$ReportRejectedNotificationImpl value,
+          $Res Function(_$ReportRejectedNotificationImpl) then) =
+      __$$ReportRejectedNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String notificationType,
       String localId,
       String messageId,
-      @intDate DateTime sentTime,
+      @intDateConvert DateTime sentTime,
       String subject,
       String subjectName,
       String subjectId});
 }
 
 /// @nodoc
-class __$$ReportRejectedNotificationCopyWithImpl<$Res>
-    extends _$MyNotificationCopyWithImpl<$Res, _$ReportRejectedNotification>
-    implements _$$ReportRejectedNotificationCopyWith<$Res> {
-  __$$ReportRejectedNotificationCopyWithImpl(
-      _$ReportRejectedNotification _value,
-      $Res Function(_$ReportRejectedNotification) _then)
+class __$$ReportRejectedNotificationImplCopyWithImpl<$Res>
+    extends _$MyNotificationCopyWithImpl<$Res, _$ReportRejectedNotificationImpl>
+    implements _$$ReportRejectedNotificationImplCopyWith<$Res> {
+  __$$ReportRejectedNotificationImplCopyWithImpl(
+      _$ReportRejectedNotificationImpl _value,
+      $Res Function(_$ReportRejectedNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1008,7 +1042,7 @@ class __$$ReportRejectedNotificationCopyWithImpl<$Res>
     Object? subjectName = null,
     Object? subjectId = null,
   }) {
-    return _then(_$ReportRejectedNotification(
+    return _then(_$ReportRejectedNotificationImpl(
       notificationType: null == notificationType
           ? _value.notificationType
           : notificationType // ignore: cast_nullable_to_non_nullable
@@ -1043,18 +1077,19 @@ class __$$ReportRejectedNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ReportRejectedNotification implements ReportRejectedNotification {
-  _$ReportRejectedNotification(
+class _$ReportRejectedNotificationImpl implements ReportRejectedNotification {
+  _$ReportRejectedNotificationImpl(
       {required this.notificationType,
       this.localId = "",
       this.messageId = "",
-      @intDate required this.sentTime,
+      @intDateConvert required this.sentTime,
       required this.subject,
       required this.subjectName,
       required this.subjectId});
 
-  factory _$ReportRejectedNotification.fromJson(Map<String, dynamic> json) =>
-      _$$ReportRejectedNotificationFromJson(json);
+  factory _$ReportRejectedNotificationImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ReportRejectedNotificationImplFromJson(json);
 
   @override
   final String notificationType;
@@ -1065,7 +1100,7 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
   @JsonKey()
   final String messageId;
   @override
-  @intDate
+  @intDateConvert
   final DateTime sentTime;
   @override
   final String subject;
@@ -1080,10 +1115,10 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ReportRejectedNotification &&
+            other is _$ReportRejectedNotificationImpl &&
             (identical(other.notificationType, notificationType) ||
                 other.notificationType == notificationType) &&
             (identical(other.localId, localId) || other.localId == localId) &&
@@ -1106,9 +1141,9 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ReportRejectedNotificationCopyWith<_$ReportRejectedNotification>
-      get copyWith => __$$ReportRejectedNotificationCopyWithImpl<
-          _$ReportRejectedNotification>(this, _$identity);
+  _$$ReportRejectedNotificationImplCopyWith<_$ReportRejectedNotificationImpl>
+      get copyWith => __$$ReportRejectedNotificationImplCopyWithImpl<
+          _$ReportRejectedNotificationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1117,7 +1152,7 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
@@ -1127,7 +1162,7 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId)
         bookUnpublished,
@@ -1135,7 +1170,7 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)
@@ -1144,7 +1179,7 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String profile,
             String profileId)
         subscribed,
@@ -1152,10 +1187,10 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)
+            @JsonKey(fromJson: _depthFromJson) int depth)
         commentAnswer,
   }) {
     return reportRejected(notificationType, localId, messageId, sentTime,
@@ -1169,35 +1204,40 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult? Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
   }) {
     return reportRejected?.call(notificationType, localId, messageId, sentTime,
@@ -1211,35 +1251,40 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
     required TResult orElse(),
   }) {
@@ -1293,7 +1338,7 @@ class _$ReportRejectedNotification implements ReportRejectedNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ReportRejectedNotificationToJson(
+    return _$$ReportRejectedNotificationImplToJson(
       this,
     );
   }
@@ -1304,13 +1349,13 @@ abstract class ReportRejectedNotification implements MyNotification {
       {required final String notificationType,
       final String localId,
       final String messageId,
-      @intDate required final DateTime sentTime,
+      @intDateConvert required final DateTime sentTime,
       required final String subject,
       required final String subjectName,
-      required final String subjectId}) = _$ReportRejectedNotification;
+      required final String subjectId}) = _$ReportRejectedNotificationImpl;
 
   factory ReportRejectedNotification.fromJson(Map<String, dynamic> json) =
-      _$ReportRejectedNotification.fromJson;
+      _$ReportRejectedNotificationImpl.fromJson;
 
   @override
   String get notificationType;
@@ -1319,40 +1364,42 @@ abstract class ReportRejectedNotification implements MyNotification {
   @override
   String get messageId;
   @override
-  @intDate
+  @intDateConvert
   DateTime get sentTime;
   String get subject;
   String get subjectName;
   String get subjectId;
   @override
   @JsonKey(ignore: true)
-  _$$ReportRejectedNotificationCopyWith<_$ReportRejectedNotification>
+  _$$ReportRejectedNotificationImplCopyWith<_$ReportRejectedNotificationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SubscribedNotificationCopyWith<$Res>
+abstract class _$$SubscribedNotificationImplCopyWith<$Res>
     implements $MyNotificationCopyWith<$Res> {
-  factory _$$SubscribedNotificationCopyWith(_$SubscribedNotification value,
-          $Res Function(_$SubscribedNotification) then) =
-      __$$SubscribedNotificationCopyWithImpl<$Res>;
+  factory _$$SubscribedNotificationImplCopyWith(
+          _$SubscribedNotificationImpl value,
+          $Res Function(_$SubscribedNotificationImpl) then) =
+      __$$SubscribedNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String notificationType,
       String localId,
       String messageId,
-      @intDate DateTime sentTime,
+      @intDateConvert DateTime sentTime,
       String profile,
       String profileId});
 }
 
 /// @nodoc
-class __$$SubscribedNotificationCopyWithImpl<$Res>
-    extends _$MyNotificationCopyWithImpl<$Res, _$SubscribedNotification>
-    implements _$$SubscribedNotificationCopyWith<$Res> {
-  __$$SubscribedNotificationCopyWithImpl(_$SubscribedNotification _value,
-      $Res Function(_$SubscribedNotification) _then)
+class __$$SubscribedNotificationImplCopyWithImpl<$Res>
+    extends _$MyNotificationCopyWithImpl<$Res, _$SubscribedNotificationImpl>
+    implements _$$SubscribedNotificationImplCopyWith<$Res> {
+  __$$SubscribedNotificationImplCopyWithImpl(
+      _$SubscribedNotificationImpl _value,
+      $Res Function(_$SubscribedNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1365,7 +1412,7 @@ class __$$SubscribedNotificationCopyWithImpl<$Res>
     Object? profile = null,
     Object? profileId = null,
   }) {
-    return _then(_$SubscribedNotification(
+    return _then(_$SubscribedNotificationImpl(
       notificationType: null == notificationType
           ? _value.notificationType
           : notificationType // ignore: cast_nullable_to_non_nullable
@@ -1396,17 +1443,17 @@ class __$$SubscribedNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SubscribedNotification implements SubscribedNotification {
-  _$SubscribedNotification(
+class _$SubscribedNotificationImpl implements SubscribedNotification {
+  _$SubscribedNotificationImpl(
       {required this.notificationType,
       this.localId = "",
       this.messageId = "",
-      @intDate required this.sentTime,
+      @intDateConvert required this.sentTime,
       required this.profile,
       required this.profileId});
 
-  factory _$SubscribedNotification.fromJson(Map<String, dynamic> json) =>
-      _$$SubscribedNotificationFromJson(json);
+  factory _$SubscribedNotificationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SubscribedNotificationImplFromJson(json);
 
   @override
   final String notificationType;
@@ -1417,7 +1464,7 @@ class _$SubscribedNotification implements SubscribedNotification {
   @JsonKey()
   final String messageId;
   @override
-  @intDate
+  @intDateConvert
   final DateTime sentTime;
   @override
   final String profile;
@@ -1430,10 +1477,10 @@ class _$SubscribedNotification implements SubscribedNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SubscribedNotification &&
+            other is _$SubscribedNotificationImpl &&
             (identical(other.notificationType, notificationType) ||
                 other.notificationType == notificationType) &&
             (identical(other.localId, localId) || other.localId == localId) &&
@@ -1454,9 +1501,9 @@ class _$SubscribedNotification implements SubscribedNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SubscribedNotificationCopyWith<_$SubscribedNotification> get copyWith =>
-      __$$SubscribedNotificationCopyWithImpl<_$SubscribedNotification>(
-          this, _$identity);
+  _$$SubscribedNotificationImplCopyWith<_$SubscribedNotificationImpl>
+      get copyWith => __$$SubscribedNotificationImplCopyWithImpl<
+          _$SubscribedNotificationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1465,7 +1512,7 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
@@ -1475,7 +1522,7 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId)
         bookUnpublished,
@@ -1483,7 +1530,7 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)
@@ -1492,7 +1539,7 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String profile,
             String profileId)
         subscribed,
@@ -1500,10 +1547,10 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)
+            @JsonKey(fromJson: _depthFromJson) int depth)
         commentAnswer,
   }) {
     return subscribed(
@@ -1517,35 +1564,40 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult? Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
   }) {
     return subscribed?.call(
@@ -1559,35 +1611,40 @@ class _$SubscribedNotification implements SubscribedNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
     required TResult orElse(),
   }) {
@@ -1641,7 +1698,7 @@ class _$SubscribedNotification implements SubscribedNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SubscribedNotificationToJson(
+    return _$$SubscribedNotificationImplToJson(
       this,
     );
   }
@@ -1652,12 +1709,12 @@ abstract class SubscribedNotification implements MyNotification {
       {required final String notificationType,
       final String localId,
       final String messageId,
-      @intDate required final DateTime sentTime,
+      @intDateConvert required final DateTime sentTime,
       required final String profile,
-      required final String profileId}) = _$SubscribedNotification;
+      required final String profileId}) = _$SubscribedNotificationImpl;
 
   factory SubscribedNotification.fromJson(Map<String, dynamic> json) =
-      _$SubscribedNotification.fromJson;
+      _$SubscribedNotificationImpl.fromJson;
 
   @override
   String get notificationType;
@@ -1666,41 +1723,42 @@ abstract class SubscribedNotification implements MyNotification {
   @override
   String get messageId;
   @override
-  @intDate
+  @intDateConvert
   DateTime get sentTime;
   String get profile;
   String get profileId;
   @override
   @JsonKey(ignore: true)
-  _$$SubscribedNotificationCopyWith<_$SubscribedNotification> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SubscribedNotificationImplCopyWith<_$SubscribedNotificationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$CommentAnswerNotificationCopyWith<$Res>
+abstract class _$$CommentAnswerNotificationImplCopyWith<$Res>
     implements $MyNotificationCopyWith<$Res> {
-  factory _$$CommentAnswerNotificationCopyWith(
-          _$CommentAnswerNotification value,
-          $Res Function(_$CommentAnswerNotification) then) =
-      __$$CommentAnswerNotificationCopyWithImpl<$Res>;
+  factory _$$CommentAnswerNotificationImplCopyWith(
+          _$CommentAnswerNotificationImpl value,
+          $Res Function(_$CommentAnswerNotificationImpl) then) =
+      __$$CommentAnswerNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String notificationType,
       String localId,
       String messageId,
-      @intDate DateTime sentTime,
+      @intDateConvert DateTime sentTime,
       String subject,
       String subjectName,
-      int depth});
+      @JsonKey(fromJson: _depthFromJson) int depth});
 }
 
 /// @nodoc
-class __$$CommentAnswerNotificationCopyWithImpl<$Res>
-    extends _$MyNotificationCopyWithImpl<$Res, _$CommentAnswerNotification>
-    implements _$$CommentAnswerNotificationCopyWith<$Res> {
-  __$$CommentAnswerNotificationCopyWithImpl(_$CommentAnswerNotification _value,
-      $Res Function(_$CommentAnswerNotification) _then)
+class __$$CommentAnswerNotificationImplCopyWithImpl<$Res>
+    extends _$MyNotificationCopyWithImpl<$Res, _$CommentAnswerNotificationImpl>
+    implements _$$CommentAnswerNotificationImplCopyWith<$Res> {
+  __$$CommentAnswerNotificationImplCopyWithImpl(
+      _$CommentAnswerNotificationImpl _value,
+      $Res Function(_$CommentAnswerNotificationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1714,7 +1772,7 @@ class __$$CommentAnswerNotificationCopyWithImpl<$Res>
     Object? subjectName = null,
     Object? depth = null,
   }) {
-    return _then(_$CommentAnswerNotification(
+    return _then(_$CommentAnswerNotificationImpl(
       notificationType: null == notificationType
           ? _value.notificationType
           : notificationType // ignore: cast_nullable_to_non_nullable
@@ -1749,18 +1807,18 @@ class __$$CommentAnswerNotificationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CommentAnswerNotification implements CommentAnswerNotification {
-  _$CommentAnswerNotification(
+class _$CommentAnswerNotificationImpl implements CommentAnswerNotification {
+  _$CommentAnswerNotificationImpl(
       {required this.notificationType,
       this.localId = "",
       this.messageId = "",
-      @intDate required this.sentTime,
+      @intDateConvert required this.sentTime,
       this.subject = "",
       this.subjectName = "",
-      this.depth = 0});
+      @JsonKey(fromJson: _depthFromJson) this.depth = 0});
 
-  factory _$CommentAnswerNotification.fromJson(Map<String, dynamic> json) =>
-      _$$CommentAnswerNotificationFromJson(json);
+  factory _$CommentAnswerNotificationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommentAnswerNotificationImplFromJson(json);
 
   @override
   final String notificationType;
@@ -1771,7 +1829,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
   @JsonKey()
   final String messageId;
   @override
-  @intDate
+  @intDateConvert
   final DateTime sentTime;
   @override
   @JsonKey()
@@ -1780,7 +1838,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
   @JsonKey()
   final String subjectName;
   @override
-  @JsonKey()
+  @JsonKey(fromJson: _depthFromJson)
   final int depth;
 
   @override
@@ -1789,10 +1847,10 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CommentAnswerNotification &&
+            other is _$CommentAnswerNotificationImpl &&
             (identical(other.notificationType, notificationType) ||
                 other.notificationType == notificationType) &&
             (identical(other.localId, localId) || other.localId == localId) &&
@@ -1814,9 +1872,9 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CommentAnswerNotificationCopyWith<_$CommentAnswerNotification>
-      get copyWith => __$$CommentAnswerNotificationCopyWithImpl<
-          _$CommentAnswerNotification>(this, _$identity);
+  _$$CommentAnswerNotificationImplCopyWith<_$CommentAnswerNotificationImpl>
+      get copyWith => __$$CommentAnswerNotificationImplCopyWithImpl<
+          _$CommentAnswerNotificationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1825,7 +1883,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
@@ -1835,7 +1893,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId)
         bookUnpublished,
@@ -1843,7 +1901,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)
@@ -1852,7 +1910,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String profile,
             String profileId)
         subscribed,
@@ -1860,10 +1918,10 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)
+            @JsonKey(fromJson: _depthFromJson) int depth)
         commentAnswer,
   }) {
     return commentAnswer(notificationType, localId, messageId, sentTime,
@@ -1877,35 +1935,40 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult? Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult? Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult? Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
   }) {
     return commentAnswer?.call(notificationType, localId, messageId, sentTime,
@@ -1919,35 +1982,40 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String? book,
             String? bookId,
             String? chapter,
             String? chapterId)?
         newChapter,
     TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String? book, String? bookId)?
+            @intDateConvert DateTime sentTime, String? book, String? bookId)?
         bookUnpublished,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
             String subjectId)?
         reportRejected,
-    TResult Function(String notificationType, String localId, String messageId,
-            @intDate DateTime sentTime, String profile, String profileId)?
+    TResult Function(
+            String notificationType,
+            String localId,
+            String messageId,
+            @intDateConvert DateTime sentTime,
+            String profile,
+            String profileId)?
         subscribed,
     TResult Function(
             String notificationType,
             String localId,
             String messageId,
-            @intDate DateTime sentTime,
+            @intDateConvert DateTime sentTime,
             String subject,
             String subjectName,
-            int depth)?
+            @JsonKey(fromJson: _depthFromJson) int depth)?
         commentAnswer,
     required TResult orElse(),
   }) {
@@ -2001,7 +2069,7 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CommentAnswerNotificationToJson(
+    return _$$CommentAnswerNotificationImplToJson(
       this,
     );
   }
@@ -2009,16 +2077,17 @@ class _$CommentAnswerNotification implements CommentAnswerNotification {
 
 abstract class CommentAnswerNotification implements MyNotification {
   factory CommentAnswerNotification(
-      {required final String notificationType,
-      final String localId,
-      final String messageId,
-      @intDate required final DateTime sentTime,
-      final String subject,
-      final String subjectName,
-      final int depth}) = _$CommentAnswerNotification;
+          {required final String notificationType,
+          final String localId,
+          final String messageId,
+          @intDateConvert required final DateTime sentTime,
+          final String subject,
+          final String subjectName,
+          @JsonKey(fromJson: _depthFromJson) final int depth}) =
+      _$CommentAnswerNotificationImpl;
 
   factory CommentAnswerNotification.fromJson(Map<String, dynamic> json) =
-      _$CommentAnswerNotification.fromJson;
+      _$CommentAnswerNotificationImpl.fromJson;
 
   @override
   String get notificationType;
@@ -2027,13 +2096,14 @@ abstract class CommentAnswerNotification implements MyNotification {
   @override
   String get messageId;
   @override
-  @intDate
+  @intDateConvert
   DateTime get sentTime;
   String get subject;
   String get subjectName;
+  @JsonKey(fromJson: _depthFromJson)
   int get depth;
   @override
   @JsonKey(ignore: true)
-  _$$CommentAnswerNotificationCopyWith<_$CommentAnswerNotification>
+  _$$CommentAnswerNotificationImplCopyWith<_$CommentAnswerNotificationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

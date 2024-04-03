@@ -2,11 +2,9 @@ import 'package:client/src/common/log.dart';
 import 'package:client/src/features/books/presentation/book_list/book_list_item_widget_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/book_status_widget.dart';
 import 'package:client/src/features/books/presentation/widgets/readings_state_widget.dart';
-import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants/constants.dart';

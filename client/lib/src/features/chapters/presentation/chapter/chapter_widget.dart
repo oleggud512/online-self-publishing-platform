@@ -2,8 +2,6 @@ import 'package:client/src/features/books/presentation/widgets/readings_state_wi
 import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

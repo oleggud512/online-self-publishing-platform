@@ -1,15 +1,12 @@
 import 'package:client/src/common/widgets/my_image.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget_controller.dart';
-import 'package:client/src/features/profile/presentation/profile/profile_action_button.dart';
 import 'package:client/src/shared/constants.dart';
-import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants/constants.dart';
-import '../../../../common/log.dart';
 import '../profile/profile_screen_controller.dart';
 
 class AuthorWidget extends ConsumerWidget {

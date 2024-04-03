@@ -1,6 +1,5 @@
 // const baseUrl = "http://127.0.0.1:3000/";
 // final baseUrl = "http://10.0.2.2:3000/";
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

@@ -12,7 +12,7 @@ part of 'edit_profile_widget_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$EditProfileWidgetState {
@@ -74,11 +74,12 @@ class _$EditProfileWidgetStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_EditProfileWidgetStateCopyWith<$Res>
+abstract class _$$EditProfileWidgetStateImplCopyWith<$Res>
     implements $EditProfileWidgetStateCopyWith<$Res> {
-  factory _$$_EditProfileWidgetStateCopyWith(_$_EditProfileWidgetState value,
-          $Res Function(_$_EditProfileWidgetState) then) =
-      __$$_EditProfileWidgetStateCopyWithImpl<$Res>;
+  factory _$$EditProfileWidgetStateImplCopyWith(
+          _$EditProfileWidgetStateImpl value,
+          $Res Function(_$EditProfileWidgetStateImpl) then) =
+      __$$EditProfileWidgetStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Profile profile, bool isUniqueName});
@@ -88,12 +89,13 @@ abstract class _$$_EditProfileWidgetStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EditProfileWidgetStateCopyWithImpl<$Res>
+class __$$EditProfileWidgetStateImplCopyWithImpl<$Res>
     extends _$EditProfileWidgetStateCopyWithImpl<$Res,
-        _$_EditProfileWidgetState>
-    implements _$$_EditProfileWidgetStateCopyWith<$Res> {
-  __$$_EditProfileWidgetStateCopyWithImpl(_$_EditProfileWidgetState _value,
-      $Res Function(_$_EditProfileWidgetState) _then)
+        _$EditProfileWidgetStateImpl>
+    implements _$$EditProfileWidgetStateImplCopyWith<$Res> {
+  __$$EditProfileWidgetStateImplCopyWithImpl(
+      _$EditProfileWidgetStateImpl _value,
+      $Res Function(_$EditProfileWidgetStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -102,7 +104,7 @@ class __$$_EditProfileWidgetStateCopyWithImpl<$Res>
     Object? profile = null,
     Object? isUniqueName = null,
   }) {
-    return _then(_$_EditProfileWidgetState(
+    return _then(_$EditProfileWidgetStateImpl(
       profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
@@ -117,8 +119,9 @@ class __$$_EditProfileWidgetStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EditProfileWidgetState implements _EditProfileWidgetState {
-  _$_EditProfileWidgetState({required this.profile, this.isUniqueName = false});
+class _$EditProfileWidgetStateImpl implements _EditProfileWidgetState {
+  _$EditProfileWidgetStateImpl(
+      {required this.profile, this.isUniqueName = false});
 
   @override
   final Profile profile;
@@ -132,10 +135,10 @@ class _$_EditProfileWidgetState implements _EditProfileWidgetState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EditProfileWidgetState &&
+            other is _$EditProfileWidgetStateImpl &&
             (identical(other.profile, profile) || other.profile == profile) &&
             (identical(other.isUniqueName, isUniqueName) ||
                 other.isUniqueName == isUniqueName));
@@ -147,15 +150,15 @@ class _$_EditProfileWidgetState implements _EditProfileWidgetState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EditProfileWidgetStateCopyWith<_$_EditProfileWidgetState> get copyWith =>
-      __$$_EditProfileWidgetStateCopyWithImpl<_$_EditProfileWidgetState>(
-          this, _$identity);
+  _$$EditProfileWidgetStateImplCopyWith<_$EditProfileWidgetStateImpl>
+      get copyWith => __$$EditProfileWidgetStateImplCopyWithImpl<
+          _$EditProfileWidgetStateImpl>(this, _$identity);
 }
 
 abstract class _EditProfileWidgetState implements EditProfileWidgetState {
   factory _EditProfileWidgetState(
       {required final Profile profile,
-      final bool isUniqueName}) = _$_EditProfileWidgetState;
+      final bool isUniqueName}) = _$EditProfileWidgetStateImpl;
 
   @override
   Profile get profile;
@@ -163,6 +166,6 @@ abstract class _EditProfileWidgetState implements EditProfileWidgetState {
   bool get isUniqueName;
   @override
   @JsonKey(ignore: true)
-  _$$_EditProfileWidgetStateCopyWith<_$_EditProfileWidgetState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$EditProfileWidgetStateImplCopyWith<_$EditProfileWidgetStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

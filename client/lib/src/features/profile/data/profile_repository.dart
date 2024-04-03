@@ -6,9 +6,7 @@ import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/shared/dio.dart';
 import 'package:client/src/shared/err.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../shared/constants.dart';
 import '../../auth/application/my_id_provider.dart';
@@ -110,10 +108,10 @@ class ProfileRepository {
     int from = 0, 
     int pageSize = 20
   ]) async {
-    printSuccess("profileId = ${profileId}");
+    printSuccess("profileId = $profileId");
     String id = profileId == null || profileId.isEmpty ? _myId! : profileId;
     printSuccess("myId = $_myId");
-    printSuccess("id = ${id}");
+    printSuccess("id = $id");
     final resp = await _dio.get('profiles/$id/subscribers', queryParameters: {
       'from': from,
       'pageSize': pageSize

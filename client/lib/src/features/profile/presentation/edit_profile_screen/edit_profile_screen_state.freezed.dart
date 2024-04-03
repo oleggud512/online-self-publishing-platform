@@ -12,7 +12,7 @@ part of 'edit_profile_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$EditProfileScreenState {
@@ -68,11 +68,12 @@ class _$EditProfileScreenStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_EditProfileScreenStateCopyWith<$Res>
+abstract class _$$EditProfileScreenStateImplCopyWith<$Res>
     implements $EditProfileScreenStateCopyWith<$Res> {
-  factory _$$_EditProfileScreenStateCopyWith(_$_EditProfileScreenState value,
-          $Res Function(_$_EditProfileScreenState) then) =
-      __$$_EditProfileScreenStateCopyWithImpl<$Res>;
+  factory _$$EditProfileScreenStateImplCopyWith(
+          _$EditProfileScreenStateImpl value,
+          $Res Function(_$EditProfileScreenStateImpl) then) =
+      __$$EditProfileScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Profile originalProfile});
@@ -82,12 +83,13 @@ abstract class _$$_EditProfileScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EditProfileScreenStateCopyWithImpl<$Res>
+class __$$EditProfileScreenStateImplCopyWithImpl<$Res>
     extends _$EditProfileScreenStateCopyWithImpl<$Res,
-        _$_EditProfileScreenState>
-    implements _$$_EditProfileScreenStateCopyWith<$Res> {
-  __$$_EditProfileScreenStateCopyWithImpl(_$_EditProfileScreenState _value,
-      $Res Function(_$_EditProfileScreenState) _then)
+        _$EditProfileScreenStateImpl>
+    implements _$$EditProfileScreenStateImplCopyWith<$Res> {
+  __$$EditProfileScreenStateImplCopyWithImpl(
+      _$EditProfileScreenStateImpl _value,
+      $Res Function(_$EditProfileScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +97,7 @@ class __$$_EditProfileScreenStateCopyWithImpl<$Res>
   $Res call({
     Object? originalProfile = null,
   }) {
-    return _then(_$_EditProfileScreenState(
+    return _then(_$EditProfileScreenStateImpl(
       originalProfile: null == originalProfile
           ? _value.originalProfile
           : originalProfile // ignore: cast_nullable_to_non_nullable
@@ -106,8 +108,8 @@ class __$$_EditProfileScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EditProfileScreenState implements _EditProfileScreenState {
-  _$_EditProfileScreenState({required this.originalProfile});
+class _$EditProfileScreenStateImpl implements _EditProfileScreenState {
+  _$EditProfileScreenStateImpl({required this.originalProfile});
 
   @override
   final Profile originalProfile;
@@ -118,10 +120,10 @@ class _$_EditProfileScreenState implements _EditProfileScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EditProfileScreenState &&
+            other is _$EditProfileScreenStateImpl &&
             (identical(other.originalProfile, originalProfile) ||
                 other.originalProfile == originalProfile));
   }
@@ -132,19 +134,19 @@ class _$_EditProfileScreenState implements _EditProfileScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EditProfileScreenStateCopyWith<_$_EditProfileScreenState> get copyWith =>
-      __$$_EditProfileScreenStateCopyWithImpl<_$_EditProfileScreenState>(
-          this, _$identity);
+  _$$EditProfileScreenStateImplCopyWith<_$EditProfileScreenStateImpl>
+      get copyWith => __$$EditProfileScreenStateImplCopyWithImpl<
+          _$EditProfileScreenStateImpl>(this, _$identity);
 }
 
 abstract class _EditProfileScreenState implements EditProfileScreenState {
   factory _EditProfileScreenState({required final Profile originalProfile}) =
-      _$_EditProfileScreenState;
+      _$EditProfileScreenStateImpl;
 
   @override
   Profile get originalProfile;
   @override
   @JsonKey(ignore: true)
-  _$$_EditProfileScreenStateCopyWith<_$_EditProfileScreenState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$EditProfileScreenStateImplCopyWith<_$EditProfileScreenStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

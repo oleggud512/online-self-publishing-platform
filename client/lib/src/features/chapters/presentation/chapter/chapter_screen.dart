@@ -1,11 +1,8 @@
 import 'dart:convert';
 
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
-import 'package:client/src/features/auth/application/my_id_provider.dart';
-import 'package:client/src/features/books/presentation/book/book_screen_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/readings_state_widget.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/features/chapters/presentation/chapter/chapter_screen_controller.dart';
@@ -15,11 +12,11 @@ import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants/constants.dart';
-import '../../../books/domain/book.dart';
 import '../../../comments/domain/comment_subject.dart';
 import '../../../comments/presentation/comments/comments_widget.dart';
 import '../../application/events.dart';
@@ -117,20 +114,22 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                       style: Theme.of(context).textTheme.headlineMedium
                     ),
                     h8gap,
-                    QuillEditor(
-                      padding: const EdgeInsets.all(0),
-                      controller: QuillController.basic()
-                        ..document = state.chapter.content.isNotEmpty 
-                          ? Document.fromJson(
-                            jsonDecode(state.chapter.content)
-                          ) 
-                          : Document.fromDelta(Delta()..insert("<< no data >>\n")),
-                      expands: false,
+                    QuillEditor.basic(
+                      configurations: QuillEditorConfigurations(
+                        padding: const EdgeInsets.all(0),
+                        controller: QuillController.basic()
+                          ..document = state.chapter.content.isNotEmpty 
+                            ? Document.fromJson(
+                              jsonDecode(state.chapter.content)
+                            ) 
+                            : Document.fromDelta(Delta()..insert("<< no data >>\n")),
+                        expands: false,
+                        autoFocus: false,
+                        scrollable: false,
+                        readOnly: true
+                      ),
                       focusNode: focusNode,
-                      autoFocus: false,
-                      scrollable: false,
                       scrollController: ScrollController(),
-                      readOnly: true
                     )
                   ]
                 ),

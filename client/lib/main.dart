@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:client/firebase_options.dart';
 import 'package:client/src/app.dart';
@@ -13,8 +12,6 @@ import 'package:client/src/shared/dio.dart';
 import 'package:client/src/shared/err.dart';
 import 'package:client/src/shared/logger.dart';
 import 'package:client/src/shared/sembast.dart';
-import 'package:client/src/shared/utils.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

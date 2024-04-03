@@ -6,8 +6,8 @@ part of 'report_type.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ReportType _$$_ReportTypeFromJson(Map<String, dynamic> json) =>
-    _$_ReportType(
+_$ReportTypeImpl _$$ReportTypeImplFromJson(Map<String, dynamic> json) =>
+    _$ReportTypeImpl(
       id: json['_id'] as String? ?? "",
       name: json['name'] as String? ?? "",
       displayName: json['displayName'] as String? ?? "",
@@ -18,7 +18,7 @@ _$_ReportType _$$_ReportTypeFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String? ?? "",
     );
 
-Map<String, dynamic> _$$_ReportTypeToJson(_$_ReportType instance) =>
+Map<String, dynamic> _$$ReportTypeImplToJson(_$ReportTypeImpl instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,

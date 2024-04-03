@@ -12,7 +12,7 @@ part of 'chapter_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ChapterScreenState {
@@ -79,11 +79,11 @@ class _$ChapterScreenStateCopyWithImpl<$Res, $Val extends ChapterScreenState>
 }
 
 /// @nodoc
-abstract class _$$_ChapterScreenStateCopyWith<$Res>
+abstract class _$$ChapterScreenStateImplCopyWith<$Res>
     implements $ChapterScreenStateCopyWith<$Res> {
-  factory _$$_ChapterScreenStateCopyWith(_$_ChapterScreenState value,
-          $Res Function(_$_ChapterScreenState) then) =
-      __$$_ChapterScreenStateCopyWithImpl<$Res>;
+  factory _$$ChapterScreenStateImplCopyWith(_$ChapterScreenStateImpl value,
+          $Res Function(_$ChapterScreenStateImpl) then) =
+      __$$ChapterScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Chapter chapter, String? next, String? previous});
@@ -93,11 +93,11 @@ abstract class _$$_ChapterScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ChapterScreenStateCopyWithImpl<$Res>
-    extends _$ChapterScreenStateCopyWithImpl<$Res, _$_ChapterScreenState>
-    implements _$$_ChapterScreenStateCopyWith<$Res> {
-  __$$_ChapterScreenStateCopyWithImpl(
-      _$_ChapterScreenState _value, $Res Function(_$_ChapterScreenState) _then)
+class __$$ChapterScreenStateImplCopyWithImpl<$Res>
+    extends _$ChapterScreenStateCopyWithImpl<$Res, _$ChapterScreenStateImpl>
+    implements _$$ChapterScreenStateImplCopyWith<$Res> {
+  __$$ChapterScreenStateImplCopyWithImpl(_$ChapterScreenStateImpl _value,
+      $Res Function(_$ChapterScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -107,7 +107,7 @@ class __$$_ChapterScreenStateCopyWithImpl<$Res>
     Object? next = freezed,
     Object? previous = freezed,
   }) {
-    return _then(_$_ChapterScreenState(
+    return _then(_$ChapterScreenStateImpl(
       chapter: null == chapter
           ? _value.chapter
           : chapter // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ class __$$_ChapterScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ChapterScreenState implements _ChapterScreenState {
-  _$_ChapterScreenState({required this.chapter, this.next, this.previous});
+class _$ChapterScreenStateImpl implements _ChapterScreenState {
+  _$ChapterScreenStateImpl({required this.chapter, this.next, this.previous});
 
   @override
   final Chapter chapter;
@@ -142,10 +142,10 @@ class _$_ChapterScreenState implements _ChapterScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ChapterScreenState &&
+            other is _$ChapterScreenStateImpl &&
             (identical(other.chapter, chapter) || other.chapter == chapter) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.previous, previous) ||
@@ -158,8 +158,8 @@ class _$_ChapterScreenState implements _ChapterScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChapterScreenStateCopyWith<_$_ChapterScreenState> get copyWith =>
-      __$$_ChapterScreenStateCopyWithImpl<_$_ChapterScreenState>(
+  _$$ChapterScreenStateImplCopyWith<_$ChapterScreenStateImpl> get copyWith =>
+      __$$ChapterScreenStateImplCopyWithImpl<_$ChapterScreenStateImpl>(
           this, _$identity);
 }
 
@@ -167,7 +167,7 @@ abstract class _ChapterScreenState implements ChapterScreenState {
   factory _ChapterScreenState(
       {required final Chapter chapter,
       final String? next,
-      final String? previous}) = _$_ChapterScreenState;
+      final String? previous}) = _$ChapterScreenStateImpl;
 
   @override
   Chapter get chapter;
@@ -177,6 +177,6 @@ abstract class _ChapterScreenState implements ChapterScreenState {
   String? get previous;
   @override
   @JsonKey(ignore: true)
-  _$$_ChapterScreenStateCopyWith<_$_ChapterScreenState> get copyWith =>
+  _$$ChapterScreenStateImplCopyWith<_$ChapterScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

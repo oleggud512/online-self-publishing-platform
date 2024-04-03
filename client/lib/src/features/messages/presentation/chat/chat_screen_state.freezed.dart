@@ -12,7 +12,7 @@ part of 'chat_screen_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ChatScreenState {
@@ -73,11 +73,11 @@ class _$ChatScreenStateCopyWithImpl<$Res, $Val extends ChatScreenState>
 }
 
 /// @nodoc
-abstract class _$$_ChatScreenStateCopyWith<$Res>
+abstract class _$$ChatScreenStateImplCopyWith<$Res>
     implements $ChatScreenStateCopyWith<$Res> {
-  factory _$$_ChatScreenStateCopyWith(
-          _$_ChatScreenState value, $Res Function(_$_ChatScreenState) then) =
-      __$$_ChatScreenStateCopyWithImpl<$Res>;
+  factory _$$ChatScreenStateImplCopyWith(_$ChatScreenStateImpl value,
+          $Res Function(_$ChatScreenStateImpl) then) =
+      __$$ChatScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Chat chat, List<Message> messages});
@@ -87,11 +87,11 @@ abstract class _$$_ChatScreenStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ChatScreenStateCopyWithImpl<$Res>
-    extends _$ChatScreenStateCopyWithImpl<$Res, _$_ChatScreenState>
-    implements _$$_ChatScreenStateCopyWith<$Res> {
-  __$$_ChatScreenStateCopyWithImpl(
-      _$_ChatScreenState _value, $Res Function(_$_ChatScreenState) _then)
+class __$$ChatScreenStateImplCopyWithImpl<$Res>
+    extends _$ChatScreenStateCopyWithImpl<$Res, _$ChatScreenStateImpl>
+    implements _$$ChatScreenStateImplCopyWith<$Res> {
+  __$$ChatScreenStateImplCopyWithImpl(
+      _$ChatScreenStateImpl _value, $Res Function(_$ChatScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_ChatScreenStateCopyWithImpl<$Res>
     Object? chat = null,
     Object? messages = null,
   }) {
-    return _then(_$_ChatScreenState(
+    return _then(_$ChatScreenStateImpl(
       chat: null == chat
           ? _value.chat
           : chat // ignore: cast_nullable_to_non_nullable
@@ -115,8 +115,8 @@ class __$$_ChatScreenStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ChatScreenState implements _ChatScreenState {
-  _$_ChatScreenState(
+class _$ChatScreenStateImpl implements _ChatScreenState {
+  _$ChatScreenStateImpl(
       {required this.chat, final List<Message> messages = const []})
       : _messages = messages;
 
@@ -137,10 +137,10 @@ class _$_ChatScreenState implements _ChatScreenState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ChatScreenState &&
+            other is _$ChatScreenStateImpl &&
             (identical(other.chat, chat) || other.chat == chat) &&
             const DeepCollectionEquality().equals(other._messages, _messages));
   }
@@ -152,14 +152,15 @@ class _$_ChatScreenState implements _ChatScreenState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ChatScreenStateCopyWith<_$_ChatScreenState> get copyWith =>
-      __$$_ChatScreenStateCopyWithImpl<_$_ChatScreenState>(this, _$identity);
+  _$$ChatScreenStateImplCopyWith<_$ChatScreenStateImpl> get copyWith =>
+      __$$ChatScreenStateImplCopyWithImpl<_$ChatScreenStateImpl>(
+          this, _$identity);
 }
 
 abstract class _ChatScreenState implements ChatScreenState {
   factory _ChatScreenState(
       {required final Chat chat,
-      final List<Message> messages}) = _$_ChatScreenState;
+      final List<Message> messages}) = _$ChatScreenStateImpl;
 
   @override
   Chat get chat;
@@ -167,6 +168,6 @@ abstract class _ChatScreenState implements ChatScreenState {
   List<Message> get messages;
   @override
   @JsonKey(ignore: true)
-  _$$_ChatScreenStateCopyWith<_$_ChatScreenState> get copyWith =>
+  _$$ChatScreenStateImplCopyWith<_$ChatScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

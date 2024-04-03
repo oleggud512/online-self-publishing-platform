@@ -4,7 +4,6 @@ import 'package:client/src/features/books/data/local_book_repository.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/domain/filtering_source.dart';
 import 'package:client/src/features/books/domain/filters.dart';
-import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
 import 'package:dio/dio.dart';

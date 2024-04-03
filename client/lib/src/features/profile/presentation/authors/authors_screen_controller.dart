@@ -1,11 +1,8 @@
 import 'package:client/src/common/log.dart';
-import 'package:client/src/common/pagination/page_list.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
-import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';
 import 'package:client/src/features/profile/data/profile_repository.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/features/profile/presentation/authors/authors_query_state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class AuthorsScreenController extends AutoDisposeAsyncNotifier<List<Profile>> 

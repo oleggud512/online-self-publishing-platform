@@ -6,7 +6,7 @@ part of 'book.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
+_$BookImpl _$$BookImplFromJson(Map<String, dynamic> json) => _$BookImpl(
       id: json['_id'] as String? ?? "",
       author: _authorFromJson(json['author'] as Map<String, dynamic>),
       coverUrl: json['coverUrl'] as String?,
@@ -35,7 +35,7 @@ _$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
       bookmarked: json['bookmarked'] as bool?,
     );
 
-Map<String, dynamic> _$$_BookToJson(_$_Book instance) {
+Map<String, dynamic> _$$BookImplToJson(_$BookImpl instance) {
   final val = <String, dynamic>{
     '_id': instance.id,
     'author': _authorToJson(instance.author),

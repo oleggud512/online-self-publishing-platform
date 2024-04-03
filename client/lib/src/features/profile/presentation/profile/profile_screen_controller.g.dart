@@ -88,8 +88,8 @@ class ProfileScreenControllerProvider
         ProfileScreenState> {
   /// See also [ProfileScreenController].
   ProfileScreenControllerProvider(
-    this.profileId,
-  ) : super.internal(
+    String? profileId,
+  ) : this._internal(
           () => ProfileScreenController()..profileId = profileId,
           from: profileScreenControllerProvider,
           name: r'profileScreenControllerProvider',
@@ -100,9 +100,51 @@ class ProfileScreenControllerProvider
           dependencies: ProfileScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               ProfileScreenControllerFamily._allTransitiveDependencies,
+          profileId: profileId,
         );
 
+  ProfileScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.profileId,
+  }) : super.internal();
+
   final String? profileId;
+
+  @override
+  FutureOr<ProfileScreenState> runNotifierBuild(
+    covariant ProfileScreenController notifier,
+  ) {
+    return notifier.build(
+      profileId,
+    );
+  }
+
+  @override
+  Override overrideWith(ProfileScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ProfileScreenControllerProvider._internal(
+        () => create()..profileId = profileId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        profileId: profileId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ProfileScreenController,
+      ProfileScreenState> createElement() {
+    return _ProfileScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -117,14 +159,22 @@ class ProfileScreenControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ProfileScreenControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<ProfileScreenState> {
+  /// The parameter `profileId` of this provider.
+  String? get profileId;
+}
+
+class _ProfileScreenControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ProfileScreenController,
+        ProfileScreenState> with ProfileScreenControllerRef {
+  _ProfileScreenControllerProviderElement(super.provider);
 
   @override
-  FutureOr<ProfileScreenState> runNotifierBuild(
-    covariant ProfileScreenController notifier,
-  ) {
-    return notifier.build(
-      profileId,
-    );
-  }
+  String? get profileId =>
+      (origin as ProfileScreenControllerProvider).profileId;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

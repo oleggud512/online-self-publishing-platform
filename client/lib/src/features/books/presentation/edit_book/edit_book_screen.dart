@@ -1,4 +1,3 @@
-import 'package:client/src/common/hardcoded.dart';
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/common/widgets/description_form_field.dart';
@@ -7,14 +6,12 @@ import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/edit_book/edit_book_screen_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/book_status_dropdown.dart';
 import 'package:client/src/features/books/presentation/widgets/tags_genres_widget.dart';
-import 'package:client/src/features/localization/application/ext.dart';
 import 'package:client/src/features/localization/application/ll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants/constants.dart';
-import '../../../../shared/utils.dart';
 import '../../../profile/domain/profile.dart';
 import '../../application/books_changed_event.dart';
 

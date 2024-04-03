@@ -1,6 +1,5 @@
 import 'package:client/src/features/books/data/local_book_repository.dart';
 import 'package:client/src/features/profile/data/profile_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../common/log.dart';

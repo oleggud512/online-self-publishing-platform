@@ -86,8 +86,8 @@ class EditBookScreenControllerProvider extends AutoDisposeNotifierProviderImpl<
     EditBookScreenController, EditBookScreenState> {
   /// See also [EditBookScreenController].
   EditBookScreenControllerProvider(
-    this.book,
-  ) : super.internal(
+    Book book,
+  ) : this._internal(
           () => EditBookScreenController()..book = book,
           from: editBookScreenControllerProvider,
           name: r'editBookScreenControllerProvider',
@@ -98,9 +98,51 @@ class EditBookScreenControllerProvider extends AutoDisposeNotifierProviderImpl<
           dependencies: EditBookScreenControllerFamily._dependencies,
           allTransitiveDependencies:
               EditBookScreenControllerFamily._allTransitiveDependencies,
+          book: book,
         );
 
+  EditBookScreenControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.book,
+  }) : super.internal();
+
   final Book book;
+
+  @override
+  EditBookScreenState runNotifierBuild(
+    covariant EditBookScreenController notifier,
+  ) {
+    return notifier.build(
+      book,
+    );
+  }
+
+  @override
+  Override overrideWith(EditBookScreenController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: EditBookScreenControllerProvider._internal(
+        () => create()..book = book,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        book: book,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<EditBookScreenController,
+      EditBookScreenState> createElement() {
+    return _EditBookScreenControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -114,14 +156,21 @@ class EditBookScreenControllerProvider extends AutoDisposeNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin EditBookScreenControllerRef
+    on AutoDisposeNotifierProviderRef<EditBookScreenState> {
+  /// The parameter `book` of this provider.
+  Book get book;
+}
+
+class _EditBookScreenControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<EditBookScreenController,
+        EditBookScreenState> with EditBookScreenControllerRef {
+  _EditBookScreenControllerProviderElement(super.provider);
 
   @override
-  EditBookScreenState runNotifierBuild(
-    covariant EditBookScreenController notifier,
-  ) {
-    return notifier.build(
-      book,
-    );
-  }
+  Book get book => (origin as EditBookScreenControllerProvider).book;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

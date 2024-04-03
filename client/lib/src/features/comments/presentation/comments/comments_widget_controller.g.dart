@@ -93,9 +93,9 @@ class CommentsWidgetControllerProvider
         CommentsWidgetState> {
   /// See also [CommentsWidgetController].
   CommentsWidgetControllerProvider(
-    this.subjectId,
-    this.subjectName,
-  ) : super.internal(
+    String subjectId,
+    String subjectName,
+  ) : this._internal(
           () => CommentsWidgetController()
             ..subjectId = subjectId
             ..subjectName = subjectName,
@@ -108,10 +108,58 @@ class CommentsWidgetControllerProvider
           dependencies: CommentsWidgetControllerFamily._dependencies,
           allTransitiveDependencies:
               CommentsWidgetControllerFamily._allTransitiveDependencies,
+          subjectId: subjectId,
+          subjectName: subjectName,
         );
+
+  CommentsWidgetControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.subjectId,
+    required this.subjectName,
+  }) : super.internal();
 
   final String subjectId;
   final String subjectName;
+
+  @override
+  FutureOr<CommentsWidgetState> runNotifierBuild(
+    covariant CommentsWidgetController notifier,
+  ) {
+    return notifier.build(
+      subjectId,
+      subjectName,
+    );
+  }
+
+  @override
+  Override overrideWith(CommentsWidgetController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: CommentsWidgetControllerProvider._internal(
+        () => create()
+          ..subjectId = subjectId
+          ..subjectName = subjectName,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        subjectId: subjectId,
+        subjectName: subjectName,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<CommentsWidgetController,
+      CommentsWidgetState> createElement() {
+    return _CommentsWidgetControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -128,15 +176,28 @@ class CommentsWidgetControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin CommentsWidgetControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<CommentsWidgetState> {
+  /// The parameter `subjectId` of this provider.
+  String get subjectId;
+
+  /// The parameter `subjectName` of this provider.
+  String get subjectName;
+}
+
+class _CommentsWidgetControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<CommentsWidgetController,
+        CommentsWidgetState> with CommentsWidgetControllerRef {
+  _CommentsWidgetControllerProviderElement(super.provider);
 
   @override
-  FutureOr<CommentsWidgetState> runNotifierBuild(
-    covariant CommentsWidgetController notifier,
-  ) {
-    return notifier.build(
-      subjectId,
-      subjectName,
-    );
-  }
+  String get subjectId =>
+      (origin as CommentsWidgetControllerProvider).subjectId;
+  @override
+  String get subjectName =>
+      (origin as CommentsWidgetControllerProvider).subjectName;
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
