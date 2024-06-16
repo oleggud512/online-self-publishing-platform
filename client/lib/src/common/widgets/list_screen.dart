@@ -1,5 +1,7 @@
 import 'package:client/src/common/constants/constants.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,7 +39,7 @@ class _ListScreenState extends ConsumerState<ListScreen> {
         )
       ),
       loading: defaultLoading,
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 }

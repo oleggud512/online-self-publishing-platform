@@ -1,6 +1,6 @@
 import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/pub_sub.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
 import 'package:client/src/features/auth/application/sign_out_provider.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
@@ -13,6 +13,8 @@ import 'package:client/src/features/profile/presentation/profile/profile_screen_
 import 'package:client/src/features/profile/presentation/profile/profile_screen_state.dart';
 import 'package:client/src/router/utils.dart';
 import 'package:client/src/shared/constants.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -203,7 +205,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         );
       },
       loading: defaultLoading,
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 

@@ -1,4 +1,4 @@
-import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionFormField extends StatelessWidget {
@@ -13,7 +13,7 @@ class DescriptionFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ll = curLl(context)!;
+    final ll = context.ll!;
     return SizedBox(
       height: 200,
       child: TextFormField(

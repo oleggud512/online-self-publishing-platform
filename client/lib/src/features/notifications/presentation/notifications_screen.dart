@@ -1,7 +1,9 @@
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/notifications/presentation/notification_widget.dart';
 import 'package:client/src/features/notifications/presentation/notifications_screen_controller.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,7 +51,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
 
         ),
         loading: defaultLoading,
-        error: defaultErrorHandler
+        error: mapErrorToWidget
       )
     );
   }

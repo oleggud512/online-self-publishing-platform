@@ -1,8 +1,10 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/chapters/application/events.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -70,7 +72,7 @@ class _BookChaptersScreenState extends ConsumerState<BookChaptersScreen> {
         ) : null,
       ),
       loading: defaultLoading,
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 }

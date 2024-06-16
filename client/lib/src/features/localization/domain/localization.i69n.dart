@@ -315,6 +315,7 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
   String get notFound => "Not Found";
   String get unauthenticated => "Unauthenticated";
   String get connectionError => "Connection Error";
+  String get connectionErrorRetryMsg => "Reconnect";
   String get connectionErrorMessage => "Check your internet connection";
   String get cannotSave => "Error: Can't save changes";
   String get cannotDelete => "Error while deleting";
@@ -339,6 +340,8 @@ class ErrorsLocalization implements i69n.I69nMessageBundle {
         return unauthenticated;
       case 'connectionError':
         return connectionError;
+      case 'connectionErrorRetryMsg':
+        return connectionErrorRetryMsg;
       case 'connectionErrorMessage':
         return connectionErrorMessage;
       case 'cannotSave':

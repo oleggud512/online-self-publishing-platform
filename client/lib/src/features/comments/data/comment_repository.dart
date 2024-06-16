@@ -2,11 +2,11 @@ import 'package:client/src/common/log.dart';
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/comments/domain/comment.dart';
 import 'package:client/src/shared/dio.dart';
-import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/errors/handle_error.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../common/widgets/error_handler.dart';
+import '../../../shared/errors/exceptions.dart';
 
 part 'comment_repository.g.dart';
 
@@ -35,7 +35,7 @@ class CommentRepository {
       int from = 0,
       int pageSize = 20
     }
-  ) => err(() async {
+  ) => handleError(() async {
     printWarning("$subjectId, $sorting, $questionId, $from, $pageSize");
     final resp = await _dio.get('comments', queryParameters: {
       'from': from,
@@ -57,7 +57,7 @@ class CommentRepository {
     required String subjectId,
     required String subjectName,
     String? questionId
-  }) => err(() async {
+  }) => handleError(() async {
     try {
       if (content.isEmpty) throw "empty content";
       final resp = await _dio.post('comments', 
@@ -80,14 +80,14 @@ class CommentRepository {
     }
   });
 
-  Future<int> rate(String commentId, CommentRate rate) => err(() async {
+  Future<int> rate(String commentId, CommentRate rate) => handleError(() async {
     final resp = await _dio.post('comments/$commentId/rate', queryParameters: {
       'rate': rate == CommentRate.like ? 1 : -1
     });
     return resp.data['data'] as int;
   });
 
-  Future<Comment> updateComment(String commentId, String newContent) => err(() async {
+  Future<Comment> updateComment(String commentId, String newContent) => handleError(() async {
     try {
       final resp = await _dio.put('comments/$commentId', 
         data: { 'content': newContent }
@@ -102,7 +102,7 @@ class CommentRepository {
     }
   });
 
-  Future<bool> deleteComment(String commentId) => err(() async {
+  Future<bool> deleteComment(String commentId) => handleError(() async {
     final resp = await _dio.delete('comments/$commentId');
     return resp.data['data'] as bool;
   });

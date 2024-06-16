@@ -51,6 +51,7 @@ errors:
   notFound: Не знайдено
   unauthenticated: Ви не ввыйшли в аккаунт
   connectionError: Помилка підключення
+  connectionErrorRetryMsg: Спробувати знову
   connectionErrorMessage: Перевірте своє Інтернет зʼєднання
   cannotSave: "Помилка: Дані не збережено"
   cannotDelete: "Помилка видалення"

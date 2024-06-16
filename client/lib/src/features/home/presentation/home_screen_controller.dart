@@ -13,6 +13,14 @@ class HomeScreenController extends _$HomeScreenController {
 
   @override
   FutureOr<HomeScreenState> build() async {
+    return _getFreshState();
+  }
+
+  Future<void> refresh() async {
+    state = await AsyncValue.guard(_getFreshState);
+  }
+
+  Future<HomeScreenState> _getFreshState() async {
     final books = await bookRepo.getPopularBooks(0, 10);
     final authors = await profileRepo.getPopularAuthors(0, 10);
     return HomeScreenState(

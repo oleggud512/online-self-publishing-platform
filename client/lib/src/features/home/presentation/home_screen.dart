@@ -1,15 +1,17 @@
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
 import 'package:client/src/features/home/presentation/home_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common/constants/constants.dart';
 import '../../../shared/constants.dart';
 import '../../books/presentation/book_list/book_list_widget.dart';
-import '../../localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'home_screen_app_bar.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -17,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ll = curLl(context)!;
+    final ll = context.ll!;
     final cont = ref.watch(homeScreenControllerProvider.notifier);
     final state = ref.watch(homeScreenControllerProvider);
 
@@ -65,7 +67,11 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
-        error: defaultErrorHandler,
+        error: (e, st) => mapErrorToWidget(e, st, 
+          connectionErrorAction: (context) {
+            cont.refresh();
+          }
+        ),
         loading: defaultLoading
       )
     );

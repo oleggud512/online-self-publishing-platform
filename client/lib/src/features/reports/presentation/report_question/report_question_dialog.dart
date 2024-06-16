@@ -1,5 +1,4 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/features/localization/application/ll.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,9 +20,9 @@ class _ReportQuestionDialogState extends State<ReportQuestionDialog> {
   final descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final ll = curLl(context);
+    final ll = context.ll!;
     return AlertDialog(
-      title: Text(ll!.report.reportDescriptionQuestion),
+      title: Text(ll.report.reportDescriptionQuestion),
       content: TextField(
         controller: descriptionController
       ),
@@ -32,13 +31,13 @@ class _ReportQuestionDialogState extends State<ReportQuestionDialog> {
           onPressed: () {
             context.pop();
           },
-          child: Text(context.ll!.cancel),
+          child: Text(ll.cancel),
         ),
         FilledButton(
           onPressed: () {
             context.pop(descriptionController.text);
           }, 
-          child: Text(context.ll!.send),
+          child: Text(ll.send),
         )
       ]
     );

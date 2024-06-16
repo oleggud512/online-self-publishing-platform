@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/utils/debounce.dart';
-import '../../../localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import '../book_filters/books_query_state.dart';
 
 
@@ -28,7 +28,7 @@ class BooksAppBar extends StatelessWidget implements PreferredSizeWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
-              hintText: curLl(context)!.searchPlaceholder
+              hintText: context.ll!.searchPlaceholder
             ),
             onChanged: (v) {
               debouncer.debounce(() {

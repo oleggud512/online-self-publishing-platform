@@ -1,4 +1,4 @@
-import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/features/profile/presentation/authors/authors_query_state.dart';
 import 'package:client/src/router/menu_button_leading.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class AuthorsAppBar extends StatelessWidget implements PreferredSizeWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
-              hintText: curLl(context)!.searchPlaceholder
+              hintText: context.ll!.searchPlaceholder
             ),
             onChanged: (v) {
               debouncer.debounce(

@@ -51,6 +51,7 @@ errors:
   notFound: Not Found
   unauthenticated: Unauthenticated
   connectionError: Connection Error
+  connectionErrorRetryMsg: Reconnect
   connectionErrorMessage: Check your internet connection
   cannotSave: "Error: Can't save changes"
   cannotDelete: "Error while deleting"

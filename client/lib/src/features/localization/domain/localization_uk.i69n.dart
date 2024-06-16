@@ -317,6 +317,7 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
   String get notFound => "Не знайдено";
   String get unauthenticated => "Ви не ввыйшли в аккаунт";
   String get connectionError => "Помилка підключення";
+  String get connectionErrorRetryMsg => "Спробувати знову";
   String get connectionErrorMessage => "Перевірте своє Інтернет зʼєднання";
   String get cannotSave => "Помилка: Дані не збережено";
   String get cannotDelete => "Помилка видалення";
@@ -341,6 +342,8 @@ class ErrorsLocalization_uk extends ErrorsLocalization {
         return unauthenticated;
       case 'connectionError':
         return connectionError;
+      case 'connectionErrorRetryMsg':
+        return connectionErrorRetryMsg;
       case 'connectionErrorMessage':
         return connectionErrorMessage;
       case 'cannotSave':

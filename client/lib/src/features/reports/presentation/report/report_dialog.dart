@@ -1,13 +1,15 @@
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/reports/domain/report_type.dart';
 import 'package:client/src/features/reports/presentation/report/report_dialog_controller.dart';
 import 'package:client/src/features/reports/presentation/report_question/report_question_dialog.dart';
 import 'package:client/src/shared/identifiable.dart';
 import 'package:client/src/shared/utils.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 
 class ReportDialog extends ConsumerStatefulWidget {
   const ReportDialog({super.key, required this.subject});
@@ -30,7 +32,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
     final added = await cont.addReport(reportType, description);
     if (added && context.mounted) {
       Navigator.of(context).pop();
-      final ll = curLl(context)!;
+      final ll = context.ll!;
       Utils.showMessagew(ref, ll.report.reportAddedMessage);
     }
   }
@@ -57,7 +59,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
           ),
         ),
         loading: defaultLoading,
-        error: defaultErrorHandler
+        error: mapErrorToWidget
       )
     );
   }

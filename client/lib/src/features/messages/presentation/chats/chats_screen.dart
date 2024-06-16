@@ -1,7 +1,9 @@
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/messages/presentation/chats/chats_screen_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -78,7 +80,7 @@ class _ChatsScreenState extends ConsumerState<ChatsScreen> {
         );
       },
       loading: defaultLoading,
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 }

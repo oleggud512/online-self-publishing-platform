@@ -1,4 +1,4 @@
-import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:flutter/material.dart';
 
 class ChatsScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -10,7 +10,7 @@ class ChatsScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(curLl(context)!.screenTitle.messages)
+      title: Text(context.ll!.screenTitle.messages)
     );
   }
 }

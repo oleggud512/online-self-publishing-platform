@@ -1,7 +1,7 @@
 import 'package:client/src/shared/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../../localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import '../../domain/book.dart';
 import 'info_label_widget.dart';
 
@@ -15,7 +15,7 @@ class ReadingsStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ll = curLl(context)!;
+    final ll = context.ll!;
     switch (state) {
       case ReadingsState.published: return InfoLabelWidget(
         labelText: ll.book.published,

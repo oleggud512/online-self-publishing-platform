@@ -9,8 +9,8 @@ import 'package:client/src/shared/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../common/widgets/error_handler.dart';
-import '../../../shared/err.dart';
+import '../../../shared/errors/exceptions.dart';
+import '../../../shared/errors/handle_error.dart';
 
 part 'book_repository.g.dart';
 
@@ -51,7 +51,7 @@ class BookRepository {
     int from = 0,
     int pageSize = 20
   ]) async {
-    return await err(() async {
+    return await handleError(() async {
       final resp = await _dio.get(Str.dio.books, 
         queryParameters: filters?.toJson()
           ?..addAll({
@@ -65,7 +65,7 @@ class BookRepository {
   }
 
   Future<List<Book>> getPopularBooks([int from = 0, int pageSize = 20]) async {
-    return await err(() async {
+    return await handleError(() async {
       final resp = await _dio.get(Str.dio.popularBooks,
         queryParameters: {
           Str.dio.from: from,
@@ -89,7 +89,7 @@ class BookRepository {
     return source;
   }
 
-  Future<ReadingsState> changeState(String bookId) => err(() async {
+  Future<ReadingsState> changeState(String bookId) => handleError(() async {
     try {
       final resp = await _dio.post("books/$bookId/state");
       return readingsStateFromString(resp.data['data']);

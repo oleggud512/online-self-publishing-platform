@@ -19,7 +19,7 @@ class MyApp extends ConsumerWidget {
         border: OutlineInputBorder()
       ),
       navigationBarTheme: NavigationBarThemeData(
-        labelTextStyle: MaterialStatePropertyAll(
+        labelTextStyle: WidgetStatePropertyAll(
           Theme.of(context).textTheme.labelMedium!.copyWith(
             overflow: TextOverflow.ellipsis
           )

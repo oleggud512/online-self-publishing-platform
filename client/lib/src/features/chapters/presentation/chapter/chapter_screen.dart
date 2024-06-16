@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:client/src/common/log.dart';
 import 'package:client/src/common/pub_sub.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/books/presentation/widgets/readings_state_widget.dart';
 import 'package:client/src/features/chapters/domain/chapter.dart';
 import 'package:client/src/features/chapters/presentation/chapter/chapter_screen_controller.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/domain/localization.i69n.dart';
 import 'package:client/src/shared/constants.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
@@ -160,7 +162,7 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
         )
       ),
       loading: defaultLoading,
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 }

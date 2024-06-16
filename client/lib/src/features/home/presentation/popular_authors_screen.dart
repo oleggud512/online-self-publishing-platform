@@ -3,12 +3,14 @@ import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';
 import 'package:client/src/shared/pagination_list_callback_factory.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../common/constants/constants.dart';
-import '../../../common/widgets/error_handler.dart';
+import '../../../shared/errors/exceptions.dart';
 import '../../profile/domain/profile.dart';
 import '../../profile/presentation/authors/author_widget.dart';
 
@@ -46,7 +48,7 @@ class PopularAuthorsScreen extends ConsumerWidget {
           ),
         ),
         loading: defaultLoading,
-        error: defaultErrorHandler
+        error: mapErrorToWidget
       )
     );
   }

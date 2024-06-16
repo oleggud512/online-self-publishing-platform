@@ -5,7 +5,7 @@ import 'package:client/src/features/localization/data/localization_controller.da
 import 'package:client/src/features/notifications/data/notification_repository.dart';
 import 'package:client/src/features/notifications/domain/display_notification_model.dart';
 import 'package:client/src/features/notifications/domain/notification.dart';
-import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/errors/handle_error.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -79,7 +79,7 @@ class NotificationService {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  static Future<void> syncToken(Dio dio) => err(() async {
+  static Future<void> syncToken(Dio dio) => handleError(() async {
     try {
       final token = await FirebaseMessaging.instance.getToken() ;
       glogger.t('NotificationService.syncToken(): start $token');

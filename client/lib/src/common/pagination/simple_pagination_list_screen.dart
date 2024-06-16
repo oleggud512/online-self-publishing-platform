@@ -2,7 +2,9 @@ import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/pagination/page_list_widget.dart';
 import 'package:client/src/common/pagination/pagination_controller.dart';
 import 'package:client/src/common/pagination/pagination_list_widget_controller.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -45,7 +47,7 @@ class SimplePaginationListScreen<T> extends ConsumerWidget {
           ),
         ),
         loading: defaultLoading,
-        error: defaultErrorHandler
+        error: mapErrorToWidget
       )
     );
   }

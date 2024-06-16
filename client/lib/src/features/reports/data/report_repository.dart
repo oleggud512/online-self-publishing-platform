@@ -1,6 +1,6 @@
 import 'package:client/src/features/auth/application/my_id_provider.dart';
 import 'package:client/src/features/reports/domain/report_subject.dart';
-import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/errors/handle_error.dart';
 import 'package:client/src/shared/identifiable.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +20,7 @@ class ReportRepostiory {
     T subject,
     String reportType,
     String description
-  ) => err(() async {
+  ) => handleError(() async {
     String subjectName = ReportSubject.subjectNameFromObject(subject);
     String? defendant = ReportSubject.getDefendant(subject);
     final resp = await _dio.post(Str.dio.reports, data: {

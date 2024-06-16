@@ -1,6 +1,6 @@
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/localization/application/ext.dart';
-import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:flutter/material.dart';
 
 class BookStatusDropdown extends StatelessWidget {
@@ -11,7 +11,7 @@ class BookStatusDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ll = curLl(context)!;
+    final ll = context.ll!;
     return DropdownButtonFormField<BookStatus>(
       value: value,
       items: BookStatus.values.map((s) => DropdownMenuItem(

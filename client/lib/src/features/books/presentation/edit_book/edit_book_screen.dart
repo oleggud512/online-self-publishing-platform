@@ -6,7 +6,7 @@ import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/books/presentation/edit_book/edit_book_screen_controller.dart';
 import 'package:client/src/features/books/presentation/widgets/book_status_dropdown.dart';
 import 'package:client/src/features/books/presentation/widgets/tags_genres_widget.dart';
-import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -76,7 +76,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(editBookScreenControllerProvider(widget.book));
     final book = state.book;
-    final ll = curLl(context)!;
+    final ll = context.ll!;
     return Scaffold(
       appBar: AppBar(
         title: Text(book.name),

@@ -9,7 +9,8 @@ import 'package:client/src/features/notifications/data/notification_service.dart
 import 'package:client/src/router/router.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/dio.dart';
-import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/errors/errors.dart';
+import 'package:client/src/shared/errors/handle_error.dart';
 import 'package:client/src/shared/logger.dart';
 import 'package:client/src/shared/sembast.dart';
 import 'package:firebase_auth/firebase_auth.dart';

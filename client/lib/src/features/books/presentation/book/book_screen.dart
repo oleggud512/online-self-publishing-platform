@@ -1,6 +1,6 @@
 import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/common/log.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/common/widgets/my_image.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
 import 'package:client/src/common/widgets/show_simple_yes_no_dialog.dart';
@@ -13,9 +13,11 @@ import 'package:client/src/features/chapters/application/events.dart';
 import 'package:client/src/features/chapters/presentation/chapter/chapter_widget.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_widget.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
-import 'package:client/src/features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';
 import 'package:client/src/shared/constants.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:client/src/shared/scaffold_messanger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,7 +53,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     final isToggled = await cont.toggleLike();
     if (!isToggled && mounted) {
       ref.watch(scaffoldMessangerStateProvider)
-        .showMessage(curLl(context)!.book.cantLike);
+        .showMessage(context.ll!.book.cantLike);
     }
   }
 
@@ -59,7 +61,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     final isToggled = await cont.toggleBookmark();
     if (!isToggled && mounted) {
       ref.watch(scaffoldMessangerStateProvider)
-        .showMessage(curLl(context)!.book.cantBookmark);
+        .showMessage(context.ll!.book.cantBookmark);
     }
   }
 
@@ -274,7 +276,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
         );
       },
       loading: defaultLoading,
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 }

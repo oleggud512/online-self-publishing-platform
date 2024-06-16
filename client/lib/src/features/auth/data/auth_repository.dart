@@ -1,12 +1,13 @@
 
 import 'package:client/src/features/auth/data/google_auth_repository.dart';
-import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/errors/errors.dart';
+import 'package:client/src/shared/errors/handle_error.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../../common/widgets/error_handler.dart';
+import '../../../shared/errors/exceptions.dart';
 import '../../../shared/constants.dart';
 import '../../../shared/dio.dart';
 import '../../profile/domain/profile.dart';

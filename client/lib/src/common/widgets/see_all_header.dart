@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/localization/application/ll.dart';
+import 'package:client/src/common/build_context_ext.dart';
 
 class SeeAllHeader extends StatelessWidget {
   const SeeAllHeader({super.key, 
@@ -27,7 +27,7 @@ class SeeAllHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ll = curLl(context)!;
+    final ll = context.ll!;
     return Row(
       mainAxisAlignment: showSeeAll 
         ? MainAxisAlignment.spaceBetween

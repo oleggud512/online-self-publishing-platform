@@ -1,7 +1,9 @@
 import 'package:client/src/common/build_context_ext.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/comments/data/comment_repository.dart';
 import 'package:client/src/features/comments/presentation/comments/comments_widget_controller.dart';
+import 'package:client/src/shared/errors/map_error_to_widget.dart';
+import 'package:client/src/shared/errors/widgets/default_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -105,7 +107,7 @@ class CommentsWidget extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: defaultErrorHandler
+      error: mapErrorToWidget
     );
   }
 }

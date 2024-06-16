@@ -1,10 +1,10 @@
 import 'package:client/src/common/log.dart';
-import 'package:client/src/common/widgets/error_handler.dart';
+import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/features/books/data/local_book_repository.dart';
 import 'package:client/src/features/books/domain/book.dart';
 import 'package:client/src/features/profile/domain/profile.dart';
 import 'package:client/src/shared/dio.dart';
-import 'package:client/src/shared/err.dart';
+import 'package:client/src/shared/errors/handle_error.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +23,7 @@ class ProfileRepository {
     String query = "", 
     int from = 0,
     int pageSize = 20, 
-  ]) => err<List<Profile>>(() async {
+  ]) => handleError<List<Profile>>(() async {
     final resp = await _dio.get(Str.dio.profiles, queryParameters: {
       'query': query,
       'from': from,
@@ -33,7 +33,7 @@ class ProfileRepository {
   });
 
   Future<List<Profile>> getPopularAuthors([int from = 0, int pageSize = 20]) 
-      => err(() async {
+      => handleError(() async {
     final resp = await _dio.get(Str.dio.popularAuthors, queryParameters: {
       Str.dio.from: from,
       Str.dio.pageSize: pageSize
