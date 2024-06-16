@@ -13,8 +13,8 @@ _$CommentImpl _$$CommentImplFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String? ?? "",
       subject: json['subject'] as String? ?? "",
       subjectName: json['subjectName'] as String? ?? "",
-      depth: json['depth'] as int? ?? 0,
-      rate: json['rate'] as int? ?? 0,
+      depth: (json['depth'] as num?)?.toInt() ?? 0,
+      rate: (json['rate'] as num?)?.toInt() ?? 0,
       answers: (json['answers'] as List<dynamic>?)
               ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
               .toList() ??

@@ -12,7 +12,8 @@ _$NewChapterNotificationImpl _$$NewChapterNotificationImplFromJson(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
-      sentTime: DateTime.fromMillisecondsSinceEpoch(json['sentTime'] as int),
+      sentTime: DateTime.fromMillisecondsSinceEpoch(
+          (json['sentTime'] as num).toInt()),
       book: json['book'] as String?,
       bookId: json['bookId'] as String?,
       chapter: json['chapter'] as String?,
@@ -38,7 +39,8 @@ _$BookUnpublishedNotificationImpl _$$BookUnpublishedNotificationImplFromJson(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
-      sentTime: DateTime.fromMillisecondsSinceEpoch(json['sentTime'] as int),
+      sentTime: DateTime.fromMillisecondsSinceEpoch(
+          (json['sentTime'] as num).toInt()),
       book: json['book'] as String?,
       bookId: json['bookId'] as String?,
     );
@@ -60,7 +62,8 @@ _$ReportRejectedNotificationImpl _$$ReportRejectedNotificationImplFromJson(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
-      sentTime: DateTime.fromMillisecondsSinceEpoch(json['sentTime'] as int),
+      sentTime: DateTime.fromMillisecondsSinceEpoch(
+          (json['sentTime'] as num).toInt()),
       subject: json['subject'] as String,
       subjectName: json['subjectName'] as String,
       subjectId: json['subjectId'] as String,
@@ -84,7 +87,8 @@ _$SubscribedNotificationImpl _$$SubscribedNotificationImplFromJson(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
-      sentTime: DateTime.fromMillisecondsSinceEpoch(json['sentTime'] as int),
+      sentTime: DateTime.fromMillisecondsSinceEpoch(
+          (json['sentTime'] as num).toInt()),
       profile: json['profile'] as String,
       profileId: json['profileId'] as String,
     );
@@ -106,7 +110,8 @@ _$CommentAnswerNotificationImpl _$$CommentAnswerNotificationImplFromJson(
       notificationType: json['notificationType'] as String,
       localId: json['localId'] as String? ?? "",
       messageId: json['messageId'] as String? ?? "",
-      sentTime: DateTime.fromMillisecondsSinceEpoch(json['sentTime'] as int),
+      sentTime: DateTime.fromMillisecondsSinceEpoch(
+          (json['sentTime'] as num).toInt()),
       subject: json['subject'] as String? ?? "",
       subjectName: json['subjectName'] as String? ?? "",
       depth:

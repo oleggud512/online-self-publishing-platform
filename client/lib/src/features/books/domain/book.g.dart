@@ -12,8 +12,8 @@ _$BookImpl _$$BookImplFromJson(Map<String, dynamic> json) => _$BookImpl(
       coverUrl: json['coverUrl'] as String?,
       name: json['name'] as String? ?? "",
       description: json['description'] as String?,
-      likes: json['likes'] as int? ?? 0,
-      views: json['views'] as int? ?? 0,
+      likes: (json['likes'] as num?)?.toInt() ?? 0,
+      views: (json['views'] as num?)?.toInt() ?? 0,
       status: $enumDecodeNullable(_$BookStatusEnumMap, json['status']) ??
           BookStatus.inProgress,
       state: $enumDecodeNullable(_$ReadingsStateEnumMap, json['state']) ??

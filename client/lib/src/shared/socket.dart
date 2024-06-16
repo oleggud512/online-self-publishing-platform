@@ -47,10 +47,8 @@ class NextMessageHandler {
   final void Function(Message nextMessage) callback;
 
   final chatsSocket = socket(namespace: 'chats');
-  final _subject = PublishSubject<Message>();
 
   Future<void> dispose() async {
-    await _subject.close();
     chatsSocket.off(IncomingEvents.nextMessage, _listener);
     chatsSocket.emit(OutcomingEvents.unsubscribeAllMessages, reportId);
     chatsSocket.dispose();

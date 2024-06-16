@@ -212,7 +212,6 @@ class _EditChapterScreenState extends ConsumerState<EditChapterScreen> {
               child: QuillEditor.basic(
                 configurations: QuillEditorConfigurations(
                   controller: _controller,
-                  readOnly: false,
                   scrollable: true,
                   autoFocus: false,
                   expands: true,

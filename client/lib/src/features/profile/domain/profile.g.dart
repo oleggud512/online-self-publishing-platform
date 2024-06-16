@@ -13,12 +13,12 @@ _$ProfileImpl _$$ProfileImplFromJson(Map<String, dynamic> json) =>
       avatarUrl: json['avatarUrl'] as String?,
       displayName: json['displayName'] as String?,
       description: json['description'] as String?,
-      age: json['age'] as int?,
+      age: (json['age'] as num?)?.toInt(),
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       email: json['email'] as String? ?? "",
-      subscribers: json['subscribers'] as int?,
-      subscriptions: json['subscriptions'] as int?,
-      booksCount: json['booksCount'] as int?,
+      subscribers: (json['subscribers'] as num?)?.toInt(),
+      subscriptions: (json['subscriptions'] as num?)?.toInt(),
+      booksCount: (json['booksCount'] as num?)?.toInt(),
       books: (json['books'] as List<dynamic>?)
           ?.map((e) => Book.fromJson(e as Map<String, dynamic>))
           .toList(),

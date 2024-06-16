@@ -126,7 +126,6 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                         expands: false,
                         autoFocus: false,
                         scrollable: false,
-                        readOnly: true
                       ),
                       focusNode: focusNode,
                       scrollController: ScrollController(),
