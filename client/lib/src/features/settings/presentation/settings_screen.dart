@@ -14,6 +14,7 @@ import '../../auth/data/auth_repository.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ll = ref.watch(currentLocalizationProvider);
@@ -21,7 +22,7 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(ll.screenTitle.settings),
         centerTitle: true,
-      ), 
+      ),
       body: ListView(
         padding: const EdgeInsets.all(p16),
         children: [
@@ -39,7 +40,7 @@ class SettingsScreen extends ConsumerWidget {
                 value: const Locale('uk'),
                 child: Text(ll.settings.ukrainian()),
               ),
-            ], 
+            ],
             onChanged: (nv) {
               ref.read(localizationControllerProvider.notifier)
                 .changeLocale(nv!).then((v) {
@@ -63,9 +64,9 @@ class SettingsScreen extends ConsumerWidget {
               onPressed: () async {
                 await ref.watch(authRepositoryProvider).signOut();
                 if (context.mounted) context.goNamed(MyRoute.auth.name);
-              }, 
+              },
             )
-          else 
+          else
             FilledButton.icon(
               icon: const Icon(Icons.login),
               label: Text(ll.auth.signIn),

@@ -2,6 +2,7 @@ import 'package:client/src/common/constants/constants.dart';
 import 'package:client/src/common/pub_sub.dart';
 import 'package:client/src/common/widgets/error_handler.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
+import 'package:client/src/features/auth/application/sign_out_provider.dart';
 import 'package:client/src/features/books/application/books_changed_event.dart';
 import 'package:client/src/features/localization/application/current_localization.dart';
 import 'package:client/src/features/localization/domain/localization.i69n.dart';
@@ -93,6 +94,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     showReportDialog(context, state.value!.profile);
   }
 
+  Future<void> onSignOut() async {
+    final signOut = ref.watch(signOutUseCaseProviderProvider);
+    await signOut();
+    final ctx = context;
+    if (ctx.mounted) {
+      ctx.goNamed(MyRoute.auth.name);
+    }
+  }
+
   @override
   void initState() { 
     super.initState();
@@ -119,16 +129,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final ll = ref.watch(currentLocalizationProvider);
     final state = ref.watch(profileScreenControllerProvider(widget.profileId));
     
-    // вот эта строчка выдаст ошибку если ты не авторизован, потому что value даже не существует. 
-    // его не существует потому что сама state будет не data а error.
-    // printInfo("got controller (with id=${state.value?.profile.id})");
-    
     return state.when(
       data: (state) {
         final tt = Theme.of(context).textTheme;
         final profile = state.profile;
-        // Future(() => ref.read(profileScreenTitleProvider.notifier).state = 
-        //     profile.name);
         return Scaffold(
           appBar: AppBar(
             leading: getCurrentLocation(GoRouter.of(context)).contains(MyRoute.profiles.name) 
@@ -136,10 +140,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               : const MenuButtonLeading(),
             actions: [
               PopupMenuButton(
-                itemBuilder: (context) => [PopupMenuItem(
-                  onTap: onReport,
-                  child: Text(ll.report.toReport)
-                )]
+                itemBuilder: (context) => [
+                  if (!state.isMy) PopupMenuItem(
+                    onTap: onReport,
+                    child: Text(ll.report.toReport)
+                  ),
+                  if (state.isMy) PopupMenuItem(
+                    onTap: onSignOut,
+                    child: Text(ll.auth.signOut)
+                  )
+                ]
               )
             ],
             title: Text(profile.name),
