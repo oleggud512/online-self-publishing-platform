@@ -1,4 +1,3 @@
-import 'package:client/src/shared/errors/exceptions.dart';
 import 'package:client/src/common/widgets/see_all_header.dart';
 import 'package:client/src/features/home/presentation/home_screen_controller.dart';
 import 'package:client/src/features/profile/presentation/authors/author_widget.dart';

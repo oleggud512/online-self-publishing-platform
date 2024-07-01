@@ -11,6 +11,7 @@ import 'package:client/src/features/localization/domain/localization.i69n.dart';
 import 'package:client/src/shared/constants.dart';
 import 'package:client/src/shared/errors/map_error_to_widget.dart';
 import 'package:client/src/shared/errors/widgets/default_loading.dart';
+import 'package:client/src/shared/errors/widgets/quill_read_only_view.dart';
 import 'package:client/src/shared/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
@@ -36,8 +37,6 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
   ChapterScreenController get cont => ref.watch(chapterScreenControllerProvider(widget.chapterId).notifier);
   AsyncValue<ChapterScreenState> get state => ref.watch(chapterScreenControllerProvider(widget.chapterId));
   Localization get ll => ref.watch(currentLocalizationProvider);
-
-  final focusNode = FocusNode();
 
   void onEdit() {
     printWarning('onEditChapter');
@@ -116,22 +115,7 @@ class _ChapterScreenState extends ConsumerState<ChapterScreen> {
                       style: Theme.of(context).textTheme.headlineMedium
                     ),
                     h8gap,
-                    QuillEditor.basic(
-                      configurations: QuillEditorConfigurations(
-                        padding: const EdgeInsets.all(0),
-                        controller: QuillController.basic()
-                          ..document = state.chapter.content.isNotEmpty 
-                            ? Document.fromJson(
-                              jsonDecode(state.chapter.content)
-                            ) 
-                            : Document.fromDelta(Delta()..insert("<< no data >>\n")),
-                        expands: false,
-                        autoFocus: false,
-                        scrollable: false,
-                      ),
-                      focusNode: focusNode,
-                      scrollController: ScrollController(),
-                    )
+                    QuillReadOnlyView(rawQuill: state.chapter.content)
                   ]
                 ),
               ),
